@@ -5,15 +5,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity 
+@Table(name = "flashcards") 
 public class Flashcard {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 	@Column(name="left_side")
+	@JsonProperty("left_side")
     private String leftSide;
 	@Column(name="right_side")
+	@JsonProperty("right_side")
     private String rightSide;
 
     protected Flashcard() {}
