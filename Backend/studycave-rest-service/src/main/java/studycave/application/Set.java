@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 @Table(name = "flashcardset") 
@@ -22,10 +24,13 @@ public class Set {
     private String name;
     private String category;
     @Column(name="id_owner")
+	@JsonProperty("owner")
     private int idOwner;
     @Column(name="add_date")
+	@JsonProperty("add_date")
     private Date addDate;
     @Column(name="edit_date")
+	@JsonProperty("edit_date")
     private Date editDate;
     private int grade;
     
