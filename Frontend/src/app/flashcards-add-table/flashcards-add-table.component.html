@@ -1,0 +1,50 @@
+<app-flashcards></app-flashcards>
+<div>
+  <h1>Wprowadzanie fiszek do tabeli</h1>
+  <form ngNativeValidate action="/" method="post" #user="ngForm" (ngSubmit)="addTable(user.value)">
+    <label>
+        Wprowadź nazwę dla zestawu:
+        <input type="text" name="title" class="form-control" ngModel required />
+    </label>
+    <label>
+        Wprowadź kategorię zestawu:
+        <input type="text" name="category" class="form-control" ngModel required />
+    </label>
+    <label>
+      Wypełnij tabelę fiszkami:
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Lewa strona</th>
+            <th>Prawa strona</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let field of fieldArray; let i = index">
+            <td>
+                <input [(ngModel)]="field.right_side" class="form-control" type="text" name="{{field.right_side}}" />
+            </td>
+            <td>
+                <input [(ngModel)]="field.left_side" class="form-control" type="text" name="{{field.left_side}}" />
+            </td>
+            <td>
+              <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">Usuń fiszkę</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <input class="form-control" type="text" id="newAttributeLeft" [(ngModel)]="newAttribute.left_side" name="newAttributeLeft" />
+            </td>
+            <td>
+                <input class="form-control" type="text" id="newAttributeRight" [(ngModel)]="newAttribute.right_side" name="newAttributeRight" />
+            </td>
+            <td>
+              <button class="btn btn-default" type="button" (click)="addFieldValue()">Dodaj fiszkę</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </label>
+    <button type="submit">Dodaj fiszki!</button>
+</form>
+</div>
