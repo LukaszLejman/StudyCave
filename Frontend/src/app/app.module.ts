@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
 
 
 import { AppComponent } from './app.component';
@@ -25,7 +28,9 @@ import { FlashcardsAddCsvComponent } from './flashcards-add-csv/flashcards-add-c
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpModule
   ],
   providers: [FlashcardsService],
   bootstrap: [AppComponent]

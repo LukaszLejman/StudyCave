@@ -1,4 +1,31 @@
 <app-flashcards></app-flashcards>
-<p>
-  flashcards-add-csv works!
-</p>
+<div>
+  <h1>Importowanie fiszek z pliku CSV</h1>
+  <div>
+    <h3>Twój plik CSV powinien mieć poniższy format:</h3>
+    <div>
+      <h4>
+        nazwa zestawu;kategoria <br />
+        lewa strona fiszki;prawa strona fiszki <br />
+        lewa strona fiszki;prawa strona fiszki <br />
+        lewa strona fiszki;prawa strona fiszki <br />
+        .....
+      </h4>
+      <u>Przykład:</u>
+      <p>
+        animals;angielski <br />
+        pies;dog <br />
+        kot;cat <br />
+        królik;rabbit <br />
+        ryba;fish <br />
+      </p>
+    </div>
+  </div>
+  <form ngNativeValidate action="/" method="post" #user="ngForm" (ngSubmit)="addFile()">
+    <label>
+        Wybierz plik:
+        <input type="file" name="file" class="form-control" id="file" ngModel required (change)="handleFileInput($event.target.files)" />
+    </label>
+    <button type="submit">Dodaj fiszki!</button>
+  </form>
+</div>
