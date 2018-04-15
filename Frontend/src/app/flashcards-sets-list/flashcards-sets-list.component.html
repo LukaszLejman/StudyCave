@@ -1,0 +1,21 @@
+<app-flashcards></app-flashcards>
+<table>
+ <tr>
+   <th>ID</th>
+   <th>NAZWA</th>
+   <th>KATEGORIA</th>
+   <th>WŁAŚCICIEL</th>
+   <th>DATA DODANIA</th>
+   <th>DATA MODYFIKACJI</th>
+   <th>OCENA</th>
+ </tr>
+  <tr *ngFor="let set of sets">
+    <th class="id">{{set.id}}</th>
+    <th class="name">{{set.name}}</th>
+    <th class="category">{{set.category}}</th>
+    <th class="owner">{{set.owner}}</th>
+    <th class="add_date">{{set.add_date}}</th>
+    <th class="edit_date">{{set.edit_date}}</th>
+    <th class="grade">{{set.grade}}</th>
+  </tr>
+</table>
