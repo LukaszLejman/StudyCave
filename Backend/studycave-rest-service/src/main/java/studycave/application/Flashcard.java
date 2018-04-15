@@ -1,20 +1,25 @@
 package studycave.application;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity 
-@Table(name = "flashcards") 
+@Table(name = "flashcard") 
 public class Flashcard {
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
+//	@Column(name="id_set")
+//    private Long id_set;
 	@Column(name="left_side")
 	@JsonProperty("left_side")
     private String leftSide;
@@ -22,18 +27,15 @@ public class Flashcard {
 	@JsonProperty("right_side")
     private String rightSide;
 
+    @ManyToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name="id_set",referencedColumnName="id",nullable=false,unique=true)
+    private Set flashcardSet;
+	
     protected Flashcard() {}
 
     public Flashcard(String firstName, String lastName) {
         this.leftSide = firstName;
         this.rightSide = lastName;
-    }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "Customer[id=%d, firstName='%s', lastName='%s']",
-                id, leftSide, rightSide);
     }
 
 	public Long getId() {
