@@ -9,7 +9,11 @@
    <th>DATA MODYFIKACJI</th>
    <th>OCENA</th>
  </tr>
-  <tr *ngFor="let set of sets">
+  <tr *ngFor="let set of sets"
+  [class.selected]="set === selectedSet"
+  (click)="onSelect(set)"
+  routerLink="/flashcards/sets/{{selectedSet.id}}"
+  >
     <th class="id">{{set.id}}</th>
     <th class="name">{{set.name}}</th>
     <th class="category">{{set.category}}</th>
@@ -19,3 +23,6 @@
     <th class="grade">{{set.grade}}</th>
   </tr>
 </table>
+<div *ngIf="selectedSet">
+<app-flashcards-set-detail [set]="selectedSet"></app-flashcards-set-detail>
+</div>

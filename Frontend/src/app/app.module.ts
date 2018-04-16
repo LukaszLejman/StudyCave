@@ -14,6 +14,7 @@ import { FlashcardsService } from './flashcards.service';
 import { FlashcardsAddComponent } from './flashcards-add/flashcards-add.component';
 import { FlashcardsAddTableComponent } from './flashcards-add-table/flashcards-add-table.component';
 import { FlashcardsAddCsvComponent } from './flashcards-add-csv/flashcards-add-csv.component';
+import { FlashcardsSetDetailComponent } from './flashcards-set-detail/flashcards-set-detail.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { FlashcardsAddCsvComponent } from './flashcards-add-csv/flashcards-add-c
     FlashcardsSetsListComponent,
     FlashcardsAddComponent,
     FlashcardsAddTableComponent,
-    FlashcardsAddCsvComponent
+    FlashcardsAddCsvComponent,
+    FlashcardsSetDetailComponent
   ],
   imports: [
     BrowserModule,

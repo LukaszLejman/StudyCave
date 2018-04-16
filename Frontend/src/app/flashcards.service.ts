@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
+import { of } from 'rxjs/observable/of';
+import { Set } from './set';
+import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class FlashcardsService {
@@ -13,6 +17,11 @@ export class FlashcardsService {
   add(body) {
     const url = 'sets/';
     this.sendData(url, body);
+  }
+
+  getSets(): Observable<Set[]> {
+    return this.http.get(this.mainUrl + 'sets/')
+    .map((res: Response) => res.json());
   }
 
   sendData(url, body) {

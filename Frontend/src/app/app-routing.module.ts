@@ -6,6 +6,7 @@ import { FlashcardsSetsListComponent } from './flashcards-sets-list/flashcards-s
 import { FlashcardsAddComponent } from './flashcards-add/flashcards-add.component';
 import { FlashcardsAddCsvComponent } from './flashcards-add-csv/flashcards-add-csv.component';
 import { FlashcardsAddTableComponent } from './flashcards-add-table/flashcards-add-table.component';
+import { FlashcardsSetDetailComponent } from './flashcards-set-detail/flashcards-set-detail.component';
 
 const routes: Routes = [
   { path: 'flashcards', component: FlashcardsComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'flashcards/add', component: FlashcardsAddComponent},
   { path: 'flashcards/add/table', component: FlashcardsAddTableComponent},
   { path: 'flashcards/add/csv', component: FlashcardsAddCsvComponent},
+  { path: 'flashcards/sets/:id', component: FlashcardsSetDetailComponent}
 ];
 
 @NgModule({
