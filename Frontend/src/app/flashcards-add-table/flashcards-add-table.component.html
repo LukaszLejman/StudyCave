@@ -22,10 +22,10 @@
         <tbody>
           <tr *ngFor="let field of fieldArray; let i = index">
             <td>
-                <input [(ngModel)]="field.right_side" class="form-control" type="text" name="{{field.right_side}}" />
+                <input [(ngModel)]="field.left_side" class="form-control" type="text" name="{{field.left_side}}" />
             </td>
             <td>
-                <input [(ngModel)]="field.left_side" class="form-control" type="text" name="{{field.left_side}}" />
+              <input [(ngModel)]="field.right_side" class="form-control" type="text" name="{{field.right_side}}" />
             </td>
             <td>
               <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">Usuń fiszkę</button>

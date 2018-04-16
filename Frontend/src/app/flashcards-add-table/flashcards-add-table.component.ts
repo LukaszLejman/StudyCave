@@ -8,15 +8,14 @@ import { FlashcardsService } from '../flashcards.service';
 })
 export class FlashcardsAddTableComponent implements OnInit {
 
-  table = false;
-  tableToSend = {};
+  private table: Boolean = false;
+  private tableToSend: any = {};
   private fieldArray: Array<any> = [];
   private newAttribute: any = {};
 
   constructor(private flashcardsService: FlashcardsService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   addFieldValue() {
     this.fieldArray.push(this.newAttribute)
@@ -29,24 +28,16 @@ export class FlashcardsAddTableComponent implements OnInit {
 
   addTable(value:any) {
     // obsługa formularza dodawania fiszek do tabeli
-    if(this.fieldArray.length === 0) {
+    if (this.fieldArray.length === 0) {
       alert("Zestaw fiszek nie może być pusty!");
     } else {
-      console.log(this.fieldArray)
-      console.log(value.title);
-      console.log(value.category);
       this.tableToSend = {
         name: value.title,
         category: value.category,
-        owner: "anonymous",
-        set: this.fieldArray
+        owner: 0,
+        flashcards: this.fieldArray
       }
-      const isOk = this.flashcardsService.add(this.tableToSend);
-      if (isOk === false) {
-        alert('Coś poszło nie tak. Spróbuj ponownie później.');
-      } else {
-        alert('Dodano!');
-      }
+      this.flashcardsService.add(this.tableToSend);
     }
   }
 }

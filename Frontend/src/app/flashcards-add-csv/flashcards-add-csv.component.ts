@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpResponse, HttpEventType } from '@angular/common/http';
 import { FlashcardsService } from '../flashcards.service';
 
 @Component({
@@ -8,23 +9,37 @@ import { FlashcardsService } from '../flashcards.service';
 })
 export class FlashcardsAddCsvComponent implements OnInit {
 
-  fileToUpload: File = null;
-
-  constructor(private flashcardsService: FlashcardsService) { }
-
+  selectedFiles: FileList
+  currentFileUpload: File
+  progress: { percentage: number } = { percentage: 0 }
+ 
+  constructor(private uploadService: FlashcardsService) { }
+ 
   ngOnInit() {
   }
-
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
+ 
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
   }
-
-  addFile() {
-    this.flashcardsService.postFile(this.fileToUpload)/*.subscribe(data => {
-      alert('Wysłano!');
-      }, error => {
-        console.log(error);
-      });*/
-    }
-
+ 
+  upload() {
+    this.progress.percentage = 0;
+    const url = "file/upload";
+    this.currentFileUpload = this.selectedFiles.item(0);
+    this.uploadService.pushFileToStorage(this.currentFileUpload, url).subscribe(
+      event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
+          this.currentFileUpload = undefined;
+          alert('Plik został zaimportowany. Swoje fiszki możesz podejrzeć na liście zestawów fiszek i tam je edytować jeśli zajdzie taka potrzeba :)');
+        }
+      },
+      error => {
+        alert('Coś poszło nie tak. Spróbuj ponownie później.');
+        this.currentFileUpload = undefined;
+      } 
+    );
+    this.selectedFiles = undefined;
+  }
 }

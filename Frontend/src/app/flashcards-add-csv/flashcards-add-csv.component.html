@@ -13,7 +13,7 @@
       </h4>
       <u>Przykład:</u>
       <p>
-        animals;angielski <br />
+        zwierzęta;angielski
         pies;dog <br />
         kot;cat <br />
         królik;rabbit <br />
@@ -21,11 +21,18 @@
       </p>
     </div>
   </div>
-  <form ngNativeValidate action="/" method="post" #user="ngForm" (ngSubmit)="addFile()">
-    <label>
-        Wybierz plik:
-        <input type="file" name="file" class="form-control" id="file" ngModel required (change)="handleFileInput($event.target.files)" />
+  <div *ngIf="currentFileUpload" class="progress">
+    <div class="progress-bar progress-bar-info progress-bar-striped"
+      role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+      aria-valuemin="0" aria-valuemax="100"
+      [ngStyle]="{width:progress.percentage+'%'}">
+      {{progress.percentage}}%</div>
+  </div>
+   
+    <label class="btn btn-default">
+      Wybierz plik:
+      <input type="file" (change)="selectFile($event)">
     </label>
-    <button type="submit">Dodaj fiszki!</button>
-  </form>
+    
+    <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
 </div>
