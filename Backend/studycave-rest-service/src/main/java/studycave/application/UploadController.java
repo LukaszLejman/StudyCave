@@ -3,7 +3,14 @@ package studycave.application;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
- 
+import com.opencsv.CSVReader;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +34,12 @@ public class UploadController {
  
 	@Autowired
 	StorageService storageService;
- 
+	@Autowired
+	FlashcardRepository flashcardRepository;
+	@Autowired
+	SetRepository setRepository;
+	
+	
 	List<String> files = new ArrayList<String>();
  
 	@PostMapping("/file/upload")
@@ -36,13 +48,42 @@ public class UploadController {
 		try {
 			storageService.store(file);
 			files.add(file.getOriginalFilename());
- 
+			
+			//wyczytywanie nazwy,kategorii,owner_id-----------------------------------------------------------------
+			String path = "upload-dir/" + file.getOriginalFilename();
+			CSVReader reader = new CSVReader(new FileReader(path));
+            String[] line;
+            line = reader.readNext();
+            Set uploadset = new Set(line[0],line[1],id);
+            
+            //addDate,editDate---------------------------------------------------------------------------------------
+            java.util.Date utilDate = new java.util.Date();
+            Date sqlDate = new Date(utilDate.getTime());
+            uploadset.setAddDate(sqlDate);
+			uploadset.setEditDate(sqlDate);
+			
+			//Flashcards----------------------------------------------------------------------------------------------
+			List<Flashcard> uploadflashcards = new ArrayList<Flashcard>();
+			while ((line = reader.readNext()) != null){
+				Flashcard uploadflashcard = new Flashcard(line[0],line[1]);
+				uploadflashcards.add(uploadflashcard);
+			}
+			
+			
+			uploadset.setFlashcards(uploadflashcards);
+			setRepository.save(uploadset);
+			storageService.deleteAll();
 			message = "You successfully uploaded " + file.getOriginalFilename() + "!";
 			return ResponseEntity.status(HttpStatus.OK).body(message);
 		} catch (Exception e) {
 			message = "FAIL to upload " + file.getOriginalFilename() + "!";
+			storageService.deleteAll();
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+			
 		}
+		
+		
+		
 	}
  /*
 	@GetMapping("/file/getall")
