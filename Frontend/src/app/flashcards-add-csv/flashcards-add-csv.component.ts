@@ -25,8 +25,9 @@ export class FlashcardsAddCsvComponent implements OnInit {
   upload() {
     this.progress.percentage = 0;
     const url = "file/upload";
+    const user = "0";
     this.currentFileUpload = this.selectedFiles.item(0);
-    this.uploadService.pushFileToStorage(this.currentFileUpload, url).subscribe(
+    this.uploadService.pushFileToStorage(this.currentFileUpload, user, url).subscribe(
       event => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress.percentage = Math.round(100 * event.loaded / event.total);
