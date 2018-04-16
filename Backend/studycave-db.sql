@@ -39,7 +39,7 @@ create table Flashcard (
     foreign key(id_set) references FlashcardSet(id)
 );
 
-INSERT INTO User VAflashcard_setLUES(0,'-','-','anonim','-','-');
+INSERT INTO User VALUES(0,'-','-','anonim','-','-');
 INSERT INTO FlashcardSet VALUES(0,'zestaw1','cat1',0, 14/04/2018,14/04/2018 ,5);
 INSERT INTO FlashcardSet VALUES(1,'zestaw2','cat1',0, 14/04/2018,14/04/2018 ,5);
 INSERT INTO Flashcard VALUES(0,1,'left1','right1');
