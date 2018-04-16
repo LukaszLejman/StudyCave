@@ -31,7 +31,7 @@ public class UploadController {
 	List<String> files = new ArrayList<String>();
  
 	@PostMapping("/file/upload")
-	public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<String> handleFileUpload(@RequestParam("id") int id,@RequestParam("file") MultipartFile file) {
 		String message = "";
 		try {
 			storageService.store(file);
@@ -44,7 +44,7 @@ public class UploadController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
 		}
 	}
- 
+ /*
 	@GetMapping("/file/getall")
 	public ResponseEntity<List<String>> getListFiles(Model model) {
 		List<String> fileNames = files
@@ -62,5 +62,5 @@ public class UploadController {
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);
-	}
+	}*/
 }
