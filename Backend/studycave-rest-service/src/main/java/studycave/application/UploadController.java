@@ -27,7 +27,7 @@ public class UploadController {
  
 	List<String> files = new ArrayList<String>();
  
-	@PostMapping("/post")
+	@PostMapping("/file/upload")
 	public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
 		String message = "";
 		try {
@@ -42,7 +42,7 @@ public class UploadController {
 		}
 	}
  
-	@GetMapping("/getallfiles")
+	@GetMapping("/file/getall")
 	public ResponseEntity<List<String>> getListFiles(Model model) {
 		List<String> fileNames = files
 				.stream().map(fileName -> MvcUriComponentsBuilder
