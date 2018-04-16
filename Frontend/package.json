@@ -12,24 +12,24 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/core": "^0.0.29",
     "@angular/animations": "^5.0.0",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
     "@angular/core": "^5.0.0",
-    "@angular-devkit/core": "^0.0.29",
     "@angular/forms": "^5.0.0",
     "@angular/http": "^5.0.0",
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
     "ajv": "^6.0.0",
+    "bootstrap": "4.0.0-beta.2",
     "core-js": "^2.4.1",
-    "rxjs": "^5.5.2",
-    "zone.js": "^0.8.14",
     "jquery": "^3.2.1",
     "jquery-ui": "^1.12.1",
     "popper.js": "^1.12.9",
-    "bootstrap": "^4.0.0-beta.2"
+    "rxjs": "^5.5.2",
+    "zone.js": "^0.8.14"
   },
   "devDependencies": {
     "@angular/cli": "1.5.4",

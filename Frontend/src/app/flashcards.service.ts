@@ -21,16 +21,16 @@ export class FlashcardsService {
 
   getSets(): Observable<Set[]> {
     return this.http.get(this.mainUrl + 'sets/')
-    .map((res: Response) => res.json());
+      .map((res: Response) => res.json());
   }
 
   sendData(url, body) {
     let headers = new Headers({ 'Content-Type': 'application/json' }); // błąd xml - Firefox
     let options = new RequestOptions({ headers: headers });
     this.http.post(this.mainUrl + url, body, options)
-      .subscribe(data => {this.sendResponse(data)},
-                 error => {alert('Coś poszło nie tak. Spróbuj ponownie później.')}
-                );
+      .subscribe(data => { this.sendResponse(data); },
+      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+      );
   }
 
   sendResponse(data) {
@@ -51,6 +51,10 @@ export class FlashcardsService {
       responseType: 'text'
     });
     return this.httpFile.request(req);
+  }
+
+  getSet(id) {
+    return this.http.get(this.mainUrl + 'sets/' + id + '/').map((data: Response) => data.json());
   }
 
 }

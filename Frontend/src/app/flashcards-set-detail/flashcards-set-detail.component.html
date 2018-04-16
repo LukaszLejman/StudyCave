@@ -1,3 +1,25 @@
-<button  routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
-<button>GENERUJ TESTY</button>
-<div>INFO O: {{set.id}}</div>
+<button class="btn-primary" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
+<button class="btn-primary">GENERUJ TESTY</button>
+<div *ngIf="set">
+    <h2>{{set.name}}</h2>
+    <table class="table table-dark">
+        <thead>
+            <th>
+                #
+            </th>
+            <th>
+                Lewa strona
+            </th>
+            <th>
+                Prawa strona
+            </th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let flashcard of set.flashcards; let i = index">
+                <td>{{i}}</td>
+                <td>{{flashcard.left_side}}</td>
+                <td>{{flashcard.right_side}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

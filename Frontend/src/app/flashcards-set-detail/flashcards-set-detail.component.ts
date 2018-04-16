@@ -1,16 +1,29 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Set } from '../set';
+import { ActivatedRoute } from '@angular/router';
+import { FlashcardsService } from '../flashcards.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-flashcards-set-detail',
   templateUrl: './flashcards-set-detail.component.html',
   styleUrls: ['./flashcards-set-detail.component.css']
 })
-export class FlashcardsSetDetailComponent implements OnInit {
+export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
+  id: number;
+  set: Array<any>;
+  flashcardSubscribtion: Subscription;
 
-  constructor() { }
-  @Input() set: Set;
+  constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService) { }
   ngOnInit() {
+    this.id = this.route.snapshot.params.id;
+    this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => {this.set = data;
+
+      console.log(this.set);});
+  }
+
+  ngOnDestroy() {
+    this.flashcardSubscribtion.unsubscribe();
   }
 
 }
