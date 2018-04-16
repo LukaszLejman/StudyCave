@@ -13,13 +13,13 @@
   [class.selected]="set === selectedSet"
   (click)="onSelect(set)"
   >
-    <th class="id">{{set.id}}</th>
-    <th class="name">{{set.name}}</th>
-    <th class="category">{{set.category}}</th>
-    <th class="owner">{{set.owner}}</th>
-    <th class="add_date">{{set.add_date}}</th>
-    <th class="edit_date">{{set.edit_date}}</th>
-    <th class="grade">{{set.grade}}</th>
+    <td class="id">{{set.id}}</td>
+    <td class="name">{{set.name}}</td>
+    <td class="category">{{set.category}}</td>
+    <td class="owner">{{set.owner}}</td>
+    <td class="add_date">{{set.add_date}}</td>
+    <td class="edit_date">{{set.edit_date}}</td>
+    <td class="grade">{{set.grade}}</td>
   </tr>
 </table>
 <div *ngIf="selectedSet">

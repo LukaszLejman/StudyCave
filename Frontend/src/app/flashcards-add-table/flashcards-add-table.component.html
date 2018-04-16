@@ -28,7 +28,7 @@
               <input [(ngModel)]="field.right_side" class="form-control" type="text" name="{{field.right_side}}" />
             </td>
             <td>
-              <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">Usuń fiszkę</button>
+              <button class="btn btn-danger"  type="button" (click)="deleteFieldValue(i)">Usuń fiszkę</button>
             </td>
           </tr>
           <tr>
@@ -39,12 +39,12 @@
                 <input class="form-control" type="text" id="newAttributeRight" [(ngModel)]="newAttribute.right_side" name="newAttributeRight" />
             </td>
             <td>
-              <button class="btn btn-default" type="button" (click)="addFieldValue()">Dodaj fiszkę</button>
+              <button class="btn btn-success" type="button" (click)="addFieldValue()">Dodaj fiszkę</button>
             </td>
           </tr>
         </tbody>
       </table>
     </label>
-    <button type="submit">Dodaj fiszki!</button>
+    <button class="btn btn-primary" type="submit">Dodaj fiszki!</button>
 </form>
 </div>

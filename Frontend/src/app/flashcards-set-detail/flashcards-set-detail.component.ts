@@ -17,9 +17,7 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService) { }
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
-    this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => {this.set = data;
-
-      console.log(this.set);});
+    this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => { this.set = data; });
   }
 
   ngOnDestroy() {
