@@ -8,7 +8,7 @@ import { Set } from '../set';
 })
 export class FlashcardsSetsListComponent implements OnInit {
 
-  sets = {};
+  sets = [{}];
   selectedSet: Set;
   constructor(private flashcardsService: FlashcardsService) { }
 

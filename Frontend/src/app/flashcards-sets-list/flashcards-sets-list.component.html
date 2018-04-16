@@ -12,7 +12,6 @@
   <tr *ngFor="let set of sets"
   [class.selected]="set === selectedSet"
   (click)="onSelect(set)"
-  routerLink="/flashcards/sets/{{selectedSet.id}}"
   >
     <th class="id">{{set.id}}</th>
     <th class="name">{{set.name}}</th>
