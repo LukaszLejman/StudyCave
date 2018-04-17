@@ -1,16 +1,20 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FlashcardsService } from '../flashcards.service';
 import { Set } from '../set';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+
 @Component({
   selector: 'app-flashcards-sets-list',
   templateUrl: './flashcards-sets-list.component.html',
   styleUrls: ['./flashcards-sets-list.component.css']
 })
-export class FlashcardsSetsListComponent implements OnInit {
+export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
 
   sets = [{}];
   selectedSet: Set;
+  flashcardSubscribtion: Subscription;
+
   constructor(private flashcardsService: FlashcardsService, private router: Router) { }
 
   onSelect(set: Set): void {
@@ -23,8 +27,11 @@ export class FlashcardsSetsListComponent implements OnInit {
   }
 
   getSets(): void {
-    this.flashcardsService.getSets()
+    this.flashcardSubscribtion = this.flashcardsService.getSets()
       .subscribe(data => this.sets = data);
   }
 
+  ngOnDestroy() {
+    this.flashcardSubscribtion.unsubscribe();
+  }
 }
