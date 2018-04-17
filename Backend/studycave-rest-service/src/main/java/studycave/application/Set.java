@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name = "flashcardset") 
 public class Set {
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String category;
@@ -34,8 +34,8 @@ public class Set {
     private Date editDate;
     private int grade;
     
-    @OneToMany(fetch = FetchType.EAGER,mappedBy="flashcardSet",cascade = CascadeType.ALL)
-    private List<Flashcard> flashcards;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="flashcardSet",cascade = CascadeType.ALL, orphanRemoval=true)
+    List<Flashcard> flashcards;
 
     protected Set() {}
 

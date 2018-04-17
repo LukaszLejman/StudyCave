@@ -16,10 +16,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name = "flashcard") 
 public class Flashcard {
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 //	@Column(name="id_set")
-//    private Long id_set;
+//    private Long idSet;
 	@Column(name="left_side")
 	@JsonProperty("left_side")
     private String leftSide;
@@ -27,9 +27,9 @@ public class Flashcard {
 	@JsonProperty("right_side")
     private String rightSide;
 
-    @ManyToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name="id_set",referencedColumnName="id",nullable=false,unique=true)
-    private Set flashcardSet;
+    @ManyToOne
+    @JoinColumn(name="id_set",referencedColumnName="id")
+    Set flashcardSet;
 	
     protected Flashcard() {}
 
@@ -61,6 +61,16 @@ public class Flashcard {
 	public void setRightSide(String rightSide) {
 		this.rightSide = rightSide;
 	}
+
+	public Set getFlashcardSet() {
+		return flashcardSet;
+	}
+
+	public void setFlashcardSet(Set flashcardSet) {
+		this.flashcardSet = flashcardSet;
+	}
+	
+	
     
     
 }

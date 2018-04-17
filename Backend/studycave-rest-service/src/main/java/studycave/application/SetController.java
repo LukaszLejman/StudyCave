@@ -24,19 +24,23 @@ public class SetController {
 	FlashcardRepository flashcardRepository;
 	@Autowired
 	SetRepository setRepository;
+	@Autowired
+	SimpleSetRepository simpleSetRepository;
 
-	@GetMapping("/{id}/")
+	@GetMapping("/{id}")
 	public Optional<Set> getSet(@PathVariable(required = true) Long id) {
 		return setRepository.findById(id);
 	}
 
-	@GetMapping("/")
-	public List<Set> getSets() {
-		return setRepository.findAll();
+	@GetMapping
+	public List<SimpleSet> getSets() {
+		return simpleSetRepository.findAll();
 	}
 
-	@PostMapping("/")
+	@PostMapping
 	public void postSet(@RequestBody Set set) {
 		setRepository.save(set);
+		//simpleSetRepository.save(new SimpleSet(set));
+		//flashcardRepository.saveAll(set.getFlashcards());
 	}
 }
