@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity 
@@ -27,7 +28,8 @@ public class Flashcard {
 
     @ManyToOne
     @JoinColumn(name="id_set",referencedColumnName="id")
-    Set flashcardSet;
+    @JsonBackReference
+    private Set flashcardSet;
 	
     protected Flashcard() {}
 
