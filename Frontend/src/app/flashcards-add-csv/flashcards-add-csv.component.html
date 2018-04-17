@@ -30,7 +30,7 @@
   </div>
     <label class="btn btn-default">
       Wybierz plik:
-      <input type="file" (change)="selectFile($event)">
+      <input type="file" accept=".csv" (change)="selectFile($event)">
     </label>
     <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
 </div>
