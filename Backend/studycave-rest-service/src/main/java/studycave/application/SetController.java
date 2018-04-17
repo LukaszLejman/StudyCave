@@ -39,8 +39,8 @@ public class SetController {
 
 	@PostMapping
 	public void postSet(@RequestBody Set set) {
+		for (Flashcard flashcard : set.getFlashcards())
+			flashcard.setFlashcardSet(set);
 		setRepository.save(set);
-		//simpleSetRepository.save(new SimpleSet(set));
-		//flashcardRepository.saveAll(set.getFlashcards());
 	}
 }

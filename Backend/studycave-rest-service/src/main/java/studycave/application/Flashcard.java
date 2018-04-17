@@ -18,8 +18,6 @@ public class Flashcard {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-//	@Column(name="id_set")
-//    private Long idSet;
 	@Column(name="left_side")
 	@JsonProperty("left_side")
     private String leftSide;
