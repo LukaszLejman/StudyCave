@@ -46,6 +46,9 @@ public class UploadController {
 	public ResponseEntity<String> handleFileUpload(@RequestParam("id") int id,@RequestParam("file") MultipartFile file) {
 		String message = "";
 		try {
+			try {storageService.deleteAll();}
+			catch(Exception e) {
+			
 			storageService.store(file);
 			files.add(file.getOriginalFilename());
 			
@@ -72,9 +75,9 @@ public class UploadController {
 			uploadset.setFlashcards(uploadflashcards);
 			for (Flashcard uploadflashcard : uploadset.getFlashcards())
 				uploadflashcard.setFlashcardSet(uploadset);
-			
-			setRepository.save(uploadset);
 			storageService.deleteAll();
+			setRepository.save(uploadset);
+			}
 			message = "You successfully uploaded " + file.getOriginalFilename() + "!";
 			return ResponseEntity.status(HttpStatus.OK).body(message);
 		} catch (Exception e) {
