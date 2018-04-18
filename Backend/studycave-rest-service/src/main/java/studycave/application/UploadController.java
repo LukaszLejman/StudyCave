@@ -69,8 +69,10 @@ public class UploadController {
 				uploadflashcards.add(uploadflashcard);
 			}
 			
-			
 			uploadset.setFlashcards(uploadflashcards);
+			for (Flashcard uploadflashcard : uploadset.getFlashcards())
+				uploadflashcard.setFlashcardSet(uploadset);
+			
 			setRepository.save(uploadset);
 			storageService.deleteAll();
 			message = "You successfully uploaded " + file.getOriginalFilename() + "!";
