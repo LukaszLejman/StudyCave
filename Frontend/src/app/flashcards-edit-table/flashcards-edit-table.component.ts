@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FlashcardsService } from '../flashcards.service';
-import { getPluralCategory } from '@angular/common/src/i18n/localization';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-flashcards-edit-table',
@@ -9,18 +9,19 @@ import { getPluralCategory } from '@angular/common/src/i18n/localization';
 })
 export class FlashcardsEditTableComponent implements OnInit {
 
-  @Input() ident;
+  @Input() ident: number;
 
   private table: Boolean = false;
   private tableToSend: any = {};
   private fieldArray: Array<any> = [];
   private newAttribute: any = {};
   private set: Object = {};
+  private flashcardSubscribtion: Subscription;
 
   constructor(private flashcardsService: FlashcardsService) {}
 
   ngOnInit() {
-    this.flashcardsService.getSet(this.ident).subscribe(data => { 
+    this.flashcardSubscribtion = this.flashcardsService.getSet(this.ident).subscribe(data => { 
       this.set = data;
       let flashcards = data['flashcards'];
       for (let i=0; i<flashcards.length; i++) {
@@ -59,6 +60,10 @@ export class FlashcardsEditTableComponent implements OnInit {
       console.log(this.tableToSend);
       //this.flashcardsService.edit(this.tableToSend); // tu będzie metoda edit
     }
+  }
+
+  ngOnDestroy() {
+    this.flashcardSubscribtion.unsubscribe();
   }
 
 }
