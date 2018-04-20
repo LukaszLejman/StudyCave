@@ -18,11 +18,17 @@ export class FlashcardsAddTableComponent implements OnInit {
   ngOnInit() {}
 
   addFieldValue() {
-    if ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined)) {
+  const undefinedAttr = ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined));
+    if (undefinedAttr) {
       alert('Nie można dodać fiszki z pustym polem!');
     } else {
-      this.fieldArray.push(this.newAttribute);
-      this.newAttribute = {};
+      const length = ((this.newAttribute['left_side'].trim().length === 0) || (this.newAttribute['right_side'].trim().length === 0));
+      if (length) {
+        alert('Nie można dodać fiszki z pustym polem!');
+      } else {
+        this.fieldArray.push(this.newAttribute);
+        this.newAttribute = {};
+      }
     }
   }
 

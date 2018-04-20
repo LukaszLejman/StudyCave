@@ -34,13 +34,19 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
   }
 
   addFieldValue() {
-    if ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined)) {
-      alert('Nie można dodać fiszki z pustym polem!');
-    } else {
-      this.fieldArray.push(this.newAttribute);
-      this.newAttribute = {};
+    const undefinedAttr = ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined));
+      if (undefinedAttr) {
+        alert('Nie można dodać fiszki z pustym polem!');
+      } else {
+        const length = ((this.newAttribute['left_side'].trim().length === 0) || (this.newAttribute['right_side'].trim().length === 0));
+        if (length) {
+          alert('Nie można dodać fiszki z pustym polem!');
+        } else {
+          this.fieldArray.push(this.newAttribute);
+          this.newAttribute = {};
+        }
+      }
     }
-  }
 
   deleteFieldValue(index) {
     this.fieldArray.splice(index, 1);
