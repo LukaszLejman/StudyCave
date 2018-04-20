@@ -9,9 +9,9 @@ import { FlashcardsService } from '../flashcards.service';
 })
 export class FlashcardsAddCsvComponent implements OnInit {
 
-  selectedFiles: FileList;
-  currentFileUpload: File;
-  progress: { percentage: number } = { percentage: 0 };
+  private selectedFiles: FileList;
+  private currentFileUpload: File;
+  private progress: { percentage: number } = { percentage: 0 };
 
   constructor(private uploadService: FlashcardsService) { }
 
