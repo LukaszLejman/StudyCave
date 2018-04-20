@@ -1,5 +1,7 @@
 package studycave.application;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,11 +36,41 @@ public class SetController {
 		return setRepository.findById(id);
 	}
 
+	@GetMapping("/{id}/test")
+	public List<FlashcardTestDTO> getTestFlashcards(@PathVariable(required = true) Long id) {
+
+		List<FlashcardTestDTO> list = new ArrayList<FlashcardTestDTO>();
+		try {
+			Set set = setRepository.findById(id).get();
+			int random = 0;
+			for (Flashcard flashcard : set.getFlashcards()) {
+				random = (int) Math.round(Math.random());
+				FlashcardTestDTO flashcardDTO = new FlashcardTestDTO();
+				flashcardDTO.setId(flashcard.getId());
+				switch (random) {
+				case 0:
+					flashcardDTO.setLeftSide(flashcard.getLeftSide());
+					break;
+				case 1:
+					flashcardDTO.setRightSide(flashcard.getRightSide());
+					break;
+				}
+				//list.add(new FlashcardTestDTO(flashcard.getId(), content));
+				list.add(flashcardDTO);
+			}
+			Collections.shuffle(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			return list;
+		}
+	}
+
 	@DeleteMapping("/{id}")
 	public void deleteSet(@PathVariable(required = true) Long id) {
 		setRepository.deleteById(id);
 	}
-	
+
 	@GetMapping
 	public List<SimpleSet> getSets() {
 		return simpleSetRepository.findAll();
@@ -50,15 +82,15 @@ public class SetController {
 			flashcard.setFlashcardSet(set);
 		setRepository.save(set);
 	}
-	
+
 	@PutMapping
 	public void putSet(@RequestBody Set set) {
 		Set oldset = setRepository.findById(set.getId()).orElse(null);
-			set.setAddDate(oldset.getAddDate());
+		set.setAddDate(oldset.getAddDate());
 		for (Flashcard flashcard : set.getFlashcards())
 			flashcard.setFlashcardSet(set);
-			set.setEditDate();
-			
+		set.setEditDate();
+
 		setRepository.save(set);
 	}
 }
