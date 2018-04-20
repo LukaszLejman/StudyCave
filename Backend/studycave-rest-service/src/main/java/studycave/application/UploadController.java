@@ -60,10 +60,8 @@ public class UploadController {
             Set uploadset = new Set(line[0],line[1],id);
             
             //addDate,editDate---------------------------------------------------------------------------------------
-            java.util.Date utilDate = new java.util.Date();
-            Date sqlDate = new Date(utilDate.getTime());
-            uploadset.setAddDate(sqlDate);
-			uploadset.setEditDate(sqlDate);
+            uploadset.setAddDate();
+			uploadset.setEditDate();
 			
 			//Flashcards----------------------------------------------------------------------------------------------
 			List<Flashcard> uploadflashcards = new ArrayList<Flashcard>();

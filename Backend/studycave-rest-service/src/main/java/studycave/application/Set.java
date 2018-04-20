@@ -87,6 +87,12 @@ public class Set {
 	public void setAddDate(Date addDate) {
 		this.addDate = addDate;
 	}
+	
+	public void setAddDate() {
+		java.util.Date utilDate = new java.util.Date();
+		Date sqlDate = new Date(utilDate.getTime());
+		this.addDate = sqlDate;
+	}
 
 	public Date getEditDate() {
 		return editDate;
@@ -94,6 +100,12 @@ public class Set {
 
 	public void setEditDate(Date editDate) {
 		this.editDate = editDate;
+	}
+	
+	public void setEditDate() {
+		java.util.Date utilDate = new java.util.Date();
+		Date sqlDate = new Date(utilDate.getTime());
+		this.editDate = sqlDate;
 	}
 
 	public int getGrade() {
