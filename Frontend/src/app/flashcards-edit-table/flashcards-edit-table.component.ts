@@ -1,0 +1,64 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { FlashcardsService } from '../flashcards.service';
+import { getPluralCategory } from '@angular/common/src/i18n/localization';
+
+@Component({
+  selector: 'app-flashcards-edit-table',
+  templateUrl: './flashcards-edit-table.component.html',
+  styleUrls: ['./flashcards-edit-table.component.css']
+})
+export class FlashcardsEditTableComponent implements OnInit {
+
+  @Input() ident;
+
+  private table: Boolean = false;
+  private tableToSend: any = {};
+  private fieldArray: Array<any> = [];
+  private newAttribute: any = {};
+  private set: Object = {};
+
+  constructor(private flashcardsService: FlashcardsService) {}
+
+  ngOnInit() {
+    this.flashcardsService.getSet(this.ident).subscribe(data => { 
+      this.set = data;
+      let flashcards = data['flashcards'];
+      for (let i=0; i<flashcards.length; i++) {
+        this.fieldArray.push({
+          left_side: flashcards[i]['left_side'],
+          right_side: flashcards[i]['right_side']
+        })
+      }
+    });
+  }
+
+  addFieldValue() {
+    if ((this.newAttribute['left_side'] == undefined) || (this.newAttribute['right_side'] == undefined)) {
+      alert('Nie można dodać fiszki z pustym polem!');
+    } else {
+      this.fieldArray.push(this.newAttribute);
+      this.newAttribute = {};
+    }
+  }
+
+  deleteFieldValue(index) {
+    this.fieldArray.splice(index, 1);
+  }
+
+  addTable(value:any) {
+    if (this.fieldArray.length === 0) {
+      alert("Zestaw fiszek nie może być pusty!");
+    } else {
+      this.tableToSend = {
+        id: this.ident,
+        name: value.title,
+        category: value.category,
+        owner: 0,
+        flashcards: this.fieldArray
+      }
+      console.log(this.tableToSend);
+      //this.flashcardsService.edit(this.tableToSend); // tu będzie metoda edit
+    }
+  }
+
+}

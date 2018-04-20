@@ -18,8 +18,12 @@ export class FlashcardsAddTableComponent implements OnInit {
   ngOnInit() {}
 
   addFieldValue() {
-    this.fieldArray.push(this.newAttribute)
-    this.newAttribute = {};
+    if ((this.newAttribute['left_side'] == undefined) || (this.newAttribute['right_side'] == undefined)) {
+      alert('Nie można dodać fiszki z pustym polem!');
+    } else {
+      this.fieldArray.push(this.newAttribute);
+      this.newAttribute = {};
+    }
   }
 
   deleteFieldValue(index) {

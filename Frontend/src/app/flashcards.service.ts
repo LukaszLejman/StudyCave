@@ -19,6 +19,11 @@ export class FlashcardsService {
     this.sendData(url, body);
   }
 
+  edit(body) {
+    const url = 'nieznany';
+    this.sendData(url, body);
+  }
+
   getSets(): Observable<Set[]> {
     return this.http.get(this.mainUrl + 'sets/')
       .map((res: Response) => res.json());
