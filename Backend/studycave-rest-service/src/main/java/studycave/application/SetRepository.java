@@ -7,7 +7,7 @@ import org.yaml.snakeyaml.events.Event.ID;
 
 public interface SetRepository extends CrudRepository<Set, Long> {
 	Set save(Set set);
-
+	void deleteById(ID id);
 	Optional<Set> findById(ID id);
 	List<Set> findAll();
 }
