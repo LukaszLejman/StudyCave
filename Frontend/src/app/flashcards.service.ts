@@ -20,8 +20,8 @@ export class FlashcardsService {
   }
 
   edit(body) {
-    const url = 'nieznany';
-    this.sendData(url, body);
+    const url = 'sets/';
+    this.putData(url, body);
   }
 
   getSets(): Observable<Set[]> {
@@ -33,6 +33,13 @@ export class FlashcardsService {
     const headers = new Headers({ 'Content-Type': 'application/json' }); // błąd xml - Firefox
     const options = new RequestOptions({ headers: headers });
     this.http.post(this.mainUrl + url, body, options)
+      .subscribe(data => { this.sendResponse(data); },
+      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+      );
+  }
+
+  putData(url, body) {
+    this.http.put(this.mainUrl + url, body) // błąd xml - Firefox
       .subscribe(data => { this.sendResponse(data); },
       error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );

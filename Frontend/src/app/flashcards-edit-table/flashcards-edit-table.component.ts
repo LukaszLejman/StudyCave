@@ -64,7 +64,7 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
         flashcards: this.fieldArray
       };
       console.log(this.tableToSend);
-      // this.flashcardsService.edit(this.tableToSend); // tu będzie metoda edit
+      this.flashcardsService.edit(this.tableToSend);
     }
   }
 
