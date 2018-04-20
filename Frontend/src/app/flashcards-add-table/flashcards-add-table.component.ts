@@ -18,7 +18,7 @@ export class FlashcardsAddTableComponent implements OnInit {
   ngOnInit() {}
 
   addFieldValue() {
-    if ((this.newAttribute['left_side'] == undefined) || (this.newAttribute['right_side'] == undefined)) {
+    if ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined)) {
       alert('Nie można dodać fiszki z pustym polem!');
     } else {
       this.fieldArray.push(this.newAttribute);
@@ -30,17 +30,17 @@ export class FlashcardsAddTableComponent implements OnInit {
     this.fieldArray.splice(index, 1);
   }
 
-  addTable(value:any) {
+  addTable(value: any) {
     // obsługa formularza dodawania fiszek do tabeli
     if (this.fieldArray.length === 0) {
-      alert("Zestaw fiszek nie może być pusty!");
+      alert('Zestaw fiszek nie może być pusty!');
     } else {
       this.tableToSend = {
         name: value.title,
         category: value.category,
         owner: 0,
         flashcards: this.fieldArray
-      }
+      };
       this.flashcardsService.add(this.tableToSend);
     }
   }

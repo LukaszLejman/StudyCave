@@ -30,8 +30,8 @@ export class FlashcardsService {
   }
 
   sendData(url, body) {
-    let headers = new Headers({ 'Content-Type': 'application/json' }); // błąd xml - Firefox
-    let options = new RequestOptions({ headers: headers });
+    const headers = new Headers({ 'Content-Type': 'application/json' }); // błąd xml - Firefox
+    const options = new RequestOptions({ headers: headers });
     this.http.post(this.mainUrl + url, body, options)
       .subscribe(data => { this.sendResponse(data); },
       error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
@@ -48,7 +48,7 @@ export class FlashcardsService {
 
   // sending file - import flashcards from CSV
   pushFileToStorage(file: File, user: string, url: string): Observable<HttpEvent<{}>> {
-    let formdata: FormData = new FormData();
+    const formdata: FormData = new FormData();
     formdata.append('file', file);
     formdata.append('id', user);
     const req = new HttpRequest('POST', this.mainUrl + url, formdata, {

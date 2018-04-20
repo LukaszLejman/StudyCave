@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './flashcards-edit-table.component.html',
   styleUrls: ['./flashcards-edit-table.component.css']
 })
-export class FlashcardsEditTableComponent implements OnInit {
+export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
 
   @Input() ident: number;
 
@@ -21,20 +21,20 @@ export class FlashcardsEditTableComponent implements OnInit {
   constructor(private flashcardsService: FlashcardsService) {}
 
   ngOnInit() {
-    this.flashcardSubscribtion = this.flashcardsService.getSet(this.ident).subscribe(data => { 
+    this.flashcardSubscribtion = this.flashcardsService.getSet(this.ident).subscribe(data => {
       this.set = data;
-      let flashcards = data['flashcards'];
-      for (let i=0; i<flashcards.length; i++) {
+      const flashcards = data['flashcards'];
+      for (let i = 0; i < flashcards.length; i++) {
         this.fieldArray.push({
           left_side: flashcards[i]['left_side'],
           right_side: flashcards[i]['right_side']
-        })
+        });
       }
     });
   }
 
   addFieldValue() {
-    if ((this.newAttribute['left_side'] == undefined) || (this.newAttribute['right_side'] == undefined)) {
+    if ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined)) {
       alert('Nie można dodać fiszki z pustym polem!');
     } else {
       this.fieldArray.push(this.newAttribute);
@@ -46,9 +46,9 @@ export class FlashcardsEditTableComponent implements OnInit {
     this.fieldArray.splice(index, 1);
   }
 
-  addTable(value:any) {
+  addTable(value: any) {
     if (this.fieldArray.length === 0) {
-      alert("Zestaw fiszek nie może być pusty!");
+      alert('Zestaw fiszek nie może być pusty!');
     } else {
       this.tableToSend = {
         id: this.ident,
@@ -56,9 +56,9 @@ export class FlashcardsEditTableComponent implements OnInit {
         category: value.category,
         owner: 0,
         flashcards: this.fieldArray
-      }
+      };
       console.log(this.tableToSend);
-      //this.flashcardsService.edit(this.tableToSend); // tu będzie metoda edit
+      // this.flashcardsService.edit(this.tableToSend); // tu będzie metoda edit
     }
   }
 
