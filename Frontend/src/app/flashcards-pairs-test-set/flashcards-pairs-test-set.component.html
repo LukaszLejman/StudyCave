@@ -1,0 +1,13 @@
+<form ngNativeValidate action="/" method="post" #userForm="ngForm" (ngSubmit)="check(userForm.value)">
+  <div class="row">
+    <div *ngFor="let left of setLeft; let i = index" class="col">
+      <p>Przód: <b>{{ left.left_side }}</b></p>
+      <p>Tył: </p>
+      <select ngModel id="right-side-{{ i }}" name="right-side-{{ i }}" class="form-control" required>
+        <option *ngFor="let right of setRight" value="{{ right.right_side }}">{{ right.right_side }}</option>
+      </select>
+    </div>
+  </div>
+  <br />
+  <button class="btn btn-success">Sprawdź</button>
+</form>

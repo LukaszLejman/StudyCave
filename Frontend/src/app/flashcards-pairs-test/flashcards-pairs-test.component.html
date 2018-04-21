@@ -1,0 +1,43 @@
+<div>
+  <h4>Łączenie fiszek w pary</h4>
+  <div *ngIf="started">
+    <br />
+    <div>
+      <b>Nazwa zestawu: </b>
+      <i>{{ name }}</i>
+      <br />
+      <b>Kategoria: </b>
+      <i>{{ category }}</i>
+    </div>
+    <div>
+      <div>
+        <b>Uzupełniono: </b>
+        <span> {{ filled }} z {{ length_test }} fiszek</span>
+      </div>
+      <div>
+        <b>Poprawnych odpowiedzi: </b>
+        <span> {{ good }} na {{ length_test }}</span>
+      </div>
+    </div>
+    <br />
+    <div class="test" *ngIf="started">
+      <app-flashcards-pairs-test-set (goodEvent)="goodEvent($event)" [package]="packages" package_id="{{ package_id }}"></app-flashcards-pairs-test-set>
+      <br />
+      <div>
+        <b>Ekran: </b>
+        <span> {{ package_id + 1}} z {{ length_packages }}</span>
+      </div>
+    </div>
+    <div *ngIf="finish">
+      Tu będzie komponent widoku wyniku końcowego
+    </div>
+  </div>
+
+  <br />
+  <div *ngIf="!finish">
+    <button class="btn btn-primary" *ngIf="!started" (click)="start()">Rozpocznij test</button>
+    <button class="btn btn-primary" *ngIf="started" (click)="increment()">Przejdź dalej</button>
+  </div>
+  <br />
+  <button class="btn btn-danger" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
+</div>

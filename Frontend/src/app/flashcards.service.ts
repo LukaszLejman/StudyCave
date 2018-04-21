@@ -69,4 +69,8 @@ export class FlashcardsService {
     return this.http.get(this.mainUrl + 'sets/' + id + '/').map((data: Response) => data.json());
   }
 
+  getTestPairing(id) {
+    return this.http.get(this.mainUrl + 'sets/' + id + '/test/pairing/').map((data: Response) => data.json());
+  }
+
 }
