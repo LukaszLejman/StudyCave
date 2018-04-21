@@ -43,18 +43,18 @@ public class SetController {
 		try {
 			Set set = setRepository.findById(id).get();
 			int random = 0;
-			String content=null;
-			String side=null;
+			String content = null;
+			String side = null;
 			for (Flashcard flashcard : set.getFlashcards()) {
 				random = (int) Math.round(Math.random());
 				switch (random) {
 				case 0:
-					content= flashcard.getLeftSide();
-					side="left";
+					content = flashcard.getLeftSide();
+					side = "left";
 					break;
 				case 1:
-					content=flashcard.getRightSide();
-					side="right";
+					content = flashcard.getRightSide();
+					side = "right";
 					break;
 				}
 				list.add(new FlashcardTestDTO(flashcard.getId(), content, side));
@@ -68,10 +68,21 @@ public class SetController {
 	}
 
 	@GetMapping("/{id}/test/pairing")
-	public List<FlashcardTestDTO> getPairingTestFlashcards(@PathVariable(required = true) Long id) {
-		return null;
+	public FlashcardPairingList getPairingTestFlashcards(@PathVariable(required = true) Long id) {
+		FlashcardPairingList list = new FlashcardPairingList();
+		List<FlashcardPairingDTO> left=new ArrayList<FlashcardPairingDTO>();
+		List<FlashcardPairingDTO> right=new ArrayList<FlashcardPairingDTO>();
+		
+		Set set = setRepository.findById(id).get();
+		for (Flashcard flashcard : set.getFlashcards()) {
+			left.add(new FlashcardPairingDTO(flashcard.getId(), flashcard.getLeftSide()));
+			right.add(new FlashcardPairingDTO(flashcard.getRightSide()));
+		}
+		list.setLeft(left);
+		list.setRight(right);
+		return list;
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public void deleteSet(@PathVariable(required = true) Long id) {
 		setRepository.deleteById(id);
