@@ -78,6 +78,7 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
     if (this.package_id === (this.length_packages - 1)) {
       this.started = false;
       this.finish = true;
+      // wyświetlenie widoku końcowego - prawdopodobnie jakiś Input z good i Input z length_test
     } else {
       this.package_id += 1;
     }
