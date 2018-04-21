@@ -103,11 +103,13 @@ public class SetController {
 	@PutMapping
 	public void putSet(@RequestBody Set set) {
 		Set oldset = setRepository.findById(set.getId()).orElse(null);
-		set.setAddDate(oldset.getAddDate());
+			set.setAddDate(oldset.getAddDate());
+			set.setGrade(oldset.getGrade());
 		for (Flashcard flashcard : set.getFlashcards())
 			flashcard.setFlashcardSet(set);
-		set.setEditDate();
-
+			set.setEditDate();
+			
+		setRepository.deleteById(set.getId());
 		setRepository.save(set);
 	}
 }
