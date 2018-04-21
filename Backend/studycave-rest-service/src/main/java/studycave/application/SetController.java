@@ -36,27 +36,28 @@ public class SetController {
 		return setRepository.findById(id);
 	}
 
-	@GetMapping("/{id}/test")
+	@GetMapping("/{id}/test/filling-in")
 	public List<FlashcardTestDTO> getTestFlashcards(@PathVariable(required = true) Long id) {
 
 		List<FlashcardTestDTO> list = new ArrayList<FlashcardTestDTO>();
 		try {
 			Set set = setRepository.findById(id).get();
 			int random = 0;
+			String content=null;
+			String side=null;
 			for (Flashcard flashcard : set.getFlashcards()) {
 				random = (int) Math.round(Math.random());
-				FlashcardTestDTO flashcardDTO = new FlashcardTestDTO();
-				flashcardDTO.setId(flashcard.getId());
 				switch (random) {
 				case 0:
-					flashcardDTO.setLeftSide(flashcard.getLeftSide());
+					content= flashcard.getLeftSide();
+					side="left";
 					break;
 				case 1:
-					flashcardDTO.setRightSide(flashcard.getRightSide());
+					content=flashcard.getRightSide();
+					side="right";
 					break;
 				}
-				//list.add(new FlashcardTestDTO(flashcard.getId(), content));
-				list.add(flashcardDTO);
+				list.add(new FlashcardTestDTO(flashcard.getId(), content, side));
 			}
 			Collections.shuffle(list);
 		} catch (Exception e) {
@@ -66,6 +67,11 @@ public class SetController {
 		}
 	}
 
+	@GetMapping("/{id}/test/pairing")
+	public List<FlashcardTestDTO> getPairingTestFlashcards(@PathVariable(required = true) Long id) {
+		return null;
+	}
+	
 	@DeleteMapping("/{id}")
 	public void deleteSet(@PathVariable(required = true) Long id) {
 		setRepository.deleteById(id);

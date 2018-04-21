@@ -5,17 +5,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FlashcardTestDTO {
     private Long id;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonProperty("left_side")
-    private String leftSide;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-	@JsonProperty("right_side")
-    private String rightSide;
+    private String content;
+    private String side;
     
     public FlashcardTestDTO() {
     	
     }
     
+    
+
+	public FlashcardTestDTO(Long id, String content, String side) {
+		super();
+		this.id = id;
+		this.content = content;
+		this.side = side;
+	}
+
+
 
 	public Long getId() {
 		return id;
@@ -23,23 +29,31 @@ public class FlashcardTestDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+
+
+	public String getContent() {
+		return content;
+	}
+
+
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+
+
+	public String getSide() {
+		return side;
+	}
+
+
+
+	public void setSide(String side) {
+		this.side = side;
+	}
 	
-	public String getLeftSide() {
-		return leftSide;
-	}
-
-	public void setLeftSide(String leftSide) {
-		this.leftSide = leftSide;
-	}
-
-	public String getRightSide() {
-		return rightSide;
-	}
-
-	public void setRightSide(String rightSide) {
-		this.rightSide = rightSide;
-	}
-
 
     
 	
