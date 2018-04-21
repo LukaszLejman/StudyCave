@@ -21,6 +21,7 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
   private finish: Boolean = false;
   private left: Boolean = true;
   private right: Boolean = false;
+  private checked: Boolean = false;
   private packages: Array<Object> = [];
   private filled = 0;
   private good = 0;
@@ -86,6 +87,10 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
 
   goodEvent(goods) {
     this.goodNow = goods;
+  }
+
+  isChecked(check) {
+    this.checked = check;
   }
 
   ngOnDestroy() {

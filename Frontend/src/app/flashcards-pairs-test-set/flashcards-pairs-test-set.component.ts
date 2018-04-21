@@ -10,7 +10,9 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
   @Input() package: Array<any>;
   @Input() package_id: number;
   @Output() goodEvent = new EventEmitter();
+  @Output() isChecked = new EventEmitter();
 
+  private checked: Boolean = false;
   private setLeft: Array<Object> = [];
   private setRight: Array<Object> = [];
   private good = 2;
@@ -18,6 +20,8 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
   constructor() {  }
 
   ngOnInit() {
+    this.isChecked.emit(false);
+    this.checked = false;
     this.setLeft = this.package[this.package_id]['setLeft'];
     this.setRight = this.package[this.package_id]['setRight'];
   }
@@ -31,6 +35,7 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
   }
 
   check(value: any) {
+    this.isChecked.emit(true); // roboczo
     const side = 'left';
     const n = this.setLeft.length;
     const body = [];
@@ -43,8 +48,25 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
       // albo get(body[i])
     }
     console.log(body);
-    // albo post(body); albo get(JSON.stringify(body)); this.good = wynik z backendu
+    // albo post(body); albo get(JSON.stringify(body)); --> showWrong(answer); answer - odp. z serwera
     // sprawdzanie formularza - jeszcze nie ma backendu; do zrobienia nowa metoda w serwisie
+  }
+
+  showWrong(flashcards: Array<Object>) {
+    const n = flashcards.length;
+    for (let i = 0; i < n; i++) {
+      this.isGood(flashcards[i]['is_good'], i);
+    }
+    this.checked = true;
+    this.isChecked.emit(true);
+  }
+
+  isGood(flashcard: Boolean, i: number) {
+    if (!flashcard) {
+      document.getElementById(`right-side-${i}`).style.border = '';
+    } else {
+      this.good += 1;
+    }
   }
 
 }

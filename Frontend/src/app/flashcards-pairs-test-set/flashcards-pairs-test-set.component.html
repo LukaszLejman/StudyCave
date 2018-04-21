@@ -1,13 +1,14 @@
 <form ngNativeValidate action="/" method="post" #userForm="ngForm" (ngSubmit)="check(userForm.value)">
   <div class="row">
-    <div *ngFor="let left of setLeft; let i = index" class="col">
+    <div *ngFor="let left of setLeft; let i = index" class="col" id="flashcard-{{ i }}">
       <p>Przód: <b>{{ left.left_side }}</b></p>
       <p>Tył: </p>
       <select ngModel id="right-side-{{ i }}" name="right-side-{{ i }}" class="form-control" required>
         <option *ngFor="let right of setRight" value="{{ right.right_side }}">{{ right.right_side }}</option>
       </select>
+      <p id="err-{{ i }}" style="text-align: center; color: red;"></p>
     </div>
   </div>
   <br />
-  <button class="btn btn-success">Sprawdź</button>
+  <button class="btn btn-success" *ngIf="!checked">Sprawdź</button>
 </form>

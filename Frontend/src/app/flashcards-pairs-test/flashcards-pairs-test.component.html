@@ -21,7 +21,8 @@
     </div>
     <br />
     <div class="test" *ngIf="started">
-      <app-flashcards-pairs-test-set (goodEvent)="goodEvent($event)" [package]="packages" package_id="{{ package_id }}"></app-flashcards-pairs-test-set>
+      <app-flashcards-pairs-test-set (goodEvent)="goodEvent($event)" (isChecked)=isChecked($event)
+       [package]="packages" package_id="{{ package_id }}"></app-flashcards-pairs-test-set>
       <br />
       <div>
         <b>Ekran: </b>
@@ -36,7 +37,7 @@
   <br />
   <div *ngIf="!finish">
     <button class="btn btn-primary" *ngIf="!started" (click)="start()">Rozpocznij test</button>
-    <button class="btn btn-primary" *ngIf="started" (click)="increment()">Przejdź dalej</button>
+    <button class="btn btn-primary" *ngIf="checked" (click)="increment()">Przejdź dalej</button>
   </div>
   <br />
   <button class="btn btn-danger" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
