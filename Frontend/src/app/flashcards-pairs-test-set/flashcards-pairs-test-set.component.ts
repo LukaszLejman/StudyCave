@@ -63,7 +63,8 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
 
   isGood(flashcard: Boolean, i: number) {
     if (!flashcard) {
-      document.getElementById(`right-side-${i}`).style.border = '';
+      document.getElementById(`right-side-${i}`).style.border = 'red';
+      document.getElementById(`err-${i}`).innerHTML = 'Źle :(';
     } else {
       this.good += 1;
     }
