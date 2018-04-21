@@ -7,18 +7,21 @@ import { FlashcardsAddComponent } from './flashcards-add/flashcards-add.componen
 import { FlashcardsAddCsvComponent } from './flashcards-add-csv/flashcards-add-csv.component';
 import { FlashcardsAddTableComponent } from './flashcards-add-table/flashcards-add-table.component';
 import { FlashcardsSetDetailComponent } from './flashcards-set-detail/flashcards-set-detail.component';
+import { FlashcardsPairsTestComponent } from './flashcards-pairs-test/flashcards-pairs-test.component';
+
 
 const routes: Routes = [
   { path: 'flashcards', component: FlashcardsComponent },
   { path: 'flashcards/sets', component: FlashcardsSetsListComponent },
-  { path: 'flashcards/add', component: FlashcardsAddComponent},
-  { path: 'flashcards/add/table', component: FlashcardsAddTableComponent},
-  { path: 'flashcards/add/csv', component: FlashcardsAddCsvComponent},
-  { path: 'flashcards/sets/:id', component: FlashcardsSetDetailComponent}
+  { path: 'flashcards/add', component: FlashcardsAddComponent },
+  { path: 'flashcards/add/table', component: FlashcardsAddTableComponent },
+  { path: 'flashcards/add/csv', component: FlashcardsAddCsvComponent },
+  { path: 'flashcards/sets/:id', component: FlashcardsSetDetailComponent },
+  { path: 'flashcards/test-gen/flashcards-pairs/:id', component: FlashcardsPairsTestComponent }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

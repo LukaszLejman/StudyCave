@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FlashcardsService } from '../flashcards.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-flashcards-pairs-test',
@@ -9,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
 
-  @Input() id: number;
+  private id: number;
   private flashcardSubscribtionMeta: Subscription;
   private flashcardSubscribtion: Subscription;
   private name: String;
@@ -27,9 +28,10 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
   private good = 0;
   private package_id = 0;
 
-  constructor(private flashcardsService: FlashcardsService) {}
+  constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.id = this.route.snapshot.params.id;
     this.flashcardSubscribtionMeta = this.flashcardsService.getSet(this.id).subscribe(data => {
       this.name = data['name'];
       this.category = data['category'];

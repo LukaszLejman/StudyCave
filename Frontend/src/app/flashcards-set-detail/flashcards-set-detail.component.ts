@@ -13,6 +13,15 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   id: number;
   set: Array<any>;
   flashcardSubscribtion: Subscription;
+  testTypeMenu = false;
+
+  showTestTypeMenu() {
+    this.testTypeMenu = true;
+  }
+
+  handleCancelFlashcardsTestyTypeMenu(e) {
+    this.testTypeMenu = e;
+  }
 
   constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService) { }
   ngOnInit() {
