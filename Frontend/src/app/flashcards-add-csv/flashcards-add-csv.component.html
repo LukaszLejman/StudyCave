@@ -33,4 +33,6 @@
       <input type="file" accept=".csv" (change)="selectFile($event)">
     </label>
     <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
+    <br />
+    <button class="btn btn-danger" routerLink="/flashcards/sets/">Powrót</button>
 </div>

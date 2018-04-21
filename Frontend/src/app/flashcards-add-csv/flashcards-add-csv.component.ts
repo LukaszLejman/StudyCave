@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse, HttpEventType } from '@angular/common/http';
 import { FlashcardsService } from '../flashcards.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-flashcards-add-csv',
@@ -13,7 +14,7 @@ export class FlashcardsAddCsvComponent implements OnInit {
   private currentFileUpload: File;
   private progress: { percentage: number } = { percentage: 0 };
 
-  constructor(private uploadService: FlashcardsService) { }
+  constructor(private uploadService: FlashcardsService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -37,6 +38,7 @@ export class FlashcardsAddCsvComponent implements OnInit {
             alert(`Plik został zaimportowany.
             Swoje fiszki możesz podejrzeć na liście zestawów fiszek
             i tam je edytować jeśli zajdzie taka potrzeba :)`);
+            this.router.navigate(['flashcards/sets']);
           }
         },
         error => {

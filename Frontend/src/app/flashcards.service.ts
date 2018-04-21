@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { Set } from './set';
 import 'rxjs/add/operator/map';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -12,7 +13,7 @@ export class FlashcardsService {
 
   mainUrl = 'http://localhost:8080/';
 
-  constructor(private http: Http, private httpFile: HttpClient) { }
+  constructor(private http: Http, private httpFile: HttpClient, private router: Router) { }
 
   add(body) {
     const url = 'sets/';
@@ -48,6 +49,7 @@ export class FlashcardsService {
   sendResponse(data) {
     if (data.status === 200) {
       alert('Operacja przebiegła pomyślnie!');
+      this.router.navigate(['flashcards/sets']);
     } else {
       alert('Coś poszło nie tak. Spróbuj ponownie później.');
     }
