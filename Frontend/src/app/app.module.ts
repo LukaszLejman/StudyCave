@@ -20,6 +20,7 @@ import { FlashcardsEditTableComponent } from './flashcards-edit-table/flashcards
 import { FlashcardsPairsTestComponent } from './flashcards-pairs-test/flashcards-pairs-test.component';
 import { FlashcardsPairsTestSetComponent } from './flashcards-pairs-test-set/flashcards-pairs-test-set.component';
 import { FlashcardsTestTypeMenuComponent } from './flashcards-test-type-menu/flashcards-test-type-menu.component';
+import { TestResultsComponent } from './test-results/test-results.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { FlashcardsTestTypeMenuComponent } from './flashcards-test-type-menu/fla
     FlashcardsEditTableComponent,
     FlashcardsPairsTestComponent,
     FlashcardsPairsTestSetComponent,
-    FlashcardsTestTypeMenuComponent
+    FlashcardsTestTypeMenuComponent,
+    TestResultsComponent
   ],
   imports: [
     BrowserModule,
