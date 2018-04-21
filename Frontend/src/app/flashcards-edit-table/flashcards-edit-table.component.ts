@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FlashcardsService } from '../flashcards.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-flashcards-edit-table',
@@ -9,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
 
-  @Input() ident: number;
+  private ident: number;
 
   private table: Boolean = false;
   private tableToSend: any = {};
@@ -18,9 +19,10 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
   private set: Object = {};
   private flashcardSubscribtion: Subscription;
 
-  constructor(private flashcardsService: FlashcardsService) {}
+  constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.ident = this.route.snapshot.params.id;
     this.flashcardSubscribtion = this.flashcardsService.getSet(this.ident).subscribe(data => {
       this.set = data;
       const flashcards = data['flashcards'];

@@ -8,6 +8,7 @@ import { FlashcardsAddCsvComponent } from './flashcards-add-csv/flashcards-add-c
 import { FlashcardsAddTableComponent } from './flashcards-add-table/flashcards-add-table.component';
 import { FlashcardsSetDetailComponent } from './flashcards-set-detail/flashcards-set-detail.component';
 import { FlashcardsPairsTestComponent } from './flashcards-pairs-test/flashcards-pairs-test.component';
+import { FlashcardsEditTableComponent } from './flashcards-edit-table/flashcards-edit-table.component';
 
 
 const routes: Routes = [
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'flashcards/add/table', component: FlashcardsAddTableComponent },
   { path: 'flashcards/add/csv', component: FlashcardsAddCsvComponent },
   { path: 'flashcards/sets/:id', component: FlashcardsSetDetailComponent },
-  { path: 'flashcards/test-gen/flashcards-pairs/:id', component: FlashcardsPairsTestComponent }
+  { path: 'flashcards/test-gen/flashcards-pairs/:id', component: FlashcardsPairsTestComponent },
+  { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent }
 ];
 
 @NgModule({

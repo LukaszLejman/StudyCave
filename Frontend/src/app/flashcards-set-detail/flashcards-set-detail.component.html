@@ -1,6 +1,6 @@
 <button class="btn btn-primary" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
 <button class="btn btn-primary" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
-<button class="btn btn-success">EDYTUJ FISZKI</button>
+<button class="btn btn-success" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
 <button class="btn btn-danger">USUŃ FISZKI</button>
 <app-flashcards-test-type-menu [id]="id" (cancel)="handleCancelFlashcardsTestyTypeMenu($event)" *ngIf="testTypeMenu"></app-flashcards-test-type-menu>
 <div *ngIf="set">

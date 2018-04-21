@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Set } from '../set';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FlashcardsService } from '../flashcards.service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -23,7 +23,11 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
     this.testTypeMenu = e;
   }
 
-  constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService) { }
+  navigateToEditMode() {
+    this.router.navigate(['flashcards/sets/edit', this.id]);
+  }
+
+  constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService, private router: Router) { }
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => { this.set = data; });
