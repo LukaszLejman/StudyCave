@@ -87,7 +87,10 @@ export class FlashcardsService {
       );
   }
 
+  // sprawdzanie testu - zapytanie dla jednej fiszki
   testCheck(id, body) {
+    // id - id zestawu fiszek
+    // ciało body = {id - idFiszki, content - wpisana odpowiedź, side - strona fiszki, którą widział użytkownik}
      return this.http.get(`${this.mainUrl}sets/${id}/${body['id']}/${body['content']}/${body['side']}/test/check/`)
      .map((data: Response) => data.json());
   }

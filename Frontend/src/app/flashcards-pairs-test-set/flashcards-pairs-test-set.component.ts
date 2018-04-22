@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FlashcardsService } from '../flashcards.service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './flashcards-pairs-test-set.component.html',
   styleUrls: ['./flashcards-pairs-test-set.component.css']
 })
-export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
+export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() package: Array<any>;
   @Input() id: number;
@@ -34,9 +34,7 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    for (let i = 0; i < this.flashcardSubscribtion.length; i++) {
-      this.flashcardSubscribtion[i].unsubscribe();
-    }
+    this.ngOnDestroy();
     const package_idChanges = changes['package_id'];
     if (package_idChanges) {
       this.ngOnInit();
@@ -80,6 +78,12 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
       document.getElementById(`err-${i}`).innerHTML = 'Źle :(';
     } else {
       this.good += 1;
+    }
+  }
+
+  ngOnDestroy() {
+    for (let i = 0; i < this.flashcardSubscribtion.length; i++) {
+      this.flashcardSubscribtion[i].unsubscribe();
     }
   }
 
