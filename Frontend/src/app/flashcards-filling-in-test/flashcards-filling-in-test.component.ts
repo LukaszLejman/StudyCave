@@ -55,6 +55,9 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
   verifyAnswer() {
     const body = [];
     const n = this.length_test;
+    if (this.answer === '') {
+      this.answer = ' ';
+    }
     this.allAnswers.push({
       id: this.index,
       answer: this.answer,

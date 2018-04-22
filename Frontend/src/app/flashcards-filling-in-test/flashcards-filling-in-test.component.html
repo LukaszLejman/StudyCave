@@ -30,7 +30,7 @@
     <div *ngIf="this.filled < this.length_test && !finish">
       Podaj odpowiedź:<br />
       {{flashcards[index].content}}
-      <input [(ngModel)]="answer" placeholder="odpowiedź">
+      <input [(ngModel)]="answer" placeholder="odpowiedź" >
       <button class="btn btn-success" (click)="verifyAnswer()">SPRAWDŹ</button>
     </div>
     <div *ngIf="this.is_correct === true && !finish">ODPOWIEDŹ POPRAWNA</div>
