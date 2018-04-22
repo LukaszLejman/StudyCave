@@ -23,6 +23,7 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
   private left: Boolean = true;
   private right: Boolean = false;
   private checked: Boolean = false;
+  private not_last: Boolean = true;
   private packages: Array<Object> = [];
   private filled = 0;
   private good = 0;
@@ -74,14 +75,12 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
   }
 
   increment() {
-    const filledNow = this.packages[this.package_id]['setLeft'].length;
-    this.filled += filledNow;
-    this.good += this.goodNow;
-
+    if (this.package_id === (this.length_packages - 2)) {
+      this.not_last = false;
+    }
     if (this.package_id === (this.length_packages - 1)) {
       this.started = false;
       this.finish = true;
-      // wyświetlenie widoku końcowego - prawdopodobnie jakiś Input z good i Input z length_test
     } else {
       this.package_id += 1;
     }
@@ -89,6 +88,9 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
 
   goodEvent(goods) {
     this.goodNow = goods;
+    const filledNow = this.packages[this.package_id]['setLeft'].length;
+    this.filled += filledNow;
+    this.good += this.goodNow;
   }
 
   isChecked(check) {

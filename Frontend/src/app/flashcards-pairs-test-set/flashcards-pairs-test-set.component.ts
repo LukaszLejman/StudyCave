@@ -30,7 +30,6 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
     const package_idChanges = changes['package_id'];
     if (package_idChanges) {
       this.ngOnInit();
-      this.goodEvent.emit(this.good);
     }
   }
 
@@ -48,6 +47,7 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
       // albo get(body[i])
     }
     console.log(body);
+    this.goodEvent.emit(this.good); // roboczo -> normalnie będzie działać showWrong()
     // albo post(body); albo get(JSON.stringify(body)); --> showWrong(answer); answer - odp. z serwera
     // sprawdzanie formularza - jeszcze nie ma backendu; do zrobienia nowa metoda w serwisie
   }
@@ -59,6 +59,7 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
     }
     this.checked = true;
     this.isChecked.emit(true);
+    this.goodEvent.emit(this.good);
   }
 
   isGood(flashcard: Boolean, i: number) {

@@ -1,14 +1,14 @@
 <div>
   <h4>Łączenie fiszek w pary</h4>
-  <div *ngIf="started">
+  <br />
+  <div>
+    <b>Nazwa zestawu: </b>
+    <i>{{ name }}</i>
     <br />
-    <div>
-      <b>Nazwa zestawu: </b>
-      <i>{{ name }}</i>
-      <br />
-      <b>Kategoria: </b>
-      <i>{{ category }}</i>
-    </div>
+    <b>Kategoria: </b>
+    <i>{{ category }}</i>
+  </div>
+  <div *ngIf="started">
     <div>
       <div>
         <b>Uzupełniono: </b>
@@ -29,15 +29,15 @@
         <span> {{ package_id + 1}} z {{ length_packages }}</span>
       </div>
     </div>
-    <div *ngIf="finish">
-      Tu będzie komponent widoku wyniku końcowego
-    </div>
   </div>
-
+  <div *ngIf="finish">
+    <app-test-results [result]="good" [maxPts]="length_test"></app-test-results>
+  </div>
   <br />
   <div *ngIf="!finish">
     <button class="btn btn-primary" *ngIf="!started" (click)="start()">Rozpocznij test</button>
-    <button class="btn btn-primary" *ngIf="checked" (click)="increment()">Przejdź dalej</button>
+    <button class="btn btn-primary" *ngIf="checked && not_last" (click)="increment()">Przejdź dalej</button>
+    <button class="btn btn-primary" *ngIf="checked && !not_last" (click)="increment()">Zakończ test</button>
   </div>
   <br />
   <button class="btn btn-danger" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
