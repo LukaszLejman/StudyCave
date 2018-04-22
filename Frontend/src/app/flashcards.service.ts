@@ -83,4 +83,9 @@ export class FlashcardsService {
       error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );
   }
+
+  testCheck(id, body) {
+     return this.http.get(`${this.mainUrl}sets/${id}/${body['id']}/${body['content']}/${body['side']}/test/check/`)
+     .map((data: Response) => data.json());
+  }
 }
