@@ -101,16 +101,37 @@ public class SetController {
 		set.setEditDate();
 		setRepository.save(set);
 	}
-
+	
+	@DeleteMapping("flashcard/{id}")
+	public void deleteFlashCard(@PathVariable(required = true) Long id) {
+		flashcardRepository.deleteById(id);
+	}
+	
 	@PutMapping
 	public void putSet(@RequestBody Set set) {
+		List<Long> delete = new ArrayList<>();
 		Set oldset = setRepository.findById(set.getId()).orElse(null);
 			set.setAddDate(oldset.getAddDate());
 			set.setGrade(oldset.getGrade());
 			set.setEditDate();
-
-		//setRepository.deleteById(set.getId());
-		setRepository.save(set);
+			
+			Boolean isin = false;
+			
+			for (Flashcard oldflashcard : oldset.getFlashcards()) {
+				isin=false;
+				for (Flashcard flashcard : set.getFlashcards()) {
+					if(oldflashcard.getId() == flashcard.getId())
+						isin=true;
+				}
+				if(isin==false) {
+					delete.add(oldflashcard.getId());
+				}
+			}
+			setRepository.save(set);
+			for (Long n : delete)
+			if(n != null)
+				if(flashcardRepository.findById(n) != null)
+					flashcardRepository.deleteById(n);
 	}
 	
 	@GetMapping("/{setid}/{id}/{content}/{side}/test/check")
