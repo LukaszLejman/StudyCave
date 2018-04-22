@@ -120,8 +120,8 @@ public class SetController {
 		List <Flashcard> testset = (setRepository.findById(setid).orElse(null)).getFlashcards();
 			for(Flashcard y : testset) {
 				if(id==y.getId())
-					if(side=="left")
-						if(content==y.getRightSide()) {
+					if(side.equals("left")){
+						if(content.equals(y.getRightSide())) {
 							result.setResult(true);
 							System.out.println("prawa sie zgadza");
 							return result;
@@ -131,18 +131,18 @@ public class SetController {
 							result.setResult(false);
 							System.out.println("prawa sie nie zgadza");
 							return result;
-						}
-					else
-						if(content==y.getLeftSide()) {
+						}}
+					else {
+						if(content.equals(y.getLeftSide())) {
 							result.setResult(true);
 							System.out.println("lewa sie zgadza");
 							return result;
 						}
 						else {
 							result.setResult(false);
-							System.out.println("lewa sie nie zgadza " + id + ": " + content + " !=  " +  y.getId() + y.getLeftSide());
+							System.out.println("lewa sie nie zgadza");
 							return result;
-						}
+						}}
 			}
 			System.out.println("nie znalazlem id: " + id);
 			return result;

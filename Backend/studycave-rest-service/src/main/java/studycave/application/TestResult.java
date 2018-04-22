@@ -28,6 +28,7 @@ public class TestResult {
 	public void setResult(Boolean result) {
 		this.result = result;
 	}
+
 	
 
 	
