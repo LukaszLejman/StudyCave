@@ -113,7 +113,7 @@ public class SetController {
 		setRepository.save(set);
 	}
 	
-	@PostMapping("/{setid}/{id}/{content}/{side}/test/check")
+	@GetMapping("/{setid}/{id}/{content}/{side}/test/check")
 	public TestResult checkFCTest(@PathVariable(required = true) Long setid,@PathVariable(required = true) Long id,@PathVariable(required = true) String content,@PathVariable(required = true) String side){
 		TestResult result = new TestResult();
 		result.setId(id);
