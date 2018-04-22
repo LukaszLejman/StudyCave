@@ -112,4 +112,29 @@ public class SetController {
 		setRepository.deleteById(set.getId());
 		setRepository.save(set);
 	}
+	
+	@GetMapping("/{id}/test/check")
+	public List<Boolean> checkFCTest(@PathVariable(required = true) Long id,@RequestBody List <FlashcardTestDTO> test){
+		List <Boolean> results = new ArrayList<>();
+		List <Flashcard> testset = (setRepository.findById(id).orElse(null)).getFlashcards();
+		
+		for(FlashcardTestDTO x : test) {
+			for(Flashcard y : testset) {
+				if(x.getId()==y.getId())
+					if(x.getSide()=="left")
+						if(x.getContent()==y.getRightSide())
+							results.add(true);
+						else
+							results.add(false);
+					else
+						if(x.getContent()==y.getLeftSide())
+							results.add(true);
+						else
+							results.add(false);
+				
+			}
+			
+		}
+		return results;
+	}
 }
