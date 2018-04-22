@@ -75,4 +75,12 @@ export class FlashcardsService {
     return this.http.get(this.mainUrl + 'sets/' + id + '/test/pairing/').map((data: Response) => data.json());
   }
 
+  deleteSet (id) {
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.delete(this.mainUrl + 'sets/' + id, options)
+    .subscribe(data => { this.sendResponse(data); },
+      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+      );
+  }
 }

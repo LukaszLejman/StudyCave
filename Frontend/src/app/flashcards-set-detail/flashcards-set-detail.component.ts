@@ -36,5 +36,9 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.flashcardSubscribtion.unsubscribe();
   }
+  deleteSet() {
+    const data = this.id;
+    this.flashcardSubscribtion = this.flashcardsService.deleteSet(data);
+  }
 
 }
