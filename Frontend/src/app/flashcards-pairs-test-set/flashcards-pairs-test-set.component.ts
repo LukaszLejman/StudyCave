@@ -1,4 +1,6 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { FlashcardsService } from '../flashcards.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-flashcards-pairs-test-set',
@@ -7,17 +9,20 @@ import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitte
 })
 export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
 
+  @Input() id: number;
   @Input() package: Array<any>;
   @Input() package_id: number;
   @Output() goodEvent = new EventEmitter();
   @Output() isChecked = new EventEmitter();
 
+  private flashcardSubscribtion: Subscription;
+  private answer: Array<Object> = [];
   private checked: Boolean = false;
   private setLeft: Array<Object> = [];
   private setRight: Array<Object> = [];
-  private good = 2;
+  private good = 0;
 
-  constructor() {  }
+  constructor(private uploadService: FlashcardsService) {  }
 
   ngOnInit() {
     this.isChecked.emit(false);
@@ -34,22 +39,24 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
   }
 
   check(value: any) {
-    this.isChecked.emit(true); // roboczo
     const side = 'left';
     const n = this.setLeft.length;
     const body = [];
+    this.answer = [];
+    this.good = 0;
     for (let i = 0; i < n; i++) {
       body.push({
+        content: value[`right-side-${i}`],
         id: this.setLeft[i]['id'],
-        answer: value[`right-side-${i}`],
         side: side
       });
-      // albo get(body[i])
+      this.flashcardSubscribtion = this.uploadService.testCheck(this.id, body[i]).subscribe(data => {
+        this.answer.push(data);
+        if (i === (n - 1)) {
+          this.showWrong(this.answer);
+        }
+      });
     }
-    console.log(body);
-    this.goodEvent.emit(this.good); // roboczo -> normalnie będzie działać showWrong()
-    // albo post(body); albo get(JSON.stringify(body)); --> showWrong(answer); answer - odp. z serwera
-    // sprawdzanie formularza - jeszcze nie ma backendu; do zrobienia nowa metoda w serwisie
   }
 
   showWrong(flashcards: Array<Object>) {

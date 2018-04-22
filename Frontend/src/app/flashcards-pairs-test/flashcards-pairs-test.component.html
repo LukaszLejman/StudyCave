@@ -22,7 +22,7 @@
     <br />
     <div class="test" *ngIf="started">
       <app-flashcards-pairs-test-set (goodEvent)="goodEvent($event)" (isChecked)=isChecked($event)
-       [package]="packages" package_id="{{ package_id }}"></app-flashcards-pairs-test-set>
+       [package]="packages" package_id="{{ package_id }}" [id]="id"></app-flashcards-pairs-test-set>
       <br />
       <div>
         <b>Ekran: </b>
