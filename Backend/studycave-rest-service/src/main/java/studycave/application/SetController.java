@@ -113,28 +113,38 @@ public class SetController {
 		setRepository.save(set);
 	}
 	
-	@GetMapping("/{id}/test/check")
-	public List<Boolean> checkFCTest(@PathVariable(required = true) Long id,@RequestBody List <FlashcardTestDTO> test){
-		List <Boolean> results = new ArrayList<>();
-		List <Flashcard> testset = (setRepository.findById(id).orElse(null)).getFlashcards();
-		
-		for(FlashcardTestDTO x : test) {
+	@PostMapping("/{setid}/{id}/{content}/{side}/test/check")
+	public TestResult checkFCTest(@PathVariable(required = true) Long setid,@PathVariable(required = true) Long id,@PathVariable(required = true) String content,@PathVariable(required = true) String side){
+		TestResult result = new TestResult();
+		result.setId(id);
+		List <Flashcard> testset = (setRepository.findById(setid).orElse(null)).getFlashcards();
 			for(Flashcard y : testset) {
-				if(x.getId()==y.getId())
-					if(x.getSide()=="left")
-						if(x.getContent()==y.getRightSide())
-							results.add(true);
-						else
-							results.add(false);
+				if(id==y.getId())
+					if(side=="left")
+						if(content==y.getRightSide()) {
+							result.setResult(true);
+							System.out.println("prawa sie zgadza");
+							return result;
+							
+						}
+						else {
+							result.setResult(false);
+							System.out.println("prawa sie nie zgadza");
+							return result;
+						}
 					else
-						if(x.getContent()==y.getLeftSide())
-							results.add(true);
-						else
-							results.add(false);
-				
+						if(content==y.getLeftSide()) {
+							result.setResult(true);
+							System.out.println("lewa sie zgadza");
+							return result;
+						}
+						else {
+							result.setResult(false);
+							System.out.println("lewa sie nie zgadza " + id + ": " + content + " !=  " +  y.getId() + y.getLeftSide());
+							return result;
+						}
 			}
-			
-		}
-		return results;
+			System.out.println("nie znalazlem id: " + id);
+			return result;
 	}
 }
