@@ -53,8 +53,8 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDes
         id: this.setLeft[i]['id'],
         side: side
       });
-      this.flashcardSubscribtion[i] = this.uploadService.testCheck(this.id, body[i]).subscribe(data => {
-        this.answer.push(data);
+      this.flashcardSubscribtion[i] = this.uploadService.testCheck(this.id, body[i]).subscribe(async data => {
+        await this.answer.push(data);
         if (i === (n - 1)) {
           this.showWrong(this.answer);
         }
@@ -75,8 +75,12 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDes
   isGood(flashcard: Boolean, i: number) {
     if (!flashcard) {
       document.getElementById(`right-side-${i}`).style.border = '2px solid red';
-      document.getElementById(`err-${i}`).innerHTML = 'Źle :(';
+      document.getElementById(`comment-${i}`).innerHTML = 'Źle :(';
+      document.getElementById(`comment-${i}`).style.color = 'red';
     } else {
+      document.getElementById(`right-side-${i}`).style.border = '2px solid green';
+      document.getElementById(`comment-${i}`).innerHTML = 'Dobrze :)';
+      document.getElementById(`comment-${i}`).style.color = 'green';
       this.good += 1;
     }
   }
