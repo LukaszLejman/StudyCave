@@ -28,6 +28,7 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
   private index = 0;
   private not_last: Boolean = true;
   private is_correct: Boolean;
+  private allAnswers = [];
 
 
   constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute) { }
@@ -52,6 +53,10 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
   verifyAnswer() {
     const body = [];
     const n = this.length_test;
+    this.allAnswers.push({
+      id: this.index,
+      answer: this.answer,
+    });
     body.push({
       id: this.flashcards[this.index]['id'],
       content: this.answer,

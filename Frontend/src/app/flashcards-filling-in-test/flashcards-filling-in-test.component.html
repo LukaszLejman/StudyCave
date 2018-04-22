@@ -23,13 +23,22 @@
     </div>
     <br />
     <br />
+    <div *ngIf="this.filled >= 1">
+      Poprzednia odpowiedź:<br />
+      {{flashcards[index-1].content}} {{allAnswers[index-1].answer}}
+    </div>
     <div *ngIf="this.filled < this.length_test">
+      Podaj odpowiedź:<br />
       {{flashcards[index].content}}
       <input [(ngModel)]="answer" placeholder="odpowiedź">
       <button class="btn btn-success" (click)="verifyAnswer()">SPRAWDŹ</button>
     </div>
     <div *ngIf="this.is_correct === true">ODPOWIEDŹ POPRAWNA</div>
     <div *ngIf="this.is_correct === false">ODPOWIEDŹ NIEPOPRAWNA</div>
+    <div *ngIf="this.filled < this.length_test-1">
+      Następne pytanie:<br />
+      {{flashcards[index+1].content}}
+    </div>
   </div>
 
 
