@@ -1,0 +1,37 @@
+<div>
+    <h4>Uzupełnianie fiszek</h4>
+    <br />
+    <div>
+      <b>Nazwa zestawu: </b>
+      <i>{{ name }}</i>
+      <br />
+      <b>Kategoria: </b>
+      <i>{{ category }}</i>
+    </div>
+    <div *ngIf="started">
+        <div>
+          <div>
+            <b>Uzupełniono: </b>
+            <span> {{ filled }} z {{ length_test }} fiszek</span>
+          </div>
+          <div>
+            <b>Poprawnych odpowiedzi: </b>
+            <span> {{ good }} na {{ length_test }}</span>
+          </div>
+        </div><br /><br />
+        <div>
+            {{flashcards[index].content}}
+            <input [(ngModel)]="answer" placeholder="odpowiedź">
+            <button class="btn btn-success" (click)="verifyAnswer()">SPRAWDŹ</button>
+        </div>
+    </div>
+
+
+    <div *ngIf="!finish">
+        <button class="btn btn-primary" *ngIf="!started" (click)="start()">Rozpocznij test</button>
+        <button class="btn btn-primary" *ngIf="!not_last">Zakończ test</button>
+      </div>
+      <br />
+      <button class="btn btn-danger" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
+  </div>
+  
