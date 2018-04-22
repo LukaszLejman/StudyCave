@@ -16,7 +16,9 @@
       </div>
       <div>
         <b>Poprawnych odpowiedzi: </b>
-        <span> {{ good }} na {{ length_test }}</span>
+        <span> {{ good }} na {{ length_test }}</span><br />
+        <b>Złych odpowiedzi: </b>
+        <span> {{ bad }} na {{ length_test }}</span>
       </div>
     </div>
     <br />
@@ -26,6 +28,8 @@
       <input [(ngModel)]="answer" placeholder="odpowiedź">
       <button class="btn btn-success" (click)="verifyAnswer()">SPRAWDŹ</button>
     </div>
+    <div *ngIf="this.is_correct === true">ODPOWIEDŹ POPRAWNA</div>
+    <div *ngIf="this.is_correct === false">ODPOWIEDŹ NIEPOPRAWNA</div>
   </div>
 
 
