@@ -13,7 +13,7 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
   private id: number;
   private flashcardSubscribtionMeta: Subscription;
   private flashcardSubscribtion: Subscription;
-  private flashcardSubscribtionCheck: Array<Subscription> = [];
+  private flashcardSubscribtionCheck: Subscription;
   private name: String;
   private category: String;
   private length_test: number;
@@ -42,7 +42,7 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
       this.length_test = data.length;
       this.flashcards = data;
     });
-    this.flashcardSubscribtionCheck = [];
+
   }
 
   start() {
@@ -52,15 +52,20 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
   verifyAnswer() {
     const body = [];
     const n = this.length_test;
-    for (let i = 0; i < n; i++) {
     body.push({
-      id: this.flashcards[i]['id'],
+      id: this.flashcards[this.index]['id'],
       content: this.answer,
-      side: this.flashcards[i]['side'],
+      side: this.flashcards[this.index]['side'],
     });
-    this.flashcardSubscribtionCheck[i] = this.flashcardsService.testCheck(this.id, body[i])
-      .subscribe(data => { this.is_correct = data.result; });
-    }
+    this.flashcardSubscribtionCheck = this.flashcardsService.testCheck(this.id, body[0])
+      .subscribe(data => {
+        this.is_correct = data.result;
+        if (this.is_correct === true) {
+          this.good = this.good + 1;
+        } else {
+          this.bad = this.bad + 1;
+        }
+      });
     if (this.index < this.length_test) {
       this.index = this.index + 1;
       this.filled = this.filled + 1;
@@ -70,18 +75,11 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
       this.not_last = false;
       this.finish = true;
     }
-    if (this.is_correct === true) {
-      this.good = this.good + 1;
-    } else {
-      this.bad = this.bad + 1;
-    }
   }
 
   ngOnDestroy() {
     this.flashcardSubscribtionMeta.unsubscribe();
     this.flashcardSubscribtion.unsubscribe();
-    for (let i = 0; i < this.flashcardSubscribtionCheck.length; i++) {
-      this.flashcardSubscribtionCheck[i].unsubscribe();
-    }
+    this.flashcardSubscribtionCheck.unsubscribe();
   }
 }
