@@ -1,7 +1,7 @@
 drop database db;
 create database db;
 use db;
-
+alter database db default character set utf8 collate utf8_unicode_ci;
 
 
 create table User (
@@ -38,7 +38,7 @@ create table Flashcard (
 INSERT INTO User VALUES(1,'-','-','anonim','-','-');
 INSERT INTO FlashcardSet VALUES(1,'zestaw1','cat1',0, 14/04/2018,14/04/2018 ,5);
 INSERT INTO FlashcardSet VALUES(2,'zestaw2','cat1',0, 14/04/2018,14/04/2018 ,5);
-INSERT INTO Flashcard VALUES(1,1,'left1','right1');
+INSERT INTO Flashcard VALUES(1,1,'left1','pięć');
 INSERT INTO Flashcard VALUES(1,2,'left2','right2');
 INSERT INTO Flashcard VALUES(2,3,'2left2','2right2');
 
