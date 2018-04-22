@@ -74,6 +74,9 @@ export class FlashcardsService {
   getTestPairing(id) {
     return this.http.get(this.mainUrl + 'sets/' + id + '/test/pairing/').map((data: Response) => data.json());
   }
+  getTestFilling(id) {
+    return this.http.get(this.mainUrl + 'sets/' + id + '/test/filling-in/').map((data: Response) => data.json());
+  }
 
   deleteSet (id) {
     const headers = new Headers({ 'Content-Type': 'application/json' });

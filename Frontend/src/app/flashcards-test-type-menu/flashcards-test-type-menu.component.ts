@@ -18,6 +18,9 @@ export class FlashcardsTestTypeMenuComponent implements OnInit {
     this.router.navigate(['flashcards/test-gen/flashcards-pairs', this.id]);
   }
 
+  goToTestGenFill() {
+    this.router.navigate(['flashcards/test-gen/flashcards-filling-in', this.id]);
+  }
   constructor(private router: Router) { }
 
   ngOnInit() {

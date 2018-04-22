@@ -9,6 +9,7 @@ import { FlashcardsAddTableComponent } from './flashcards-add-table/flashcards-a
 import { FlashcardsSetDetailComponent } from './flashcards-set-detail/flashcards-set-detail.component';
 import { FlashcardsPairsTestComponent } from './flashcards-pairs-test/flashcards-pairs-test.component';
 import { FlashcardsEditTableComponent } from './flashcards-edit-table/flashcards-edit-table.component';
+import { FlashcardsFillingInTestComponent } from './flashcards-filling-in-test/flashcards-filling-in-test.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'flashcards/add/csv', component: FlashcardsAddCsvComponent },
   { path: 'flashcards/sets/:id', component: FlashcardsSetDetailComponent },
   { path: 'flashcards/test-gen/flashcards-pairs/:id', component: FlashcardsPairsTestComponent },
+  { path: 'flashcards/test-gen/flashcards-filling-in/:id', component: FlashcardsFillingInTestComponent },
   { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent }
 ];
 
