@@ -46,12 +46,13 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
 
   verifyAnswer() {
     // sendAnswer(this.answer); czy coś takiego
-    if (this.index < this.length_test ) {
+    if (this.index < this.length_test) {
       this.index = this.index + 1;
       this.filled = this.filled + 1;
-    } else
-    if (this.filled === this.length_test) {
+    }
+    if (this.index === this.length_test) {
       this.not_last = false;
+      this.finish = true;
     }
   }
 
