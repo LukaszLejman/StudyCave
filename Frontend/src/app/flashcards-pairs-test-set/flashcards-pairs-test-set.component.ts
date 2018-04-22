@@ -9,17 +9,18 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
 
-  @Input() id: number;
   @Input() package: Array<any>;
+  @Input() id: number;
   @Input() package_id: number;
+
   @Output() goodEvent = new EventEmitter();
   @Output() isChecked = new EventEmitter();
 
-  private flashcardSubscribtion: Subscription;
+  private flashcardSubscribtion: Array<Subscription> = [];
   private answer: Array<Object> = [];
-  private checked: Boolean = false;
   private setLeft: Array<Object> = [];
   private setRight: Array<Object> = [];
+  private checked: Boolean = false;
   private good = 0;
 
   constructor(private uploadService: FlashcardsService) {  }
@@ -27,11 +28,15 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.isChecked.emit(false);
     this.checked = false;
+    this.flashcardSubscribtion = [];
     this.setLeft = this.package[this.package_id]['setLeft'];
     this.setRight = this.package[this.package_id]['setRight'];
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    for (let i = 0; i < this.flashcardSubscribtion.length; i++) {
+      this.flashcardSubscribtion[i].unsubscribe();
+    }
     const package_idChanges = changes['package_id'];
     if (package_idChanges) {
       this.ngOnInit();
@@ -50,7 +55,7 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges {
         id: this.setLeft[i]['id'],
         side: side
       });
-      this.flashcardSubscribtion = this.uploadService.testCheck(this.id, body[i]).subscribe(data => {
+      this.flashcardSubscribtion[i] = this.uploadService.testCheck(this.id, body[i]).subscribe(data => {
         this.answer.push(data);
         if (i === (n - 1)) {
           this.showWrong(this.answer);
