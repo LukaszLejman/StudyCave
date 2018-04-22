@@ -23,29 +23,32 @@
     </div>
     <br />
     <br />
-    <div *ngIf="this.filled >= 1">
+    <div *ngIf="this.filled >= 1 && !finish">
       Poprzednia odpowiedź:<br />
       {{flashcards[index-1].content}} {{allAnswers[index-1].answer}}
     </div>
-    <div *ngIf="this.filled < this.length_test">
+    <div *ngIf="this.filled < this.length_test && !finish">
       Podaj odpowiedź:<br />
       {{flashcards[index].content}}
       <input [(ngModel)]="answer" placeholder="odpowiedź">
       <button class="btn btn-success" (click)="verifyAnswer()">SPRAWDŹ</button>
     </div>
-    <div *ngIf="this.is_correct === true">ODPOWIEDŹ POPRAWNA</div>
-    <div *ngIf="this.is_correct === false">ODPOWIEDŹ NIEPOPRAWNA</div>
-    <div *ngIf="this.filled < this.length_test-1">
+    <div *ngIf="this.is_correct === true && !finish">ODPOWIEDŹ POPRAWNA</div>
+    <div *ngIf="this.is_correct === false && !finish">ODPOWIEDŹ NIEPOPRAWNA</div>
+    <div *ngIf="this.filled < this.length_test-1 && !finish">
       Następne pytanie:<br />
       {{flashcards[index+1].content}}
     </div>
   </div>
 
-
+  <div *ngIf="finish">
+    <app-test-results [result]="good" [maxPts]="length_test"></app-test-results>
+  </div>
   <div *ngIf="!finish">
     <button class="btn btn-primary" *ngIf="!started" (click)="start()">Rozpocznij test</button>
   </div>
-  <button class="btn btn-primary" *ngIf="finish">Zakończ test</button>
+  <button class="btn btn-primary" *ngIf="finish" routerLink="/flashcards/sets/{{ id }}">Zakończ test</button>
+  <button class="btn btn-primary" *ngIf="started && !finish && !not_last"(click)="finished()">Przejdź do wyniku</button>
   <br />
   <button class="btn btn-danger" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
 </div>

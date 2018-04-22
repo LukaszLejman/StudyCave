@@ -49,7 +49,9 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
   start() {
     this.started = true;
   }
-
+  finished() {
+    this.finish = true;
+  }
   verifyAnswer() {
     const body = [];
     const n = this.length_test;
@@ -78,7 +80,6 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
     }
     if (this.index === this.length_test) {
       this.not_last = false;
-      this.finish = true;
     }
   }
 
