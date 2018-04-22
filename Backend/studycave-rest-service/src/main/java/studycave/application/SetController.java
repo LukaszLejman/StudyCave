@@ -97,6 +97,8 @@ public class SetController {
 	public void postSet(@RequestBody Set set) {
 		for (Flashcard flashcard : set.getFlashcards())
 			flashcard.setFlashcardSet(set);
+		set.setAddDate();
+		set.setEditDate();
 		setRepository.save(set);
 	}
 
