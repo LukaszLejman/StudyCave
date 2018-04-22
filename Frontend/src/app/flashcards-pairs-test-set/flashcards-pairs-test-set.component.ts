@@ -65,7 +65,7 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDes
   showWrong(flashcards: Array<Object>) {
     const n = flashcards.length;
     for (let i = 0; i < n; i++) {
-      this.isGood(flashcards[i]['is_good'], i);
+      this.isGood(flashcards[i]['result'], i);
     }
     this.checked = true;
     this.isChecked.emit(true);
