@@ -49,13 +49,13 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDes
     this.good = 0;
     for (let i = 0; i < n; i++) {
       body.push({
-        content: value[`right-side-${i}`],
+        content: value[`right-side-${this.setLeft[i]['id']}`],
         id: this.setLeft[i]['id'],
         side: side
       });
-      this.flashcardSubscribtion[i] = this.uploadService.testCheck(this.id, body[i]).subscribe(async data => {
-        await this.answer.push(data);
-        if (i === (n - 1)) {
+      this.flashcardSubscribtion[i] = this.uploadService.testCheck(this.id, body[i]).subscribe(data => {
+        this.answer.push(data);
+        if (this.answer.length === n) {
           this.showWrong(this.answer);
         }
       });
@@ -65,7 +65,7 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDes
   showWrong(flashcards: Array<Object>) {
     const n = flashcards.length;
     for (let i = 0; i < n; i++) {
-      this.isGood(flashcards[i]['result'], i);
+      this.isGood(flashcards[i]['result'], flashcards[i]['id']);
     }
     this.checked = true;
     this.isChecked.emit(true);

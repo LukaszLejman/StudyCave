@@ -27,6 +27,7 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
   private packages: Array<Object> = [];
   private filled = 0;
   private good = 0;
+  private bad = 0;
   private package_id = 0;
 
   constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute) {}
@@ -91,6 +92,7 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
     const filledNow = this.packages[this.package_id]['setLeft'].length;
     this.filled += filledNow;
     this.good += this.goodNow;
+    this.bad += filledNow - this.goodNow;
   }
 
   isChecked(check) {

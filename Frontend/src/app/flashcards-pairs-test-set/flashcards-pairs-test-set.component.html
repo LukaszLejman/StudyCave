@@ -3,10 +3,10 @@
     <div *ngFor="let left of setLeft; let i = index" class="col" id="flashcard-{{ i }}">
       <p>Przód: <b>{{ left.left_side }}</b></p>
       <p>Tył: </p>
-      <select ngModel id="right-side-{{ i }}" name="right-side-{{ i }}" class="form-control" required>
+      <select ngModel id="right-side-{{ left.id }}" name="right-side-{{ left.id }}" class="form-control" required>
         <option *ngFor="let right of setRight" value="{{ right.right_side }}">{{ right.right_side }}</option>
       </select>
-      <p id="comment-{{ i }}" style="text-align: center"></p>
+      <p id="comment-{{ left.id }}" style="text-align: center"></p>
     </div>
   </div>
   <br />

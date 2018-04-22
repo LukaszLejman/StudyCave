@@ -11,7 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
 
   private ident: number;
-
   private table: Boolean = false;
   private tableToSend: any = {};
   private fieldArray: Array<any> = [];
@@ -27,7 +26,9 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
       this.set = data;
       const flashcards = data['flashcards'];
       for (let i = 0; i < flashcards.length; i++) {
+        const id = flashcards[i]['id'];
         this.fieldArray.push({
+          id: id,
           left_side: flashcards[i]['left_side'],
           right_side: flashcards[i]['right_side']
         });
@@ -44,7 +45,12 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
         if (length) {
           alert('Nie można dodać fiszki z pustym polem!');
         } else {
-          this.fieldArray.push(this.newAttribute);
+          const insert = {
+            id: null,
+            left_side: this.newAttribute['left_side'],
+            right_side: this.newAttribute['right_side'],
+          };
+          this.fieldArray.push(insert);
           this.newAttribute = {};
         }
       }
