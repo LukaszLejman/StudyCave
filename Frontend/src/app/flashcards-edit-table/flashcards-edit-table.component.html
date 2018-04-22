@@ -10,6 +10,7 @@
         Wprowadź kategorię zestawu:
         <input type="text" name="category" class="form-control" [(ngModel)]="set.category" required />
     </label>
+    <br />
     <label>
       Wypełnij tabelę fiszkami:
       <table class="table table-striped table-bordered">
@@ -45,6 +46,7 @@
         </tbody>
       </table>
     </label>
+    <br />
     <button class="btn btn-primary" type="submit">Edytuj fiszki!</button>
     <button class="btn btn-danger" [routerLink]="['/flashcards/sets', ident]">Powrót</button>
   </form>
