@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -70,17 +71,71 @@ public class SetController {
 	@GetMapping("/{id}/test/pairing")
 	public FlashcardPairingList getPairingTestFlashcards(@PathVariable(required = true) Long id) {
 		FlashcardPairingList list = new FlashcardPairingList();
-		List<FlashcardPairingDTO> left=new ArrayList<FlashcardPairingDTO>();
-		List<FlashcardPairingDTO> right=new ArrayList<FlashcardPairingDTO>();
-		
-		Set set = setRepository.findById(id).get();
-		for (Flashcard flashcard : set.getFlashcards()) {
-			left.add(new FlashcardPairingDTO(flashcard.getId(), flashcard.getLeftSide()));
-			right.add(new FlashcardPairingDTO(flashcard.getRightSide()));
+		List<FlashcardPairingDTO> left = new ArrayList<FlashcardPairingDTO>();
+		List<FlashcardPairingDTO> right = new ArrayList<FlashcardPairingDTO>();
+
+		List<FlashcardPairingDTO> segmentLeft = new ArrayList<FlashcardPairingDTO>();
+		List<FlashcardPairingDTO> segmentRight = new ArrayList<FlashcardPairingDTO>();
+
+		try {
+			List<Flashcard> flashcards = setRepository.findById(id).get().getFlashcards();
+
+			int segmentSize = 5;
+			int setSize = flashcards.size();
+
+			int i = 0;
+			for (Flashcard flashcard : flashcards) {
+
+				if (i == segmentSize) {
+					i = 0;
+					Collections.shuffle(segmentLeft);
+					Collections.shuffle(segmentRight);
+
+					left.addAll(segmentLeft);
+					right.addAll(segmentRight);
+					segmentLeft.clear();
+					segmentRight.clear();
+
+				}
+
+				segmentLeft.add(new FlashcardPairingDTO(flashcard.getId(), flashcard.getLeftSide()));
+				segmentRight.add(new FlashcardPairingDTO(flashcard.getRightSide()));
+
+				i++;
+			}
+
+			List<Integer> visited = new ArrayList<Integer>();
+
+			if (setSize > 5) {
+				while (i < segmentSize) {
+					int range = ((setSize / segmentSize) * segmentSize) - 1;
+
+					int random = ThreadLocalRandom.current().nextInt(0, range + 1);
+					while (visited.contains(random)) {
+						random = ThreadLocalRandom.current().nextInt(0, range + 1);
+					}
+					visited.add(random);
+
+					Flashcard flashcard = flashcards.get(random);
+					segmentLeft.add(new FlashcardPairingDTO(flashcard.getId(), flashcard.getLeftSide()));
+					segmentRight.add(new FlashcardPairingDTO(flashcard.getRightSide()));
+
+					i++;
+				}
+			}
+
+			Collections.shuffle(segmentLeft);
+			Collections.shuffle(segmentRight);
+
+			left.addAll(segmentLeft);
+			right.addAll(segmentRight);
+
+			list.setLeft(left);
+			list.setRight(right);
+			return list;
+		} catch (Exception e) {
+			return null;
 		}
-		list.setLeft(left);
-		list.setRight(right);
-		return list;
 	}
 
 	@DeleteMapping("/{id}")
@@ -101,71 +156,71 @@ public class SetController {
 		set.setEditDate();
 		setRepository.save(set);
 	}
-	
+
 	@DeleteMapping("flashcard/{id}")
 	public void deleteFlashCard(@PathVariable(required = true) Long id) {
 		flashcardRepository.deleteById(id);
 	}
-	
+
 	@PutMapping
 	public void putSet(@RequestBody Set set) {
 		List<Long> delete = new ArrayList<>();
 		Set oldset = setRepository.findById(set.getId()).orElse(null);
-			set.setAddDate(oldset.getAddDate());
-			set.setGrade(oldset.getGrade());
-			set.setEditDate();
-			
-			Boolean isin = false;
-			
-			for (Flashcard oldflashcard : oldset.getFlashcards()) {
-				isin=false;
-				for (Flashcard flashcard : set.getFlashcards()) {
-					if(oldflashcard.getId() == flashcard.getId())
-						isin=true;
-				}
-				if(isin==false) {
-					delete.add(oldflashcard.getId());
-				}
+		set.setAddDate(oldset.getAddDate());
+		set.setGrade(oldset.getGrade());
+		set.setEditDate();
+
+		Boolean isin = false;
+
+		for (Flashcard oldflashcard : oldset.getFlashcards()) {
+			isin = false;
+			for (Flashcard flashcard : set.getFlashcards()) {
+				if (oldflashcard.getId() == flashcard.getId())
+					isin = true;
 			}
-			setRepository.save(set);
-			for (Long n : delete)
-			if(n != null)
-				if(flashcardRepository.findById(n) != null)
+			if (isin == false) {
+				delete.add(oldflashcard.getId());
+			}
+		}
+		setRepository.save(set);
+		for (Long n : delete)
+			if (n != null)
+				if (flashcardRepository.findById(n) != null)
 					flashcardRepository.deleteById(n);
 	}
-	
+
 	@GetMapping("/{setid}/{id}/{content}/{side}/test/check")
-	public TestResult checkFCTest(@PathVariable(required = true) Long setid,@PathVariable(required = true) Long id,@PathVariable(required = true) String content,@PathVariable(required = true) String side){
+	public TestResult checkFCTest(@PathVariable(required = true) Long setid, @PathVariable(required = true) Long id,
+			@PathVariable(required = true) String content, @PathVariable(required = true) String side) {
 		TestResult result = new TestResult();
 		result.setId(id);
-		List <Flashcard> testset = (setRepository.findById(setid).orElse(null)).getFlashcards();
-			for(Flashcard y : testset) {
-				if(id==y.getId())
-					if(side.equals("left")){
-						if(content.equals(y.getRightSide())) {
-							result.setResult(true);
-							System.out.println("prawa sie zgadza");
-							return result;
-							
-						}
-						else {
-							result.setResult(false);
-							System.out.println("prawa sie nie zgadza");
-							return result;
-						}}
-					else {
-						if(content.equals(y.getLeftSide())) {
-							result.setResult(true);
-							System.out.println("lewa sie zgadza");
-							return result;
-						}
-						else {
-							result.setResult(false);
-							System.out.println("lewa sie nie zgadza");
-							return result;
-						}}
-			}
-			System.out.println("nie znalazlem id: " + id);
-			return result;
+		List<Flashcard> testset = (setRepository.findById(setid).orElse(null)).getFlashcards();
+		for (Flashcard y : testset) {
+			if (id == y.getId())
+				if (side.equals("left")) {
+					if (content.equals(y.getRightSide())) {
+						result.setResult(true);
+						System.out.println("prawa sie zgadza");
+						return result;
+
+					} else {
+						result.setResult(false);
+						System.out.println("prawa sie nie zgadza");
+						return result;
+					}
+				} else {
+					if (content.equals(y.getLeftSide())) {
+						result.setResult(true);
+						System.out.println("lewa sie zgadza");
+						return result;
+					} else {
+						result.setResult(false);
+						System.out.println("lewa sie nie zgadza");
+						return result;
+					}
+				}
+		}
+		System.out.println("nie znalazlem id: " + id);
+		return result;
 	}
 }
