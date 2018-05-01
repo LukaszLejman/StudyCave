@@ -22,6 +22,7 @@ import { FlashcardsPairsTestSetComponent } from './flashcards-pairs-test-set/fla
 import { FlashcardsTestTypeMenuComponent } from './flashcards-test-type-menu/flashcards-test-type-menu.component';
 import { TestResultsComponent } from './test-results/test-results.component';
 import { FlashcardsFillingInTestComponent } from './flashcards-filling-in-test/flashcards-filling-in-test.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 
 
@@ -40,7 +41,8 @@ import { FlashcardsFillingInTestComponent } from './flashcards-filling-in-test/f
     FlashcardsPairsTestSetComponent,
     FlashcardsTestTypeMenuComponent,
     TestResultsComponent,
-    FlashcardsFillingInTestComponent
+    FlashcardsFillingInTestComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
