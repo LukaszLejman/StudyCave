@@ -23,6 +23,8 @@ import { FlashcardsTestTypeMenuComponent } from './flashcards-test-type-menu/fla
 import { TestResultsComponent } from './test-results/test-results.component';
 import { FlashcardsFillingInTestComponent } from './flashcards-filling-in-test/flashcards-filling-in-test.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { FlashcardsMemoryTestComponent } from './flashcards-memory-test/flashcards-memory-test.component';
+import { FlashcardsMemoryTestSetComponent } from './flashcards-memory-test-set/flashcards-memory-test-set.component';
 
 
 
@@ -42,7 +44,9 @@ import { HomePageComponent } from './home-page/home-page.component';
     FlashcardsTestTypeMenuComponent,
     TestResultsComponent,
     FlashcardsFillingInTestComponent,
-    HomePageComponent
+    HomePageComponent,
+    FlashcardsMemoryTestComponent,
+    FlashcardsMemoryTestSetComponent
   ],
   imports: [
     BrowserModule,

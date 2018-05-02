@@ -78,6 +78,10 @@ export class FlashcardsService {
     return this.http.get(this.mainUrl + 'sets/' + id + '/test/filling-in/').map((data: Response) => data.json());
   }
 
+  getTestMemory(id) { // do zmiany adres
+    return this.http.get(this.mainUrl + 'sets/' + id + '/test/pairing/').map((data: Response) => data.json());
+  }
+
   deleteSet (id) {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
@@ -92,6 +96,11 @@ export class FlashcardsService {
     // id - id zestawu fiszek
     // ciało body = {id - idFiszki, content - wpisana odpowiedź, side - strona fiszki, którą widział użytkownik}
      return this.http.get(`${this.mainUrl}sets/${id}/${body['id']}/${body['content']}/${body['side']}/test/check/`)
+     .map((data: Response) => data.json());
+  }
+
+  testMemory(body) { // adres do zmiany
+    return this.http.get(`${this.mainUrl}sets/`)
      .map((data: Response) => data.json());
   }
 }

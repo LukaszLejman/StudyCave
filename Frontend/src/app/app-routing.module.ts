@@ -8,6 +8,7 @@ import { FlashcardsAddCsvComponent } from './flashcards-add-csv/flashcards-add-c
 import { FlashcardsAddTableComponent } from './flashcards-add-table/flashcards-add-table.component';
 import { FlashcardsSetDetailComponent } from './flashcards-set-detail/flashcards-set-detail.component';
 import { FlashcardsPairsTestComponent } from './flashcards-pairs-test/flashcards-pairs-test.component';
+import { FlashcardsMemoryTestComponent } from './flashcards-memory-test/flashcards-memory-test.component';
 import { FlashcardsEditTableComponent } from './flashcards-edit-table/flashcards-edit-table.component';
 import { FlashcardsFillingInTestComponent } from './flashcards-filling-in-test/flashcards-filling-in-test.component';
 
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'flashcards/add/csv', component: FlashcardsAddCsvComponent },
   { path: 'flashcards/sets/:id', component: FlashcardsSetDetailComponent },
   { path: 'flashcards/test-gen/flashcards-pairs/:id', component: FlashcardsPairsTestComponent },
+  { path: 'flashcards/test-gen/flashcards-memory/:id', component: FlashcardsMemoryTestComponent },
   { path: 'flashcards/test-gen/flashcards-filling-in/:id', component: FlashcardsFillingInTestComponent },
   { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent }
 ];

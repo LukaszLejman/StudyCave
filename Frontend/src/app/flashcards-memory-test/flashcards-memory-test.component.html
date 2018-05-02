@@ -1,0 +1,48 @@
+<div>
+  <h4>Memory</h4>
+  <br />
+  <div>
+    <b>Nazwa zestawu: </b>
+    <i>{{ name }}</i>
+    <br />
+    <b>Kategoria: </b>
+    <i>{{ category }}</i>
+  </div>
+  <div *ngIf="started">
+    <div>
+      <div>
+        <b>Uzupełniono: </b>
+        <span> {{ filled }} z {{ length_test }} fiszek</span>
+      </div>
+      <div>
+        <b>Poprawnych odpowiedzi: </b>
+        <span> {{ good }} na {{ length_test }}</span>
+      </div>
+      <div>
+        <b>Złych odpowiedzi: </b>
+        <span> {{ bad }} na {{ length_test }}</span>
+      </div>
+    </div>
+    <br />
+    <div class="test" *ngIf="started">
+      <!-- Do zmiany -->
+      Tu będzie komponent wewnętrzny
+      <br />
+      <div>
+        <b>Ekran: </b>
+        <span> {{ package_id + 1}} z {{ length_packages }}</span>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="finish">
+    <app-test-results [result]="good" [maxPts]="length_test"></app-test-results>
+  </div>
+  <br />
+  <div *ngIf="!finish">
+    <button class="btn btn-primary" *ngIf="!started" (click)="start()">Rozpocznij test</button>
+    <button class="btn btn-primary" *ngIf="checked && not_last" (click)="increment()">Przejdź dalej</button>
+    <button class="btn btn-primary" *ngIf="checked && !not_last" (click)="increment()">Zakończ test</button>
+  </div>
+  <br />
+  <button class="btn btn-danger" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
+</div>
