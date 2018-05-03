@@ -3,11 +3,10 @@ package studycave.application;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
-import org.yaml.snakeyaml.events.Event.ID;
 
 public interface SetRepository extends CrudRepository<Set, Long> {
 	Set save(Set set);
-	void deleteById(ID id);
-	Optional<Set> findById(ID id);
+	void deleteById(Long id);
+	Optional<Set> findById(Long id);
 	List<Set> findAll();
 }

@@ -63,9 +63,9 @@ public class SetController {
 			Collections.shuffle(list);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			return list;
 		}
+		return list;
+
 	}
 
 	@GetMapping("/{id}/test/pairing")
@@ -136,6 +136,61 @@ public class SetController {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	@GetMapping("/{id}/test/memory")
+	public List<String> getMemoryTestFlashcards(@PathVariable(required = true) Long id) {
+		List<String> list = new ArrayList<String>();
+		List<String> segment = new ArrayList<String>();
+
+		List<Flashcard> flashcards = setRepository.findById(id).get().getFlashcards();
+
+		int segmentSize = 5;
+		int setSize = flashcards.size();
+
+		int i = 0;
+		for (Flashcard flashcard : flashcards) {
+
+			if (i == segmentSize) {
+				i = 0;
+				Collections.shuffle(segment);
+
+				list.addAll(segment);
+				segment.clear();
+
+			}
+
+			segment.add(flashcard.getLeftSide());
+			segment.add(flashcard.getRightSide());
+
+			i++;
+		}
+
+		List<Integer> visited = new ArrayList<Integer>();
+
+		if (setSize > 5) {
+			while (i < segmentSize) {
+				int range = ((setSize / segmentSize) * segmentSize) - 1;
+
+				int random = ThreadLocalRandom.current().nextInt(0, range + 1);
+				while (visited.contains(random)) {
+					random = ThreadLocalRandom.current().nextInt(0, range + 1);
+				}
+				visited.add(random);
+
+				Flashcard flashcard = flashcards.get(random);
+				segment.add(flashcard.getLeftSide());
+				segment.add(flashcard.getRightSide());
+
+				i++;
+			}
+		}
+
+		Collections.shuffle(segment);
+
+		list.addAll(segment);
+		return list;
+
 	}
 
 	@DeleteMapping("/{id}")

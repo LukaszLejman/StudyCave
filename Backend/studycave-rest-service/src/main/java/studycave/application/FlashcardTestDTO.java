@@ -1,8 +1,5 @@
 package studycave.application;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class FlashcardTestDTO {
     private Long id;
     private String content;
