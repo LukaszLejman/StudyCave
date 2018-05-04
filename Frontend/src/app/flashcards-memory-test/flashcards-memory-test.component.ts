@@ -16,18 +16,16 @@ export class FlashcardsMemoryTestComponent implements OnInit, OnDestroy {
   private name: String;
   private category: String;
   private length_test: number;
+  private flashcards: number;
   private length_packages: number;
   private goodNow: number;
   private started: Boolean = false;
   private finish: Boolean = false;
-  private left: Boolean = true;
-  private right: Boolean = false;
   private checked: Boolean = false;
   private not_last: Boolean = true;
   private packages: Array<Object> = [];
   private filled = 0;
   private good = 0;
-  private bad = 0;
   private package_id = 0;
 
   constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute) {}
@@ -38,13 +36,14 @@ export class FlashcardsMemoryTestComponent implements OnInit, OnDestroy {
       this.name = data['name'];
       this.category = data['category'];
     });
-    this.flashcardSubscribtion = this.flashcardsService.getTestMemory(this.id).subscribe(data => { // do zmiany
+    this.flashcardSubscribtion = this.flashcardsService.getTestMemory(this.id).subscribe(data => {
       this.length_test = data.length;
+      this.flashcards = data.length / 2;
       this.createPackages(data);
     });
   }
 
-  createPackages(data) { // do sprawdzenia
+  createPackages(data) {
     let attribute = '0';
     let set = [];
     const n = this.length_test;
@@ -64,6 +63,9 @@ export class FlashcardsMemoryTestComponent implements OnInit, OnDestroy {
       }
     }
     this.length_packages = this.packages.length;
+    if (this.packages.length < 2) {
+      this.not_last = false;
+    }
   }
 
   start() {
@@ -82,12 +84,10 @@ export class FlashcardsMemoryTestComponent implements OnInit, OnDestroy {
     }
   }
 
-  goodEvent(goods) { // do sprawdzenia
+  goodEvent(goods) {
     this.goodNow = goods;
-    const filledNow = this.packages[this.package_id]['set'].length;
-    this.filled += filledNow;
-    this.good += this.goodNow;
-    this.bad += filledNow - this.goodNow;
+    this.filled = this.goodNow;
+    this.good = this.goodNow;
   }
 
   isChecked(check) {

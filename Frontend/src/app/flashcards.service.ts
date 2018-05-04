@@ -74,12 +74,13 @@ export class FlashcardsService {
   getTestPairing(id) {
     return this.http.get(this.mainUrl + 'sets/' + id + '/test/pairing/').map((data: Response) => data.json());
   }
+
   getTestFilling(id) {
     return this.http.get(this.mainUrl + 'sets/' + id + '/test/filling-in/').map((data: Response) => data.json());
   }
 
   getTestMemory(id) { // do zmiany adres
-    return this.http.get(this.mainUrl + 'sets/' + id + '/test/pairing/').map((data: Response) => data.json());
+    return this.http.get(this.mainUrl + 'sets/' + id + '/test/memory/').map((data: Response) => data.json());
   }
 
   deleteSet (id) {
@@ -95,12 +96,12 @@ export class FlashcardsService {
   testCheck(id, body) {
     // id - id zestawu fiszek
     // ciało body = {id - idFiszki, content - wpisana odpowiedź, side - strona fiszki, którą widział użytkownik}
-     return this.http.get(`${this.mainUrl}sets/${id}/${body['id']}/${body['content']}/${body['side']}/test/check/`)
-     .map((data: Response) => data.json());
+    return this.http.get(`${this.mainUrl}sets/${id}/${body['id']}/${body['content']}/${body['side']}/test/check/`)
+      .map((data: Response) => data.json());
   }
 
-  testMemory(body) { // adres do zmiany
-    return this.http.get(`${this.mainUrl}sets/`)
-     .map((data: Response) => data.json());
+  testMemory(id, body) {
+    return this.http.get(`${this.mainUrl}sets/${id}/test/memory/check?x=${body['x']}&y=${body['y']}`)
+      .map((data: Response) => data.json());
   }
 }

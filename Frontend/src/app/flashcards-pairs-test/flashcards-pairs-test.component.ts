@@ -69,6 +69,9 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
       }
     }
     this.length_packages = this.packages.length;
+    if (this.packages.length < 2) {
+      this.not_last = false;
+    }
   }
 
   start() {

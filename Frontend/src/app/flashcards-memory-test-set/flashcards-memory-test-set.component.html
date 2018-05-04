@@ -1,3 +1,8 @@
-<p>
-  flashcards-memory-test-set works!
-</p>
+<div>
+  <div *ngFor="let card of set; let i = index">
+    <div *ngIf="!visible[i]" id="{{ i }}" (click)="check($event)">???</div>
+    <div *ngIf="visible[i]" id="{{ i }}" class='unclickable' onclick='return false;'>{{ card }}</div>
+  </div>
+  <h3 *ngIf="isOK">Dobrze :)</h3>
+  <h3 *ngIf="isBad">Źle :(</h3>
+</div>

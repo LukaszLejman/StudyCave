@@ -12,30 +12,26 @@
     <div>
       <div>
         <b>Uzupełniono: </b>
-        <span> {{ filled }} z {{ length_test }} fiszek</span>
+        <span> {{ filled }} z {{ flashcards }} fiszek</span>
       </div>
       <div>
         <b>Poprawnych odpowiedzi: </b>
-        <span> {{ good }} na {{ length_test }}</span>
-      </div>
-      <div>
-        <b>Złych odpowiedzi: </b>
-        <span> {{ bad }} na {{ length_test }}</span>
+        <span> {{ good }} na {{ flashcards }}</span>
       </div>
     </div>
     <br />
     <div class="test" *ngIf="started">
-      <!-- Do zmiany -->
-      Tu będzie komponent wewnętrzny
+      <app-flashcards-memory-test-set (goodEvent)="goodEvent($event)" (isChecked)=isChecked($event)
+      [package]="packages" package_id="{{ package_id }}" [id]="id"></app-flashcards-memory-test-set>
       <br />
       <div>
         <b>Ekran: </b>
-        <span> {{ package_id + 1}} z {{ length_packages }}</span>
+        <span> {{ package_id + 1 }} z {{ length_packages }}</span>
       </div>
     </div>
   </div>
   <div *ngIf="finish">
-    <app-test-results [result]="good" [maxPts]="length_test"></app-test-results>
+    <app-test-results [result]="good" [maxPts]="flashcards"></app-test-results>
   </div>
   <br />
   <div *ngIf="!finish">

@@ -19,16 +19,23 @@ export class FlashcardsMemoryTestSetComponent implements OnInit, OnChanges, OnDe
   private flashcardSubscribtion: Array<Subscription> = [];
   private answer: Array<Object> = [];
   private set: Array<Object> = [];
-  private checked: Boolean = false;
+  private visible: Array<Boolean> = [];
+  private toCheck: Array<number> = [];
+  private isBad: Boolean = false;
+  private isOK: Boolean = false;
   private good = 0;
+  private clicks = 0;
 
   constructor(private uploadService: FlashcardsService) {  }
 
   ngOnInit() {
     this.isChecked.emit(false);
-    this.checked = false;
     this.flashcardSubscribtion = [];
+    this.visible = [];
     this.set = this.package[this.package_id]['set'];
+    for (let i = 0; i < this.set.length; i++) {
+      this.visible.push(false);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -39,48 +46,61 @@ export class FlashcardsMemoryTestSetComponent implements OnInit, OnChanges, OnDe
     }
   }
 
-  check(value: any) { // do zmiany
-    const side = 'left';
-    const n = this.set.length;
-    const body = [];
-    this.answer = [];
-    this.good = 0;
-    for (let i = 0; i < n; i++) {
-      body.push({
-        content: value[`right-side-${this.set[i]['id']}`],
-        id: this.set[i]['id'],
-        side: side
-      });
-      this.flashcardSubscribtion[i] = this.uploadService.testCheck(this.id, body[i]).subscribe(data => {
-        this.answer.push(data);
-        if (this.answer.length === n) {
-          this.showWrong(this.answer);
-        }
-      });
+  check(event) {
+    this.clicks += 1;
+    this.toCheck.push(event.target.id);
+    this.visible[this.toCheck[0]] = true;
+    if (this.clicks === 2) {
+      this.visible[this.toCheck[1]] = true;
+      this.clicks = 0;
+      const toSend = {
+        x: this.set[this.toCheck[0]],
+        y: this.set[this.toCheck[1]],
+      };
+      setTimeout(() => {
+        this.flashcardSubscribtion[this.flashcardSubscribtion.length] =
+          this.uploadService.testMemory(this.id, toSend).subscribe(data => {
+            this.showWrong(data);
+          },
+          error => { alert('Coś poszło nie tak :( Spróbuj ponownie później.'); }
+        );
+      }, 1000);
     }
   }
 
-  showWrong(flashcards: Array<Object>) { // do zmiany
-    const n = flashcards.length;
-    for (let i = 0; i < n; i++) {
-      this.isGood(flashcards[i]['result'], flashcards[i]['id']);
-    }
-    this.checked = true;
-    this.isChecked.emit(true);
+  showWrong(answer: Boolean) {
+    this.isGood(answer);
     this.goodEvent.emit(this.good);
   }
 
-  isGood(flashcard: Boolean, i: number) { // do zmiany
-    if (!flashcard) {
-      document.getElementById(`right-side-${i}`).style.border = '2px solid red';
-      document.getElementById(`comment-${i}`).innerHTML = 'Źle :(';
-      document.getElementById(`comment-${i}`).style.color = 'red';
+  isGood(answer: Boolean) {
+    if (!answer) {
+      this.isBad = true;
+      this.visible[this.toCheck[0]] = false;
+      this.visible[this.toCheck[1]] = false;
+      setTimeout(() => {
+        this.isBad = false;
+      }, 1000);
     } else {
-      document.getElementById(`right-side-${i}`).style.border = '2px solid green';
-      document.getElementById(`comment-${i}`).innerHTML = 'Dobrze :)';
-      document.getElementById(`comment-${i}`).style.color = 'green';
+      this.isOK = true;
+      this.visible[this.toCheck[0]] = true;
+      this.visible[this.toCheck[1]] = true;
+      setTimeout(() => {
+        this.isOK = false;
+      }, 1000);
       this.good += 1;
+      let i = 0;
+      while (this.visible[i]) {
+        if (i === (this.visible.length - 1)) {
+          this.isChecked.emit(true);
+        }
+        i++;
+        if (i === this.visible.length) {
+          break;
+        }
+      }
     }
+    this.toCheck = [];
   }
 
   ngOnDestroy() {
