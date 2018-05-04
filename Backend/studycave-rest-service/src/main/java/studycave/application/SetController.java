@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -190,7 +191,19 @@ public class SetController {
 
 		list.addAll(segment);
 		return list;
+	}
 
+	@GetMapping("/{id}/test/memory/check")
+	public boolean checkMemoryTest(@PathVariable(required = true) Long id, @RequestParam(value = "x") String x,
+			@RequestParam(value = "y") String y) {
+		boolean result;
+
+		if (setRepository.findResult(id, x, y) != 0)
+			result = true;
+		else
+			result = false;
+
+		return result;
 	}
 
 	@DeleteMapping("/{id}")
