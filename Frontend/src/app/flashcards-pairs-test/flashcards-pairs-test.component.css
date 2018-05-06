@@ -23,7 +23,7 @@
     background-color: white;
     padding: 20px; 
     width: 65%;
-    height: 400px; 
+    min-height: 400px;
     margin: 25px;
     float: right;
     box-sizing: border-box;    
