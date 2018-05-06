@@ -1,26 +1,25 @@
-<app-flashcards></app-flashcards>
-<table class="table">
- <tr>
-   <th>ID</th>
-   <th>NAZWA</th>
-   <th>KATEGORIA</th>
-   <th>WŁAŚCICIEL</th>
-   <th>DATA DODANIA</th>
-   <th>DATA MODYFIKACJI</th>
-   <th>OCENA</th>
- </tr>
-  <tr *ngFor="let set of sets"
-  [class.selected]="set === selectedSet"
-  (click)="onSelect(set)"
-  >
-    <td class="id">{{set.id}}</td>
-    <td class="name">{{set.name}}</td>
-    <td class="category">{{set.category}}</td>
-    <td class="owner">{{set.owner}}</td>
-    <td class="add_date">{{set.add_date}}</td>
-    <td class="edit_date">{{set.edit_date}}</td>
-    <td class="grade">{{set.grade}}</td>
-  </tr>
-</table>
-<div *ngIf="selectedSet">
+<div class="wrapper">
+  <app-flashcards></app-flashcards>
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>NAZWA</th>
+      <th>KATEGORIA</th>
+      <th>WŁAŚCICIEL</th>
+      <th>DATA DODANIA</th>
+      <th>DATA MODYFIKACJI</th>
+      <th>OCENA</th>
+    </tr>
+    <tr *ngFor="let set of sets" [class.selected]="set === selectedSet" (click)="onSelect(set)">
+      <td class="id">{{set.id}}</td>
+      <td class="name">{{set.name}}</td>
+      <td class="category">{{set.category}}</td>
+      <td class="owner">{{set.owner}}</td>
+      <td class="add_date">{{set.add_date}}</td>
+      <td class="edit_date">{{set.edit_date}}</td>
+      <td class="grade">{{set.grade}}</td>
+    </tr>
+  </table>
+  <div *ngIf="selectedSet">
+  </div>
 </div>
