@@ -8,16 +8,17 @@ h2 {
 }
 
 .card {
-    background-color: white;
+    color: white;
+    background-color: gray;
     text-align: center;
-    min-height: 5rem;
+    min-height: 4rem;
     display: flex;
     justify-content: center;
     transition: color 1000ms;
 }
 
 .card-invisible {
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 .card-visible {

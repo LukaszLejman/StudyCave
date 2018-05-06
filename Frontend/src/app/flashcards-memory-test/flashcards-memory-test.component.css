@@ -1,0 +1,32 @@
+#container-small {
+    border-radius: 25px;
+    border: 5px solid #00b0f9;
+    background-color: white;
+    padding: 20px; 
+    width: 32%;
+    height: 400px; 
+    box-sizing: border-box;
+    position: relative;
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    margin-top: 2rem;
+}
+
+#container-large {
+    border-radius: 25px;
+    border: 5px solid #00b0f9;
+    background-color: white;
+    padding: 20px; 
+    width: 62%;
+    min-height: 400px;
+    text-align: center;
+}
+
+.container {
+    margin-bottom: 4rem;
+}

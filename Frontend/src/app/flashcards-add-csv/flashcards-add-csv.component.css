@@ -1,0 +1,38 @@
+.description {
+    background-color: gray;
+    padding: 1rem;
+    border-radius: 25px;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    text-align: left;
+
+}
+
+.container {
+    border-radius: 25px;
+    border: 5px solid #00b0f9;
+    background-color: white;
+    padding: 20px; 
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.wrapper-description {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.wrapper-add {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 4rem;
+}
+
+.wrapper {
+    width: 100%;
+    margin-bottom: 5rem;
+}

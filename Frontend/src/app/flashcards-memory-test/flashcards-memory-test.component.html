@@ -1,44 +1,49 @@
-<div>
-  <h4>Memory</h4>
-  <br />
-  <div>
-    <b>Nazwa zestawu: </b>
-    <i>{{ name }}</i>
-    <br />
-    <b>Kategoria: </b>
-    <i>{{ category }}</i>
-  </div>
-  <div *ngIf="started">
-    <div>
-      <div>
-        <b>Uzupełniono: </b>
-        <span> {{ filled }} z {{ flashcards }} fiszek</span>
-      </div>
-      <div>
-        <b>Poprawnych odpowiedzi: </b>
-        <span> {{ good }} na {{ flashcards }}</span>
-      </div>
-    </div>
-    <br />
-    <div class="test" *ngIf="started">
-      <app-flashcards-memory-test-set (goodEvent)="goodEvent($event)" (isChecked)=isChecked($event)
-      [package]="packages" package_id="{{ package_id }}" [id]="id"></app-flashcards-memory-test-set>
+<div class="container">
+  <div class="content">
+    <div id="container-small">
+      <h4>Memory</h4>
       <br />
       <div>
-        <b>Ekran: </b>
-        <span> {{ package_id + 1 }} z {{ length_packages }}</span>
+        <b>Nazwa zestawu: </b>
+        <i>{{ name }}</i>
+        <br />
+        <b>Kategoria: </b>
+        <i>{{ category }}</i>
+      </div>
+      <div *ngIf="started">
+        <div>
+          <div>
+            <b>Uzupełniono: </b>
+            <span> {{ filled }} z {{ flashcards }} fiszek</span>
+          </div>
+          <div>
+            <b>Poprawnych odpowiedzi: </b>
+            <span> {{ good }} na {{ flashcards }}</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div *ngIf="finish">
-    <app-test-results [result]="good" [maxPts]="flashcards"></app-test-results>
-  </div>
-  <br />
-  <div *ngIf="!finish">
-    <button class="btn btn-primary" *ngIf="!started" (click)="start()">Rozpocznij test</button>
-    <button class="btn btn-primary" *ngIf="checked && not_last" (click)="increment()">Przejdź dalej</button>
-    <button class="btn btn-primary" *ngIf="checked && !not_last" (click)="increment()">Zakończ test</button>
-  </div>
-  <br />
-  <button class="btn btn-danger" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
+    <div id="container-large">
+      <div class="test" *ngIf="started">
+        <app-flashcards-memory-test-set (goodEvent)="goodEvent($event)" (isChecked)=isChecked($event)
+        [package]="packages" package_id="{{ package_id }}" [id]="id"></app-flashcards-memory-test-set>
+        <br />
+        <div>
+          <b>Ekran: </b>
+          <span> {{ package_id + 1 }} z {{ length_packages }}</span>
+        </div>
+      </div>
+      <div *ngIf="finish">
+        <app-test-results [result]="good" [maxPts]="flashcards"></app-test-results>
+      </div>
+      <br />
+      <div *ngIf="!finish">
+        <button class="btn btn-primary" *ngIf="!started" (click)="start()">Rozpocznij test</button>
+        <button class="btn btn-primary" *ngIf="checked && not_last" (click)="increment()">Przejdź dalej</button>
+        <button class="btn btn-primary" *ngIf="checked && !not_last" (click)="increment()">Zakończ test</button>
+      </div>
+      <br />
+      <button class="btn btn-danger" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
+    </div>
+  </div>  
 </div>

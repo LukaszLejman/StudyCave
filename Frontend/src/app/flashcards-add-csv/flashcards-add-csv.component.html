@@ -1,38 +1,43 @@
-<app-flashcards></app-flashcards>
-<div>
-  <h1>Importowanie fiszek z pliku CSV</h1>
-  <div>
-    <h3>Twój plik CSV powinien mieć poniższy format:</h3>
-    <div>
-      <h4>
-        nazwa zestawu;kategoria <br />
-        lewa strona fiszki;prawa strona fiszki <br />
-        lewa strona fiszki;prawa strona fiszki <br />
-        lewa strona fiszki;prawa strona fiszki <br />
-        .....
-      </h4>
-      <u>Przykład:</u>
-      <p>
-        zwierzęta;angielski <br />
-        pies;dog <br />
-        kot;cat <br />
-        królik;rabbit <br />
-        ryba;fish <br />
-      </p>
+<div class="wrapper">
+  <app-flashcards></app-flashcards>
+  <div class="wrapper-add">
+    <div class="container">
+      <h1>Importowanie zestawu z pliku CSV</h1>
+      <br />
+      <h3>Twój plik CSV powinien mieć poniższy format:</h3>
+      <div class="wrapper-description">
+        <div class="description row">
+          <h4 class="col-8 ml-4">
+            nazwa zestawu;kategoria <br />
+            lewa strona fiszki;prawa strona fiszki <br />
+            lewa strona fiszki;prawa strona fiszki <br />
+            lewa strona fiszki;prawa strona fiszki <br />
+            .....
+          </h4>
+          <p class="col-3 ml-4">
+            <u>Przykład:</u> <br />
+            zwierzęta;angielski <br />
+            pies;dog <br />
+            kot;cat <br />
+            królik;rabbit <br />
+            ryba;fish <br />
+          </p>
+        </div>
+      </div>
+      <div *ngIf="currentFileUpload" class="progress">
+        <div class="progress-bar progress-bar-info progress-bar-striped"
+          role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+          aria-valuemin="0" aria-valuemax="100"
+          [ngStyle]="{width:progress.percentage+'%'}">
+          {{progress.percentage}}%</div>
+      </div>
+        <label class="btn btn-default">
+          Wybierz plik:
+          <input type="file" accept=".csv" (change)="selectFile($event)">
+        </label>
+        <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
+        <br />
+        <button class="btn btn-danger" routerLink="/flashcards/sets/">Powrót</button>
     </div>
   </div>
-  <div *ngIf="currentFileUpload" class="progress">
-    <div class="progress-bar progress-bar-info progress-bar-striped"
-      role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
-      aria-valuemin="0" aria-valuemax="100"
-      [ngStyle]="{width:progress.percentage+'%'}">
-      {{progress.percentage}}%</div>
-  </div>
-    <label class="btn btn-default">
-      Wybierz plik:
-      <input type="file" accept=".csv" (change)="selectFile($event)">
-    </label>
-    <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
-    <br />
-    <button class="btn btn-danger" routerLink="/flashcards/sets/">Powrót</button>
 </div>
