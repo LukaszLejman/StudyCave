@@ -1,4 +1,5 @@
-<div>
+<div class="content">
+  <div id="container-small">
   <h4>Przepisywanie fiszek na czas</h4>
   <br />
   <div>
@@ -25,8 +26,10 @@
         </div>
       </div>
     </div>
-    <br />
-    <br />
+  </div>
+  </div>
+  <div id="container-large">
+    <div *ngIf="started">
     <div *ngIf="this.filled >= 1 && !finish">
       Poprzednia odpowiedź:<br />
       {{flashcards[index-1].content}} {{stoptimes[index-1].m}} m {{stoptimes[index-1].s}} s {{stoptimes[index-1].ms}} ms 
@@ -55,4 +58,5 @@
   <button class="btn btn-primary" *ngIf="started && !finish && !not_last"(click)="finished()">Przejdź do wyniku</button>
   <br />
   <button class="btn btn-danger" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
+</div>
 </div>

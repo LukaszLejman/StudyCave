@@ -89,6 +89,6 @@ export class FlashcardsFillingInTestComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.flashcardSubscribtionMeta.unsubscribe();
     this.flashcardSubscribtion.unsubscribe();
-    this.flashcardSubscribtionCheck.unsubscribe();
+    // this.flashcardSubscribtionCheck.unsubscribe();
   }
 }

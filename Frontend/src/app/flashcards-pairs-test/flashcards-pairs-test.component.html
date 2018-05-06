@@ -1,4 +1,5 @@
-<div>
+<div class="content">
+  <div id="container-small">
   <h4>Łączenie fiszek w pary</h4>
   <br />
   <div>
@@ -24,6 +25,9 @@
       </div>
     </div>
     <br />
+  </div>
+</div>
+<div id="container-large">
     <div class="test" *ngIf="started">
       <app-flashcards-pairs-test-set (goodEvent)="goodEvent($event)" (isChecked)=isChecked($event)
        [package]="packages" package_id="{{ package_id }}" [id]="id"></app-flashcards-pairs-test-set>
@@ -33,7 +37,9 @@
         <span> {{ package_id + 1}} z {{ length_packages }}</span>
       </div>
     </div>
-  </div>
+
+
+
   <div *ngIf="finish">
     <app-test-results [result]="good" [maxPts]="length_test"></app-test-results>
   </div>
@@ -45,4 +51,5 @@
   </div>
   <br />
   <button class="btn btn-danger" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
+</div>
 </div>
