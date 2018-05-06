@@ -85,6 +85,8 @@ export class FlashcardsMemoryTestSetComponent implements OnInit, OnChanges, OnDe
       this.isOK = true;
       this.visible[this.toCheck[0]] = true;
       this.visible[this.toCheck[1]] = true;
+      document.getElementById(this.toCheck[0].toString()).style.color = '#4ab809';
+      document.getElementById(this.toCheck[1].toString()).style.color = '#4ab809';
       setTimeout(() => {
         this.isOK = false;
       }, 1000);

@@ -1,8 +1,14 @@
-<div>
-  <div *ngFor="let card of set; let i = index">
-    <div *ngIf="!visible[i]" id="{{ i }}" (click)="check($event)">???</div>
-    <div *ngIf="visible[i]" id="{{ i }}" class='unclickable' onclick='return false;'>{{ card }}</div>
+<div class="container">
+  <div>
+    <h2 *ngIf="!isOK && !isBad">&nbsp;</h2>
+    <h2 *ngIf="isOK">Dobrze :)</h2>
+    <h2 *ngIf="isBad">Źle :(</h2>
   </div>
-  <h3 *ngIf="isOK">Dobrze :)</h3>
-  <h3 *ngIf="isBad">Źle :(</h3>
+  <br />
+  <div class="row">
+    <div *ngFor="let card of set; let i = index" class="col-md-6">
+      <p *ngIf="!visible[i]" id="{{ i }}" class="card card-invisible clickable" (click)="check($event)">???</p>
+      <p *ngIf="visible[i]" id="{{ i }}" class='card card-visible unclickable' onclick='return false;'><b>{{ card }}</b></p>
+    </div>
+  </div>
 </div>
