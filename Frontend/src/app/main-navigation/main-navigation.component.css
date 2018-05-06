@@ -83,6 +83,7 @@ a:hover{
     .wrapper{
         flex-wrap: wrap;
         height: 150px;
+        justify-content: center;
     }
     .study-cave{
         font-size: 32px;
