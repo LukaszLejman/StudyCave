@@ -1,9 +1,9 @@
 body{
     margin: 0 auto;
     background-image: url("./assets/background.jpg");
-    background-color: #ffffff;
+    background-color: #000000;
     background-position: center top; 
     background-repeat: no-repeat;
     background-attachment: fixed;
-    max-width: 1345px;
+    width: 1345px;
 }

@@ -1,25 +1,32 @@
 .wrapper{
+    position: fixed;
+    top: 0px;
+    box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 1345px;
     margin: 0 auto;
-    height: 100px;
+    height: 120px;
     border-bottom: 5px solid white;
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
     flex-shrink: 0;
     align-items: center;
     justify-content: space-between;
+    padding: 10px;
 }
 
 .logo-and-name{
     margin: 0 20px;
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
     flex-shrink: 0;
     align-items: center;
+    cursor: pointer;
+}
+
+.logo-and-name:hover{
+    opacity: 0.8;
 }
 
 .study-cave{
@@ -42,17 +49,45 @@ a{
     font-size: 30px;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
+    padding: 0px 10px;
 }
 
 a:hover{
-    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
+    text-decoration: none;
 }
 
 .menu{
     margin: 0 20px;
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
     flex-shrink: 0;
     align-items: center;
+}
+
+.log-reg-container{
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 1200px) {
+    .study-cave{
+        font-size: 32px;
+    }
+    a{
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .wrapper{
+        flex-wrap: wrap;
+        height: 150px;
+    }
+    .study-cave{
+        font-size: 32px;
+    }
+    a{
+        font-size: 12px;
+    }
 }

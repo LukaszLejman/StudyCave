@@ -12,9 +12,11 @@ import { FlashcardsMemoryTestComponent } from './flashcards-memory-test/flashcar
 import { FlashcardsEditTableComponent } from './flashcards-edit-table/flashcards-edit-table.component';
 import { FlashcardsFillingInTestComponent } from './flashcards-filling-in-test/flashcards-filling-in-test.component';
 import { FlashcardsTyperaceTestComponent } from './flashcards-typerace-test/flashcards-typerace-test.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 
 const routes: Routes = [
+  { path: 'home', component: HomePageComponent },
   { path: 'flashcards', component: FlashcardsComponent },
   { path: 'flashcards/sets', component: FlashcardsSetsListComponent },
   { path: 'flashcards/add', component: FlashcardsAddComponent },

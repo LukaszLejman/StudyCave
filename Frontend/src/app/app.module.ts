@@ -26,6 +26,7 @@ import { FlashcardsMemoryTestComponent } from './flashcards-memory-test/flashcar
 import { FlashcardsMemoryTestSetComponent } from './flashcards-memory-test-set/flashcards-memory-test-set.component';
 import { FlashcardsTyperaceTestComponent } from './flashcards-typerace-test/flashcards-typerace-test.component';
 import { AutofocusDirective } from './autofocus.directive';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -49,7 +50,8 @@ import { AutofocusDirective } from './autofocus.directive';
     FlashcardsMemoryTestComponent,
     FlashcardsMemoryTestSetComponent,
     FlashcardsTyperaceTestComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

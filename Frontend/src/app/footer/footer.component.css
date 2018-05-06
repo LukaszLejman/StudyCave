@@ -1,0 +1,9 @@
+.footer{
+    color: white;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 1345px;
+    background-color: rgba(0, 0, 0, 0.3);
+}

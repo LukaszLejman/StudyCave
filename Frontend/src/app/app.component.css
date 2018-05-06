@@ -1,9 +1,19 @@
-.background-div{
-    height: 100px;
+.content{
+    position: fixed;
+    margin-top: 120px;
+    max-width: 1345px;
+    overflow: auto;
+    height: 80%;
+    min-height: calc(100% - 120px);
 }
 
-.background-color{
-    background-color: #00b0f9;
-    height: 80%;
-    padding: 10px;
+.wrapper{
+    overflow: auto;
+}
+
+@media screen and (max-width: 800px) {
+    .content{
+        margin-top: 150px;
+        min-height: calc(100% - 150px);
+    }
 }
