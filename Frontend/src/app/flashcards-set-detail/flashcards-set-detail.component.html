@@ -1,28 +1,30 @@
-<button class="btn btn-primary" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
-<button class="btn btn-primary" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
-<button class="btn btn-success" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
-<button class="btn btn-danger" (click)="deleteSet()">USUŃ FISZKI</button>
-<app-flashcards-test-type-menu [id]="id" (cancel)="handleCancelFlashcardsTestyTypeMenu($event)" *ngIf="testTypeMenu"></app-flashcards-test-type-menu>
-<div *ngIf="set">
-    <h2>{{set.name}}</h2>
-    <table class="table">
-        <thead>
-            <th>
-                #
-            </th>
-            <th>
-                Lewa strona
-            </th>
-            <th>
-                Prawa strona
-            </th>
-        </thead>
-        <tbody>
-            <tr *ngFor="let flashcard of set.flashcards; let i = index">
-                <td>{{i}}</td>
-                <td>{{flashcard.left_side}}</td>
-                <td>{{flashcard.right_side}}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="wrapper">
+    <button class="btn btn-primary" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
+    <button class="btn btn-primary" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
+    <button class="btn btn-success" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
+    <button class="btn btn-danger" (click)="deleteSet()">USUŃ FISZKI</button>
+    <app-flashcards-test-type-menu [id]="id" (cancel)="handleCancelFlashcardsTestyTypeMenu($event)" *ngIf="testTypeMenu"></app-flashcards-test-type-menu>
+    <div *ngIf="set">
+        <h2>{{set.name}}</h2>
+        <table class="table">
+            <thead>
+                <th>
+                    #
+                </th>
+                <th>
+                    Lewa strona
+                </th>
+                <th>
+                    Prawa strona
+                </th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let flashcard of set.flashcards; let i = index">
+                    <td>{{i}}</td>
+                    <td>{{flashcard.left_side}}</td>
+                    <td>{{flashcard.right_side}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
