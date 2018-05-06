@@ -16,6 +16,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 
 
 const routes: Routes = [
+  { path: '', component: HomePageComponent },
   { path: 'home', component: HomePageComponent },
   { path: 'flashcards', component: FlashcardsComponent },
   { path: 'flashcards/sets', component: FlashcardsSetsListComponent },
