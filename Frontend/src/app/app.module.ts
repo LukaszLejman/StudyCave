@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
-
 import { AppComponent } from './app.component';
 import { MainNavigationComponent } from './main-navigation/main-navigation.component';
 import { FlashcardsComponent } from './flashcards/flashcards.component';
@@ -25,6 +24,8 @@ import { FlashcardsFillingInTestComponent } from './flashcards-filling-in-test/f
 import { HomePageComponent } from './home-page/home-page.component';
 import { FlashcardsMemoryTestComponent } from './flashcards-memory-test/flashcards-memory-test.component';
 import { FlashcardsMemoryTestSetComponent } from './flashcards-memory-test-set/flashcards-memory-test-set.component';
+import { FlashcardsTyperaceTestComponent } from './flashcards-typerace-test/flashcards-typerace-test.component';
+import { AutofocusDirective } from './autofocus.directive';
 
 
 
@@ -46,7 +47,9 @@ import { FlashcardsMemoryTestSetComponent } from './flashcards-memory-test-set/f
     FlashcardsFillingInTestComponent,
     HomePageComponent,
     FlashcardsMemoryTestComponent,
-    FlashcardsMemoryTestSetComponent
+    FlashcardsMemoryTestSetComponent,
+    FlashcardsTyperaceTestComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,

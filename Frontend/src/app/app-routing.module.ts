@@ -11,6 +11,7 @@ import { FlashcardsPairsTestComponent } from './flashcards-pairs-test/flashcards
 import { FlashcardsMemoryTestComponent } from './flashcards-memory-test/flashcards-memory-test.component';
 import { FlashcardsEditTableComponent } from './flashcards-edit-table/flashcards-edit-table.component';
 import { FlashcardsFillingInTestComponent } from './flashcards-filling-in-test/flashcards-filling-in-test.component';
+import { FlashcardsTyperaceTestComponent } from './flashcards-typerace-test/flashcards-typerace-test.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'flashcards/sets/:id', component: FlashcardsSetDetailComponent },
   { path: 'flashcards/test-gen/flashcards-pairs/:id', component: FlashcardsPairsTestComponent },
   { path: 'flashcards/test-gen/flashcards-memory/:id', component: FlashcardsMemoryTestComponent },
+  { path: 'flashcards/test-gen/flashcards-typerace/:id', component: FlashcardsTyperaceTestComponent },
   { path: 'flashcards/test-gen/flashcards-filling-in/:id', component: FlashcardsFillingInTestComponent },
   { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent }
 ];

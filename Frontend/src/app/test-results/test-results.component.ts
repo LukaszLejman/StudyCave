@@ -7,6 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TestResultsComponent implements OnInit {
   @Input() result: number;
   @Input() maxPts: number;
+  @Input() minutes: number;
+  @Input() seconds: number;
+  @Input() milliseconds: number;
+  @Input() timer: Boolean;
 
   constructor() { }
 

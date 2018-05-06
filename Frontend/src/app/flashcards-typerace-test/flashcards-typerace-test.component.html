@@ -1,5 +1,5 @@
 <div>
-  <h4>Uzupełnianie fiszek</h4>
+  <h4>Przepisywanie fiszek na czas</h4>
   <br />
   <div>
     <b>Nazwa zestawu: </b>
@@ -18,20 +18,24 @@
         <b>Poprawnych odpowiedzi: </b>
         <span> {{ good }} na {{ length_test }}</span><br />
         <b>Złych odpowiedzi: </b>
-        <span> {{ bad }} na {{ length_test }}</span>
+        <span> {{ bad }} na {{ length_test }}</span><br />
+        <div *ngIf="this.filled < this.length_test && !finish">
+        <b>Twój czas: </b>
+        <span> {{minute}} m {{second}} s {{millisecond}} ms</span>
+        </div>
       </div>
     </div>
     <br />
     <br />
     <div *ngIf="this.filled >= 1 && !finish">
       Poprzednia odpowiedź:<br />
-      {{flashcards[index-1].content}} {{allAnswers[index-1].answer}}
+      {{flashcards[index-1].content}} {{stoptimes[index-1].m}} m {{stoptimes[index-1].s}} s {{stoptimes[index-1].ms}} ms 
     </div>
     <div *ngIf="this.filled < this.length_test && !finish">
       Podaj odpowiedź:<br />
       {{flashcards[index].content}}
       <input appAutofocus [(ngModel)]="answer" placeholder="odpowiedź" (keyup.enter)="verifyAnswer()" >
-      <button class="btn btn-success" (click)="verifyAnswer()">SPRAWDŹ</button>
+      <button class="btn btn-success" (click)="verifyAnswer()" >SPRAWDŹ</button>
     </div>
     <div *ngIf="this.is_correct === true && !finish">ODPOWIEDŹ POPRAWNA</div>
     <div *ngIf="this.is_correct === false && !finish">ODPOWIEDŹ NIEPOPRAWNA</div>
@@ -42,7 +46,7 @@
   </div>
 
   <div *ngIf="finish">
-    <app-test-results [result]="good" [maxPts]="length_test"></app-test-results>
+    <app-test-results [result]="good" [maxPts]="length_test" [minutes]="finalminute" [seconds]="finalsecond" [milliseconds]="finalmillisecond" [timer]="true"></app-test-results>
   </div>
   <div *ngIf="!finish">
     <button class="btn btn-primary" *ngIf="!started" (click)="start()">Rozpocznij test</button>

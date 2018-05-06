@@ -25,6 +25,9 @@ export class FlashcardsTestTypeMenuComponent implements OnInit {
   goToTestGenMemory() {
     this.router.navigate(['flashcards/test-gen/flashcards-memory', this.id]);
   }
+  goToTestGenTyperace() {
+    this.router.navigate(['flashcards/test-gen/flashcards-typerace', this.id]);
+  }
 
   constructor(private router: Router) { }
 
