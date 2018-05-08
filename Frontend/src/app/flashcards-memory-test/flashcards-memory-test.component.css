@@ -1,7 +1,7 @@
 #container-small {
     border-radius: 25px;
-    border: 5px solid #00b0f9;
-    background-color: white;
+    border: 5px solid white;
+    background-color: #00293A;
     padding: 20px; 
     width: 32%;
     height: 400px; 
@@ -19,8 +19,8 @@
 
 #container-large {
     border-radius: 25px;
-    border: 5px solid #00b0f9;
-    background-color: white;
+    border: 5px solid white;
+    background-color: #00293A;
     padding: 20px; 
     width: 62%;
     min-height: 400px;

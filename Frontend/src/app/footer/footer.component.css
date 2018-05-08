@@ -4,6 +4,6 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    max-width: 1345px;
+    max-width: 100%;
     background-color: rgba(0, 0, 0, 0.3);
 }
