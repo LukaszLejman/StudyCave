@@ -20,7 +20,7 @@ import {AuthGuard} from './auth-guard.service';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', component: HomePageComponent },
-  { path: 'home', component: HomePageComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomePageComponent},
   { path: 'flashcards', component: FlashcardsComponent },
   { path: 'flashcards/sets', component: FlashcardsSetsListComponent },
   { path: 'flashcards/add', component: FlashcardsAddComponent },

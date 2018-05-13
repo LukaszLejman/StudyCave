@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
 
   sets = [{}];
+  setsEmpty = true;
   selectedSet: Set;
   flashcardSubscribtion: Subscription;
 
@@ -28,7 +29,14 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
 
   getSets(): void {
     this.flashcardSubscribtion = this.flashcardsService.getSets()
-      .subscribe(data => this.sets = data);
+      .subscribe(data => {
+        this.sets = data;
+        if (this.sets.length > 0) {
+          this.setsEmpty = false;
+        } else {
+          this.setsEmpty = true;
+        }
+      });
   }
 
   ngOnDestroy() {
