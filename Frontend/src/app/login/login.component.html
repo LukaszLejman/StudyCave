@@ -1,0 +1,13 @@
+<div class="content">
+    <div id="container-login">
+        <div>
+            <form (ngSubmit)="onSubmit()">
+                username:<br />
+                <input type = "text" [(ngModel)] = "user.username" name="username"><br />
+                password:<br /> 
+                <input type = "text" [(ngModel)] = "user.password" name = "password"><br /><br />
+                <input class="btn btn-primary" type="submit" value = "Login" />
+            </form>
+        </div>
+    </div>
+</div>

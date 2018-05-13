@@ -28,6 +28,10 @@ import { FlashcardsTyperaceTestComponent } from './flashcards-typerace-test/flas
 import { AutofocusDirective } from './autofocus.directive';
 import { FooterComponent } from './footer/footer.component';
 
+import { LoginComponent } from './login/login.component';
+import {AuthGuard} from './auth-guard.service';
+import {BackEndService} from './backend-service';
+
 
 
 @NgModule({
@@ -51,7 +55,9 @@ import { FooterComponent } from './footer/footer.component';
     FlashcardsMemoryTestSetComponent,
     FlashcardsTyperaceTestComponent,
     AutofocusDirective,
-    FooterComponent
+    FooterComponent,
+    AppComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +66,7 @@ import { FooterComponent } from './footer/footer.component';
     HttpModule,
     HttpClientModule
   ],
-  providers: [FlashcardsService],
+  providers: [FlashcardsService, AuthGuard, BackEndService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
