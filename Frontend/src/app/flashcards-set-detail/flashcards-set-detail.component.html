@@ -12,9 +12,6 @@
             <table class="table">
                 <thead>
                     <th>
-                        #
-                    </th>
-                    <th>
                         Lewa strona
                     </th>
                     <th>
@@ -23,7 +20,6 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let flashcard of set.flashcards; let i = index" class="listItem">
-                        <td>{{i}}</td>
                         <td>{{flashcard.left_side}}</td>
                         <td>{{flashcard.right_side}}</td>
                     </tr>
