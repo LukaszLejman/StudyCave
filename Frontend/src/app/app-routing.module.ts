@@ -15,6 +15,7 @@ import { FlashcardsTyperaceTestComponent } from './flashcards-typerace-test/flas
 import { HomePageComponent } from './home-page/home-page.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './auth-guard.service';
+import { TestMakerComponent } from './test-maker/test-maker.component';
 
 
 const routes: Routes = [
@@ -31,7 +32,8 @@ const routes: Routes = [
   { path: 'flashcards/test-gen/flashcards-memory/:id', component: FlashcardsMemoryTestComponent },
   { path: 'flashcards/test-gen/flashcards-typerace/:id', component: FlashcardsTyperaceTestComponent },
   { path: 'flashcards/test-gen/flashcards-filling-in/:id', component: FlashcardsFillingInTestComponent },
-  { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent }
+  { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent },
+  { path: 'test-maker', component: TestMakerComponent }
 ];
 
 @NgModule({

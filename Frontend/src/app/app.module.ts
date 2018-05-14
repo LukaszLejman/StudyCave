@@ -31,6 +31,10 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import {AuthGuard} from './auth-guard.service';
 import {BackEndService} from './backend-service';
+import { TestMakerComponent } from './test-maker/test-maker.component';
+import { TrueFalseQuestionComponent } from './true-false-question/true-false-question.component';
+import { SingleChoiceQuestionComponent } from './single-choice-question/single-choice-question.component';
+import { MultipleChoiceQuestionComponent } from './multiple-choice-question/multiple-choice-question.component';
 
 
 
@@ -57,7 +61,11 @@ import {BackEndService} from './backend-service';
     AutofocusDirective,
     FooterComponent,
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    TestMakerComponent,
+    TrueFalseQuestionComponent,
+    SingleChoiceQuestionComponent,
+    MultipleChoiceQuestionComponent
   ],
   imports: [
     BrowserModule,
