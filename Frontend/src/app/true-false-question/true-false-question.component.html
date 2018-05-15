@@ -1,3 +1,29 @@
-<p>
-  true-false-question works!
-</p>
+<div class="wrapper">
+  <div class="wrapper-add">
+    <div class="container">
+      <h2>Pytanie typu prawda/fałsz</h2>
+      <br />
+      <form ngNativeValidate action="/" method="post" #user="ngForm" (ngSubmit)="addTable(user.value)">
+        <label class="block">
+            <p>Wprowadź treść pytania:</p>
+            <input type="text" name="question" class="form-control" [(ngModel)]="content.content.question" required />
+        </label>
+        <br />
+        <p>Zaznacz prawidłową odpowiedź:</p>
+        <label>
+            <b>Prawda</b>
+            <input type="radio" name="is_good" value="true" class="form-control" [checked]="content.content.answers[0].is_good" (change)="changeCheckbox(0)" required />
+        </label>
+        <br />
+        <label>
+            <b>Fałsz</b>
+            <input type="radio" name="is_good" value="false" class="form-control" [checked]="content.content.answers[1].is_good" (change)="changeCheckbox(1)" required />
+        </label>
+        <br />
+        <br />
+        <button *ngIf='!edit' class="btn btn-primary" type="submit">Dodaj pytanie!</button>
+        <button *ngIf='edit' class="btn btn-primary" type="submit">Edytuj pytanie!</button>
+      </form>
+    </div>
+  </div>
+</div>

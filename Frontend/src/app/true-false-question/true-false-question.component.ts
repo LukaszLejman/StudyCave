@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-true-false-question',
@@ -7,9 +7,68 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrueFalseQuestionComponent implements OnInit {
 
-  constructor() { }
+  @Input() private content: Object = {};
+  @Input() private edit: Boolean;
+
+  private isChecked: Boolean = false;
+
+  @Output() private add: EventEmitter<Object> = new EventEmitter();
+  @Output() private editing: EventEmitter<Object> = new EventEmitter();
+
+  constructor() {}
 
   ngOnInit() {
+    if (this.edit) {
+      this.content['edit'] = true;
+    } else {
+      this.content = {};
+      this.content['content'] = {
+        type: 'true-false',
+        question: '',
+        answers:  [
+          {content: 'Prawda', is_good: false},
+          {content: 'Fałsz', is_good: false}
+      ]};
+      this.content['edit'] = false;
+    }
+  }
+
+  changeCheckbox(i: number): void {
+    if (i === 0) {
+      this.isChecked = true;
+    }
+  }
+
+  addTable(value: any): void {
+    if (this.isChecked) {
+      this.content['content'] = {
+        type: 'true-false',
+        question: value['question'],
+        answers:  [
+          {content: 'Prawda', is_good: true},
+          {content: 'Fałsz', is_good: false}
+      ]};
+    } else {
+      this.content['content'] = {
+        type: 'true-false',
+        question: value['question'],
+        answers:  [
+          {content: 'Prawda', is_good: false},
+          {content: 'Fałsz', is_good: true}
+      ]};
+    }
+    if (this.edit) {
+      this.editing.emit(this.content);
+    } else {
+      this.add.emit(this.content);
+    }
+    this.clear();
+  }
+
+  clear(): void {
+    this.content = {};
+    this.edit = false;
+    this.isChecked = false;
   }
 
 }

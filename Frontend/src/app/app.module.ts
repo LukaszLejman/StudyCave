@@ -35,6 +35,7 @@ import { TestMakerComponent } from './test-maker/test-maker.component';
 import { TrueFalseQuestionComponent } from './true-false-question/true-false-question.component';
 import { SingleChoiceQuestionComponent } from './single-choice-question/single-choice-question.component';
 import { MultipleChoiceQuestionComponent } from './multiple-choice-question/multiple-choice-question.component';
+import { TestsService } from './tests.service';
 
 
 
@@ -74,7 +75,7 @@ import { MultipleChoiceQuestionComponent } from './multiple-choice-question/mult
     HttpModule,
     HttpClientModule
   ],
-  providers: [FlashcardsService, AuthGuard, BackEndService],
+  providers: [FlashcardsService, AuthGuard, BackEndService, TestsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

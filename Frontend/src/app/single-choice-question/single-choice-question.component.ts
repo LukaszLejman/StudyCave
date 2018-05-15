@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-single-choice-question',
@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SingleChoiceQuestionComponent implements OnInit {
 
-  constructor() { }
+  @Input() private content: Object = {};
+  @Input() private edit: Boolean;
 
-  ngOnInit() {
-  }
+  private isChecked: Boolean = false;
+
+  @Output() private add: EventEmitter<Object> = new EventEmitter();
+
+  constructor() {}
+
+  ngOnInit() {}
 
 }
