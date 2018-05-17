@@ -17,6 +17,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModelProperty;
+
 
 
 
@@ -30,11 +32,13 @@ public class Question {
     private Long id;
 
     private String type;
+    @JsonProperty("question")
     private String text;
     @Column(name="nr_question")
-    @JsonProperty("nr_question")
+    @JsonProperty("nr")
     private int nrQuestion;
     
+    @ApiModelProperty(hidden = true)
     @ManyToOne
     @JoinColumn(name="id_test",referencedColumnName="id")
     @JsonBackReference

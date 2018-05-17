@@ -14,6 +14,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModelProperty;
+import springfox.documentation.annotations.ApiIgnore;
+
 @Entity
 public class Answer {
 
@@ -29,7 +32,7 @@ public class Answer {
     @JsonProperty("is_good")
     private boolean good;
     
-
+    @ApiModelProperty(hidden = true)
     @ManyToOne
     @JoinColumn(name="id_question",referencedColumnName="id")
     @JsonBackReference

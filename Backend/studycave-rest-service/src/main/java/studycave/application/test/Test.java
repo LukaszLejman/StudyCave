@@ -23,7 +23,7 @@ public class Test {
     private Long id;
     private String title;
     @Column(name="id_owner")
-    @JsonProperty("id_owner")
+    @JsonProperty("owner")
     private Long idOwner;
     @Column(name="add_date")
     @JsonProperty("add_date")
@@ -33,6 +33,7 @@ public class Test {
     private Date editDate;
     
     @OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
+    @JsonProperty("body")
     @JsonManagedReference
     List<Question> questions;
 
