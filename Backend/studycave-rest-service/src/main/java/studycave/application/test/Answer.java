@@ -23,14 +23,12 @@ public class Answer {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String content;
+    
+
     @Column(name="is_good")
     @JsonProperty("is_good")
-    private boolean isGood;
+    private boolean good;
     
-    @Transient
-    @JsonIgnore
-    @JsonProperty("good")
-    private boolean SHUTUP;
 
     @ManyToOne
     @JoinColumn(name="id_question",referencedColumnName="id")
@@ -41,37 +39,43 @@ public class Answer {
 		super();
 	}
 
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
+
 	public Long getId() {
 		return id;
 	}
+
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+
 	public String getContent() {
 		return content;
 	}
+
 
 	public void setContent(String content) {
 		this.content = content;
 	}
 
+
 	public boolean isGood() {
-		return isGood;
+		return good;
 	}
 
-	public void setGood(boolean isGood) {
-		this.isGood = isGood;
+
+	public void setGood(boolean good) {
+		this.good = good;
 	}
+
 
 	public Question getQuestion() {
 		return question;
-	}
-
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
-    
-    
+	}    
 }
