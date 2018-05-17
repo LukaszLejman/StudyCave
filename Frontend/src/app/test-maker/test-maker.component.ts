@@ -25,6 +25,8 @@ export class TestMakerComponent implements OnInit {
 
   ngOnInit() {}
 
+  // edycja - onLoad() - na odp. serwera -> dla każdego pytania twórz shortcut i dodaj wszystko do zmiennej test. Tytuł testu w zm. title
+
   onAdd(question: Object): void {
     this.shown = false;
     this.trueFalse = false;
@@ -32,17 +34,19 @@ export class TestMakerComponent implements OnInit {
     this.multipleChoice = false;
     this.componentVisible = false;
 
-    let short = question['content']['question'];
-    if (short.length > 15) {
-      short = short.substr(0, 14) + '...';
-    }
-    question['shortcut'] = short;
+    if (Object.keys(question).length !== 0) {
+      let short = question['content']['question'];
+      if (short.length > 15) {
+        short = short.substr(0, 14) + '...';
+      }
+      question['shortcut'] = short;
 
-    if (question['edit'] === true) {
-      this.test[question['nr'] - 1] = question;
-    } else {
-      question['nr'] = this.test.length + 1;
-      this.test.push(question);
+      if (question['edit'] === true) {
+        this.test[question['nr'] - 1] = question;
+      } else {
+        question['nr'] = this.test.length + 1;
+        this.test.push(question);
+      }
     }
   }
 
@@ -98,20 +102,27 @@ export class TestMakerComponent implements OnInit {
   }
 
   save(): void {
-    const toSend = {
-      title: this.title,
-      owner: this.owner
-    };
-    const body = [];
-    const n = this.test.length;
-    for (let i = 0; i < n; i++) {
-      body.push({
-        nr: this.test[i]['nr'],
-        content: this.test[i]['content']
-      });
+    if ((this.title === undefined) || (this.title.trim().length === 0)) {
+      alert('Podaj tytuł testu.');
+    } else {
+      const toSend = {
+        title: this.title,
+        owner: this.owner
+      };
+      const body = [];
+      const n = this.test.length;
+      for (let i = 0; i < n; i++) {
+        body.push({
+          nr: this.test[i]['nr'],
+          type: this.test[i]['content']['type'],
+          question: this.test[i]['content']['question'],
+          answers: this.test[i]['content']['answers']
+        });
+      }
+      toSend['body'] = body;
+      console.log(toSend);
+      this.testsService.add(toSend);
     }
-    toSend['body'] = body;
-    console.log(toSend);
   }
 
 }

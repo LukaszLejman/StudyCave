@@ -26,7 +26,7 @@
             <tbody>
               <tr *ngFor="let field of fieldArray; let i = index">
                 <td>
-                    <input [(ngModel)]="field.left_side" class="form-control" type="text" name="{{field.left_side}}" />
+                  <input [(ngModel)]="field.left_side" class="form-control" type="text" name="{{field.left_side}}" />
                 </td>
                 <td>
                   <input [(ngModel)]="field.right_side" class="form-control" type="text" name="{{field.right_side}}" />
@@ -37,10 +37,10 @@
               </tr>
               <tr>
                 <td>
-                    <input class="form-control" type="text" id="newAttributeLeft" [(ngModel)]="newAttribute.left_side" name="newAttributeLeft" />
+                  <input class="form-control" type="text" id="newAttributeLeft" [(ngModel)]="newAttribute.left_side" name="newAttributeLeft" />
                 </td>
                 <td>
-                    <input class="form-control" type="text" id="newAttributeRight" [(ngModel)]="newAttribute.right_side" name="newAttributeRight" />
+                  <input class="form-control" type="text" id="newAttributeRight" [(ngModel)]="newAttribute.right_side" name="newAttributeRight" />
                 </td>
                 <td>
                   <button class="btn btn-success" type="button" (click)="addFieldValue()">Dodaj fiszkę</button>

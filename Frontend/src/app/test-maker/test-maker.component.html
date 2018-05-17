@@ -8,7 +8,7 @@
           <input type="text" name="title" class="form-control" [(ngModel)]="title" required />
         </label>
         <br />
-        <div>
+        <div *ngIf="!trueFalse && !singleChoice && !multipleChoice">
           <h4>Wybierz rodzaj pytania:</h4>
           <button class="btn btn-primary" (click)='show("true-false")'>Prawda/fałsz</button>
           <button class="btn btn-success" (click)='show("single-choice")'>Jednokrotny wybór</button>
@@ -24,10 +24,10 @@
         </div>
         <br />
         <div *ngIf="test.length != 0">
-          <h3>Dodane pytania: </h3>
+          <h3 *ngIf="!componentVisible">Dodane pytania: </h3>
           <br />
           <table class="table">
-            <thead>
+            <thead *ngIf="!componentVisible">
               <tr>
                 <th>Lp.</th>
                 <th>Typ</th>
@@ -36,8 +36,8 @@
                 <th class="mobile">Przenieś</th>
               </tr>
             </thead>
-            <tbody *ngFor="let question of test">
-              <tr>
+            <tbody style="cursor: pointer;" *ngFor="let question of test">
+              <tr *ngIf="!componentVisible">
                 <td (click)='showComponents(question.content.type, question.nr)'>{{ question.nr }}</td>
                 <td (click)='showComponents(question.content.type, question.nr)'
                     *ngIf='question.content.type == "true-false"'>Prawda/fałsz</td>
@@ -55,20 +55,26 @@
                         *ngIf="(question.nr == 1) && (question.nr == test.length)" >---</span>
                 </td>
               </tr>
-              <tr *ngIf="componentVisible && (nr == question.nr)"><td colspan="5">
-                <app-true-false-question *ngIf='trueFalse && (question.content.type == "true-false") && (nr == question.nr)'
-                  (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-true-false-question>
-                <app-single-choice-question *ngIf='singleChoice && question.content.type == "single-choice" && (nr == question.nr)'
-                  (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-single-choice-question>
-                <app-multiple-choice-question *ngIf='multipleChoice && question.content.type == "multiple-choice" && (nr == question.nr)'
-                  (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-multiple-choice-question>
-              </td></tr>
-          </tbody>
+              <tr *ngIf="componentVisible && (nr == question.nr)">
+                <td colspan="5">
+                  <app-true-false-question *ngIf='trueFalse && (question.content.type == "true-false") && (nr == question.nr)'
+                    (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-true-false-question>
+                  <app-single-choice-question *ngIf='singleChoice && question.content.type == "single-choice" && (nr == question.nr)'
+                    (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-single-choice-question>
+                  <app-multiple-choice-question *ngIf='multipleChoice && question.content.type == "multiple-choice" && (nr == question.nr)'
+                    (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-multiple-choice-question>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <br />
         <br />
-        <button class="btn btn-primary" *ngIf="test.length != 0" (click)="save()">Dodaj test!</button>
+        <div *ngIf="(test.length != 0) && (!componentVisible)" >
+          <button class="btn btn-primary" (click)="save()">Dodaj test!</button>
+          <button class="btn btn-danger ml-2" routerLink="/">Powrót</button>
+        </div>
+        <button *ngIf="!((test.length != 0) && (!componentVisible))" class="btn btn-danger" routerLink="/">Powrót</button>
       </div>
     </div>
 </div>

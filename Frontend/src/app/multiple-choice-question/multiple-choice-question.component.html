@@ -1,3 +1,55 @@
-<p>
-  multiple-choice-question works!
-</p>
+<div class="wrapper">
+    <div class="wrapper-add">
+      <div class="container">
+        <h2>Pytanie wielokrotnego wyboru</h2>
+        <br />
+        <div>
+          <label class="block">
+            <p>Wprowadź treść pytania:</p>
+            <input type="text" name="question" class="form-control" [(ngModel)]="question"/>
+          </label>
+          <br />
+          <p>Wpisz możliwe odpowiedzi i zaznacz prawidłową:</p>
+          <div>
+            <div *ngFor="let answer of answers; let i = index" class="row">
+              <label class="col-md-1">
+                <b>OK?</b>
+                <input type="checkbox" name="{{ answer.is_good }}" class="form-control" [checked]="answer.is_good" (change)="changeCheckbox(i)"/>
+              </label>
+              <label class="col-md-8">
+                <b>Treść</b>
+                <input [(ngModel)]="answer.content" class="form-control" type="text" name="{{ answer.content }}"/>
+              </label>
+              <div class="col-md-3">
+                <b>Akcja</b>
+                <br />
+                <button class="btn btn-danger" type="button" (click)="deleteFieldValue(i)">Usuń</button>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <label class="col-md-1">
+                <b>OK?</b>
+                <input type="checkbox" name="{{ newAttribute.is_good }}" class="form-control" [checked]="newAttribute.is_good" (change)="changeCheckbox2($event)" />
+              </label>
+              <label class="col-md-8">
+                <b>Treść</b>
+                <input type="text" name="{{ newAttribute.content }}" class="form-control" [(ngModel)]="newAttribute.content"/>
+              </label>
+              <div class="col-md-3">
+                <b>Akcja</b>
+                <br />
+                <button class="btn btn-success" type="button" (click)="addFieldValue()">Dodaj</button>
+              </div>
+            </div>
+          </div>
+          <br />
+          <br />
+          <button *ngIf='!edit' class="btn btn-primary" type="submit" (click)="addTable()">Dodaj pytanie!</button>
+          <button *ngIf='edit' class="btn btn-primary" type="submit" (click)="addTable()">Edytuj pytanie!</button>
+          <button class="btn btn-success ml-2" (click)="empty()">Powrót</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

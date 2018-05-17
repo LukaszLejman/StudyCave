@@ -23,6 +23,7 @@
         <br />
         <button *ngIf='!edit' class="btn btn-primary" type="submit">Dodaj pytanie!</button>
         <button *ngIf='edit' class="btn btn-primary" type="submit">Edytuj pytanie!</button>
+        <button class="btn btn-success ml-2" (click)="empty()">Powrót</button>
       </form>
     </div>
   </div>

@@ -30,6 +30,10 @@ label {
     margin-left: 1rem;
 }
 
+.table td {
+    border-top-width: 0;
+}
+
 .flexrow {
     display: flex;
     width: 100%;

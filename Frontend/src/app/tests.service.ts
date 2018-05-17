@@ -12,17 +12,11 @@ export class TestsService {
 
   mainUrl = 'http://localhost:8080/';
 
-  constructor(private http: Http, private httpFile: HttpClient, private router: Router) { }
+  constructor(private http: Http, private router: Router) { }
 
-  // wszystko poniżej jest do zmiany
   add(body) {
-    const url = '???/';
+    const url = 'tests/';
     this.sendData(url, body);
-  }
-
-  edit(body) {
-    const url = '???/';
-    this.putData(url, body);
   }
 
   sendData(url, body) {
@@ -30,28 +24,21 @@ export class TestsService {
     const options = new RequestOptions({ headers: headers });
     this.http.post(this.mainUrl + url, body, options)
       .subscribe(data => { this.sendResponse(data); },
-      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
-      );
-  }
-
-  putData(url, body) {
-    this.http.put(this.mainUrl + url, body) // błąd xml - Firefox
-      .subscribe(data => { this.sendResponse(data); },
-      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+                 error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );
   }
 
   sendResponse(data) {
     if (data.status === 200) {
       alert('Operacja przebiegła pomyślnie!');
-      this.router.navigate(['???/']);
+      this.router.navigate(['/']);
     } else {
       alert('Coś poszło nie tak. Spróbuj ponownie później.');
     }
   }
 
   getTest(id) {
-    return this.http.get(this.mainUrl + '???/' + id + '/').map((data: Response) => data.json());
+    return this.http.get(this.mainUrl + 'tests/' + id + '/').map((data: Response) => data.json());
   }
 
 }

@@ -65,6 +65,15 @@ export class TrueFalseQuestionComponent implements OnInit {
     this.clear();
   }
 
+  empty() {
+    if (this.edit) {
+      this.editing.emit({});
+    } else {
+      this.add.emit({});
+    }
+    this.clear();
+  }
+
   clear(): void {
     this.content = {};
     this.edit = false;
