@@ -10,8 +10,6 @@ import { Router } from '@angular/router';
 @Injectable()
 export class TestsService {
 
-  mainUrl = 'http://localhost:8080/';
-
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   add(body) {
