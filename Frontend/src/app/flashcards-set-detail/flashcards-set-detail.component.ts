@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   id: number;
-  set: Array<any>;
+  set: any;
   flashcardSubscribtion: Subscription;
   testTypeMenu = false;
 

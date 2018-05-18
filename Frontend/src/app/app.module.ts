@@ -29,13 +29,14 @@ import { AutofocusDirective } from './autofocus.directive';
 import { FooterComponent } from './footer/footer.component';
 
 import { LoginComponent } from './login/login.component';
-import {AuthGuard} from './auth-guard.service';
-import {BackEndService} from './backend-service';
+import { AuthGuard } from './auth-guard.service';
+import { BackEndService } from './backend-service';
 import { TestMakerComponent } from './test-maker/test-maker.component';
 import { TrueFalseQuestionComponent } from './true-false-question/true-false-question.component';
 import { SingleChoiceQuestionComponent } from './single-choice-question/single-choice-question.component';
 import { MultipleChoiceQuestionComponent } from './multiple-choice-question/multiple-choice-question.component';
 import { TestsService } from './tests.service';
+import { httpInterceptorProviders } from './http-interceptors/index';
 
 
 
@@ -75,7 +76,7 @@ import { TestsService } from './tests.service';
     HttpModule,
     HttpClientModule
   ],
-  providers: [FlashcardsService, AuthGuard, BackEndService, TestsService],
+  providers: [FlashcardsService, AuthGuard, BackEndService, TestsService, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
