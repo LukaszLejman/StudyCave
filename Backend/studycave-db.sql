@@ -9,7 +9,7 @@ create table User (
     name varchar(15),
     surname varchar(15),
     login varchar(15),
-    password varchar(15),
+    password varchar(255),
     email varchar(20)
 );
 
