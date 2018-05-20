@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -19,10 +19,11 @@ declare global {
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.css']
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent implements OnInit, OnDestroy {
   editStatus = false;
   invalidEdit = false;
-  signInSub: Subscription;
+  invalidPassword = false;
+  editSub: Subscription;
   private userProfileSub: Subscription;
   private user: User = {
     id: 0,
@@ -36,25 +37,33 @@ export class EditUserComponent implements OnInit {
   constructor(private router: Router, private userService: UserService) { }
 
   edit(value: any) {
-    console.log(value.haslo);
-    const body = {
-      email: value.email,
-      username: value.login,
-      password: value.haslo,
-      name: value.imie,
-      surname: value.nazwisko
-    };
-    this.signInSub = this.userService.edit(body).subscribe(data => {
-      this.editStatus = true;
-      this.invalidEdit = false;
-      this.getUserInfo();
-    },
-      error => {
-        console.log(error);
-        this.invalidEdit = true;
+    console.log(value.password === value.password2)
+    if (value.password === value.password2) {
+      const body = {
+        id: this.user.id,
+        email: value.email,
+        username: value.login,
+        password: value.password,
+        name: value.name,
+        surname: value.surname
+      };
+      console.log(body);
+      this.editSub = this.userService.edit(body).subscribe(data => {
+        this.editStatus = true;
+        this.invalidEdit = false;
+        this.invalidPassword = false;
+        this.getUserInfo();
       },
-      () => { }
-    );
+        error => {
+          console.log(error);
+          this.invalidEdit = true;
+          this.invalidPassword = false;
+        },
+        () => { }
+      );
+    } else {
+      this.invalidPassword = true;
+    }
   }
 
   getUserInfo() {
@@ -74,6 +83,13 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit() {
     this.getUserInfo();
+  }
+
+  ngOnDestroy() {
+    this.userProfileSub.unsubscribe();
+    if (this.editSub) {
+      this.editSub.unsubscribe();
+    }
   }
 
 }

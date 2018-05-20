@@ -17,9 +17,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.signInSub = this.userService.register({
       email: value.email,
       username: value.login,
-      password: value.haslo,
-      name: value.imie,
-      surname: value.nazwisko
+      password: value.password,
+      name: value.name,
+      surname: value.surname
     }).subscribe(data => {
       this.registerStatus = true;
       this.invalidRegister = false;
