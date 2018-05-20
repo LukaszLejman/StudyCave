@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { FlashcardsComponent } from './flashcards/flashcards.component';
-import { FlashcardsSetsListComponent } from './flashcards-sets-list/flashcards-sets-list.component';
-import { FlashcardsAddComponent } from './flashcards-add/flashcards-add.component';
-import { FlashcardsAddCsvComponent } from './flashcards-add-csv/flashcards-add-csv.component';
-import { FlashcardsAddTableComponent } from './flashcards-add-table/flashcards-add-table.component';
-import { FlashcardsSetDetailComponent } from './flashcards-set-detail/flashcards-set-detail.component';
-import { FlashcardsPairsTestComponent } from './flashcards-pairs-test/flashcards-pairs-test.component';
-import { FlashcardsMemoryTestComponent } from './flashcards-memory-test/flashcards-memory-test.component';
-import { FlashcardsEditTableComponent } from './flashcards-edit-table/flashcards-edit-table.component';
-import { FlashcardsFillingInTestComponent } from './flashcards-filling-in-test/flashcards-filling-in-test.component';
-import { FlashcardsTyperaceTestComponent } from './flashcards-typerace-test/flashcards-typerace-test.component';
+import { FlashcardsComponent } from './flashcards/flashcards/flashcards.component';
+import { FlashcardsSetsListComponent } from './flashcards/flashcards-sets-list/flashcards-sets-list.component';
+import { FlashcardsAddComponent } from './flashcards/flashcards-add/flashcards-add.component';
+import { FlashcardsAddCsvComponent } from './flashcards/flashcards-add-csv/flashcards-add-csv.component';
+import { FlashcardsAddTableComponent } from './flashcards/flashcards-add-table/flashcards-add-table.component';
+import { FlashcardsSetDetailComponent } from './flashcards/flashcards-set-detail/flashcards-set-detail.component';
+import { FlashcardsPairsTestComponent } from './flashcards/flashcards-pairs-test/flashcards-pairs-test.component';
+import { FlashcardsMemoryTestComponent } from './flashcards/flashcards-memory-test/flashcards-memory-test.component';
+import { FlashcardsEditTableComponent } from './flashcards/flashcards-edit-table/flashcards-edit-table.component';
+import { FlashcardsFillingInTestComponent } from './flashcards/flashcards-filling-in-test/flashcards-filling-in-test.component';
+import { FlashcardsTyperaceTestComponent } from './flashcards/flashcards-typerace-test/flashcards-typerace-test.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './auth-guard.service';
-import { TestMakerComponent } from './test-maker/test-maker.component';
+import { TestMakerComponent } from './tests/test-maker/test-maker.component';
+import { FlashcardsModule } from './flashcards/flashcards.module';
+import { TestsModule } from './tests/tests.module';
 
 
 const routes: Routes = [
@@ -37,7 +39,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes),
+    FlashcardsModule,
+    TestsModule
+  ],
+  exports: [
+    RouterModule,
+    FlashcardsModule,
+    TestsModule
+  ]
 })
 export class AppRoutingModule { }

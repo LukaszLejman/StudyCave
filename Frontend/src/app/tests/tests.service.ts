@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { Set } from './set';
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 
