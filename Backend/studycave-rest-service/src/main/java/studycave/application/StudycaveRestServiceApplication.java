@@ -19,10 +19,10 @@ public class StudycaveRestServiceApplication implements CommandLineRunner {
 		SpringApplication.run(StudycaveRestServiceApplication.class, args);
 	}
 	
-	/*@Bean
+	@Bean
 	 public BCryptPasswordEncoder bCryptPasswordEncoder() {
 	  return new BCryptPasswordEncoder();
-	 }*/
+	 }
 	
 	@Override
 	public void run(String... arg) throws Exception {
