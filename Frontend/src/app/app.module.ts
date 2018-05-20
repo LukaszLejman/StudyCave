@@ -39,11 +39,7 @@ import { AuthenticationService } from './authentication.service';
     HttpClientModule,
     UserModule
   ],
-<<<<<<< HEAD
-  providers: [AuthGuard, BackEndService, httpInterceptorProviders],
-=======
   providers: [ AuthGuard, httpInterceptorProviders, AuthenticationService],
->>>>>>> 0e4862eb9533d1c58f57ed8608919bddbecb9458
   bootstrap: [AppComponent]
 })
 export class AppModule { }
