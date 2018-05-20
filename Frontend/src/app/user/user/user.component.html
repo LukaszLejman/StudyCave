@@ -1,3 +1,20 @@
-<p>
-  user works!
-</p>
+<div class="wrapper">
+  <div class="content">
+    <h1>Twój profil</h1>
+    <button type="submit" class="btn btn-primary" (click)="edit()">Edytuj</button>
+    <div class="profile">
+      <div class="profile-headers">
+        <div>Login:</div>
+        <div>E-mail:</div>
+        <div>Imię:</div>
+        <div>Nazwisko:</div>
+      </div>
+      <div class="profile-content">
+        <div>{{user.username}}</div>
+        <div>{{user.email}}</div>
+        <div>{{user.name}}</div>
+        <div>{{user.surname}}</div>
+      </div>
+    </div>
+  </div>
+</div>

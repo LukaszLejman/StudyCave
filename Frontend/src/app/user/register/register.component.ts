@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs/Subscription';
 @Component({
@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
 
   registerStatus = false;
   invalidRegister = false;
@@ -33,6 +33,12 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    if (this.signInSub) {
+      this.signInSub.unsubscribe();
+    }
   }
 
 }

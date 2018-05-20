@@ -13,19 +13,20 @@ import { FlashcardsEditTableComponent } from './flashcards/flashcards-edit-table
 import { FlashcardsFillingInTestComponent } from './flashcards/flashcards-filling-in-test/flashcards-filling-in-test.component';
 import { FlashcardsTyperaceTestComponent } from './flashcards/flashcards-typerace-test/flashcards-typerace-test.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import {LoginComponent} from './login/login.component';
-import {AuthGuard} from './auth-guard.service';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth-guard.service';
 import { TestMakerComponent } from './tests/test-maker/test-maker.component';
 import { FlashcardsModule } from './flashcards/flashcards.module';
 import { TestsModule } from './tests/tests.module';
 import { UserModule } from './user/user.module';
 import { RegisterComponent } from './user/register/register.component';
-
+import { UserComponent } from './user/user/user.component';
+import { EditUserComponent } from './user/edit-user/edit-user.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', component: HomePageComponent },
-  { path: 'home', component: HomePageComponent},
+  { path: 'home', component: HomePageComponent },
   { path: 'flashcards', component: FlashcardsComponent },
   { path: 'flashcards/sets', component: FlashcardsSetsListComponent },
   { path: 'flashcards/add', component: FlashcardsAddComponent },
@@ -38,7 +39,10 @@ const routes: Routes = [
   { path: 'flashcards/test-gen/flashcards-filling-in/:id', component: FlashcardsFillingInTestComponent },
   { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent },
   { path: 'test-maker', component: TestMakerComponent },
-  { path: 'sign-up', component: RegisterComponent}
+  { path: 'sign-up', component: RegisterComponent },
+  { path: 'profile/:id', component: UserComponent },
+  { path: 'edit-profile', component: EditUserComponent }
+
 ];
 
 @NgModule({

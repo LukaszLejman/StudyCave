@@ -1,0 +1,62 @@
+<div class="wrapper">
+  <div class="content">
+    <h4 class="text-gray mb-4 centerMargin">Edytuj profil</h4>
+    <div *ngIf="editStatus" class="alert alert-success">Edycja udana!</div>
+    <div *ngIf="invalidEdit" class="alert alert-danger">Login zajęty. Wybierz inny.</div>
+    <form *ngIf="!editStatus" #userForm="ngForm" (ngSubmit)="edit(userForm.value)" ngNativeValidate>
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 centerMargin">
+          <div class="col-xs-12 col-sm-6 col-md-6 centerMargin">
+            <div class="form-group">
+              <div>
+                <input type="text" placeholder="Login" class="form-control input-lg" pattern="[a-zA-Z0-9]*" name="login" [(ngModel)]="user.username"
+                  required/>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-6 centerMargin">
+            <div class="form-group">
+              <div>
+                <input type="password" placeholder="Hasło" class="form-control input-lg" minlength="6" maxlength="16" name="haslo" ngModel
+                  required/>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-6 centerMargin">
+            <div class="form-group">
+              <div>
+                <input type="email" placeholder="E-mail" class="form-control input-lg" name="email" [(ngModel)]="user.email" required/>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-6 centerMargin">
+            <div class="form-group">
+              <div>
+                <input type="text" pattern="[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ]*" placeholder="Imię" class="form-control input-lg" name="imie" [(ngModel)]="user.name"
+                  required/>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-6 centerMargin">
+            <div class="form-group">
+              <div>
+                <input type="text" pattern="[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ]+" placeholder="Nazwisko" class="form-control input-lg" name="nazwisko"
+                  [(ngModel)]="user.surname" required/>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-6 centerMargin">
+            <div class="row">
+              <button type="submit" class="btn btn-primary centerMargin">Potwierdź</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

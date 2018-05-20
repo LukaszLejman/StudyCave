@@ -1,0 +1,36 @@
+.wrapper{
+    width: 100%;
+    padding: 20px;
+    min-height: 100%;
+    margin-bottom: 40px;
+}
+
+.content{
+    border-radius: 25px;
+    border: 5px solid white;
+    background-color: #00293A;
+    padding: 20px; 
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.profile > div{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: left;
+    justify-content: center;
+    margin: 20px;
+    text-align: left;
+}

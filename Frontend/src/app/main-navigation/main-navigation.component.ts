@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-navigation',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainNavigationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  navToProfile() {
+    console.log(11111);
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.router.navigate(['/profile', currentUser.username]);
+  }
 
   ngOnInit() {
   }
