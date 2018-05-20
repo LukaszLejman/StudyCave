@@ -17,6 +17,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
+import { UserModule } from './user/user.module';
 
 
 
@@ -35,9 +36,10 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    UserModule
   ],
-  providers: [ AuthGuard, BackEndService, httpInterceptorProviders],
+  providers: [AuthGuard, BackEndService, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,31 @@
+.centerMargin{
+    margin: 0 auto;
+}
+
+input:invalid{
+    border-color: red;
+}
+
+input:valid{
+    border-color: green;
+}
+
+input.ng-untouched {
+    border-color: rgb(206, 212, 218);
+}
+
+.wrapper{
+    width: 100%;
+    padding: 20px;
+    min-height: 100%;
+}
+
+.content{
+    border-radius: 25px;
+    border: 5px solid white;
+    background-color: #00293A;
+    padding: 20px; 
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}

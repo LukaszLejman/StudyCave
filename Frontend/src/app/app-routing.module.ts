@@ -18,6 +18,8 @@ import {AuthGuard} from './auth-guard.service';
 import { TestMakerComponent } from './tests/test-maker/test-maker.component';
 import { FlashcardsModule } from './flashcards/flashcards.module';
 import { TestsModule } from './tests/tests.module';
+import { UserModule } from './user/user.module';
+import { RegisterComponent } from './user/register/register.component';
 
 
 const routes: Routes = [
@@ -35,19 +37,22 @@ const routes: Routes = [
   { path: 'flashcards/test-gen/flashcards-typerace/:id', component: FlashcardsTyperaceTestComponent },
   { path: 'flashcards/test-gen/flashcards-filling-in/:id', component: FlashcardsFillingInTestComponent },
   { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent },
-  { path: 'test-maker', component: TestMakerComponent }
+  { path: 'test-maker', component: TestMakerComponent },
+  { path: 'sign-up', component: RegisterComponent}
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
     FlashcardsModule,
-    TestsModule
+    TestsModule,
+    UserModule
   ],
   exports: [
     RouterModule,
     FlashcardsModule,
-    TestsModule
+    TestsModule,
+    UserModule
   ]
 })
 export class AppRoutingModule { }
