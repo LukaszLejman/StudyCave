@@ -9,7 +9,7 @@ import 'rxjs/add/observable/throw';
 export class AuthenticationService {
     private authUrl = 'http://localhost:8080/login';
     private headers = new Headers({'Content-Type': 'application/json'});
-
+    public token: string;
     constructor(private http: Http) {
     }
 
@@ -18,6 +18,7 @@ export class AuthenticationService {
             .map((response: Response) => {
                  console.log(response);
                 // czy login ok jeśli w response jest token
+                //const token = response.json() && response.json().token;
                 const token = response.headers.get('authorization');
                 console.log(token);
                 if (token) {
