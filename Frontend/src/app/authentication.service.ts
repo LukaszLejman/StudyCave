@@ -17,8 +17,8 @@ export class AuthenticationService {
         return this.http.post(this.authUrl, JSON.stringify({password: password, username: username}), {headers: this.headers})
             .map((response: Response) => {
                  console.log(response);
-                //czy login ok jeśli w response jest token
-                const token = response.json() && response.json().token;
+                // czy login ok jeśli w response jest token
+                const token = response.headers.get('authorization');
                 console.log(token);
                 if (token) {
                     // store username and jwt token w local storage aby nie wylogowało przy zmianie stron
