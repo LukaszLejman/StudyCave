@@ -1,27 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../user';
-import { Headers, Http, RequestOptions } from '@angular/http';
-import { Router, ActivatedRoute } from '@angular/router';
-import { JwtHelper } from 'angular2-jwt';
-import 'rxjs/add/operator/map';
-import {BackEndService} from '../backend-service';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'login-app',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    moduleId: module.id,
+    templateUrl: 'login.component.html',
+    styleUrls: ['login.component.css']
 })
-export class LoginComponent implements OnInit {
-  jwtHelper: JwtHelper = new JwtHelper();
-  accessToken: string;
-  user: User;
-  constructor(private http: Http, private router: Router, private backEndService: BackEndService) {
-  }
-  ngOnInit() {
-    localStorage.removeItem('currentUser');
-    this.user = new User('', '');
 
-  } onSubmit() {
-    this.backEndService.authenticate(this.user);
-  }
+export class LoginComponent implements OnInit {
+    model: any = {};
+    loading = false;
+    error = '';
+
+    constructor(
+        private router: Router,
+        private authenticationService: AuthenticationService) { }
+
+    ngOnInit() {
+        // reset login status
+        // this.authenticationService.logout();
+    }
+
+    login() {
+        this.loading = true;
+        this.authenticationService.login(this.model.username, this.model.password)
+            .subscribe(result => {
+                if (result === true) {
+                    // login successful
+                    this.router.navigate(['home']);
+                } else {
+                    // login failed
+                    this.error = 'Username or password is incorrect';
+                    this.loading = false;
+                }
+            }, error => {
+              this.loading = false;
+              this.error = error;
+            });
+    }
 }
