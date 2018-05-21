@@ -48,9 +48,13 @@ public class UserController {
 	
 	@PutMapping("/user/info/update")
 	public String updateUser(@RequestBody User user) {
-		if(userRepository.findByUsername(user.getUsername()).orElse(null)!=null)
+		User finduser = userRepository.findByUsername(user.getUsername()).orElse(null);
+		if(finduser!=null)
+			if(finduser.getId()!=user.getId())
 			return "Login zajety";
-		if(userRepository.findByEmail(user.getEmail()).orElse(null)!=null)
+		finduser = userRepository.findByEmail(user.getEmail()).orElse(null);
+		if(finduser!=null)
+			if(finduser.getId()!=user.getId())
 			return "Email zajety";
 		if(user.getPassword() == null)
 			user.setPassword(userRepository.findById(user.getId()).orElse(null).getPassword());
