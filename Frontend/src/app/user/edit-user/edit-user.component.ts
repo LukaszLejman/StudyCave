@@ -50,17 +50,22 @@ export class EditUserComponent implements OnInit, OnDestroy {
       };
       console.log(body);
       this.editSub = this.userService.edit(body).subscribe(data => {
-        this.editStatus = true;
-        this.invalidEdit = false;
         this.invalidPassword = false;
+        if (data === 'Login zajety') {
+          this.errorMessage = 'Login zajęty. Wybierz inny.';
+          this.invalidEdit = true;
+        } else if (data === 'Email zajety') {
+          this.errorMessage = 'E-mail zajęty. Wybierz inny.';
+          this.invalidEdit = true;
+        } else {
+          this.editStatus = true;
+          this.invalidEdit = false;
+        }
         this.getUserInfo();
       },
         error => {
           console.log(error);
-          if (error.error.text === 'Login zajety') {
-            this.errorMessage = 'Login zajęty. Wybierz inny.';
-          }
-          this.errorMessage = error.error.text;
+          this.errorMessage = 'Wystąpił błąd. Spróbuj ponownie później.';
           this.invalidEdit = true;
           this.invalidPassword = false;
         },
@@ -68,6 +73,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
       );
     } else {
       this.invalidPassword = true;
+      this.invalidEdit = false;
     }
   }
 

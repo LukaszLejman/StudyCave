@@ -27,7 +27,7 @@ export class UserService {
       'Content-Type': 'application/json', 'Accept': '*/*',
       'Authorization': currentUser.authorization
     });
-    return this.httpClient.put('user/info/update', body, { headers: headers });
+    return this.httpClient.put('user/info/update', body, { headers: headers, responseType: 'text' });
   }
 
 }
