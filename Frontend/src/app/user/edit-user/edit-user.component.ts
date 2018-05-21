@@ -38,7 +38,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private userService: UserService) { }
 
   edit(value: any) {
-    console.log(value.password === value.password2);;
     if (value.password === value.password2) {
       const body = {
         id: this.user.id,
@@ -48,7 +47,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
         name: value.name,
         surname: value.surname
       };
-      console.log(body);
       this.editSub = this.userService.edit(body).subscribe(data => {
         this.invalidPassword = false;
         if (data === 'Login zajety') {
@@ -64,7 +62,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
         this.getUserInfo();
       },
         error => {
-          console.log(error);
           this.errorMessage = 'Wystąpił błąd. Spróbuj ponownie później.';
           this.invalidEdit = true;
           this.invalidPassword = false;
@@ -80,7 +77,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
   getUserInfo() {
     this.userProfileSub = this.userService.getUserProfile().subscribe(
       (d: User) => {
-        console.log(d);
         this.user.id = d.id;
         this.user.email = d.email;
         this.user.username = d.username;
