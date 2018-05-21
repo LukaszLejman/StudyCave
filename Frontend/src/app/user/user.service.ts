@@ -9,8 +9,7 @@ export class UserService {
 
   register(body) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    console.log(body);
-    return this.httpClient.post('user/register', body, { headers: headers, observe: 'response' });
+    return this.httpClient.post('user/register', body, { headers: headers, responseType: 'text' });
   }
 
   getUserProfile() {

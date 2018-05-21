@@ -25,19 +25,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
       surname: value.surname
     }).subscribe(
       data => {
-        this.registerStatus = true;
-        this.invalidRegister = false;
-        console.log('git', data);
+        if (data === 'Login zajety') {
+          this.errorMessage = 'Login zajęty. Wybierz inny.';
+          this.invalidRegister = true;
+        } else if (data === 'Email zajety') {
+          this.errorMessage = 'E-mail zajęty. Wybierz inny.';
+          this.invalidRegister = true;
+        } else {
+          this.registerStatus = true;
+          this.invalidRegister = false;
+        }
       },
       error => {
-        console.log('blad', error);
-        if (error.error.text === 'Login zajety') {
-          this.errorMessage = 'Login zajęty. Wybierz inny.';
-        } else if (error.error.text === 'Email zajety') {
-          this.errorMessage = 'E-mail zajęty. Wybierz inny.';
-        } else {
-          this.errorMessage = 'Wystąpił błąd. Spróbuj ponownie.';
-        }
+        this.errorMessage = 'Wystąpił błąd. Spróbuj ponownie później.';
         this.invalidRegister = true;
       },
       () => { }
