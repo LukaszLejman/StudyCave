@@ -29,9 +29,14 @@ public class UserController {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@PostMapping("/user/register")
-	public void Register(@RequestBody User user) {
+	public String Register(@RequestBody User user) {
+		if(userRepository.findByUsername(user.getUsername()).orElse(null)!=null)
+			return "Login zajety";
+		if(userRepository.findByEmail(user.getEmail()).orElse(null)!=null)
+			return "Email zajety";
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
+		return "Dodano uzytkonika";
 	}
 	
 	@GetMapping("/user/{id}")
@@ -42,12 +47,17 @@ public class UserController {
 	}
 	
 	@PutMapping("/user/info/update")
-	public void updateUser(@RequestBody User user) {
+	public String updateUser(@RequestBody User user) {
+		if(userRepository.findByUsername(user.getUsername()).orElse(null)!=null)
+			return "Login zajety";
+		if(userRepository.findByEmail(user.getEmail()).orElse(null)!=null)
+			return "Email zajety";
 		if(user.getPassword() == null)
 			user.setPassword(userRepository.findById(user.getId()).orElse(null).getPassword());
 		else
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
+		return "Edycja udana";
 	}
 	
     @ApiOperation("Login.")
