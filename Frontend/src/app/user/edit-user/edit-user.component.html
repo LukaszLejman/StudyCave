@@ -2,7 +2,7 @@
   <div class="content">
     <h4 class="text-gray mb-4 centerMargin">Edytuj profil</h4>
     <div *ngIf="editStatus" class="alert alert-success">Edycja udana!</div>
-    <div *ngIf="invalidEdit" class="alert alert-danger">Login zajęty. Wybierz inny.</div>
+    <div *ngIf="invalidEdit" class="alert alert-danger">{{errorMessage}}</div>
     <div *ngIf="invalidPassword" class="alert alert-danger">Hasła i hasło potwierzające muszą być takie same.</div>
     <form *ngIf="!editStatus" #userForm="ngForm" (ngSubmit)="edit(userForm.value)" ngNativeValidate>
       <div class="row">

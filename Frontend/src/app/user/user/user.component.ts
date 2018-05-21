@@ -34,7 +34,7 @@ export class UserComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) { }
 
   getUserInfo() {
-    this.userProfileSub = this.userService.getUserProfile(1).subscribe(
+    this.userProfileSub = this.userService.getUserProfile().subscribe(
       (d: User) => {
         this.user.id = d.id;
         this.user.email = d.email;

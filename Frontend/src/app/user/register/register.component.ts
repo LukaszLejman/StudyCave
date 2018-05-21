@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserService } from '../user.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+
+import { UserService } from '../user.service';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -10,6 +12,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   registerStatus = false;
   invalidRegister = false;
+  errorMessage = '';
   signInSub: Subscription;
   constructor(private userService: UserService) { }
 
@@ -20,12 +23,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
       password: value.password,
       name: value.name,
       surname: value.surname
-    }).subscribe(data => {
-      this.registerStatus = true;
-      this.invalidRegister = false;
-    },
+    }).subscribe(
+      data => {
+        this.registerStatus = true;
+        this.invalidRegister = false;
+        console.log('git', data);
+      },
       error => {
-        console.log(error);
+        console.log('blad', error);
+        if (error.error.text === 'Login zajety') {
+          this.errorMessage = 'Login zajęty. Wybierz inny.';
+        } else if (error.error.text === 'Email zajety') {
+          this.errorMessage = 'E-mail zajęty. Wybierz inny.';
+        } else {
+          this.errorMessage = 'Wystąpił błąd. Spróbuj ponownie.';
+        }
         this.invalidRegister = true;
       },
       () => { }
