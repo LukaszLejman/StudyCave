@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        studycave.application.user.User applicationUser = applicationUserRepository.findByUsername(username);
+        studycave.application.user.User applicationUser = applicationUserRepository.findByUsername(username).orElse(null);
         if (applicationUser == null) {
             throw new UsernameNotFoundException(username);
         }
