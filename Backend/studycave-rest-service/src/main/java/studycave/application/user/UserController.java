@@ -39,11 +39,11 @@ public class UserController {
 		return "Dodano uzytkonika";
 	}
 	
-	@GetMapping("/user/{id}")
+	@GetMapping("/user/{username}")
 	public Optional<User> getInfo(
 			@RequestHeader(value="Authorization") String headerStr,
-			@PathVariable(required = true)Long id) {
-		return userRepository.findById(id);
+			@PathVariable(required = true)String username) {
+		return userRepository.findByUsername(username);
 	}
 	
 	@PutMapping("/user/info/update")
