@@ -10,6 +10,8 @@ import { HttpModule } from '@angular/http';
 })
 
 export class LoginComponent implements OnInit {
+
+    public isLogin: Boolean = false;
     model: any = {};
     loading = false;
     error = '';
@@ -29,7 +31,10 @@ export class LoginComponent implements OnInit {
             .subscribe(result => {
                 if (result === true) {
                     // login successful
+                    window.location.reload();
+                    this.isLogin = true;
                     this.router.navigate(['home']);
+
                 } else {
                     // login failed
                     this.error = 'Username or password is incorrect';

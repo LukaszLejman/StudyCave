@@ -10,10 +10,13 @@
     <a routerLink="/test-maker">Testy</a>
     <a routerLink="/flashcards/sets">Grupy</a>
     <a>Szukaj</a>
-    <a (click)="navToProfile()">Profil</a>
-    <div class="log-reg-container">
+    <div class="log-reg-container" *ngIf="!isLogin">
       <a routerLink="/login">Logowanie</a>
       <a routerLink="/sign-up">Rejestracja</a>
+    </div>
+    <div class="log-reg-container" *ngIf="isLogin">
+      <a (click)="navToProfile()">Profil</a>
+      <a (click)="logout()">Wyloguj</a>
     </div>
 
   </div>

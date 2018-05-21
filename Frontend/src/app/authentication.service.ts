@@ -18,13 +18,13 @@ export class AuthenticationService {
             .map((response: Response) => {
                  console.log(response);
                 // czy login ok jeśli w response jest token
-                //const token = response.json() && response.json().token;
+                // const token = response.json() && response.json().token;
                 const token = response.headers.get('authorization');
                 console.log(token);
                 if (token) {
                     // store username and jwt token w local storage aby nie wylogowało przy zmianie stron
                     localStorage.setItem('currentUser', JSON.stringify({ username: username, authorization: token }));
-
+                    alert('Zalogowano pomyślnie!');
                     // return true jeśli ok
                     return true;
                 } else {
@@ -42,6 +42,7 @@ export class AuthenticationService {
 
     logout(): void {
         // clear token remove user from local storage to log user out
+        alert('Wylogowano pomyślnie!');
         localStorage.removeItem('currentUser');
     }
 }
