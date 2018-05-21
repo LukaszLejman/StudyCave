@@ -2,10 +2,10 @@
     <div id="container-login">
         <div>
             <form (ngSubmit)="login()">
-                username:<br />
+                Nazwa użytkownika:<br />
                 <input type = "text" [(ngModel)] = "model.username" name="username"><br />
-                password:<br /> 
-                <input type = "text" [(ngModel)] = "model.password" name = "password"><br /><br />
+                Hasło:<br /> 
+                <input type = "password" [(ngModel)] = "model.password" name = "password"><br /><br />
                 <input class="btn btn-primary" type="submit" value = "Login" />
                 <div *ngIf="error" class="alert alert-error">{{error}}</div>
             </form>
