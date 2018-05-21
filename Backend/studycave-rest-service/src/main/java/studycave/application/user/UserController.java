@@ -43,6 +43,10 @@ public class UserController {
 	
 	@PutMapping("/user/info/update")
 	public void updateUser(@RequestBody User user) {
+		if(user.getPassword() == null)
+			user.setPassword(userRepository.findById(user.getId()).orElse(null).getPassword());
+		else
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
 	
