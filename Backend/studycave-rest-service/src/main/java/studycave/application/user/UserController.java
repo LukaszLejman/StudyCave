@@ -29,25 +29,39 @@ public class UserController {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@PostMapping("/user/register")
-	public void Register(@RequestBody User user) {
+	public String Register(@RequestBody User user) {
+		if(userRepository.findByUsername(user.getUsername()).orElse(null)!=null)
+			return "Login zajety";
+		if(userRepository.findByEmail(user.getEmail()).orElse(null)!=null)
+			return "Email zajety";
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
+		return "Dodano uzytkonika";
 	}
 	
-	@GetMapping("/user/{id}")
+	@GetMapping("/user/{username}")
 	public Optional<User> getInfo(
 			@RequestHeader(value="Authorization") String headerStr,
-			@PathVariable(required = true)Long id) {
-		return userRepository.findById(id);
+			@PathVariable(required = true)String username) {
+		return userRepository.findByUsername(username);
 	}
 	
 	@PutMapping("/user/info/update")
-	public void updateUser(@RequestBody User user) {
+	public String updateUser(@RequestBody User user) {
+		User finduser = userRepository.findByUsername(user.getUsername()).orElse(null);
+		if(finduser!=null)
+			if(finduser.getId()!=user.getId())
+			return "Login zajety";
+		finduser = userRepository.findByEmail(user.getEmail()).orElse(null);
+		if(finduser!=null)
+			if(finduser.getId()!=user.getId())
+			return "Email zajety";
 		if(user.getPassword() == null)
 			user.setPassword(userRepository.findById(user.getId()).orElse(null).getPassword());
 		else
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
+		return "Edycja udana";
 	}
 	
     @ApiOperation("Login.")

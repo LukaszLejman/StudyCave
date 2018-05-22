@@ -9,16 +9,16 @@ export class UserService {
 
   register(body) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.httpClient.post('user/register', body, { headers: headers, observe: 'response' });
+    return this.httpClient.post('user/register', body, { headers: headers, responseType: 'text' });
   }
 
-  getUserProfile(id) {
+  getUserProfile() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const headers = new HttpHeaders({
       'Content-Type': 'application/json', 'Accept': '*/*',
       'Authorization': currentUser.authorization
     });
-    return this.httpClient.get('user/' + id, { headers: headers });
+    return this.httpClient.get('user/' + currentUser.username, { headers: headers });
   }
 
   edit(body) {
@@ -27,7 +27,7 @@ export class UserService {
       'Content-Type': 'application/json', 'Accept': '*/*',
       'Authorization': currentUser.authorization
     });
-    return this.httpClient.put('user/info/update', body, { headers: headers });
+    return this.httpClient.put('user/info/update', body, { headers: headers, responseType: 'text' });
   }
 
 }

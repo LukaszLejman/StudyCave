@@ -15,7 +15,6 @@ export class MainNavigationComponent implements OnChanges, OnInit {
   constructor(private router: Router, private authenticationService: AuthenticationService) { }
 
   navToProfile() {
-    console.log(11111);
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.router.navigate(['/profile', currentUser.username]);
   }

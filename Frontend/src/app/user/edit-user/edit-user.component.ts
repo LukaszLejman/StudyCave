@@ -23,6 +23,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   editStatus = false;
   invalidEdit = false;
   invalidPassword = false;
+  errorMessage = '';
   editSub: Subscription;
   private userProfileSub: Subscription;
   private user: User = {
@@ -37,7 +38,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private userService: UserService) { }
 
   edit(value: any) {
-    console.log(value.password === value.password2)
     if (value.password === value.password2) {
       const body = {
         id: this.user.id,
@@ -47,15 +47,22 @@ export class EditUserComponent implements OnInit, OnDestroy {
         name: value.name,
         surname: value.surname
       };
-      console.log(body);
       this.editSub = this.userService.edit(body).subscribe(data => {
-        this.editStatus = true;
-        this.invalidEdit = false;
         this.invalidPassword = false;
+        if (data === 'Login zajety') {
+          this.errorMessage = 'Login zajęty. Wybierz inny.';
+          this.invalidEdit = true;
+        } else if (data === 'Email zajety') {
+          this.errorMessage = 'E-mail zajęty. Wybierz inny.';
+          this.invalidEdit = true;
+        } else {
+          this.editStatus = true;
+          this.invalidEdit = false;
+        }
         this.getUserInfo();
       },
         error => {
-          console.log(error);
+          this.errorMessage = 'Wystąpił błąd. Spróbuj ponownie później.';
           this.invalidEdit = true;
           this.invalidPassword = false;
         },
@@ -63,13 +70,13 @@ export class EditUserComponent implements OnInit, OnDestroy {
       );
     } else {
       this.invalidPassword = true;
+      this.invalidEdit = false;
     }
   }
 
   getUserInfo() {
-    this.userProfileSub = this.userService.getUserProfile(1).subscribe(
+    this.userProfileSub = this.userService.getUserProfile().subscribe(
       (d: User) => {
-        console.log(d);
         this.user.id = d.id;
         this.user.email = d.email;
         this.user.username = d.username;
