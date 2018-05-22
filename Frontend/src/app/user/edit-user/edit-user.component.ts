@@ -56,6 +56,10 @@ export class EditUserComponent implements OnInit, OnDestroy {
           this.errorMessage = 'E-mail zajęty. Wybierz inny.';
           this.invalidEdit = true;
         } else {
+          const usernameChange = JSON.parse(localStorage.getItem('currentUser'));
+          usernameChange.username = value.login;
+          const usernameChangeStr = JSON.stringify(usernameChange);
+          localStorage.setItem('currentUser', usernameChangeStr);
           this.editStatus = true;
           this.invalidEdit = false;
         }
