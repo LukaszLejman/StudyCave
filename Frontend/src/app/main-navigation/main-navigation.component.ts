@@ -12,7 +12,9 @@ export class MainNavigationComponent implements OnChanges, OnInit {
   @Input() isLogin: Boolean;
   private _isLogin;
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) { }
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
+    authenticationService.getLoggedInName.subscribe(name => this.isLoggedIn());
+  }
 
   navToProfile() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));

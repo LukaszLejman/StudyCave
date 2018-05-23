@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -7,6 +7,7 @@ import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class AuthenticationService {
+    @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
     private authUrl = 'http://localhost:8080/login';
     private headers = new Headers({'Content-Type': 'application/json'});
     public token: string;
@@ -24,11 +25,13 @@ export class AuthenticationService {
                 if (token) {
                     // store username and jwt token w local storage aby nie wylogowało przy zmianie stron
                     localStorage.setItem('currentUser', JSON.stringify({ username: username, authorization: token }));
+                    this.getLoggedInName.emit('logged');
                     alert('Zalogowano pomyślnie!');
                     // return true jeśli ok
                     return true;
                 } else {
                     // return false jeśli nie
+                    this.getLoggedInName.emit('notLogged');
                     return false;
                 }
             }).catch((error: any) => Observable.throw(error.json().error || 'Server error'));

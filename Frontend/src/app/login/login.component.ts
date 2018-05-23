@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
             .subscribe(result => {
                 if (result === true) {
                     // login successful
-                    window.location.reload();
                     this.isLogin = true;
                     this.router.navigate(['home']);
 
