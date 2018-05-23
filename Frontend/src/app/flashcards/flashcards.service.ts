@@ -6,11 +6,18 @@ import { of } from 'rxjs/observable/of';
 import { Set } from './set';
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable()
 export class FlashcardsService {
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService ) { }
+
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': '' + this.authenticationService.getToken(),
+    });
 
   add(body) {
     const url = 'sets/';
@@ -23,19 +30,18 @@ export class FlashcardsService {
   }
 
   getSets(): Observable<any> {
-    return this.httpClient.get('sets');
+    return this.httpClient.get('sets', {headers: this.headers});
   }
 
   sendData(url, body) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }); // błąd xml - Firefox
-    this.httpClient.post(url, body, { headers: headers, observe: 'response' })
+    this.httpClient.post(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
       error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );
   }
 
   putData(url, body) {
-    this.httpClient.put(url, body, { observe: 'response' }) // błąd xml - Firefox
+    this.httpClient.put(url, body, { headers: this.headers,  observe: 'response' }) // błąd xml - Firefox
       .subscribe(data => { this.sendResponse(data); },
       error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );
@@ -63,24 +69,23 @@ export class FlashcardsService {
   }
 
   getSet(id) {
-    return this.httpClient.get('sets/' + id + '/');
+    return this.httpClient.get('sets/' + id + '/', {headers: this.headers});
   }
 
   getTestPairing(id) {
-    return this.httpClient.get('sets/' + id + '/test/pairing/');
+    return this.httpClient.get('sets/' + id + '/test/pairing/', {headers: this.headers});
   }
 
   getTestFilling(id) {
-    return this.httpClient.get('sets/' + id + '/test/filling-in/').map((data: Array<Object>) => data);
+    return this.httpClient.get('sets/' + id + '/test/filling-in/', {headers: this.headers}).map((data: Array<Object>) => data);
   }
 
   getTestMemory(id) { // do zmiany adres
-    return this.httpClient.get('sets/' + id + '/test/memory/').map((data: Array<Object>) => data);
+    return this.httpClient.get('sets/' + id + '/test/memory/', {headers: this.headers}).map((data: Array<Object>) => data);
   }
 
   deleteSet(id) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }); // błąd xml - Firefox
-    return this.httpClient.delete('sets/' + id, { headers: headers, observe: 'response' })
+    return this.httpClient.delete('sets/' + id, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
       error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );
@@ -90,12 +95,12 @@ export class FlashcardsService {
   testCheck(id, body) {
     // id - id zestawu fiszek
     // ciało body = {id - idFiszki, content - wpisana odpowiedź, side - strona fiszki, którą widział użytkownik}
-    return this.httpClient.get(`sets/${id}/${body['id']}/${body['content']}/${body['side']}/test/check/`)
+    return this.httpClient.get(`sets/${id}/${body['id']}/${body['content']}/${body['side']}/test/check/`, {headers: this.headers})
       .map((data: any) => data);
   }
 
   testMemory(id, body) {
-    return this.httpClient.get(`sets/${id}/test/memory/check?x=${body['x']}&y=${body['y']}`)
+    return this.httpClient.get(`sets/${id}/test/memory/check?x=${body['x']}&y=${body['y']}`, {headers: this.headers})
       .map((data: any) => data);
   }
 }

@@ -5,11 +5,17 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
 
 @Injectable()
 export class TestsService {
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService) { }
+
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': '' + this.authenticationService.getToken(),
+    });
 
   add(body) {
     const url = 'tests/';
@@ -17,8 +23,7 @@ export class TestsService {
   }
 
   sendData(url, body) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' }); // błąd xml - Firefox
-    this.httpClient.post(url, body, { headers: headers, observe: 'response' })
+    this.httpClient.post(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
       error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );
@@ -34,7 +39,7 @@ export class TestsService {
   }
 
   getTest(id) {
-    return this.httpClient.get('tests/' + id + '/');
+    return this.httpClient.get('tests/' + id + '/', { headers: this.headers});
   }
 
 }
