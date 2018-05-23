@@ -7,10 +7,9 @@ import { AuthenticationService } from '../authentication.service';
   templateUrl: './main-navigation.component.html',
   styleUrls: ['./main-navigation.component.css']
 })
-export class MainNavigationComponent implements OnChanges, OnInit {
+export class MainNavigationComponent implements OnInit {
 
-  @Input() isLogin: Boolean;
-  private _isLogin;
+  private isLogin: Boolean;
 
   constructor(private router: Router, private authenticationService: AuthenticationService) {
     authenticationService.getLoggedInName.subscribe(name => this.isLoggedIn());
@@ -32,14 +31,6 @@ export class MainNavigationComponent implements OnChanges, OnInit {
     if (localStorage.getItem('currentUser') === null) {
       this.isLogin = false;
     } else {
-      this.isLogin = true;
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    const isLoginChanges: SimpleChange = changes['isLogin'];
-    if (isLoginChanges) {
-      this.router.navigate(['/home']);
       this.isLogin = true;
     }
   }
