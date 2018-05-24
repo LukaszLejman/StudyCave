@@ -105,9 +105,14 @@ export class TestMakerComponent implements OnInit {
     if ((this.title === undefined) || (this.title.trim().length === 0)) {
       alert('Podaj tytuł testu.');
     } else {
+      const own = JSON.parse(localStorage.getItem('currentUser'));
+      let owner = '0';
+      if (own !== null) {
+        owner = own['username'];
+      }
       const toSend = {
         title: this.title,
-        owner: this.owner
+        owner: owner
       };
       const body = [];
       const n = this.test.length;
@@ -116,12 +121,13 @@ export class TestMakerComponent implements OnInit {
           nr: this.test[i]['nr'],
           type: this.test[i]['content']['type'],
           question: this.test[i]['content']['question'],
-          answers: this.test[i]['content']['answers']
+          answers: this.test[i]['content']['answers'],
+          points: this.test[i]['content']['points']
         });
       }
       toSend['body'] = body;
       console.log(toSend);
-      this.testsService.add(toSend);
+      // this.testsService.add(toSend);
     }
   }
 

@@ -14,6 +14,7 @@ export class SingleChoiceQuestionComponent implements OnInit {
   private answers: Array<Object> = [];
   private newAttribute: any = {};
   private question: String = '';
+  private points: Number = 0;
 
   @Output() private add: EventEmitter<Object> = new EventEmitter();
   @Output() private editing: EventEmitter<Object> = new EventEmitter();
@@ -25,12 +26,14 @@ export class SingleChoiceQuestionComponent implements OnInit {
       this.content['edit'] = true;
       this.question = this.content['content']['question'];
       this.answers = this.content['content']['answers'];
+      this.points = this.content['content']['points'];
     } else {
       this.content = {};
       this.content['content'] = {
         type: 'single-choice',
         question: '',
-        answers: []
+        answers: [],
+        points: 0
       };
       this.content['edit'] = false;
     }
@@ -115,6 +118,7 @@ export class SingleChoiceQuestionComponent implements OnInit {
           if (t) {
             this.content['content']['question'] = this.question;
             this.content['content']['answers'] = this.answers;
+            this.content['content']['points'] = this.points;
             if (this.edit) {
               this.editing.emit(this.content);
             } else {

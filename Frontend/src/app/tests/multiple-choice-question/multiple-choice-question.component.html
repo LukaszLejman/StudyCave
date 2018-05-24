@@ -5,6 +5,10 @@
         <br />
         <div>
           <label class="block">
+            <p>Określ liczbę punktów do zdobycia:</p>
+            <input type="number" step="1" min="0" name="points" class="form-control" [(ngModel)]="points" required />
+          </label>
+          <label class="block">
             <p>Wprowadź treść pytania:</p>
             <input type="text" name="question" class="form-control" [(ngModel)]="question"/>
           </label>

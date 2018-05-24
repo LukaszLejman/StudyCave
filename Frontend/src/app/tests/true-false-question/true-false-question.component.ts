@@ -28,7 +28,9 @@ export class TrueFalseQuestionComponent implements OnInit {
         answers:  [
           {content: 'Prawda', is_good: false},
           {content: 'Fałsz', is_good: false}
-      ]};
+        ],
+        points: 0
+      };
       this.content['edit'] = false;
     }
   }
@@ -47,7 +49,9 @@ export class TrueFalseQuestionComponent implements OnInit {
         answers:  [
           {content: 'Prawda', is_good: true},
           {content: 'Fałsz', is_good: false}
-      ]};
+        ],
+        points: value['points']
+      };
     } else {
       this.content['content'] = {
         type: 'true-false',
@@ -55,7 +59,9 @@ export class TrueFalseQuestionComponent implements OnInit {
         answers:  [
           {content: 'Prawda', is_good: false},
           {content: 'Fałsz', is_good: true}
-      ]};
+        ],
+        points: value['points']
+      };
     }
     if (this.edit) {
       this.editing.emit(this.content);
