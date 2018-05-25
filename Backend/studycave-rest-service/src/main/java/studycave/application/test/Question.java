@@ -38,6 +38,8 @@ public class Question {
     @JsonProperty("nr")
     private int nrQuestion;
     
+    private Long points;
+    
     @ApiModelProperty(hidden = true)
     @ManyToOne
     @JoinColumn(name="id_test",referencedColumnName="id")
@@ -47,6 +49,10 @@ public class Question {
     @OneToMany(fetch = FetchType.LAZY,mappedBy="question",cascade = CascadeType.ALL)
     @JsonManagedReference
     List<Answer> answers;
+    
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="question",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    List<AnswerPairs> answerspairs;
 
 	public Question() {
 		super();
@@ -98,6 +104,22 @@ public class Question {
 
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
+	}
+	
+	public List<AnswerPairs> getAnswersPairs() {
+		return answerspairs;
+	}
+
+	public void setAnswersPairs(List<AnswerPairs> answerspairs) {
+		this.answerspairs = answerspairs;
+	}
+
+	public Long getPoints() {
+		return points;
+	}
+
+	public void setPoints(Long points) {
+		this.points = points;
 	}
     
     
