@@ -11,10 +11,9 @@ import { AuthenticationService } from '../authentication.service';
 export class TestsService {
 
   constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService) { }
-
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': '' + this.authenticationService.getToken(),
+    'Authorization': '' + this.authenticationService.getToken()
     });
 
   add(body) {

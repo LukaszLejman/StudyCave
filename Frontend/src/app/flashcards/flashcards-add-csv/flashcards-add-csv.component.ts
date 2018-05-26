@@ -13,10 +13,17 @@ export class FlashcardsAddCsvComponent implements OnInit {
   private selectedFiles: FileList;
   private currentFileUpload: File;
   private progress: { percentage: number } = { percentage: 0 };
-
+  private currentUser: string;
   constructor(private uploadService: FlashcardsService, private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit() { this.isLoggedIn(); }
+
+  isLoggedIn() {
+    if (localStorage.getItem('currentUser') === null) {
+      this.currentUser = 'Anonim';
+    } else {
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    }
   }
 
   selectFile(event) {
@@ -26,7 +33,7 @@ export class FlashcardsAddCsvComponent implements OnInit {
   upload() {
     this.progress.percentage = 0;
     const url = 'file/upload';
-    const user = '0';
+    const user = this.currentUser;
     this.currentFileUpload = this.selectedFiles.item(0);
     if (this.currentFileUpload.type === 'application/vnd.ms-excel') {
       this.uploadService.pushFileToStorage(this.currentFileUpload, user, url).subscribe(

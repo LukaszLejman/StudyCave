@@ -10,16 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.annotations.ApiModelProperty;
-import studycave.application.user.User;
 
 @Entity
 public class Test {
@@ -28,18 +22,15 @@ public class Test {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String title;
+    @Column(name="id_owner")
+    @JsonProperty("owner")
+    private Long idOwner;
     @Column(name="add_date")
     @JsonProperty("add_date")
     private Date addDate;
     @Column(name="edit_date")
     @JsonProperty("edit_date")
     private Date editDate;
-    
-    @ApiModelProperty(hidden=true)
-    @ManyToOne
-    @JoinColumn(name="owner",referencedColumnName = "login")
-    @JsonBackReference
-    private User user;
     
     @OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
     @JsonProperty("body")
@@ -66,12 +57,12 @@ public class Test {
 		this.title = title;
 	}
 
-	public User getUser() {
-		return user;
+	public Long getIdOwner() {
+		return idOwner;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setIdOwner(Long idOwner) {
+		this.idOwner = idOwner;
 	}
 
 	public Date getAddDate() {

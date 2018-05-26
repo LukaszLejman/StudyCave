@@ -10,7 +10,7 @@ export class UserService {
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': '' + this.authenticationService.getToken(),
+    'Authorization': '' + this.authenticationService.getToken()
     });
 
   register(body) {

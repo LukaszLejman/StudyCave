@@ -26,7 +26,6 @@ export class MainNavigationComponent implements OnInit {
     this.isLogin = false;
   }
 
-
   isLoggedIn() {
     if (localStorage.getItem('currentUser') === null) {
       this.isLogin = false;
