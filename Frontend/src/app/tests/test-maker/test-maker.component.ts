@@ -10,6 +10,7 @@ export class TestMakerComponent implements OnInit {
 
   private owner: Number = 0;
   private title: String = '';
+  private permission: Boolean = false;
 
   private test: Array<Object> = [];
   private shown: Boolean = false;
@@ -129,10 +130,18 @@ export class TestMakerComponent implements OnInit {
     this.setIndexes();
   }
 
+  changePermission(): void {
+    this.permission = !this.permission;
+  }
+
   save(): void {
     if ((this.title === undefined) || (this.title.trim().length === 0)) {
       alert('Podaj tytuł testu.');
     } else {
+      let p = 'private';
+      if (this.permission) {
+        p = 'public';
+      }
       const own = JSON.parse(localStorage.getItem('currentUser'));
       let owner = '0';
       if (own !== null) {
@@ -140,7 +149,8 @@ export class TestMakerComponent implements OnInit {
       }
       const toSend = {
         title: this.title,
-        owner: owner
+        owner: owner,
+        permission: p
       };
       const body = [];
       const n = this.test.length;

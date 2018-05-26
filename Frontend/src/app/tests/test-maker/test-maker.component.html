@@ -3,10 +3,17 @@
       <div class="container">
         <h2>Tworzenie testu</h2>
         <br />
-        <label>
-          <p>Wprowadź nazwę dla testu:</p>
-          <input type="text" name="title" class="form-control" [(ngModel)]="title" required />
-        </label>
+        <div class="row">
+          <label class="col-md-10">
+            <p>Wprowadź nazwę dla testu:</p>
+            <input type="text" name="title" class="form-control" [(ngModel)]="title" required />
+          </label>
+          <label class="col-md-2">
+            <br />
+            <input type="checkbox" name="{{ permission }}" class="form-control" [checked]="permission" (change)="changePermission()"/>
+            <b>Udostępnij publicznie</b>
+          </label>
+        </div>
         <div *ngIf="!trueFalse && !singleChoice && !multipleChoice && !puzzle && !gaps && !pairs">
           <br />
           <h4>Wybierz rodzaj pytania:</h4>
