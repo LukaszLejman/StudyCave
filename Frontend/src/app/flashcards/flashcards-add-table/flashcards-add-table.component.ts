@@ -12,10 +12,19 @@ export class FlashcardsAddTableComponent implements OnInit {
   private tableToSend: any = {};
   private fieldArray: Array<any> = [];
   private newAttribute: any = {};
+  private currentUser: string;
 
   constructor(private flashcardsService: FlashcardsService) { }
 
-  ngOnInit() {}
+  ngOnInit() {this.isLoggedIn(); }
+
+  isLoggedIn() {
+    if (localStorage.getItem('currentUser') === null) {
+      this.currentUser = 'Anonim';
+    } else {
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    }
+  }
 
   addFieldValue() {
   const undefinedAttr = ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined));
@@ -44,7 +53,7 @@ export class FlashcardsAddTableComponent implements OnInit {
       this.tableToSend = {
         name: value.title,
         category: value.category,
-        owner: 0,
+        owner: this.currentUser,
         flashcards: this.fieldArray
       };
       this.flashcardsService.add(this.tableToSend);
