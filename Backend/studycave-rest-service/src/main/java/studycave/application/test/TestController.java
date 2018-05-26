@@ -39,22 +39,10 @@ public class TestController {
 	}
 	
 	@PostMapping
-	public void postTestChoice(@RequestBody Test test) {
+	public void postSet(@RequestBody Test test) {
 		for (Question question : test.getQuestions()) {
 			question.setTest(test);
 			for (Answer answer : question.getAnswers())
-				answer.setQuestion(question);
-		}
-		test.setAddDate();
-		test.setEditDate();
-		testRepository.save(test);
-	}
-	
-	@PostMapping("/pairs")
-	public void postTestPairs(@RequestBody Test test) {
-		for (Question question : test.getQuestions()) {
-			question.setTest(test);
-			for (AnswerPairs answer : question.getAnswersPairs())
 				answer.setQuestion(question);
 		}
 		test.setAddDate();
