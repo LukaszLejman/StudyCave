@@ -22,6 +22,9 @@ import { UserModule } from './user/user.module';
 import { RegisterComponent } from './user/register/register.component';
 import { UserComponent } from './user/user/user.component';
 import { EditUserComponent } from './user/edit-user/edit-user.component';
+import { MaterialsMenuComponent } from './materials/materials-menu/materials-menu.component';
+import { MaterialsListComponent } from './materials/materials-list/materials-list.component';
+import { MaterialsAddComponent } from './materials/materials-add/materials-add.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -41,7 +44,10 @@ const routes: Routes = [
   { path: 'test-maker', component: TestMakerComponent },
   { path: 'sign-up', component: RegisterComponent },
   { path: 'profile/:id', component: UserComponent },
-  { path: 'edit-profile', component: EditUserComponent }
+  { path: 'edit-profile', component: EditUserComponent },
+  { path: 'materials', component: MaterialsMenuComponent },
+  { path: 'materials/list', component: MaterialsListComponent },
+  { path: 'materials/add-materials', component: MaterialsAddComponent }
 
 ];
 

@@ -1,0 +1,55 @@
+
+<div class="wrapper">
+    <div class="content">
+      <app-materials-menu></app-materials-menu>
+      <div *ngIf="user">
+          <button class="btn btn-primary" (click)="ShowPublic()" >PUBLICZNE</button>
+          <button class="btn btn-primary" (click)="ShowPrivate()" >PRYWATNE</button>
+      </div>
+      <table class="table" *ngIf="!ShowStatus">
+        <tr>
+          <th>NAZWA</th>
+          <th class="mobile">KATEGORIA</th>
+          <th class="mobile">WŁAŚCICIEL</th>
+          <th class="mobile">DATA DODANIA</th>
+          <th class="mobile">DATA MODYFIKACJI</th>
+          <th class="mobile">OCENA</th>
+        </tr>
+        <tr *ngFor="let mat of mats" [class.selected]="mat === selectedMat" (click)="onSelect(mat)" class="listItem">
+          <td class="name">nazwa</td>
+          <td class="category mobile">kategoria</td>
+          <td class="owner mobile">wlasciciel</td>
+          <td class="add_date mobile">data</td>
+          <td class="edit_date mobile">data2</td>
+          <td class="grade mobile">ocena</td>
+        </tr>
+        <tr *ngIf="matssEmpty">
+          <td colspan="6" class="empty">BRAK MATERIAŁÓW</td>
+        </tr>
+      </table>
+      <table class="table" *ngIf="ShowStatus">
+        PRYWATNE
+          <tr>
+            <th>NAZWA</th>
+            <th class="mobile">KATEGORIA</th>
+            <th class="mobile">WŁAŚCICIEL</th>
+            <th class="mobile">DATA DODANIA</th>
+            <th class="mobile">DATA MODYFIKACJI</th>
+            <th class="mobile">OCENA</th>
+          </tr>
+          <tr *ngFor="let mat of mats" [class.selected]="mat === selectedMat" (click)="onSelect(mat)" class="listItem">
+            <td class="name">nazwa</td>
+            <td class="category mobile">kategoria</td>
+            <td class="owner mobile">wlasciciel</td>
+            <td class="add_date mobile">data</td>
+            <td class="edit_date mobile">data2</td>
+            <td class="grade mobile">ocena</td>
+          </tr>
+          <tr *ngIf="matssEmpty">
+            <td colspan="6" class="empty">BRAK MATERIAŁÓW</td>
+          </tr>
+        </table>
+      <div *ngIf="selectedSet">
+      </div>
+    </div>
+  </div>

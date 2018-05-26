@@ -18,6 +18,8 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { UserModule } from './user/user.module';
 import { AuthenticationService } from './authentication.service';
+import { MaterialsModule } from './materials/materials.module';
+import { FilterPipe } from './filter.pipe';
 
 
 
@@ -27,7 +29,8 @@ import { AuthenticationService } from './authentication.service';
     AppComponent,
     MainNavigationComponent,
     FooterComponent,
-    HomePageComponent
+    HomePageComponent,
+    FilterPipe
   ],
   imports: [
     AppRoutingModule,
@@ -37,7 +40,8 @@ import { AuthenticationService } from './authentication.service';
     FormsModule,
     HttpModule,
     HttpClientModule,
-    UserModule
+    UserModule,
+    MaterialsModule
   ],
   providers: [ AuthGuard, httpInterceptorProviders, AuthenticationService],
   bootstrap: [AppComponent]

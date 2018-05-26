@@ -12,7 +12,7 @@ export class FlashcardsAddTableComponent implements OnInit {
   private tableToSend: any = {};
   private fieldArray: Array<any> = [];
   private newAttribute: any = {};
-  private currentUser: string;
+  private currentUser;
 
   constructor(private flashcardsService: FlashcardsService) { }
 
@@ -53,7 +53,7 @@ export class FlashcardsAddTableComponent implements OnInit {
       this.tableToSend = {
         name: value.title,
         category: value.category,
-        owner: this.currentUser,
+        owner: this.currentUser.username,
         flashcards: this.fieldArray
       };
       this.flashcardsService.add(this.tableToSend);

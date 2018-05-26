@@ -6,12 +6,21 @@ import { AuthenticationService } from '../authentication.service';
 @Injectable()
 export class UserService {
 
-  constructor(private httpClient: HttpClient, private authenticationService: AuthenticationService) { }
+  constructor(private httpClient: HttpClient, private authenticationService: AuthenticationService) { this.setHeaders(); }
 
-  private headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': '' + this.authenticationService.getToken()
-    });
+  private headers;
+
+  setHeaders() {
+    if (localStorage.getItem('currentUser')) {
+      this.headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': '' + this.authenticationService.getToken()
+        });
+      }else {
+        this.headers = new HttpHeaders({
+          'Content-Type': 'application/json'});
+        }
+  }
 
   register(body) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

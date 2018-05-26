@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse, HttpEventType } from '@angular/common/http';
-import { FlashcardsService } from '../flashcards.service';
+
 import { Router } from '@angular/router';
+import { MaterialsService } from '../materials.service';
 
 @Component({
-  selector: 'app-flashcards-add-csv',
-  templateUrl: './flashcards-add-csv.component.html',
-  styleUrls: ['./flashcards-add-csv.component.css']
+  selector: 'app-materials-add',
+  templateUrl: './materials-add.component.html',
+  styleUrls: ['./materials-add.component.css']
 })
-export class FlashcardsAddCsvComponent implements OnInit {
+export class MaterialsAddComponent implements OnInit {
 
   private selectedFiles: FileList;
   private currentFileUpload: File;
   private progress: { percentage: number } = { percentage: 0 };
   private currentUser = JSON.parse(localStorage.getItem('currentUser'));
   private user: string;
-  constructor(private uploadService: FlashcardsService, private router: Router) { }
+  constructor(private uploadService: MaterialsService, private router: Router) { }
+
 
   ngOnInit() { this.isLoggedIn(); }
 
@@ -26,7 +28,6 @@ export class FlashcardsAddCsvComponent implements OnInit {
       this.user = this.currentUser.username;
     }
   }
-
   selectFile(event) {
     this.selectedFiles = event.target.files;
   }
@@ -36,7 +37,6 @@ export class FlashcardsAddCsvComponent implements OnInit {
     const url = 'file/upload';
     const permission = 'public';
     this.currentFileUpload = this.selectedFiles.item(0);
-    if (this.currentFileUpload.type === 'application/vnd.ms-excel') {
       this.uploadService.pushFileToStorage(this.currentFileUpload, this.user, permission, url).subscribe(
         event => {
           if (event.type === HttpEventType.UploadProgress) {
@@ -44,9 +44,8 @@ export class FlashcardsAddCsvComponent implements OnInit {
           } else if (event instanceof HttpResponse) {
             this.currentFileUpload = undefined;
             alert(`Plik został zaimportowany.
-            Swoje fiszki możesz podejrzeć na liście zestawów fiszek
-            i tam je edytować jeśli zajdzie taka potrzeba :)`);
-            this.router.navigate(['flashcards/sets']);
+            Swoje materiały możesz podejrzeć na liście materiałów.`);
+            this.router.navigate(['materials/l']);
           }
         },
         error => {
@@ -54,10 +53,6 @@ export class FlashcardsAddCsvComponent implements OnInit {
           this.currentFileUpload = undefined;
         }
       );
-    } else {
-      this.currentFileUpload = undefined;
-      alert('Wybierz plik CSV!');
-    }
     this.selectedFiles = undefined;
   }
 }

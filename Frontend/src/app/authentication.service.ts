@@ -9,8 +9,7 @@ import 'rxjs/add/observable/throw';
 export class AuthenticationService {
     @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
     private authUrl = 'http://localhost:8080/login';
-    private headers = new Headers({'Content-Type': 'application/json',
-    'Authorization': '' + this.getToken()});
+    private headers = new Headers({'Content-Type': 'application/json'});
     public token: string;
     constructor(private http: Http) {
     }
@@ -40,7 +39,11 @@ export class AuthenticationService {
 
     getToken(): String {
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (currentUser.token == null) {
+          return ' ';
+      } else {
       return currentUser.authorization;
+        }
     }
 
     isLoggedIn(): boolean {

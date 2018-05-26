@@ -12,13 +12,21 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Injectable()
 export class FlashcardsService {
 
-  constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService ) { }
+  // tslint:disable-next-line:max-line-length
+  constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService ) { this.setHeaders(); }
+  private headers;
 
-  private headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': '' + this.authenticationService.getToken()
-    });
-
+  setHeaders() {
+    if (localStorage.getItem('currentUser')) {
+      this.headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': '' + this.authenticationService.getToken()
+        });
+      }else {
+        this.headers = new HttpHeaders({
+          'Content-Type': 'application/json'});
+        }
+  }
 
   add(body) {
     const url = 'sets/';
@@ -31,7 +39,7 @@ export class FlashcardsService {
   }
 
   getSets(): Observable<any> {
-    return this.httpClient.get('sets', {headers: this.headers});
+    return this.httpClient.get('sets');
   }
 
   sendData(url, body) {
@@ -58,10 +66,11 @@ export class FlashcardsService {
   }
 
   // sending file - import flashcards from CSV
-  pushFileToStorage(file: File, user: string, url: string): Observable<HttpEvent<{}>> {
+  pushFileToStorage(file: File, user: string , permission: string, url: string): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
     formdata.append('file', file);
-    formdata.append('id', user);
+    formdata.append('owner', user);
+    formdata.append('permission', permission);
     const req = new HttpRequest('POST', url, formdata, {
       reportProgress: true,
       responseType: 'text'
@@ -70,19 +79,19 @@ export class FlashcardsService {
   }
 
   getSet(id) {
-    return this.httpClient.get('sets/' + id + '/', {headers: this.headers});
+    return this.httpClient.get('sets/' + id + '/');
   }
 
   getTestPairing(id) {
-    return this.httpClient.get('sets/' + id + '/test/pairing/', {headers: this.headers});
+    return this.httpClient.get('sets/' + id + '/test/pairing/');
   }
 
   getTestFilling(id) {
-    return this.httpClient.get('sets/' + id + '/test/filling-in/', {headers: this.headers}).map((data: Array<Object>) => data);
+    return this.httpClient.get('sets/' + id + '/test/filling-in/').map((data: Array<Object>) => data);
   }
 
   getTestMemory(id) { // do zmiany adres
-    return this.httpClient.get('sets/' + id + '/test/memory/', {headers: this.headers}).map((data: Array<Object>) => data);
+    return this.httpClient.get('sets/' + id + '/test/memory/').map((data: Array<Object>) => data);
   }
 
   deleteSet(id) {

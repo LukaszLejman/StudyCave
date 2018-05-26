@@ -1,0 +1,25 @@
+<div class="wrapper">
+<app-materials-menu></app-materials-menu>
+    <div class="wrapper-add">
+      <div class="container">
+        <h1>Dodawanie pliku</h1>
+        <br />
+
+        <div *ngIf="currentFileUpload" class="progress">
+          <div class="progress-bar progress-bar-info progress-bar-striped"
+            role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+            aria-valuemin="0" aria-valuemax="100"
+            [ngStyle]="{width:progress.percentage+'%'}">
+            {{progress.percentage}}%</div>
+        </div>
+          <label class="btn btn-default">
+            Wybierz plik:
+            <input type="file" (change)="selectFile($event)">
+          </label>
+          <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
+          <br />
+          <button class="btn btn-danger" routerLink="/materials/list/">Powrót</button>
+      </div>
+    </div>
+  </div>
+  

@@ -3,6 +3,7 @@ import { FlashcardsService } from '../flashcards.service';
 import { Set } from '../set';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { FilterPipe } from '../../filter.pipe';
 
 @Component({
   selector: 'app-flashcards-sets-list',
@@ -14,7 +15,9 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
   sets = [{}];
   setsEmpty = true;
   selectedSet: Set;
-  flashcardSubscribtion: Subscription;
+  flashcardSubscription: Subscription;
+  user: Boolean = false;
+  ShowStatus: Boolean = false;
 
   constructor(private flashcardsService: FlashcardsService, private router: Router) { }
 
@@ -22,13 +25,27 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
     this.selectedSet = set;
     this.router.navigate(['flashcards/sets', this.selectedSet.id]);
   }
+  IsLogin() {
+    if (localStorage.getItem('currentUser')) {
+    this.user = true;
+    } else {
+    this.user = false;
+    }
+  }
+  ShowPublic() {
+    this.ShowStatus = false;
+  }
+  ShowPrivate() {
+    this.ShowStatus = true;
+  }
 
   ngOnInit() {
     this.getSets();
+    this.IsLogin();
   }
 
   getSets(): void {
-    this.flashcardSubscribtion = this.flashcardsService.getSets()
+    this.flashcardSubscription = this.flashcardsService.getSets()
       .subscribe(data => {
         this.sets = data;
         if (this.sets.length > 0) {
@@ -40,6 +57,6 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.flashcardSubscribtion.unsubscribe();
+    this.flashcardSubscription.unsubscribe();
   }
 }
