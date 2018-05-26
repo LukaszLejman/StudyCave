@@ -10,6 +10,9 @@ import { TrueFalseQuestionComponent } from './true-false-question/true-false-que
 import { SingleChoiceQuestionComponent } from './single-choice-question/single-choice-question.component';
 import { MultipleChoiceQuestionComponent } from './multiple-choice-question/multiple-choice-question.component';
 import { TestsService } from './tests.service';
+import { PuzzleQuestionComponent } from './puzzle-question/puzzle-question.component';
+import { GapsQuestionComponent } from './gaps-question/gaps-question.component';
+import { PairsQuestionComponent } from './pairs-question/pairs-question.component';
 
 @NgModule({
   imports: [
@@ -22,7 +25,10 @@ import { TestsService } from './tests.service';
     TestMakerComponent,
     TrueFalseQuestionComponent,
     SingleChoiceQuestionComponent,
-    MultipleChoiceQuestionComponent
+    MultipleChoiceQuestionComponent,
+    PuzzleQuestionComponent,
+    GapsQuestionComponent,
+    PairsQuestionComponent
   ],
   providers: [TestsService],
 })

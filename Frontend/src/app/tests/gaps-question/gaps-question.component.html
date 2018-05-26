@@ -1,0 +1,91 @@
+<div class="wrapper">
+  <div class="wrapper-add">
+    <div class="container">
+      <h2>Uzupełnianie luk</h2>
+      <br />
+      <div>
+        <label class="block">
+          <p>Określ liczbę punktów do zdobycia:</p>
+          <input type="number" step="1" min="1" name="points" class="form-control" [(ngModel)]="points" required />
+        </label>
+        <label class="block">
+          <p>Wprowadź treść pytania:</p>
+          <input type="text" name="question" class="form-control" [(ngModel)]="question"/>
+        </label>
+        <br />
+        <p>Wpisz tekst widoczny i tekst luki (luka może mieć więcej niż 1 dobrą odpowiedź - każdą odpowiedź oddziel <b>średnikiem</b>).</p>
+        <div>
+          <div *ngFor="let answer of answersCorrect; let i = index" class="row">
+            <label *ngIf="!answer.is_gap && (answer.content != '\n')" class="col-md-5">
+              <b>Tekst widoczny</b>
+              <input [(ngModel)]="answer.content" class="form-control" type="text" name="{{ answer.content }}"/>
+            </label>
+            <label *ngIf="answer.is_gap" class="col-md-5">
+              <b>Tekst luki</b>
+              <input [(ngModel)]="answer.content" class="form-control" type="text" name="{{ answer.content }}"/>
+            </label>
+            <label *ngIf="!answer.is_gap && (answer.content == '\n')" class="col-md-5">
+              <b>Tekst widoczny</b>
+              <br />
+              <b>Nowa linia</b>
+            </label>
+            <div class="col-md-2">
+              <b>Akcja</b>
+              <br />
+              <button class="btn btn-danger" type="button" (click)="removefromAnswers(i)">Usuń</button>
+            </div>
+            <div class="mobile col-md-2">
+              <b>Przesuń</b>
+              <br />
+              <button *ngIf="i != 0" class="mobile btn btn-success" (click)="moveUp(i + 1)">Góra</button>
+              <button *ngIf="i != answersCorrect.length - 1" class="mobile btn btn-warning" (click)="moveDown(i + 1)">Dół</button>
+              <span *ngIf="(i == 0) && (i == answersCorrect.length - 1)" >---</span>
+            </div>
+          </div>
+          <div *ngIf="visibleText" class="row">
+            <br />
+            <label class="col-md-5">
+              <b>Tekst widoczny</b>
+              <input type="text" name="{{ noGapText }}" class="form-control" [(ngModel)]="noGapText"/>
+            </label>
+            <div class="col-md-2">
+              <b>Akcja</b>
+              <br />
+              <button class="btn btn-success" type="button" (click)="addToVisibleText()">Zapisz</button>
+            </div>
+          </div>
+          <div *ngIf="gap" class="row">
+            <br />
+            <label class="col-md-5">
+              <b>Tekst luki</b>
+              <input type="text" name="{{ gapText }}" class="form-control" [(ngModel)]="gapText"/>
+            </label>
+            <div class="col-md-2">
+              <b>Akcja</b>
+              <br />
+              <button class="btn btn-success" type="button" (click)="addToGaps()">Zapisz</button>
+            </div>
+          </div>
+          <br />
+          <button class="btn btn-danger mb-2" (click)="showVisibleTextInput()">Dodaj tekst widoczny</button>
+          <button class="btn btn-success mb-2" (click)="showGapInput()">Dodaj tekst luki</button>
+          <button class="btn btn-primary mb-2" (click)="addNewLine()">Wstaw nową linię</button>
+          <div *ngIf="answersCorrect.length != 0">
+            <br />
+            <h5>Podgląd: </h5>
+            <i><span *ngFor="let answer of answersCorrect; let i = index">
+              <span *ngIf="!answer.is_gap && (answer.content != '\n')">{{ answer.content }}</span>
+              <span *ngIf="answer.is_gap"> ____________</span>
+              <span *ngIf="answer.content == '\n'"><br /></span>
+            </span></i>
+          </div>
+        </div>
+        <br />
+        <br />
+        <button *ngIf='!edit' class="btn btn-primary" type="submit" (click)="addTable()">Dodaj pytanie!</button>
+        <button *ngIf='edit' class="btn btn-primary" type="submit" (click)="addTable()">Edytuj pytanie!</button>
+        <button class="btn btn-success ml-2" (click)="empty()">Powrót</button>
+      </div>
+    </div>
+  </div>
+</div>

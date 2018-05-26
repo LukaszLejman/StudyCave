@@ -17,6 +17,9 @@ export class TestMakerComponent implements OnInit {
   private trueFalse: Boolean = false;
   private singleChoice: Boolean = false;
   private multipleChoice: Boolean = false;
+  private puzzle: Boolean = false;
+  private gaps: Boolean = false;
+  private pairs: Boolean = false;
 
   private componentVisible: Boolean = false;
   private nr: Number = 0;
@@ -32,8 +35,10 @@ export class TestMakerComponent implements OnInit {
     this.trueFalse = false;
     this.singleChoice = false;
     this.multipleChoice = false;
+    this.puzzle = false;
+    this.gaps = false;
+    this.pairs = false;
     this.componentVisible = false;
-
     if (Object.keys(question).length !== 0) {
       let short = question['content']['question'];
       if (short.length > 15) {
@@ -62,6 +67,9 @@ export class TestMakerComponent implements OnInit {
     this.trueFalse = false;
     this.singleChoice = false;
     this.multipleChoice = false;
+    this.puzzle = false;
+    this.gaps = false;
+    this.pairs = false;
     this.nr = nr;
 
     if (type === 'true-false') {
@@ -72,6 +80,15 @@ export class TestMakerComponent implements OnInit {
     }
     if (type === 'multiple-choice') {
       this.multipleChoice = true;
+    }
+    if (type === 'puzzle') {
+      this.puzzle = true;
+    }
+    if (type === 'gaps') {
+      this.gaps = true;
+    }
+    if (type === 'pairs') {
+      this.pairs = true;
     }
   }
 

@@ -6,7 +6,7 @@
       <form ngNativeValidate action="/" method="post" #user="ngForm" (ngSubmit)="addTable(user.value)">
         <label class="block">
           <p>Określ liczbę punktów do zdobycia:</p>
-          <input type="number" step="1" min="0" name="points" class="form-control" [(ngModel)]="content.content.points" required />
+          <input type="number" step="1" min="1" name="points" class="form-control" [(ngModel)]="content.content.points" required />
         </label>
         <label class="block">
             <p>Wprowadź treść pytania:</p>

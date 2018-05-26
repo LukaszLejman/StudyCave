@@ -1,45 +1,44 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-multiple-choice-question',
-  templateUrl: './multiple-choice-question.component.html',
-  styleUrls: ['./multiple-choice-question.component.css']
+  selector: 'app-pairs-question',
+  templateUrl: './pairs-question.component.html',
+  styleUrls: ['./pairs-question.component.css']
 })
-export class MultipleChoiceQuestionComponent implements OnInit {
+export class PairsQuestionComponent implements OnInit {
 
   @Input() private content: Object = {};
   @Input() private edit: Boolean;
 
-  private isChecked: Boolean = false;
   private answers: Array<Object> = [];
   private answersCorrect: Array<Object> = [];
   private newAttribute: any = {};
-  private question: String = '';
+  private question: String = 'Połącz w pary.';
   private points: Number = 1;
 
   @Output() private add: EventEmitter<Object> = new EventEmitter();
   @Output() private editing: EventEmitter<Object> = new EventEmitter();
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     if (this.edit) {
+      this.answers = [];
       this.content['edit'] = true;
       this.question = this.content['content']['question'];
-      this.answers = [];
       const answ = this.content['content']['answers'];
       for (let i = 0; i < answ.length; i++) {
         this.answersCorrect.push({
-          content: answ[i]['content'],
-          is_good: answ[i]['is_good']
+          first: answ[i]['first'],
+          second: answ[i]['second']
         });
       }
       this.points = this.content['content']['points'];
     } else {
       this.content = {};
       this.content['content'] = {
-        type: 'multiple-choice',
-        question: '',
+        type: 'pairs',
+        question: 'Połącz w pary.',
         answers: [],
         points: 1
       };
@@ -48,30 +47,28 @@ export class MultipleChoiceQuestionComponent implements OnInit {
   }
 
   addFieldValue(): void {
-    const undefinedAttr = (this.newAttribute['content'] === undefined);
+    const undefinedAttr = ((this.newAttribute['first'] === undefined) || (this.newAttribute['second'] === undefined));
       if (undefinedAttr) {
-        alert('Nie można dodać pustej odpowiedzi!');
+        alert('Żaden z elementów dopasowania nie może być pusty!');
       } else {
-        const length = (this.newAttribute['content'].trim().length === 0);
+        const length = ((this.newAttribute['first'].trim().length === 0) || (this.newAttribute['second'].trim().length === 0));
         if (length) {
-          alert('Nie można dodać pustej odpowiedzi!');
+          alert('Żaden z elementów dopasowania nie może być pusty!');
         } else {
-          this.newAttribute['is_good'] = this.isChecked;
-
           let exists = false;
           for (let i = 0; i < this.answersCorrect.length; i++) {
-            if (this.newAttribute['content'] === this.answersCorrect[i]['content']) {
+            if ((this.newAttribute['first'] === this.answersCorrect[i]['first']) ||
+                (this.newAttribute['second'] === this.answersCorrect[i]['second'])) {
               exists = true;
-              alert('Odpowiedź już istnieje!');
+              alert('Elementy dopasowania nie mogą się powtarzać!');
               break;
             }
           }
-
           if (!exists) {
             this.answersCorrect.push(this.newAttribute);
             this.newAttribute = {
-              content: '',
-              is_good: this.isChecked
+              first: '',
+              second: ''
             };
           }
         }
@@ -82,18 +79,6 @@ export class MultipleChoiceQuestionComponent implements OnInit {
     this.answersCorrect.splice(index, 1);
   }
 
-  changeCheckbox(i: number): void {
-    this.answersCorrect[i]['is_good'] = !this.answersCorrect[i]['is_good'];
-  }
-
-  changeCheckbox2(event): void {
-    if (event.target.checked) {
-      this.isChecked = true;
-    } else {
-      this.isChecked = false;
-    }
-  }
-
   addTable(): void {
     if ((this.question === undefined) || (this.question.trim().length === 0)) {
       alert('Pytanie nie może być puste!');
@@ -101,26 +86,34 @@ export class MultipleChoiceQuestionComponent implements OnInit {
       if (this.answersCorrect.length < 2) {
         alert('Pytanie musi zawierać co najmniej 2 odpowiedzi!');
       } else {
-        let checked = false;
+        let empty = false;
         for (let i = 0; i < this.answersCorrect.length; i++) {
-          if (this.answersCorrect[i]['is_good']) {
-            checked = true;
+          if ((this.answersCorrect[i]['first'].trim().length === 0) ||
+              (this.answersCorrect[i]['second'].trim().length === 0)) {
+            empty = true;
             break;
           }
         }
-        if (!checked) {
-          alert('Zaznacz prawidłową odpowiedź!');
+        if (empty) {
+          alert('Żadne pole dopasowania nie może być puste!');
         } else {
-          let empty = false;
+          let exists = false;
           for (let i = 0; i < this.answersCorrect.length; i++) {
-            if (this.answersCorrect[i]['content'].trim().length === 0) {
-              empty = true;
+            for (let j = 0; j < this.answersCorrect.length; j++) {
+              if (i !== j) {
+                if ((this.answersCorrect[i]['first'] === this.answersCorrect[j]['first']) ||
+                  (this.answersCorrect[i]['second'] === this.answersCorrect[j]['second'])) {
+                  exists = true;
+                  alert('Elementy dopasowania nie mogą się powtarzać!');
+                  break;
+                }
+              }
+            }
+            if (exists) {
               break;
             }
           }
-          if (empty) {
-            alert('Żadna z odpowiedzi nie może być pusta!');
-          } else {
+          if (!exists) {
             this.content['content']['question'] = this.question;
             this.answers = this.answersCorrect;
             this.content['content']['answers'] = this.answers;
@@ -149,7 +142,6 @@ export class MultipleChoiceQuestionComponent implements OnInit {
   clear(): void {
     this.content = {};
     this.edit = false;
-    this.isChecked = false;
     this.question = '';
     this.answers = [];
     this.answersCorrect = [];

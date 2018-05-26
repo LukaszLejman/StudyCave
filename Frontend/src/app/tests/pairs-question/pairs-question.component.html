@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="wrapper-add">
     <div class="container">
-      <h2>Pytanie jednokrotnego wyboru</h2>
+      <h2>Łączenie w pary</h2>
       <br />
       <div>
         <label class="block">
@@ -13,18 +13,18 @@
           <input type="text" name="question" class="form-control" [(ngModel)]="question"/>
         </label>
         <br />
-        <p>Wpisz możliwe odpowiedzi i zaznacz prawidłową:</p>
+        <p>Wpisz wszystkie dopasowania:</p>
         <div>
           <div *ngFor="let answer of answersCorrect; let i = index" class="row">
-            <label class="col-md-1">
-              <b>OK?</b>
-              <input type="checkbox" name="{{ answer.is_good }}" class="form-control" [checked]="answer.is_good" (change)="changeCheckbox(i)"/>
+            <label class="col-md-5">
+              <b>Pierwszy element dopasowania</b>
+              <input [(ngModel)]="answer.first" class="form-control" type="text" name="{{ answer.first }}"/>
             </label>
-            <label class="col-md-8">
-              <b>Treść</b>
-              <input [(ngModel)]="answer.content" class="form-control" type="text" name="{{ answer.content }}"/>
+            <label class="col-md-5">
+              <b>Drugi element dopasowania</b>
+              <input [(ngModel)]="answer.second" class="form-control" type="text" name="{{ answer.second }}"/>
             </label>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <b>Akcja</b>
               <br />
               <button class="btn btn-danger" type="button" (click)="deleteFieldValue(i)">Usuń</button>
@@ -32,15 +32,14 @@
           </div>
           <br />
           <div class="row">
-            <label class="col-md-1">
-              <b>OK?</b>
-              <input type="checkbox" name="{{ newAttribute.is_good }}" class="form-control" [checked]="newAttribute.is_good" (change)="changeCheckbox2($event)" />
+            <label class="col-md-5">
+              <b>Pierwszy element dopasowania</b>
+              <input type="text" name="{{ newAttribute.first }}" class="form-control" [(ngModel)]="newAttribute.first"/>            </label>
+            <label class="col-md-5">
+              <b>Drugi element dopasowania</b>
+              <input type="text" name="{{ newAttribute.second }}" class="form-control" [(ngModel)]="newAttribute.second"/>
             </label>
-            <label class="col-md-8">
-              <b>Treść</b>
-              <input type="text" name="{{ newAttribute.content }}" class="form-control" [(ngModel)]="newAttribute.content"/>
-            </label>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <b>Akcja</b>
               <br />
               <button class="btn btn-success" type="button" (click)="addFieldValue()">Dodaj</button>

@@ -12,9 +12,10 @@ export class SingleChoiceQuestionComponent implements OnInit {
 
   private isChecked: Boolean = false;
   private answers: Array<Object> = [];
+  private answersCorrect: Array<Object> = [];
   private newAttribute: any = {};
   private question: String = '';
-  private points: Number = 0;
+  private points: Number = 1;
 
   @Output() private add: EventEmitter<Object> = new EventEmitter();
   @Output() private editing: EventEmitter<Object> = new EventEmitter();
@@ -25,7 +26,14 @@ export class SingleChoiceQuestionComponent implements OnInit {
     if (this.edit) {
       this.content['edit'] = true;
       this.question = this.content['content']['question'];
-      this.answers = this.content['content']['answers'];
+      this.answers = [];
+      const answ = this.content['content']['answers'];
+      for (let i = 0; i < answ.length; i++) {
+        this.answersCorrect.push({
+          content: answ[i]['content'],
+          is_good: answ[i]['is_good']
+        });
+      }
       this.points = this.content['content']['points'];
     } else {
       this.content = {};
@@ -33,7 +41,7 @@ export class SingleChoiceQuestionComponent implements OnInit {
         type: 'single-choice',
         question: '',
         answers: [],
-        points: 0
+        points: 1
       };
       this.content['edit'] = false;
     }
@@ -51,8 +59,8 @@ export class SingleChoiceQuestionComponent implements OnInit {
           this.newAttribute['is_good'] = this.isChecked;
 
           let exists = false;
-          for (let i = 0; i < this.answers.length; i++) {
-            if (this.newAttribute['content'] === this.answers[i]['content']) {
+          for (let i = 0; i < this.answersCorrect.length; i++) {
+            if (this.newAttribute['content'] === this.answersCorrect[i]['content']) {
               exists = true;
               alert('Odpowiedź już istnieje!');
               break;
@@ -60,7 +68,7 @@ export class SingleChoiceQuestionComponent implements OnInit {
           }
 
           if (!exists) {
-            this.answers.push(this.newAttribute);
+            this.answersCorrect.push(this.newAttribute);
             this.newAttribute = {
               content: '',
               is_good: this.isChecked
@@ -71,11 +79,11 @@ export class SingleChoiceQuestionComponent implements OnInit {
     }
 
   deleteFieldValue(index): void {
-    this.answers.splice(index, 1);
+    this.answersCorrect.splice(index, 1);
   }
 
   changeCheckbox(i: number): void {
-    this.answers[i]['is_good'] = !this.answers[i]['is_good'];
+    this.answersCorrect[i]['is_good'] = !this.answersCorrect[i]['is_good'];
   }
 
   changeCheckbox2(event): void {
@@ -86,16 +94,16 @@ export class SingleChoiceQuestionComponent implements OnInit {
     }
   }
 
-  addTable() {
+  addTable(): void {
     if ((this.question === undefined) || (this.question.trim().length === 0)) {
       alert('Pytanie nie może być puste!');
     } else {
-      if (this.answers.length < 2) {
+      if (this.answersCorrect.length < 2) {
         alert('Pytanie musi zawierać co najmniej 2 odpowiedzi!');
       } else {
         let checked = false;
-        for (let i = 0; i < this.answers.length; i++) {
-          if (this.answers[i]['is_good']) {
+        for (let i = 0; i < this.answersCorrect.length; i++) {
+          if (this.answersCorrect[i]['is_good']) {
             checked = true;
             break;
           }
@@ -105,8 +113,8 @@ export class SingleChoiceQuestionComponent implements OnInit {
         } else {
           let t = true;
           let times = 0;
-          for (let i = 0; i < this.answers.length; i++) {
-            if (this.answers[i]['is_good']) {
+          for (let i = 0; i < this.answersCorrect.length; i++) {
+            if (this.answersCorrect[i]['is_good']) {
               times++;
             }
             if (times > 1) {
@@ -116,22 +124,34 @@ export class SingleChoiceQuestionComponent implements OnInit {
             }
           }
           if (t) {
-            this.content['content']['question'] = this.question;
-            this.content['content']['answers'] = this.answers;
-            this.content['content']['points'] = this.points;
-            if (this.edit) {
-              this.editing.emit(this.content);
-            } else {
-              this.add.emit(this.content);
+            let empty = false;
+            for (let i = 0; i < this.answersCorrect.length; i++) {
+              if (this.answersCorrect[i]['content'].trim().length === 0) {
+                empty = true;
+                break;
+              }
             }
-            this.clear();
+            if (empty) {
+              alert('Żadna z odpowiedzi nie może być pusta!');
+            } else {
+              this.content['content']['question'] = this.question;
+              this.answers = this.answersCorrect;
+              this.content['content']['answers'] = this.answers;
+              this.content['content']['points'] = this.points;
+              if (this.edit) {
+                this.editing.emit(this.content);
+              } else {
+                this.add.emit(this.content);
+              }
+              this.clear();
+            }
           }
         }
       }
     }
   }
 
-  empty() {
+  empty(): void {
     if (this.edit) {
       this.editing.emit({});
     } else {
@@ -146,6 +166,7 @@ export class SingleChoiceQuestionComponent implements OnInit {
     this.isChecked = false;
     this.question = '';
     this.answers = [];
+    this.answersCorrect = [];
     this.newAttribute = {};
   }
 

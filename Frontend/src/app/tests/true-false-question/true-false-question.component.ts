@@ -29,7 +29,7 @@ export class TrueFalseQuestionComponent implements OnInit {
           {content: 'Prawda', is_good: false},
           {content: 'Fałsz', is_good: false}
         ],
-        points: 0
+        points: 1
       };
       this.content['edit'] = false;
     }
@@ -71,7 +71,7 @@ export class TrueFalseQuestionComponent implements OnInit {
     this.clear();
   }
 
-  empty() {
+  empty(): void {
     if (this.edit) {
       this.editing.emit({});
     } else {

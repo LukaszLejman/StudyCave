@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="wrapper-add">
       <div class="container">
-        <h2>Pytanie wielokrotnego wyboru</h2>
+        <h2>Rozsypanka wyrazowa</h2>
         <br />
         <div>
           <label class="block">
@@ -13,34 +13,33 @@
             <input type="text" name="question" class="form-control" [(ngModel)]="question"/>
           </label>
           <br />
-          <p>Wpisz możliwe odpowiedzi i zaznacz prawidłową:</p>
+          <p>Wpisz kolejno wszystkie elementy rozsypanki:</p>
           <div>
             <div *ngFor="let answer of answersCorrect; let i = index" class="row">
-              <label class="col-md-1">
-                <b>OK?</b>
-                <input type="checkbox" name="{{ answer.is_good }}" class="form-control" [checked]="answer.is_good" (change)="changeCheckbox(i)"/>
-              </label>
-              <label class="col-md-8">
-                <b>Treść</b>
-                <input [(ngModel)]="answer.content" class="form-control" type="text" name="{{ answer.content }}"/>
-              </label>
-              <div class="col-md-3">
+                <label class="col-md-5">
+                    <b>{{ i + 1 }}. element rozsypanki</b>
+                    <input [(ngModel)]="answer.correct" class="form-control" type="text" name="{{ answer.correct }}"/>
+                </label>
+              <div class="col-md-2">
                 <b>Akcja</b>
                 <br />
                 <button class="btn btn-danger" type="button" (click)="deleteFieldValue(i)">Usuń</button>
               </div>
+              <div class="mobile col-md-2">
+                <b>Przesuń</b>
+                <br />
+                <button *ngIf="i != 0" class="btn btn-success" (click)="moveUp(i + 1)">Góra</button>
+                <button *ngIf="i != answersCorrect.length - 1" class="btn btn-warning" (click)="moveDown(i + 1)">Dół</button>
+                <span *ngIf="(i == 0) && (i == answersCorrect.length - 1)" >---</span>
+              </div>
             </div>
             <br />
             <div class="row">
-              <label class="col-md-1">
-                <b>OK?</b>
-                <input type="checkbox" name="{{ newAttribute.is_good }}" class="form-control" [checked]="newAttribute.is_good" (change)="changeCheckbox2($event)" />
-              </label>
-              <label class="col-md-8">
-                <b>Treść</b>
-                <input type="text" name="{{ newAttribute.content }}" class="form-control" [(ngModel)]="newAttribute.content"/>
-              </label>
-              <div class="col-md-3">
+                <label class="col-md-5">
+                    <b>Nowy element rozsypanki</b>
+                    <input type="text" name="{{ newAttribute.correct }}" class="form-control" [(ngModel)]="newAttribute.correct"/>
+                </label>
+              <div class="col-md-2">
                 <b>Akcja</b>
                 <br />
                 <button class="btn btn-success" type="button" (click)="addFieldValue()">Dodaj</button>
