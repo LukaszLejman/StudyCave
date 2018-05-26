@@ -28,6 +28,9 @@ public class Test {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String title;
+    @Column(name="owner")
+    @JsonProperty("owner")
+    private String Owner;
     @Column(name="add_date")
     @JsonProperty("add_date")
     private Date addDate;
@@ -66,12 +69,12 @@ public class Test {
 		this.title = title;
 	}
 
-	public User getUser() {
-		return user;
+	public String getOwner() {
+		return Owner;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setIdOwner(String Owner) {
+		this.Owner = Owner;
 	}
 
 	public Date getAddDate() {
