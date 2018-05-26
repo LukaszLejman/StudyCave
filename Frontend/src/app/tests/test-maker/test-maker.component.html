@@ -37,11 +37,13 @@
         <div *ngIf="test.length != 0">
           <h3 *ngIf="!componentVisible">Dodane pytania: </h3>
           <br />
+          <h5>Maksymalna liczba punktów do zdobycia: <b>{{ pointsAll }}</b></h5>
           <table class="table">
             <thead *ngIf="!componentVisible">
               <tr>
                 <th>Lp.</th>
                 <th>Typ</th>
+                <th class="mobile">Punkty</th>
                 <th class="mobile">Pytanie</th>
                 <th>Usuń</th>
                 <th class="mobile">Przenieś</th>
@@ -62,6 +64,8 @@
                     *ngIf='question.content.type == "gaps"'>Uzupełnianie luk</td>
                 <td (click)='showComponents(question.content.type, question.nr)'
                     *ngIf='question.content.type == "pairs"'>Łączenie w pary</td>
+                <td (click)='showComponents(question.content.type, question.nr)'
+                    class="mobile">{{ question.content.points }}</td>
                 <td (click)='showComponents(question.content.type, question.nr)'
                     class="mobile">{{ question.shortcut }}</td>
                 <td><button class="btn btn-danger" (click)="delete(question.nr)">Usuń</button></td>

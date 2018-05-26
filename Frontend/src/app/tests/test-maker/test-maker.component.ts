@@ -23,6 +23,7 @@ export class TestMakerComponent implements OnInit {
 
   private componentVisible: Boolean = false;
   private nr: Number = 0;
+  private pointsAll: Number = 0;
 
   constructor(private testsService: TestsService) {}
 
@@ -31,6 +32,7 @@ export class TestMakerComponent implements OnInit {
   // edycja - onLoad() - na odp. serwera -> dla każdego pytania twórz shortcut i dodaj wszystko do zmiennej test. Tytuł testu w zm. title
 
   onAdd(question: Object): void {
+    this.pointsAll = 0;
     this.shown = false;
     this.trueFalse = false;
     this.singleChoice = false;
@@ -52,6 +54,14 @@ export class TestMakerComponent implements OnInit {
         question['nr'] = this.test.length + 1;
         this.test.push(question);
       }
+    }
+    this.countPoints();
+  }
+
+  countPoints(): void {
+    this.pointsAll = 0;
+    for (let i = 0; i < this.test.length; i++) {
+      this.pointsAll += this.test[i]['content']['points'];
     }
   }
 
@@ -93,6 +103,7 @@ export class TestMakerComponent implements OnInit {
   }
 
   setIndexes(): void {
+    this.countPoints();
     const n = this.test.length;
     for (let i = 0; i < n; i++) {
       this.test[i]['nr'] = i + 1;
