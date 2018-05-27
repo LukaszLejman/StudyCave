@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import studycave.application.user.User;
+import studycave.application.user.UserRepository;
 
 @RestController
 @CrossOrigin
@@ -33,6 +36,8 @@ public class SetController {
 	FlashcardRepository flashcardRepository;
 	@Autowired
 	SetRepository setRepository;
+	@Autowired
+	UserRepository userRepository;
 	@Autowired
 	SimpleSetRepository simpleSetRepository;
 
@@ -235,13 +240,21 @@ public class SetController {
 	}
 
 	@PostMapping
-	public void postSet(@RequestBody Set set) {
+	public void postSet(@RequestBody SetCreateDTO setDTO) {
+		User user= userRepository.findByUsername(setDTO.getOwner()).get();
+
+		setDTO.setIdOwner( user.getId());
+		ModelMapper modelMapper = new ModelMapper();
+		Set set = modelMapper.map(setDTO, Set.class);
+		set.setId((long) 0); 
+		System.out.println(set.getId());
 		for (Flashcard flashcard : set.getFlashcards())
 			flashcard.setFlashcardSet(set);
 		set.setAddDate();
 		set.setEditDate();
 		setRepository.save(set);
 	}
+
 
 	@DeleteMapping("flashcard/{id}")
 	public void deleteFlashCard(@PathVariable(required = true) Long id) {
