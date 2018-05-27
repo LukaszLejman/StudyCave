@@ -1,6 +1,8 @@
 package studycave.application;
 
 import javax.annotation.Resource;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +25,11 @@ public class StudycaveRestServiceApplication implements CommandLineRunner {
 	 public BCryptPasswordEncoder bCryptPasswordEncoder() {
 	  return new BCryptPasswordEncoder();
 	 }
+	
+	@Bean
+	public ModelMapper modelMapper() {
+	    return new ModelMapper();
+	}
 	
 	@Override
 	public void run(String... arg) throws Exception {

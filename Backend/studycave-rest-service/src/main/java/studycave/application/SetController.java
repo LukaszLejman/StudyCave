@@ -40,6 +40,8 @@ public class SetController {
 	UserRepository userRepository;
 	@Autowired
 	SimpleSetRepository simpleSetRepository;
+	@Autowired
+	ModelMapper modelMapper;
 
 	@GetMapping("/{id}")
 	public Optional<Set> getSet(@PathVariable(required = true) Long id) {
@@ -244,10 +246,8 @@ public class SetController {
 		User user= userRepository.findByUsername(setDTO.getOwner()).get();
 
 		setDTO.setIdOwner( user.getId());
-		ModelMapper modelMapper = new ModelMapper();
 		Set set = modelMapper.map(setDTO, Set.class);
 		set.setId((long) 0); 
-		System.out.println(set.getId());
 		for (Flashcard flashcard : set.getFlashcards())
 			flashcard.setFlashcardSet(set);
 		set.setAddDate();
@@ -262,7 +262,16 @@ public class SetController {
 	}
 
 	@PutMapping
-	public void putSet(@RequestBody Set set) {
+	public void putSet(@RequestBody SetOwnerDTO setDTO) {
+		
+		User user= userRepository.findByUsername(setDTO.getOwner()).get();
+		setDTO.setIdOwner( user.getId());
+		
+		Set set = modelMapper.map(setDTO, Set.class);
+		for (Flashcard flashcard : set.getFlashcards())
+			flashcard.setFlashcardSet(set);
+		
+		
 		List<Long> delete = new ArrayList<>();
 		Set oldset = setRepository.findById(set.getId()).orElse(null);
 		set.setAddDate(oldset.getAddDate());
