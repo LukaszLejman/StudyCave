@@ -1,10 +1,6 @@
 package studycave.application;
-
-import javax.persistence.ManyToOne;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModelProperty;
 
 public class FlashcardSetCreateDTO {
 
@@ -12,11 +8,6 @@ public class FlashcardSetCreateDTO {
     private String leftSide;
 	@JsonProperty("right_side")
     private String rightSide;
-
-    @ManyToOne
-    @ApiModelProperty(hidden = true)
-    @JsonBackReference
-    private SetCreateDTO flashcardSet;
 	
     protected FlashcardSetCreateDTO() {}
 
@@ -38,13 +29,5 @@ public class FlashcardSetCreateDTO {
 
 	public void setRightSide(String rightSide) {
 		this.rightSide = rightSide;
-	}
-
-	public SetCreateDTO getFlashcardSet() {
-		return flashcardSet;
-	}
-
-	public void setFlashcardSet(SetCreateDTO flashcardSet) {
-		this.flashcardSet = flashcardSet;
 	}
 }
