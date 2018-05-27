@@ -34,6 +34,8 @@ public class Set {
 	@JsonProperty("edit_date")
     private Date editDate;
     private int grade;
+    @Column(name="permission")
+    private String permission;
     
     @OneToMany(fetch = FetchType.LAZY,mappedBy="flashcardSet",cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -123,5 +125,15 @@ public class Set {
 	public void setFlashcards(List<Flashcard> flashcards) {
 		this.flashcards = flashcards;
 	}
+
+	public String getPermission() {
+		return permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
+	
+	
 	
 }

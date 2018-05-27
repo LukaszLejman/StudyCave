@@ -29,7 +29,8 @@ public class SimpleSet {
 	@JsonProperty("edit_date")
     private Date editDate;
     private int grade;
-
+    private String permission;
+    
     protected SimpleSet() {}
 
 	public SimpleSet(String name, String category, int idOwner) {
@@ -101,4 +102,13 @@ public class SimpleSet {
 	public void setGrade(int grade) {
 		this.grade = grade;
 	}
+
+	public String getPermission() {
+		return permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
+	
 }

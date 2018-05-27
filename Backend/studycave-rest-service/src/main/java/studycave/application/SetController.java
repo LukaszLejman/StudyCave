@@ -1,5 +1,6 @@
 package studycave.application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +39,21 @@ public class SetController {
 	@GetMapping("/{id}")
 	public Optional<Set> getSet(@PathVariable(required = true) Long id) {
 		return setRepository.findById(id);
+	}
+	
+	@PutMapping("/{id}/permission")
+	public ResponseEntity changePermission(@PathVariable(required = true) Long id, @RequestBody String permission) throws IOException {
+		Set set= setRepository.findById(id).get();
+		set.setPermission(permission);
+		setRepository.save(set);
+		
+		return new ResponseEntity<>(HttpStatus.SEE_OTHER);
+	}
+	
+	@GetMapping("/{id}/permission")
+	public String getPermission(@PathVariable(required = true) Long id) throws IOException {
+		Set set= setRepository.findById(id).get();
+		return set.getPermission();
 	}
 
 	@GetMapping("/{id}/test/filling-in")
