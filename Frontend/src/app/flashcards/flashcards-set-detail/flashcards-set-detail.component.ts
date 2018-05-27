@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Set } from '../set';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FlashcardsService } from '../flashcards.service';
@@ -14,9 +14,49 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   set: any;
   flashcardSubscribtion: Subscription;
   testTypeMenu = false;
+  user: Boolean = false;
+  ShowStatus: Boolean = false;
+  permission: string;
+  owner;
+  owned: Boolean = false;
+
+
+  constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService, private router: Router) { }
+  ngOnInit() {
+    this.id = this.route.snapshot.params.id;
+    this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => { this.set = data; });
+    this.IsLogin();
+    this.owner = this.flashcardsService.getOwner();
+  }
+
+  isOwner() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (/*currentUser*/'1' === this.set.owner) {
+      this.owned = true;
+    } else {
+      this.owned = false;
+    }
+  }
 
   showTestTypeMenu() {
     this.testTypeMenu = true;
+  }
+
+  IsLogin() {
+    if (localStorage.getItem('currentUser')) {
+    this.user = true;
+    } else {
+    this.user = false;
+    }
+  }
+
+  changePermission(): void {
+    if (this.set.permission === 'Public') {
+     this.permission = 'Private';
+    } else {
+     this.permission = 'Public';
+    }
+    this.flashcardsService.changeSetPermission(this.id, this.permission);
   }
 
   handleCancelFlashcardsTestyTypeMenu(e) {
@@ -27,11 +67,6 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['flashcards/sets/edit', this.id]);
   }
 
-  constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService, private router: Router) { }
-  ngOnInit() {
-    this.id = this.route.snapshot.params.id;
-    this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => { this.set = data; });
-  }
 
   ngOnDestroy() {
     this.flashcardSubscribtion.unsubscribe();

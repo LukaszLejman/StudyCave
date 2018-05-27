@@ -34,7 +34,7 @@ export class FlashcardsAddCsvComponent implements OnInit {
   upload() {
     this.progress.percentage = 0;
     const url = 'file/upload';
-    const permission = 'public';
+    const permission = 'Private';
     this.currentFileUpload = this.selectedFiles.item(0);
     if (this.currentFileUpload.type === 'application/vnd.ms-excel') {
       this.uploadService.pushFileToStorage(this.currentFileUpload, this.user, permission, url).subscribe(

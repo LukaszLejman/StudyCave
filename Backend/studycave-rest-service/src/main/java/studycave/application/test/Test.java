@@ -32,7 +32,17 @@ public class Test {
     @JsonProperty("edit_date")
     private Date editDate;
     
-    @OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
+    private String permission;
+    
+    public String getPermission() {
+		return permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
     @JsonProperty("body")
     @JsonManagedReference
     List<Question> questions;

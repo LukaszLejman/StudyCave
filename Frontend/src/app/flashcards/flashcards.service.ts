@@ -15,6 +15,7 @@ export class FlashcardsService {
   // tslint:disable-next-line:max-line-length
   constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService ) { this.setHeaders(); }
   private headers;
+  owner;
 
   setHeaders() {
     if (localStorage.getItem('currentUser')) {
@@ -26,6 +27,13 @@ export class FlashcardsService {
         this.headers = new HttpHeaders({
           'Content-Type': 'application/json'});
         }
+  }
+
+  changeSetPermission(id, permission) {
+    this.httpClient.put('sets/' + id + '/permission', permission , {headers: this.headers})
+    .subscribe(data => { this.sendResponse(data); },
+      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+      );
   }
 
   add(body) {
@@ -40,6 +48,15 @@ export class FlashcardsService {
 
   getSets(): Observable<any> {
     return this.httpClient.get('sets');
+  }
+
+  setOwner(owner) {
+    this.owner = owner;
+
+  }
+
+  getOwner() {
+    return this.owner;
   }
 
   sendData(url, body) {

@@ -53,8 +53,9 @@ export class FlashcardsAddTableComponent implements OnInit {
       this.tableToSend = {
         name: value.title,
         category: value.category,
-        owner: this.currentUser.username,
-        flashcards: this.fieldArray
+        owner: '1', // this.currentUser.username,
+        flashcards: this.fieldArray,
+        permission: 'Private'
       };
       this.flashcardsService.add(this.tableToSend);
     }

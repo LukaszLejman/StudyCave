@@ -38,7 +38,17 @@ public class Question {
     @JsonProperty("nr")
     private int nrQuestion;
     
-    @ApiModelProperty(hidden = true)
+    private int points;
+    
+    public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+	@ApiModelProperty(hidden = true)
     @ManyToOne
     @JoinColumn(name="id_test",referencedColumnName="id")
     @JsonBackReference
