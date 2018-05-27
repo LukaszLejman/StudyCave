@@ -16,7 +16,7 @@ export class FlashcardsAddTableComponent implements OnInit {
 
   constructor(private flashcardsService: FlashcardsService) { }
 
-  ngOnInit() {this.isLoggedIn(); }
+  ngOnInit() { this.isLoggedIn(); }
 
   isLoggedIn() {
     if (localStorage.getItem('currentUser') === null) {
@@ -27,7 +27,7 @@ export class FlashcardsAddTableComponent implements OnInit {
   }
 
   addFieldValue() {
-  const undefinedAttr = ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined));
+    const undefinedAttr = ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined));
     if (undefinedAttr) {
       alert('Nie można dodać fiszki z pustym polem!');
     } else {
@@ -45,6 +45,14 @@ export class FlashcardsAddTableComponent implements OnInit {
     this.fieldArray.splice(index, 1);
   }
 
+  setOwner(): string {
+    if (localStorage.getItem('currentUser')) {
+      return JSON.parse(localStorage.getItem('currentUser')).username;
+    } else {
+      return 'anonim';
+    }
+  }
+
   addTable(value: any) {
     // obsługa formularza dodawania fiszek do tabeli
     if (this.fieldArray.length === 0) {
@@ -53,7 +61,7 @@ export class FlashcardsAddTableComponent implements OnInit {
       this.tableToSend = {
         name: value.title,
         category: value.category,
-        owner: JSON.parse(localStorage.getItem('currentUser')).username, // this.currentUser.username,
+        owner: this.setOwner(), // this.currentUser.username,
         flashcards: this.fieldArray,
         permission: 'Private'
       };
