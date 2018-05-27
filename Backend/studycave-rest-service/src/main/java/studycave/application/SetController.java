@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,22 +41,27 @@ public class SetController {
 	ModelMapper modelMapper;
 
 	@GetMapping("/{id}")
-	public Optional<Set> getSet(@PathVariable(required = true) Long id) {
-		return setRepository.findById(id);
+	public SetOwnerDTO getSet(@PathVariable(required = true) Long id) {
+
+		// return setRepository.findById(id);
+		Set set = setRepository.findById(id).get();
+		User user = userRepository.findById((long) set.getIdOwner()).get();
+
+		SetOwnerDTO setDTO = modelMapper.map(set, SetOwnerDTO.class);
+		setDTO.setOwner(user.getUsername());
+		return setDTO;
 	}
-	
+
 	@PutMapping("/{id}/permission")
-	public ResponseEntity changePermission(@PathVariable(required = true) Long id, @RequestBody String permission) throws IOException {
-		Set set= setRepository.findById(id).get();
+	public void changePermission(@PathVariable(required = true) Long id, @RequestBody String permission) {
+		Set set = setRepository.findById(id).get();
 		set.setPermission(permission);
 		setRepository.save(set);
-		
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}/permission")
 	public String getPermission(@PathVariable(required = true) Long id) throws IOException {
-		Set set= setRepository.findById(id).get();
+		Set set = setRepository.findById(id).get();
 		return set.getPermission();
 	}
 
@@ -243,18 +245,17 @@ public class SetController {
 
 	@PostMapping
 	public void postSet(@RequestBody SetCreateDTO setDTO) {
-		User user= userRepository.findByUsername(setDTO.getOwner()).get();
+		User user = userRepository.findByUsername(setDTO.getOwner()).get();
 
-		setDTO.setIdOwner( user.getId());
+		setDTO.setIdOwner(user.getId());
 		Set set = modelMapper.map(setDTO, Set.class);
-		set.setId((long) 0); 
+		set.setId((long) 0);
 		for (Flashcard flashcard : set.getFlashcards())
 			flashcard.setFlashcardSet(set);
 		set.setAddDate();
 		set.setEditDate();
 		setRepository.save(set);
 	}
-
 
 	@DeleteMapping("flashcard/{id}")
 	public void deleteFlashCard(@PathVariable(required = true) Long id) {
@@ -263,15 +264,14 @@ public class SetController {
 
 	@PutMapping
 	public void putSet(@RequestBody SetOwnerDTO setDTO) {
-		
-		User user= userRepository.findByUsername(setDTO.getOwner()).get();
-		setDTO.setIdOwner( user.getId());
-		
+
+		User user = userRepository.findByUsername(setDTO.getOwner()).get();
+		setDTO.setIdOwner(user.getId());
+
 		Set set = modelMapper.map(setDTO, Set.class);
 		for (Flashcard flashcard : set.getFlashcards())
 			flashcard.setFlashcardSet(set);
-		
-		
+
 		List<Long> delete = new ArrayList<>();
 		Set oldset = setRepository.findById(set.getId()).orElse(null);
 		set.setAddDate(oldset.getAddDate());
