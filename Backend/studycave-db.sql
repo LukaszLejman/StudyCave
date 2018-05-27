@@ -62,7 +62,7 @@ create table Answer(
     is_good bool,
     id_question int,
     
-    foreign key(id_question) references Answer(id)
+    foreign key(id_question) references Question(id)
 );
 
 INSERT INTO User VALUES(1,'-','-','anonim','-','-');
