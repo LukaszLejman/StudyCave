@@ -5,7 +5,11 @@
             <button class="btn btn-primary" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
             <button class="btn btn-success" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
             <button class="btn btn-danger" (click)="deleteSet()">USUŃ FISZKI</button>
+            <div *ngIf="user && owner">
+                    <button class="btn btn-danger" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
+            </div>
         </div>
+
         <app-flashcards-test-type-menu [id]="id" (cancel)="handleCancelFlashcardsTestyTypeMenu($event)" *ngIf="testTypeMenu"></app-flashcards-test-type-menu>
         <div *ngIf="set">
             <h2>{{set.name}}</h2>

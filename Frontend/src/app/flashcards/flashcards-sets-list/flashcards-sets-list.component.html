@@ -6,6 +6,7 @@
         <button class="btn btn-primary" (click)="ShowPrivate()" >PRYWATNE</button>
     </div>
     <table class="table" *ngIf="!ShowStatus">
+        FILTROWANIE PO PERMISSION - DOROBIĆ
       <tr>
         <th>NAZWA</th>
         <th class="mobile">KATEGORIA</th>
@@ -27,7 +28,7 @@
       </tr>
     </table>
     <table class="table" *ngIf="ShowStatus">
-      PRYWATNE
+      PRYWATNE - FILTROWANIE PO USERZE - DOROBIĆ
       <tr>
         <th>NAZWA</th>
         <th class="mobile">KATEGORIA</th>
@@ -35,6 +36,7 @@
         <th class="mobile">DATA DODANIA</th>
         <th class="mobile">DATA MODYFIKACJI</th>
         <th class="mobile">OCENA</th>
+        <th class="mobile">POZWOLENIE</th>
       </tr>
       <tr *ngFor="let set of sets" [class.selected]="set === selectedSet" (click)="onSelect(set)" class="listItem">
         <td class="name">{{set.name}}</td>
@@ -43,6 +45,7 @@
         <td class="add_date mobile">{{set.add_date}}</td>
         <td class="edit_date mobile">{{set.edit_date}}</td>
         <td class="grade mobile">{{set.grade}}</td>
+        <td class="permission mobile">{{set.permission}}</td>
       </tr>
       <tr *ngIf="setsEmpty">
         <td colspan="6" class="empty">BRAK MATERIAŁÓW</td>

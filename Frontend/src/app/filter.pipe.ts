@@ -6,10 +6,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FilterPipe implements PipeTransform {
 
   private currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  transform(value: any, args: any): any {
-    if (args === '1') {
-      return value;
-    }
+  transform(values: Array<any>, conditions: { [field: string]: any }): Array<any> {
+    return values.filter(value => {
+      for (let field in conditions) {
+        if (value[field] !== conditions[field]) {
+          return false;
+        }
+      }
+    });
   }
 
 }

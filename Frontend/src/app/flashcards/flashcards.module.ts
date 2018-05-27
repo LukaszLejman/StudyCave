@@ -22,6 +22,7 @@ import { FlashcardsMemoryTestSetComponent } from './flashcards-memory-test-set/f
 import { FlashcardsTyperaceTestComponent } from './flashcards-typerace-test/flashcards-typerace-test.component';
 import { RouterModule } from '@angular/router';
 import { TestResultsComponent } from './test-results/test-results.component';
+import { FilterPipe } from '../filter.pipe';
 
 
 @NgModule({
@@ -47,8 +48,9 @@ import { TestResultsComponent } from './test-results/test-results.component';
     FlashcardsFillingInTestComponent,
     FlashcardsMemoryTestComponent,
     FlashcardsMemoryTestSetComponent,
-    FlashcardsTyperaceTestComponent
+    FlashcardsTyperaceTestComponent,
+    FilterPipe
   ],
-  providers: [FlashcardsService],
+  providers: [FlashcardsService, FilterPipe],
 })
 export class FlashcardsModule { }

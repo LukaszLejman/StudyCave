@@ -16,14 +16,16 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
   setsEmpty = true;
   selectedSet: Set;
   flashcardSubscription: Subscription;
-  user: Boolean = false;
+  user: Boolean;
   ShowStatus: Boolean = false;
-
+  owner;
   constructor(private flashcardsService: FlashcardsService, private router: Router) { }
+
 
   onSelect(set: Set): void {
     this.selectedSet = set;
     this.router.navigate(['flashcards/sets', this.selectedSet.id]);
+    this.flashcardsService.setOwner(this.selectedSet.owner);
   }
   IsLogin() {
     if (localStorage.getItem('currentUser')) {

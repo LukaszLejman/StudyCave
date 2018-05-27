@@ -19,7 +19,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { UserModule } from './user/user.module';
 import { AuthenticationService } from './authentication.service';
 import { MaterialsModule } from './materials/materials.module';
-import { FilterPipe } from './filter.pipe';
 
 
 
@@ -30,7 +29,6 @@ import { FilterPipe } from './filter.pipe';
     MainNavigationComponent,
     FooterComponent,
     HomePageComponent,
-    FilterPipe
   ],
   imports: [
     AppRoutingModule,
