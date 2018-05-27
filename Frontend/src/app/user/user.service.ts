@@ -15,15 +15,16 @@ export class UserService {
       this.headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': '' + this.authenticationService.getToken()
-        });
-      }else {
-        this.headers = new HttpHeaders({
-          'Content-Type': 'application/json'});
-        }
+      });
+    } else {
+      this.headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+    }
+    console.log(this.authenticationService.getToken());
   }
 
   register(body) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.httpClient.post('user/register', body, { headers: this.headers, responseType: 'text' });
   }
 

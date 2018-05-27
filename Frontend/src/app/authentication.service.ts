@@ -39,7 +39,7 @@ export class AuthenticationService {
 
     getToken(): String {
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      if (currentUser.token == null) {
+        if (currentUser.authorization == null) {
           return ' ';
       } else {
       return currentUser.authorization;
