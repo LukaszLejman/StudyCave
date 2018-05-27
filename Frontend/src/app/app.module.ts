@@ -19,7 +19,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { UserModule } from './user/user.module';
 import { AuthenticationService } from './authentication.service';
 import { MaterialsModule } from './materials/materials.module';
-import { FilterPipe } from './filter.pipe';
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
 
 
@@ -31,7 +30,6 @@ import { WorkInProgressComponent } from './work-in-progress/work-in-progress.com
     MainNavigationComponent,
     FooterComponent,
     HomePageComponent,
-    FilterPipe,
     WorkInProgressComponent
   ],
   imports: [
