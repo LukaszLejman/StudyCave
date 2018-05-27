@@ -51,4 +51,7 @@ export class TestsService {
     return this.httpClient.get('tests/' + id + '/', { headers: this.headers});
   }
 
+  getTests(): Observable<any> {
+    return this.httpClient.get('tests', { headers: this.headers });
+  }
 }

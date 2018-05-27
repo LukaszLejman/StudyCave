@@ -13,6 +13,7 @@ import { TestsService } from './tests.service';
 import { PuzzleQuestionComponent } from './puzzle-question/puzzle-question.component';
 import { GapsQuestionComponent } from './gaps-question/gaps-question.component';
 import { PairsQuestionComponent } from './pairs-question/pairs-question.component';
+import { TestsListComponent } from './tests-list/tests-list.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { PairsQuestionComponent } from './pairs-question/pairs-question.componen
     MultipleChoiceQuestionComponent,
     PuzzleQuestionComponent,
     GapsQuestionComponent,
-    PairsQuestionComponent
+    PairsQuestionComponent,
+    TestsListComponent
   ],
   providers: [TestsService],
 })

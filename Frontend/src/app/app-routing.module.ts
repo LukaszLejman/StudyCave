@@ -25,6 +25,8 @@ import { EditUserComponent } from './user/edit-user/edit-user.component';
 import { MaterialsMenuComponent } from './materials/materials-menu/materials-menu.component';
 import { MaterialsListComponent } from './materials/materials-list/materials-list.component';
 import { MaterialsAddComponent } from './materials/materials-add/materials-add.component';
+import { TestsListComponent } from './tests/tests-list/tests-list.component';
+import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -41,14 +43,15 @@ const routes: Routes = [
   { path: 'flashcards/test-gen/flashcards-typerace/:id', component: FlashcardsTyperaceTestComponent },
   { path: 'flashcards/test-gen/flashcards-filling-in/:id', component: FlashcardsFillingInTestComponent },
   { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent },
+  { path: 'tests', component: TestsListComponent},
   { path: 'test-maker', component: TestMakerComponent },
   { path: 'sign-up', component: RegisterComponent },
   { path: 'profile/:id', component: UserComponent },
   { path: 'edit-profile', component: EditUserComponent },
   { path: 'materials', component: MaterialsMenuComponent },
   { path: 'materials/list', component: MaterialsListComponent },
-  { path: 'materials/add-materials', component: MaterialsAddComponent }
-
+  { path: 'materials/add-materials', component: MaterialsAddComponent },
+  { path: 'work-in-progress', component: WorkInProgressComponent }
 ];
 
 @NgModule({
