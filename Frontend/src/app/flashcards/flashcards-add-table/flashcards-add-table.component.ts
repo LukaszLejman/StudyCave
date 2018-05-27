@@ -53,7 +53,7 @@ export class FlashcardsAddTableComponent implements OnInit {
       this.tableToSend = {
         name: value.title,
         category: value.category,
-        owner: '1', // this.currentUser.username,
+        owner: JSON.parse(localStorage.getItem('currentUser')).username, // this.currentUser.username,
         flashcards: this.fieldArray,
         permission: 'Private'
       };

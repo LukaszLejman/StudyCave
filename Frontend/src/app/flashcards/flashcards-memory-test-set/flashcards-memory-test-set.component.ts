@@ -26,7 +26,7 @@ export class FlashcardsMemoryTestSetComponent implements OnInit, OnChanges, OnDe
   private good = 0;
   private clicks = 0;
 
-  constructor(private uploadService: FlashcardsService) {  }
+  constructor(private uploadService: FlashcardsService) { }
 
   ngOnInit() {
     this.isChecked.emit(false);
@@ -47,24 +47,29 @@ export class FlashcardsMemoryTestSetComponent implements OnInit, OnChanges, OnDe
   }
 
   check(event) {
-    this.clicks += 1;
-    this.toCheck.push(event.target.id);
-    this.visible[this.toCheck[0]] = true;
-    if (this.clicks === 2) {
-      this.visible[this.toCheck[1]] = true;
-      this.clicks = 0;
-      const toSend = {
-        x: this.set[this.toCheck[0]],
-        y: this.set[this.toCheck[1]],
-      };
-      setTimeout(() => {
-        this.flashcardSubscribtion[this.flashcardSubscribtion.length] =
-          this.uploadService.testMemory(this.id, toSend).subscribe(data => {
-            this.showWrong(data);
-          },
-          error => { alert('Coś poszło nie tak :( Spróbuj ponownie później.'); }
-        );
-      }, 1000);
+    if (this.clicks <= 2) {
+      this.clicks += 1;
+      this.toCheck.push(event.target.id);
+      this.visible[this.toCheck[0]] = true;
+      if (this.clicks === 2) {
+        this.visible[this.toCheck[1]] = true;
+        const toSend = {
+          x: this.set[this.toCheck[0]],
+          y: this.set[this.toCheck[1]],
+        };
+        setTimeout(() => {
+          this.flashcardSubscribtion[this.flashcardSubscribtion.length] =
+            this.uploadService.testMemory(this.id, toSend).subscribe(data => {
+              this.showWrong(data);
+              this.clicks = 0;
+            },
+              error => {
+                alert('Coś poszło nie tak :( Spróbuj ponownie później.');
+                this.clicks = 0;
+              }
+            );
+        }, 1000);
+      }
     }
   }
 
