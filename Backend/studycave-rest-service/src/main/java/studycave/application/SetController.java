@@ -47,7 +47,7 @@ public class SetController {
 		set.setPermission(permission);
 		setRepository.save(set);
 		
-		return new ResponseEntity<>(HttpStatus.SEE_OTHER);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}/permission")
