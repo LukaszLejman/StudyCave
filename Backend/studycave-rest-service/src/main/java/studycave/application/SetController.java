@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,8 +43,6 @@ public class SetController {
 
 	@GetMapping("/{id}")
 	public SetOwnerDTO getSet(@PathVariable(required = true) Long id) {
-
-		// return setRepository.findById(id);
 		Set set = setRepository.findById(id).get();
 		User user = userRepository.findById((long) set.getIdOwner()).get();
 
@@ -239,8 +238,16 @@ public class SetController {
 	}
 
 	@GetMapping
-	public List<SimpleSet> getSets() {
-		return simpleSetRepository.findAll();
+	public List<SimpleSetDTO> getSets() {
+		List<SimpleSet> sets=  simpleSetRepository.findAll();
+		ArrayList<SimpleSetDTO> setDTOs = new ArrayList<SimpleSetDTO>();
+		for(SimpleSet set : sets) {
+			User user = userRepository.findById((long) set.getIdOwner()).get();
+		    SimpleSetDTO setDTO = modelMapper.map(set, SimpleSetDTO.class);
+		    setDTO.setOwner(user.getUsername());
+		    setDTOs.add(setDTO);
+		}
+		return setDTOs;
 	}
 
 	@PostMapping
