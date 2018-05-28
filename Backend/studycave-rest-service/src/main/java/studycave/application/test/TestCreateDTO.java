@@ -27,6 +27,7 @@ public class TestCreateDTO {
     private Date editDate;
     @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
     private String permission;
+    @JsonProperty("body")
     List<QuestionCreateDTO> questions;
     
     protected TestCreateDTO() {
