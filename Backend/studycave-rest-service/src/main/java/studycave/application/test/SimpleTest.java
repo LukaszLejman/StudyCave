@@ -1,23 +1,19 @@
 package studycave.application.test;
 
 import java.sql.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-public class Test {
-    
+@Table(name = "test")
+public class SimpleTest {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -33,15 +29,22 @@ public class Test {
     private Date editDate;
     
     private String permission;
-
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
-    @JsonProperty("body")
-    @JsonManagedReference
-    List<Question> questions;
-
-	public Test() {
-		super();
-	}
+    
+    protected SimpleTest() {
+    	
+    }
+    
+    public SimpleTest(String title,Long idOwner) {
+    	super();
+    	this.title = title;
+    	this.idOwner = idOwner; 	
+    }
+    
+    public SimpleTest(Test test) {
+    	super();
+    	this.title = test.getTitle();
+    	this.idOwner = test.getIdOwner();
+    }
 
 	public Long getId() {
 		return id;
@@ -71,31 +74,19 @@ public class Test {
 		return addDate;
 	}
 
-	public void setAddDate() {
-		java.util.Date utilDate = new java.util.Date();
-		Date sqlDate = new Date(utilDate.getTime());
-		this.addDate = sqlDate;
+	public void setAddDate(Date addDate) {
+		this.addDate = addDate;
 	}
 
-	public void setEditDate() {
-		java.util.Date utilDate = new java.util.Date();
-		Date sqlDate = new Date(utilDate.getTime());
-		this.editDate = sqlDate;
+	public Date getEditDate() {
+		return editDate;
 	}
 
 	public void setEditDate(Date editDate) {
 		this.editDate = editDate;
 	}
 
-	public List<Question> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
-	}
-    
-    public String getPermission() {
+	public String getPermission() {
 		return permission;
 	}
 

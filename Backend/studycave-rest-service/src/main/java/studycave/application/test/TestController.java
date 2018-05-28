@@ -1,7 +1,9 @@
 package studycave.application.test;
 
 import java.util.Optional;
+import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import studycave.application.user.User;
+import studycave.application.user.UserRepository;
 
 
 
@@ -26,7 +30,9 @@ public class TestController {
 	
 	@Autowired
 	TestRepository testRepository;
-	
+	SimpleTestRepository simpleTestRepository;
+	UserRepository userRepository;
+	ModelMapper modelMapper;
 	
 	@GetMapping("/{id}")
 	public Optional<Test> getTest(@PathVariable(required = true) Long id) {
@@ -39,7 +45,13 @@ public class TestController {
 	}
 	
 	@PostMapping
-	public void postSet(@RequestBody Test test) {
+	public void postSet(@RequestBody TestCreateDTO testDTO) {
+		User user = userRepository.findByUsername(testDTO.getOwner()).get();
+		testDTO.setIdOwner(user.getId());
+		
+		Test test = modelMapper.map(testDTO, Test.class);
+		test.setId((long) 0);
+		
 		for (Question question : test.getQuestions()) {
 			question.setTest(test);
 			for (Answer answer : question.getAnswers())
@@ -49,4 +61,10 @@ public class TestController {
 		test.setEditDate();
 		testRepository.save(test);
 	}
+	
+	@GetMapping
+	public List<SimpleTest> getTest() {
+		return simpleTestRepository.findAll();
+	}
+
 }
