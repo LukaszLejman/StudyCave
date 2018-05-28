@@ -14,6 +14,7 @@ import { PuzzleQuestionComponent } from './puzzle-question/puzzle-question.compo
 import { GapsQuestionComponent } from './gaps-question/gaps-question.component';
 import { PairsQuestionComponent } from './pairs-question/pairs-question.component';
 import { TestsListComponent } from './tests-list/tests-list.component';
+import { TestEditComponent } from './test-edit/test-edit.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { TestsListComponent } from './tests-list/tests-list.component';
     PuzzleQuestionComponent,
     GapsQuestionComponent,
     PairsQuestionComponent,
-    TestsListComponent
+    TestsListComponent,
+    TestEditComponent
   ],
   providers: [TestsService],
 })

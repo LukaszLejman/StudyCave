@@ -11,7 +11,11 @@ import { AuthenticationService } from '../authentication.service';
 export class TestsService {
 
   // tslint:disable-next-line:max-line-length
-  constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService ) { this.setHeaders(); }
+  constructor(private httpClient: HttpClient, private router: Router,
+              private authenticationService: AuthenticationService ) {
+    this.setHeaders();
+  }
+
   private headers;
 
   setHeaders() {
@@ -31,23 +35,37 @@ export class TestsService {
     this.sendData(url, body);
   }
 
+  edit(body) {
+    const url = 'tests/';
+    this.putData(url, body);
+  }
+
+  putData(url, body) {
+    this.httpClient.put(url, body, { headers: this.headers,  observe: 'response' })
+      .subscribe(
+        data => { this.sendResponse(data); },
+        error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+      );
+  }
+
   sendData(url, body) {
     this.httpClient.post(url, body, { headers: this.headers, observe: 'response' })
-      .subscribe(data => { this.sendResponse(data); },
-      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+      .subscribe(
+        data => { this.sendResponse(data); },
+        error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );
   }
 
   sendResponse(data) {
     if (data.status === 200) {
       alert('Operacja przebiegła pomyślnie!');
-      this.router.navigate(['flashcards/sets']);
+      this.router.navigate(['tests']);
     } else {
       alert('Coś poszło nie tak. Spróbuj ponownie później.');
     }
   }
 
-  getTest(id) {
+  getTest(id): Observable<any> {
     return this.httpClient.get('tests/' + id + '/', { headers: this.headers});
   }
 
