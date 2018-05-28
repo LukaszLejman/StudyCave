@@ -19,9 +19,22 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
   user: Boolean;
   ShowStatus: Boolean = false;
   owner;
+  searchPublic = 'Public';
+  searchOwner = '2'; // czekamy na poprawkę Andrzeja na backendzie
+
+
   constructor(private flashcardsService: FlashcardsService, private router: Router) { }
 
-
+/*
+  filterBy(filter: string) {
+    switch (filter) {
+      case 'Public':
+        this.sets = this.sets.filter(set => {
+          return set.permission.toLowerCase().includes('Public');
+        });
+        console.log('Show only Public');
+    }
+  } */
   onSelect(set: Set): void {
     this.selectedSet = set;
     this.router.navigate(['flashcards/sets', this.selectedSet.id]);

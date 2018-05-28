@@ -1,4 +1,4 @@
-export class Set {
+export interface Set {
     id: number;
     name: string;
     category: string;
@@ -6,4 +6,5 @@ export class Set {
     add_date: string;
     edit_date: string;
     grade: number;
+    permission: string;
 }

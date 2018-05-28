@@ -6,7 +6,6 @@
         <button class="btn btn-primary" (click)="ShowPrivate()" >PRYWATNE</button>
     </div>
     <table class="table" *ngIf="!ShowStatus">
-        FILTROWANIE PO PERMISSION - DOROBIĆ
       <tr>
         <th>NAZWA</th>
         <th class="mobile">KATEGORIA</th>
@@ -15,7 +14,7 @@
         <th class="mobile">DATA MODYFIKACJI</th>
         <th class="mobile">OCENA</th>
       </tr>
-      <tr *ngFor="let set of sets" [class.selected]="set === selectedSet" (click)="onSelect(set)" class="listItem">
+      <tr *ngFor="let set of sets | filter:searchPublic" [class.selected]="set === selectedSet" (click)="onSelect(set)" class="listItem">
         <td class="name">{{set.name}}</td>
         <td class="category mobile">{{set.category}}</td>
         <td class="owner mobile">{{set.owner}}</td>
@@ -28,7 +27,8 @@
       </tr>
     </table>
     <table class="table" *ngIf="ShowStatus">
-      PRYWATNE - FILTROWANIE PO USERZE - DOROBIĆ
+        PRYWATNE - FILTRUJE DLA USERA O ID 2 - CZEKAMY NA POPRAWKI Z BACKENDU
+
       <tr>
         <th>NAZWA</th>
         <th class="mobile">KATEGORIA</th>
@@ -38,7 +38,7 @@
         <th class="mobile">OCENA</th>
         <th class="mobile">POZWOLENIE</th>
       </tr>
-      <tr *ngFor="let set of sets" [class.selected]="set === selectedSet" (click)="onSelect(set)" class="listItem">
+      <tr *ngFor="let set of sets | filterUser:searchOwner" [class.selected]="set === selectedSet" (click)="onSelect(set)" class="listItem">
         <td class="name">{{set.name}}</td>
         <td class="category mobile">{{set.category}}</td>
         <td class="owner mobile">{{set.owner}}</td>

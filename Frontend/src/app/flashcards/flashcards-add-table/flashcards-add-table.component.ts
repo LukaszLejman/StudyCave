@@ -13,10 +13,15 @@ export class FlashcardsAddTableComponent implements OnInit {
   private fieldArray: Array<any> = [];
   private newAttribute: any = {};
   private currentUser;
+  private permission: Boolean = false;
 
   constructor(private flashcardsService: FlashcardsService) { }
 
   ngOnInit() { this.isLoggedIn(); }
+
+  changePermission(): void {
+    this.permission = !this.permission;
+  }
 
   isLoggedIn() {
     if (localStorage.getItem('currentUser') === null) {
@@ -58,12 +63,16 @@ export class FlashcardsAddTableComponent implements OnInit {
     if (this.fieldArray.length === 0) {
       alert('Zestaw fiszek nie może być pusty!');
     } else {
+      let p = 'Private';
+      if (this.permission) {
+        p = 'Public';
+      }
       this.tableToSend = {
         name: value.title,
         category: value.category,
-        owner: this.setOwner(), // this.currentUser.username,
+        owner: this.setOwner(),
         flashcards: this.fieldArray,
-        permission: 'Private'
+        permission: p
       };
       this.flashcardsService.add(this.tableToSend);
     }

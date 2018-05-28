@@ -23,6 +23,7 @@
             ryba;fish <br />
           </p>
         </div>
+
       </div>
       <div *ngIf="currentFileUpload" class="progress">
         <div class="progress-bar progress-bar-info progress-bar-striped"
@@ -35,6 +36,9 @@
           Wybierz plik:
           <input type="file" accept=".csv" (change)="selectFile($event)">
         </label>
+        <div>
+        <input type="checkbox" name="{{ permission }}" class="form-control" [checked]="permission" (change)="changePermission()"/><b>Udostępnij publicznie</b>
+        </div>
         <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
         <br />
         <button class="btn btn-danger" routerLink="/flashcards/sets/">Powrót</button>

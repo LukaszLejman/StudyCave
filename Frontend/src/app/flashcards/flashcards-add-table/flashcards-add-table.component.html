@@ -49,6 +49,12 @@
             </tbody>
           </table>
         </label>
+        <div>
+            <br />
+            <input type="checkbox" name="{{ permission }}" class="form-control" [checked]="permission" (change)="changePermission()"/>
+            <b>Udostępnij publicznie</b>
+        </div>
+        <br /><br />
         <button class="btn btn-primary" type="submit">Dodaj fiszki!</button>
         <button class="btn btn-danger" routerLink="/flashcards/sets/">Powrót</button>
       </form>
