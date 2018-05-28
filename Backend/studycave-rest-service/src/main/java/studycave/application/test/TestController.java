@@ -30,8 +30,11 @@ public class TestController {
 	
 	@Autowired
 	TestRepository testRepository;
+	@Autowired
 	SimpleTestRepository simpleTestRepository;
+	@Autowired
 	UserRepository userRepository;
+	@Autowired
 	ModelMapper modelMapper;
 	
 	@GetMapping("/{id}")
@@ -45,20 +48,23 @@ public class TestController {
 	}
 	
 	@PostMapping
-	public void postSet(@RequestBody TestCreateDTO testDTO) {
+	public void postTest(@RequestBody TestCreateDTO testDTO) {
+		System.out.print("dziala");
 		User user = userRepository.findByUsername(testDTO.getOwner()).get();
 		testDTO.setIdOwner(user.getId());
-		
+		System.out.print("DTO");
 		Test test = modelMapper.map(testDTO, Test.class);
 		test.setId((long) 0);
-		
+		System.out.print("test");
 		for (Question question : test.getQuestions()) {
 			question.setTest(test);
 			for (Answer answer : question.getAnswers())
 				answer.setQuestion(question);
 		}
+		System.out.print("pentle");
 		test.setAddDate();
 		test.setEditDate();
+		
 		testRepository.save(test);
 	}
 	
