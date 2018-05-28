@@ -105,9 +105,9 @@
       </div>
       <div *ngIf="(test.length != 0) && (!componentVisible)" >
         <button class="btn btn-primary" (click)="save()">Edytuj test!</button>
-        <button class="btn btn-danger ml-2" routerLink="/">Powrót</button>
+        <button class="btn btn-danger ml-2" routerLink="/tests/">Powrót</button>
       </div>
-      <button *ngIf="!((test.length != 0) && (!componentVisible))" class="btn btn-danger" routerLink="/">Powrót</button>
+      <button *ngIf="!((test.length != 0) && (!componentVisible))" class="btn btn-danger" routerLink="/tests/">Powrót</button>
     </div>
   </div>
 </div>

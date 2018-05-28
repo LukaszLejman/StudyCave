@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { TestMakerComponent } from './test-maker/test-maker.component';
 import { TrueFalseQuestionComponent } from './true-false-question/true-false-question.component';
@@ -21,7 +22,8 @@ import { TestEditComponent } from './test-edit/test-edit.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ],
   declarations: [
     TestMakerComponent,
