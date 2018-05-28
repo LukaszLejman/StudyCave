@@ -20,7 +20,7 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
   ShowStatus: Boolean = false;
   owner;
   searchPublic = 'Public';
-  searchOwner = '2'; // czekamy na poprawkę Andrzeja na backendzie
+  searchOwner;
 
 
   constructor(private flashcardsService: FlashcardsService, private router: Router) { }
@@ -41,10 +41,13 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
     this.flashcardsService.setOwner(this.selectedSet.owner);
   }
   IsLogin() {
+    const own = JSON.parse(localStorage.getItem('currentUser'));
     if (localStorage.getItem('currentUser')) {
     this.user = true;
+    this.searchOwner = own.username;
     } else {
     this.user = false;
+    this.searchOwner = ' ';
     }
   }
   ShowPublic() {

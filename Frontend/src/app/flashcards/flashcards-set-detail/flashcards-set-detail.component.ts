@@ -26,11 +26,12 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
     this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => { this.set = data; });
     this.IsLogin();
     this.owner = this.flashcardsService.getOwner();
+    this.isOwner();
   }
 
   isOwner() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser.username === this.set.owner) {
+    if (currentUser.username === this.owner) {
       this.owned = true;
     } else {
       this.owned = false;
