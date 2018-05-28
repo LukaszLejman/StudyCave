@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FilterPipe implements PipeTransform {
 
   transform(sets: any, search: any ): any {
-    if (search === undefined) {
+    if (search === undefined || sets === undefined) {
       return sets;
     } else {
       return sets.filter(function(set){

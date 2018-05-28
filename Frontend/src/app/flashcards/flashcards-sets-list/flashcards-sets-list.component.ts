@@ -12,7 +12,7 @@ import { FilterPipe } from '../../filter.pipe';
 })
 export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
 
-  sets = [{}];
+  sets = [];
   setsEmpty = true;
   selectedSet: Set;
   flashcardSubscription: Subscription;
