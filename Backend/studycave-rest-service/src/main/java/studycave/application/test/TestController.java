@@ -45,17 +45,17 @@ public class TestController {
 	}
 	
 	@PostMapping
-	public void postSet(@RequestBody TestCreateDTO testDTO) {
+	public void postTestChoices(@RequestBody TestCreateChoicesDTO testDTO) {
 		User user = userRepository.findByUsername(testDTO.getOwner()).get();
 		testDTO.setIdOwner(user.getId());
 		
-		Test test = modelMapper.map(testDTO, Test.class);
+		TestChoices test = modelMapper.map(testDTO, TestChoices.class);
 		test.setId((long) 0);
 		
-		for (Question question : test.getQuestions()) {
+		for (QuestionChoices question : test.getQuestions()) {
 			question.setTest(test);
-			for (Answer answer : question.getAnswers())
-				answer.setQuestion(question);
+				for (Answer answer : question.getAnswers())
+						answer.setQuestion(question);
 		}
 		test.setAddDate();
 		test.setEditDate();

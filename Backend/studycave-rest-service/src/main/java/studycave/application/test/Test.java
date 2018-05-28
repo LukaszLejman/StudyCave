@@ -10,13 +10,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-public class Test {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Test {
     
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -34,10 +37,7 @@ public class Test {
     
     private String permission;
 
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
-    @JsonProperty("body")
-    @JsonManagedReference
-    List<Question> questions;
+
 
 	public Test() {
 		super();
@@ -85,14 +85,6 @@ public class Test {
 
 	public void setEditDate(Date editDate) {
 		this.editDate = editDate;
-	}
-
-	public List<Question> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
 	}
     
     public String getPermission() {
