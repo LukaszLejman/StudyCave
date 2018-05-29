@@ -37,7 +37,11 @@ public class StudycaveRestServiceApplication implements CommandLineRunner {
 	public void run(String... arg) throws Exception {
 		storageService.deleteAll();
 		storageService.init();
+		try {
 		storageService.initsave();
+		}catch(Exception e) {
+			//"save-dir" istnieje
+		}
 	}
 	
 }

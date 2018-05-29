@@ -1,6 +1,8 @@
 package studycave.application.files;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import com.opencsv.CSVReader;
 
@@ -13,10 +15,15 @@ import studycave.application.files.MaterialRepository;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
 
+import java.io.File;
 import java.io.FileReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,8 +31,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.CrossOrigin; 
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable; 
 
 @Controller
 @CrossOrigin
@@ -50,7 +61,7 @@ public class UploadController {
 	List<String> files = new ArrayList<String>();
  
 	@PostMapping("/upload")
-	public ResponseEntity<String> handleFileUpload(@RequestBody SetsFileDTO setDTO,@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<String> handleFileUpload(@RequestParam String owner,@RequestParam String permission,@RequestParam("file") MultipartFile file) {
 		String message = "";
 		try {
 			storageService.store(file);
@@ -62,7 +73,7 @@ public class UploadController {
             String[] line;
             line = reader.readNext();
             
-            User user = userRepository.findByUsername(setDTO.getOwner()).get();
+            User user = userRepository.findByUsername(owner).get();
             
             Set uploadset = new Set(line[0],line[1],Math.toIntExact(user.getId()));
             
@@ -82,9 +93,7 @@ public class UploadController {
 			storageService.init();
 			uploadset.setFlashcards(uploadflashcards);
 			
-			
-			uploadset.setPermission(setDTO.getPermission());
-			
+			uploadset.setPermission(permission);
 			
 			for (Flashcard uploadflashcard : uploadset.getFlashcards())
 				uploadflashcard.setFlashcardSet(uploadset);
@@ -101,19 +110,59 @@ public class UploadController {
 	}
 	
 	@PostMapping("/save")
-	public void handleFileSave(@RequestBody MaterialDTO materialDTO,@RequestParam("file") MultipartFile file){
+	public ResponseEntity<String> handleFileSave(@RequestParam String owner,@RequestParam String permission,@RequestParam String title,@RequestParam("file") MultipartFile file){
+		String msg ="";
+		try {
+		DateFormat currentDate = new SimpleDateFormat("MM.dd.yyyy.HH.mm.ss");
+		Date today = Calendar.getInstance().getTime();  
 		storageService.save(file);
-		files.add(file.getOriginalFilename());
-		String path = file.getOriginalFilename();
-		Material material = modelMapper.map(materialDTO, Material.class);
-		material.setPath(path);
-		material.setPermission(materialDTO.getPermission());
-		material.setTitle(materialDTO.getTitle());
+		String filepath = "save-dir\\" + file.getOriginalFilename();
 		
-		User user = userRepository.findByUsername(materialDTO.getOwner()).get();
+		files.add(file.getOriginalFilename());
+		Material material = new Material();
+		
+		material.setPermission(permission);
+		material.setTitle(title);
+		
+		User user = userRepository.findByUsername(owner).get();
 		material.setOwner(Math.toIntExact(user.getId()));
 		
+		File newfile = new File(filepath);
+		String newfilepath = "save-dir\\" + currentDate.format(today) + file.getOriginalFilename();
+		File newfilename = new File(newfilepath);
+		newfile.renameTo(newfilename);
+		String simplepath = currentDate.format(today) + file.getOriginalFilename();
+		material.setPath(simplepath);
 		materialRepository.save(material);
+		msg = "You successfully uploaded " + file.getOriginalFilename() + "!";
+		return ResponseEntity.status(HttpStatus.OK).body(msg);
+		}catch(Exception e) {
+			msg = "FAIL to upload " + file.getOriginalFilename() + "!";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(msg);
+		}
+	}
+	
+	@GetMapping("/materials")
+	public ResponseEntity<List<Material>> getMaterials() {
+		return ResponseEntity.status(HttpStatus.OK).body(materialRepository.findAll());
+	}
+	
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deletematerial(@PathVariable(required = true)Long id) {
+		storageService.savedelete((materialRepository.findById(id).orElse(null)).getPath());
+		materialRepository.deleteById(id);
+		return ResponseEntity.status(HttpStatus.OK).body("usunieto");
+	}
+	
+	@GetMapping("/files/{id}")
+	@ResponseBody
+	public ResponseEntity<Resource> getFile(@PathVariable(required = true) Long id) {
+		Material material = materialRepository.findById(id).orElse(null);
+		
+		Resource file = storageService.loadFile(material.getPath());
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+				.body(file);
 	}
  /*
 	@GetMapping("/file/getall")

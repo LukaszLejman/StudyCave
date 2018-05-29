@@ -58,6 +58,12 @@ public class StorageService {
 	public void savedeleteAll() {
 		FileSystemUtils.deleteRecursively(saveLocation.toFile());
 	}
+	
+	public void savedelete(String File) {
+		Path del = Paths.get("save-dir\\" + File);
+		FileSystemUtils.deleteRecursively(del.toFile());
+		
+	}
  
 	public void initsave() {
 		try {

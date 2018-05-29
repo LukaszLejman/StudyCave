@@ -75,3 +75,4 @@ INSERT INTO Flashcard VALUES(2,3,'2left2','2right2');
 select * from User;
 select * from FlashcardSet;
 select * from flashcard;
+select * from material;
