@@ -1,5 +1,28 @@
 <div class="wrapper">
   <div class="content">
     <button class="btn btn-primary" (click)="toTestMaker()">Dodaj test</button>
+
+
+
+
+    <table class="table">
+      <tr>
+        <th>NAZWA</th>
+        <th class="mobile">WŁAŚCICIEL</th>
+        <th class="mobile">DATA DODANIA</th>
+        <th class="mobile">DATA MODYFIKACJI</th>
+        <th class="mobile">OCENA</th>
+      </tr>
+      <tr *ngFor="let test of tests" class="listItem">
+        <td class="name">{{test.title}}</td>
+        <td class="owner mobile">{{test.owner}}</td>
+        <td class="add_date mobile">{{test.add_date}}</td>
+        <td class="edit_date mobile">{{test.edit_date}}</td>
+        <td class="grade mobile">{{test.grade}}</td>
+      </tr>
+    </table>
+
+
+
   </div>
 </div>
