@@ -8,7 +8,6 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class AuthenticationService {
     @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
-    private authUrl = 'http://localhost:8080/login';
     private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     public token: string;
     constructor(private http: HttpClient) {
