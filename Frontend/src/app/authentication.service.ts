@@ -1,5 +1,5 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -9,15 +9,15 @@ import 'rxjs/add/observable/throw';
 export class AuthenticationService {
     @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
     private authUrl = 'http://localhost:8080/login';
-    private headers = new Headers({'Content-Type': 'application/json'});
+    private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     public token: string;
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
     }
 
     login(username: string, password: string): Observable<boolean> {
-        return this.http.post(this.authUrl, JSON.stringify({password: password, username: username}), {headers: this.headers})
-            .map((response: Response) => {
-                 console.log(response);
+        return this.http.post('login', { password: password, username: username }, { headers: this.headers, observe: 'response' })
+            .map((response) => {
+                console.log(response);
                 // czy login ok jeśli w response jest token
                 // const token = response.json() && response.json().token;
                 const token = response.headers.get('authorization');
@@ -38,18 +38,18 @@ export class AuthenticationService {
     }
 
     getToken(): String {
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser.authorization == null) {
-          return ' ';
-      } else {
-      return currentUser.authorization;
+            return ' ';
+        } else {
+            return currentUser.authorization;
         }
     }
 
     isLoggedIn(): boolean {
         const token: String = this.getToken();
         return token && token.length > 0;
-      }
+    }
 
     logout(): void {
         // clear token remove user from local storage to log user out
