@@ -16,8 +16,8 @@ export class TestsListComponent implements OnInit {
 
   columnDefs = [
     { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa'},
-    { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania' },
-    { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji' },
+    { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania' },
+    { headerName: 'Data modyfikacji', field: 'editDate', headerTooltip: 'Data modyfikacji' },
     { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel' },
     { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena' }
   ];
