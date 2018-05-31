@@ -1,5 +1,6 @@
 package studycave.application.test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class QuestionPairs extends Question{
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="question",cascade = CascadeType.ALL)
     @JsonManagedReference
-    List<AnswerPairs> answers;
+    List<AnswerPairs> answers = new ArrayList<>();
+	
+	
+
+	public QuestionPairs() {
+		super();
+	}
 
 	public List<AnswerPairs> getAnswers() {
 		return answers;
@@ -24,6 +31,8 @@ public class QuestionPairs extends Question{
 	public void setAnswers(List<AnswerPairs> answers) {
 		this.answers = answers;
 	}
+	
+
 		
 	
 }

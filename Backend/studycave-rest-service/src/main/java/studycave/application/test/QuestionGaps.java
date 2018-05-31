@@ -11,26 +11,26 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+
 @Entity
-@DiscriminatorValue("1")
-public class QuestionChoices extends Question {
-	
+@DiscriminatorValue("4")
+public class QuestionGaps extends Question {
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="question",cascade = CascadeType.ALL)
     @JsonManagedReference
-    List<AnswerChoices> answers = new ArrayList<>();
+    List<AnswerGaps> answers = new ArrayList<>();
 	
 	
-	public QuestionChoices(){
+	public QuestionGaps(Question question){
 		super();
 	}
 
-	public List<AnswerChoices> getAnswers() {
+	public List<AnswerGaps> getAnswers() {
 		return answers;
 	}
 
-	public void setAnswers(List<AnswerChoices> answers) {
+	public void setAnswers(List<AnswerGaps> answers) {
 		this.answers = answers;
 	}
 	
-	
+
 }
