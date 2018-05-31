@@ -27,7 +27,8 @@ public class SimpleTest {
     @Column(name="edit_date")
     @JsonProperty("edit_date")
     private Date editDate;
-    
+    //@Column(nullable = true)
+    private int grade;
     private String permission;
     
     protected SimpleTest() {
@@ -92,6 +93,14 @@ public class SimpleTest {
 
 	public void setPermission(String permission) {
 		this.permission = permission;
+	}
+
+	public int getGrade() {
+		return grade;
+	}
+
+	public void setGrade(int grade) {
+		this.grade = grade;
 	}
     
     

@@ -36,9 +36,10 @@ public class Test {
     private Date editDate;
     
     private String permission;
-    
+    //@Column(nullable = true)
     private int grade;
-
+    
+    @JsonProperty("body")
     @OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
     @JsonManagedReference
     List<Question> questions = new ArrayList<>();

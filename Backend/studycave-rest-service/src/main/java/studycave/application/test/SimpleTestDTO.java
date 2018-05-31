@@ -1,19 +1,12 @@
 package studycave.application.test;
 
 import java.sql.Date;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class TestCreateDTO {
+public class SimpleTestDTO {
     private Long id;
     private String title;
     private String owner;
@@ -25,14 +18,10 @@ public class TestCreateDTO {
     private Date editDate;
     @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
     private String permission;
-    @JsonIgnore
     private Long grade;
-    @JsonProperty("body")
-    List<Question> questions;
     
-    
-    public TestCreateDTO() {
-    	
+    SimpleTestDTO(){
+    	super();
     }
 
 	public Long getId() {
@@ -91,14 +80,6 @@ public class TestCreateDTO {
 		this.permission = permission;
 	}
 
-	public List<Question> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
-	}
-
 	public Long getGrade() {
 		return grade;
 	}
@@ -106,6 +87,5 @@ public class TestCreateDTO {
 	public void setGrade(Long grade) {
 		this.grade = grade;
 	}
-    
     
 }
