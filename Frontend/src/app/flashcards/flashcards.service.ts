@@ -49,8 +49,11 @@ export class FlashcardsService {
   }
 
   setOwner(owner) {
+    if (owner === null) {
+    this.owner = ' ';
+    } else {
     this.owner = owner;
-
+    }
   }
 
   getOwner() {

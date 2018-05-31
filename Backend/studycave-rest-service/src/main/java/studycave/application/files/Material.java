@@ -1,9 +1,14 @@
 package studycave.application.files;
 
+import java.sql.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Material {
@@ -14,6 +19,14 @@ public class Material {
 	private String path;
 	private int owner;
 	private String permission;
+    @Column(name="add_date")
+	@JsonProperty("add_date")
+    private Date addDate;
+    @Column(name="edit_date")
+	@JsonProperty("edit_date")
+    private Date editDate;
+    private int grade;
+	
 	
 	protected Material() {
 		
@@ -57,6 +70,30 @@ public class Material {
 
 	public void setPermission(String permission) {
 		this.permission = permission;
+	}
+
+	public Date getAddDate() {
+		return addDate;
+	}
+
+	public void setAddDate(Date addDate) {
+		this.addDate = addDate;
+	}
+
+	public Date getEditDate() {
+		return editDate;
+	}
+
+	public void setEditDate(Date editDate) {
+		this.editDate = editDate;
+	}
+
+	public int getGrade() {
+		return grade;
+	}
+
+	public void setGrade(int grade) {
+		this.grade = grade;
 	}
 	
 	

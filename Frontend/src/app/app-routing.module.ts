@@ -29,6 +29,7 @@ import { MaterialsAddComponent } from './materials/materials-add/materials-add.c
 import { TestsListComponent } from './tests/tests-list/tests-list.component';
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
 import { TestDetailsComponent } from './tests/test-details/test-details.component';
+import { MaterialsDetailsComponent } from './materials/materials-details/materials-details.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -55,7 +56,8 @@ const routes: Routes = [
   { path: 'materials', component: MaterialsMenuComponent },
   { path: 'materials/list', component: MaterialsListComponent },
   { path: 'materials/add-materials', component: MaterialsAddComponent },
-  { path: 'work-in-progress', component: WorkInProgressComponent }
+  { path: 'work-in-progress', component: WorkInProgressComponent },
+  { path: 'materials/:id', component: MaterialsDetailsComponent}
 ];
 
 @NgModule({
