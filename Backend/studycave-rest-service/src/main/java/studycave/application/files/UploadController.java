@@ -117,7 +117,7 @@ public class UploadController {
 	}
 	
 	@PostMapping("/save")
-	public ResponseEntity<String> handleFileSave(@RequestParam String owner,@RequestParam String permission,@RequestParam String title,@RequestParam("file") MultipartFile file){
+	public ResponseEntity<String> handleFileSave(@RequestParam String owner,@RequestParam String permission,@RequestParam String title,@RequestParam int grade, @RequestParam("file") MultipartFile file){
 		String msg ="";
 		try {
 		DateFormat currentDate = new SimpleDateFormat("MM.dd.yyyy.HH.mm.ss");
@@ -128,9 +128,16 @@ public class UploadController {
 		files.add(file.getOriginalFilename());
 		Material material = new Material();
 		
+		
+		
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		
 		material.setPermission(permission);
 		material.setTitle(title);
-		
+		material.setAddDate(sqlDate);
+		material.setEditDate(sqlDate);
+		material.setGrade(grade);
 		User user = userRepository.findByUsername(owner).get();
 		material.setOwner(Math.toIntExact(user.getId()));
 		
