@@ -28,6 +28,7 @@ import { MaterialsListComponent } from './materials/materials-list/materials-lis
 import { MaterialsAddComponent } from './materials/materials-add/materials-add.component';
 import { TestsListComponent } from './tests/tests-list/tests-list.component';
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
+import { TestDetailsComponent } from './tests/test-details/test-details.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -45,6 +46,7 @@ const routes: Routes = [
   { path: 'flashcards/test-gen/flashcards-filling-in/:id', component: FlashcardsFillingInTestComponent },
   { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent },
   { path: 'tests', component: TestsListComponent},
+  { path: 'tests/:id', component: TestDetailsComponent},
   { path: 'tests/edit/:id', component: TestEditComponent },
   { path: 'test-maker', component: TestMakerComponent },
   { path: 'sign-up', component: RegisterComponent },

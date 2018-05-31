@@ -13,3 +13,10 @@ body{
 .btn{
     cursor: pointer;
 }
+
+@import "~ag-grid/dist/styles/ag-grid.css";
+@import "~ag-grid/dist/styles/ag-theme-blue.css";
+
+.ag-header-cell-label {
+   justify-content: center;
+}

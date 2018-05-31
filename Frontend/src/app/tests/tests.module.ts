@@ -16,6 +16,8 @@ import { GapsQuestionComponent } from './gaps-question/gaps-question.component';
 import { PairsQuestionComponent } from './pairs-question/pairs-question.component';
 import { TestsListComponent } from './tests-list/tests-list.component';
 import { TestEditComponent } from './test-edit/test-edit.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { TestDetailsComponent } from './test-details/test-details.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,8 @@ import { TestEditComponent } from './test-edit/test-edit.component';
     FormsModule,
     HttpModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    AgGridModule.withComponents([])
   ],
   declarations: [
     TestMakerComponent,
@@ -34,7 +37,8 @@ import { TestEditComponent } from './test-edit/test-edit.component';
     GapsQuestionComponent,
     PairsQuestionComponent,
     TestsListComponent,
-    TestEditComponent
+    TestEditComponent,
+    TestDetailsComponent
   ],
   providers: [TestsService],
 })
