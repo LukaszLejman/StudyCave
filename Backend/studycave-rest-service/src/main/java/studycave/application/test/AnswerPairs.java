@@ -16,6 +16,11 @@ import io.swagger.annotations.ApiModelProperty;
 public class AnswerPairs extends Answer {
     private String first;
     private String second;
+    
+    public AnswerPairs() {
+    	super();
+    }
+    
 	public String getFirst() {
 		return first;
 	}

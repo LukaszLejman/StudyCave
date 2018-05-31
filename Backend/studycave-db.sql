@@ -58,12 +58,10 @@ create table Question(
 
 create table Answer(
 	id_ans int NOT NULL AUTO_INCREMENT primary key,
-    content varchar(15),
-    is_good bool,
-    id_question int,
-    
+
     foreign key(id_question) references Question(id)
 );
+
 
 INSERT INTO User VALUES(1,'-','-','anonim','-','-');
 INSERT INTO FlashcardSet VALUES(1,'zestaw1','cat1',0, 14/04/2018,14/04/2018 ,5,'public');

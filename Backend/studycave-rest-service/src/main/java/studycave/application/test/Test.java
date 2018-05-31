@@ -1,6 +1,7 @@
 package studycave.application.test;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -18,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Test {
     
 	@Id
@@ -36,8 +36,12 @@ public abstract class Test {
     private Date editDate;
     
     private String permission;
+    
+    private Long grade;
 
-
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    List<Question> questions = new ArrayList<>();
 
 	public Test() {
 		super();
@@ -93,6 +97,30 @@ public abstract class Test {
 
 	public void setPermission(String permission) {
 		this.permission = permission;
+	}
+
+	public Long getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Long grade) {
+		this.grade = grade;
+	}
+
+	public Date getEditDate() {
+		return editDate;
+	}
+
+	public void setAddDate(Date addDate) {
+		this.addDate = addDate;
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
 	}
     
     

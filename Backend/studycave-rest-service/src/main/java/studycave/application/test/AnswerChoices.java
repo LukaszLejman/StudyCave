@@ -26,6 +26,9 @@ public class AnswerChoices extends Answer {
     @JsonProperty("is_good")
     private boolean good;
 
+    public AnswerChoices() {
+    	super();
+    }
     
 	public String getContent() {
 		return content;

@@ -29,7 +29,7 @@ public abstract class Answer {
     private Question question;
     
     public Answer() {
-
+    	super();
     }
     
 	public Long getId() {

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class TestCreateChoicesDTO {
+public class TestCreateDTO {
     private Long id;
     private String title;
     private String owner;
@@ -25,10 +25,12 @@ public class TestCreateChoicesDTO {
     private Date editDate;
     @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
     private String permission;
-    List<QuestionChoices> questions;
+    private Long grade;
+    List<Question> questions;
     
-    public TestCreateChoicesDTO() {
-    	super();
+    
+    public TestCreateDTO() {
+    	
     }
 
 	public Long getId() {
@@ -87,11 +89,11 @@ public class TestCreateChoicesDTO {
 		this.permission = permission;
 	}
 
-	public List<QuestionChoices> getQuestions() {
+	public List<Question> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(List<QuestionChoices> questions) {
+	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
     
