@@ -21,7 +21,7 @@ public class QuestionGaps extends Question {
     List<AnswerGaps> answers = new ArrayList<>();
 	
 	
-	public QuestionGaps(Question question){
+	public QuestionGaps(){
 		super();
 	}
 

@@ -18,7 +18,7 @@ public class QuestionPuzzle extends Question {
     List<AnswerPuzzle> answers = new ArrayList<>();
 	
 	
-	public QuestionPuzzle(Question question){
+	public QuestionPuzzle(){
 		super();
 	}
 
