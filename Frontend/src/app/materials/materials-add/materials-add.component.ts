@@ -16,10 +16,16 @@ export class MaterialsAddComponent implements OnInit {
   private progress: { percentage: number } = { percentage: 0 };
   private currentUser = JSON.parse(localStorage.getItem('currentUser'));
   private user: string;
+  private title: string;
+  private permission: Boolean = false;
   constructor(private uploadService: MaterialsService, private router: Router) { }
 
 
   ngOnInit() { this.isLoggedIn(); }
+
+  changePermission(): void {
+    this.permission = !this.permission;
+  }
 
   isLoggedIn() {
     if (localStorage.getItem('currentUser') === null) {
@@ -27,6 +33,7 @@ export class MaterialsAddComponent implements OnInit {
     } else {
       this.user = this.currentUser.username;
     }
+    console.log(this.user);
   }
   selectFile(event) {
     this.selectedFiles = event.target.files;
@@ -34,10 +41,15 @@ export class MaterialsAddComponent implements OnInit {
 
   upload() {
     this.progress.percentage = 0;
-    const url = 'file/upload';
-    const permission = 'public';
+    const title = this.title;
+    const url = 'file/save';
+    let p = 'Private';
+      if (this.permission) {
+        p = 'Public';
+      }
+    const permission = p;
     this.currentFileUpload = this.selectedFiles.item(0);
-      this.uploadService.pushFileToStorage(this.currentFileUpload, this.user, permission, url).subscribe(
+      this.uploadService.pushFileToStorage(this.currentFileUpload, this.user, title, permission, url).subscribe(
         event => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(100 * event.loaded / event.total);
@@ -45,7 +57,7 @@ export class MaterialsAddComponent implements OnInit {
             this.currentFileUpload = undefined;
             alert(`Plik został zaimportowany.
             Swoje materiały możesz podejrzeć na liście materiałów.`);
-            this.router.navigate(['materials/l']);
+            this.router.navigate(['materials/list']);
           }
         },
         error => {
@@ -56,3 +68,5 @@ export class MaterialsAddComponent implements OnInit {
     this.selectedFiles = undefined;
   }
 }
+
+

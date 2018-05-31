@@ -1,0 +1,18 @@
+<div class="wrapper">
+  <div class="content">
+      <div>
+          <button class="btn btn-primary" routerLink="/materials/list/">WRÓĆ DO LISTY</button>
+          <div>
+          MATERIAŁY: {{title}} <br />
+          WŁAŚCICIEL: {{own}} <br />
+          UPRAWNIENIA: {{perm}} <br />
+          </div>
+          <br />
+          <button class="btn btn-primary" (click)="download()">POBIERZ</button>
+          <div *ngIf="user && owned">
+                 <button class="btn btn-danger" (click)="deleteMat()">USUŃ</button>
+                  <button class="btn btn-danger" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
+          </div>
+      </div>
+  </div>
+</div>

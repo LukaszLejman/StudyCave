@@ -10,6 +10,7 @@ import { MaterialsListComponent } from './materials-list/materials-list.componen
 import { RouterModule } from '@angular/router';
 import { MaterialsService } from './materials.service';
 import { MaterialsAddComponent } from './materials-add/materials-add.component';
+import { MaterialsDetailsComponent } from './materials-details/materials-details.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { MaterialsAddComponent } from './materials-add/materials-add.component';
     HttpModule,
     HttpClientModule
   ],
-  declarations: [MaterialsMenuComponent, MaterialsListComponent, MaterialsAddComponent],
+  declarations: [MaterialsMenuComponent, MaterialsListComponent, MaterialsAddComponent, MaterialsDetailsComponent],
   providers: [MaterialsService]
 })
 export class MaterialsModule { }

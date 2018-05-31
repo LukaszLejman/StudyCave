@@ -11,16 +11,18 @@ import { MaterialsService } from '../materials.service';
 export class MaterialsListComponent implements OnInit, OnDestroy {
 
   mats = [{}];
+  matsPrivate = [{}];
   matsEmpty = true;
   selectedMat: any;
   materialsSubscription: Subscription;
+  materialsSubscriptionOwners: Subscription;
   ShowStatus: Boolean = false;
   user: Boolean = false;
 
   constructor(private materialsService: MaterialsService, private router: Router) {}
 
   ngOnInit() {
-    // this.getMats();
+    this.getMats();
     this.IsLogin();
   }
 
@@ -33,13 +35,18 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
   }
   ShowPublic() {
     this.ShowStatus = false;
+    this.getMats();
   }
   ShowPrivate() {
     this.ShowStatus = true;
+    this.getMatsOwners();
   }
   onSelect(mat: any): void {
     this.selectedMat = mat;
-    // pobieranie pliku
+    this.materialsService.setOwner(this.selectedMat.owner);
+    this.materialsService.setTitle(this.selectedMat.title);
+    this.materialsService.setPerm(this.selectedMat.permission);
+    this.router.navigate(['materials/', this.selectedMat.id]);
   }
 
   getMats(): void {
@@ -53,8 +60,24 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
         }
       });
   }
+  getMatsOwners(): void {
+    this.materialsSubscriptionOwners = this.materialsService.getMaterialsOwners()
+      .subscribe(data => {
+        this.matsPrivate = data;
+        if (this.matsPrivate.length > 0) {
+          this.matsEmpty = false;
+        } else {
+          this.matsEmpty = true;
+        }
+      });
+  }
   ngOnDestroy() {
-   // this.materialsSubscription.unsubscribe();
+    if (this.materialsSubscription) {
+   this.materialsSubscription.unsubscribe();
+    }
+    if (this.materialsSubscriptionOwners) {
+   this.materialsSubscriptionOwners.unsubscribe();
+    }
   }
 
 }

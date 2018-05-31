@@ -31,8 +31,10 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
 
   isOwner() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser.username === this.owner) {
-      this.owned = true;
+    if (localStorage.getItem('currentUser')) {
+      if (currentUser.username === this.owner) {
+        this.owned = true;
+      }
     } else {
       this.owned = false;
     }

@@ -20,7 +20,6 @@ export class AuthenticationService {
                 // czy login ok jeśli w response jest token
                 // const token = response.json() && response.json().token;
                 const token = response.headers.get('authorization');
-                console.log(token);
                 if (token) {
                     // store username and jwt token w local storage aby nie wylogowało przy zmianie stron
                     localStorage.setItem('currentUser', JSON.stringify({ username: username, authorization: token }));
