@@ -49,7 +49,7 @@ public class TestController {
 	}
 	
 	@PostMapping
-	public void postTestChoices(@RequestBody TestCreateDTO testDTO) {
+	public void postTest(@RequestBody TestCreateDTO testDTO) {
 		User user = userRepository.findByUsername(testDTO.getOwner()).get();
 		testDTO.setIdOwner(user.getId());
 		Test test = modelMapper.map(testDTO, Test.class);

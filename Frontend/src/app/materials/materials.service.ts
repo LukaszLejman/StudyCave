@@ -16,6 +16,11 @@ export class MaterialsService {
 
   private headers;
 
+  private owner = JSON.parse(localStorage.getItem('currentUser'));
+  private own;
+  private title;
+  private perm;
+
   setHeaders() {
     if (localStorage.getItem('currentUser')) {
       this.headers = new HttpHeaders({
@@ -29,18 +34,79 @@ export class MaterialsService {
   }
 
     getMaterials(): Observable<any> {
-      return this.httpClient.get('materials', {headers: this.headers});
+          return this.httpClient.get('file/materials/', {headers: this.headers, params: { permission: 'Public'}});
     }
 
-    pushFileToStorage(file: File, user: string, permission: string, url: string): Observable<HttpEvent<{}>> {
+    getMaterialsOwners(): Observable<any> {
+      return this.httpClient.get('file/materials/', {headers: this.headers, params: { owner: this.owner.username}});
+    }
+    pushFileToStorage(file: File, user: string, title: string, permission: string, url: string): Observable<HttpEvent<{}>> {
       const formdata: FormData = new FormData();
       formdata.append('file', file);
       formdata.append('owner', user);
+      formdata.append('title', title);
       formdata.append('permission', permission);
+      formdata.append('grade', '0');
       const req = new HttpRequest('POST', url, formdata, {
         reportProgress: true,
         responseType: 'text'
       });
       return this.httpClient.request(req);
+    }
+
+    changeMatPermission(id, permission) {
+      this.httpClient.put('file/materials/' + id + '/permission', permission , {headers: this.headers})
+      .subscribe();
+    }
+
+    setOwner(own) {
+      this.own = own;
+    }
+
+    getOwner() {
+      return this.own;
+    }
+    setTitle(title) {
+      this.title = title;
+    }
+
+    getTitle() {
+      return this.title;
+    }
+    setPerm(perm) {
+      this.perm = perm;
+    }
+
+    getPerm() {
+      return this.perm;
+    }
+    deleteMat(id) {
+      return this.httpClient.delete('file/delete/' + id, { headers: this.headers, observe: 'response' })
+        .subscribe(data => { this.sendResponse(data); },
+        error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+        );
+
+    }
+    sendData(url, body) {
+      this.httpClient.post(url, body, { headers: this.headers, observe: 'response' })
+        .subscribe(data => { this.sendResponse(data); },
+        error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+        );
+    }
+
+    putData(url, body) {
+      this.httpClient.put(url, body, { headers: this.headers,  observe: 'response' })
+        .subscribe(data => { this.sendResponse(data); },
+        error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+        );
+    }
+
+    sendResponse(data) {
+      if (data.status === 200) {
+        alert('Operacja przebiegła pomyślnie!');
+        this.router.navigate(['materials/list']);
+      } else {
+        alert('Coś poszło nie tak. Spróbuj ponownie później.');
+      }
     }
 }

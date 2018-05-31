@@ -16,6 +16,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard.service';
 import { TestMakerComponent } from './tests/test-maker/test-maker.component';
+import { TestEditComponent } from './tests/test-edit/test-edit.component';
 import { FlashcardsModule } from './flashcards/flashcards.module';
 import { TestsModule } from './tests/tests.module';
 import { UserModule } from './user/user.module';
@@ -27,6 +28,7 @@ import { MaterialsListComponent } from './materials/materials-list/materials-lis
 import { MaterialsAddComponent } from './materials/materials-add/materials-add.component';
 import { TestsListComponent } from './tests/tests-list/tests-list.component';
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
+import { MaterialsDetailsComponent } from './materials/materials-details/materials-details.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -44,6 +46,7 @@ const routes: Routes = [
   { path: 'flashcards/test-gen/flashcards-filling-in/:id', component: FlashcardsFillingInTestComponent },
   { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent },
   { path: 'tests', component: TestsListComponent},
+  { path: 'tests/edit/:id', component: TestEditComponent },
   { path: 'test-maker', component: TestMakerComponent },
   { path: 'sign-up', component: RegisterComponent },
   { path: 'profile/:id', component: UserComponent },
@@ -51,7 +54,8 @@ const routes: Routes = [
   { path: 'materials', component: MaterialsMenuComponent },
   { path: 'materials/list', component: MaterialsListComponent },
   { path: 'materials/add-materials', component: MaterialsAddComponent },
-  { path: 'work-in-progress', component: WorkInProgressComponent }
+  { path: 'work-in-progress', component: WorkInProgressComponent },
+  { path: 'materials/:id', component: MaterialsDetailsComponent}
 ];
 
 @NgModule({

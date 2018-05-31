@@ -60,9 +60,10 @@ create table Question(
 
 
 INSERT INTO User VALUES(1,'-','-','anonim','-','-');
-INSERT INTO User VALUES(2,'asd','dsa','Drizzet','sda','sad');
-INSERT INTO FlashcardSet VALUES(1,'zestaw1','cat1',0, 14/04/2018,14/04/2018 ,5,'public');
-INSERT INTO FlashcardSet VALUES(2,'zestaw2','cat1',0, 14/04/2018,14/04/2018 ,5,'public');
+
+INSERT INTO FlashcardSet VALUES(1,'zestaw1','cat1',1, 14/04/2018,14/04/2018 ,5,'public');
+INSERT INTO FlashcardSet VALUES(2,'zestaw2','cat1',1, 14/04/2018,14/04/2018 ,5,'public');
+
 INSERT INTO Flashcard VALUES(1,1,'left1','right1');
 INSERT INTO Flashcard VALUES(1,2,'left2','right2');
 INSERT INTO Flashcard VALUES(2,3,'2left2','2right2');
@@ -70,6 +71,7 @@ INSERT INTO Flashcard VALUES(2,3,'2left2','2right2');
 select * from User;
 select * from FlashcardSet;
 select * from flashcard;
+
 select * from Test;
 select * from Question;
 select * from Answer;
@@ -78,4 +80,9 @@ select * from Answer_Gaps;
 select * from Answer_Puzzle;
 select * from Answer_Choices;
 
+select * from material;
+
 SHOW TABLES;
+
+
+

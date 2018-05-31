@@ -8,42 +8,39 @@
       </div>
       <table class="table" *ngIf="!ShowStatus">
         <tr>
-          <th>NAZWA</th>
-          <th class="mobile">KATEGORIA</th>
+          <th class="mobile">NAZWA</th>
           <th class="mobile">WŁAŚCICIEL</th>
           <th class="mobile">DATA DODANIA</th>
           <th class="mobile">DATA MODYFIKACJI</th>
           <th class="mobile">OCENA</th>
         </tr>
         <tr *ngFor="let mat of mats" [class.selected]="mat === selectedMat" (click)="onSelect(mat)" class="listItem">
-          <td class="name">nazwa</td>
-          <td class="category mobile">kategoria</td>
-          <td class="owner mobile">wlasciciel</td>
-          <td class="add_date mobile">data</td>
-          <td class="edit_date mobile">data2</td>
-          <td class="grade mobile">ocena</td>
+          <td class="name">{{mat.title}}</td>
+          <td class="owner mobile">{{mat.owner}}</td>
+          <td class="add_date mobile">{{mat.add_date}}</td>
+          <td class="edit_date mobile">{{mat.edit_date}}</td>
+          <td class="grade mobile">{{mat.grade}}</td>
         </tr>
         <tr *ngIf="matssEmpty">
           <td colspan="6" class="empty">BRAK MATERIAŁÓW</td>
         </tr>
       </table>
       <table class="table" *ngIf="ShowStatus">
-        PRYWATNE
           <tr>
-            <th>NAZWA</th>
-            <th class="mobile">KATEGORIA</th>
+            <th class="mobile">NAZWA</th>
             <th class="mobile">WŁAŚCICIEL</th>
             <th class="mobile">DATA DODANIA</th>
             <th class="mobile">DATA MODYFIKACJI</th>
             <th class="mobile">OCENA</th>
+            <th class="mobile">POZWOLENIE</th>
           </tr>
-          <tr *ngFor="let mat of mats" [class.selected]="mat === selectedMat" (click)="onSelect(mat)" class="listItem">
-            <td class="name">nazwa</td>
-            <td class="category mobile">kategoria</td>
-            <td class="owner mobile">wlasciciel</td>
-            <td class="add_date mobile">data</td>
-            <td class="edit_date mobile">data2</td>
-            <td class="grade mobile">ocena</td>
+          <tr *ngFor="let mat of matsPrivate" [class.selected]="mat === selectedMat" (click)="onSelect(mat)" class="listItem">
+            <td class="name">{{mat.title}}</td>
+            <td class="owner mobile">{{mat.owner}}</td>
+            <td class="add_date mobile">{{mat.add_date}}</td>
+            <td class="edit_date mobile">{{mat.edit_date}}</td>
+            <td class="grade mobile">{{mat.grade}}</td>
+            <td class="grade mobile">{{mat.permission}}</td>
           </tr>
           <tr *ngIf="matssEmpty">
             <td colspan="6" class="empty">BRAK MATERIAŁÓW</td>

@@ -15,6 +15,7 @@ export class FlashcardsAddCsvComponent implements OnInit {
   private progress: { percentage: number } = { percentage: 0 };
   private currentUser = JSON.parse(localStorage.getItem('currentUser'));
   private user: string;
+  private permission: Boolean = false;
   constructor(private uploadService: FlashcardsService, private router: Router) { }
 
   ngOnInit() { this.isLoggedIn(); }
@@ -27,6 +28,10 @@ export class FlashcardsAddCsvComponent implements OnInit {
     }
   }
 
+  changePermission(): void {
+    this.permission = !this.permission;
+  }
+
   selectFile(event) {
     this.selectedFiles = event.target.files;
   }
@@ -34,10 +39,13 @@ export class FlashcardsAddCsvComponent implements OnInit {
   upload() {
     this.progress.percentage = 0;
     const url = 'file/upload';
-    const permission = 'Private';
+    let p = 'Private';
+      if (this.permission) {
+        p = 'Public';
+      }
     this.currentFileUpload = this.selectedFiles.item(0);
     if (this.currentFileUpload.type === 'application/vnd.ms-excel') {
-      this.uploadService.pushFileToStorage(this.currentFileUpload, this.user, permission, url).subscribe(
+      this.uploadService.pushFileToStorage(this.currentFileUpload, this.user, p, url).subscribe(
         event => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(100 * event.loaded / event.total);

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { TestMakerComponent } from './test-maker/test-maker.component';
 import { TrueFalseQuestionComponent } from './true-false-question/true-false-question.component';
@@ -14,13 +15,15 @@ import { PuzzleQuestionComponent } from './puzzle-question/puzzle-question.compo
 import { GapsQuestionComponent } from './gaps-question/gaps-question.component';
 import { PairsQuestionComponent } from './pairs-question/pairs-question.component';
 import { TestsListComponent } from './tests-list/tests-list.component';
+import { TestEditComponent } from './test-edit/test-edit.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ],
   declarations: [
     TestMakerComponent,
@@ -30,7 +33,8 @@ import { TestsListComponent } from './tests-list/tests-list.component';
     PuzzleQuestionComponent,
     GapsQuestionComponent,
     PairsQuestionComponent,
-    TestsListComponent
+    TestsListComponent,
+    TestEditComponent
   ],
   providers: [TestsService],
 })

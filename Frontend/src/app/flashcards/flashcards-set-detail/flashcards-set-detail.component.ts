@@ -20,19 +20,21 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   owner;
   owned: Boolean = false;
 
-
   constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService, private router: Router) { }
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => { this.set = data; });
     this.IsLogin();
     this.owner = this.flashcardsService.getOwner();
+    this.isOwner();
   }
 
   isOwner() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (/*currentUser*/'1' === this.set.owner) {
-      this.owned = true;
+    if (localStorage.getItem('currentUser')) {
+      if (currentUser.username === this.owner) {
+        this.owned = true;
+      }
     } else {
       this.owned = false;
     }
@@ -57,6 +59,7 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
      this.permission = 'Public';
     }
     this.flashcardsService.changeSetPermission(this.id, this.permission);
+    alert('Zmieniono pozwolenie na: ' + this.permission);
   }
 
   handleCancelFlashcardsTestyTypeMenu(e) {

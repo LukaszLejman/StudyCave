@@ -1,0 +1,113 @@
+<div class="wrapper">
+  <div class="wrapper-add">
+    <div class="container">
+      <h2>Edytowanie testu</h2>
+      <br />
+      <div class="row">
+        <label class="col-md-10">
+          <p>Wprowadź nazwę dla testu:</p>
+          <input type="text" name="title" class="form-control" [(ngModel)]="title" required />
+        </label>
+        <label class="col-md-2">
+          <br />
+          <input type="checkbox" name="{{ permission }}" class="form-control" [checked]="permission" (change)="changePermission()"/>
+          <b>Udostępnij publicznie</b>
+        </label>
+      </div>
+      <div *ngIf="!trueFalse && !singleChoice && !multipleChoice && !puzzle && !gaps && !pairs">
+        <br />
+        <h4>Wybierz rodzaj pytania:</h4>
+        <button class="btn btn-primary" (click)='show("true-false")'>Prawda/fałsz</button>
+        <button class="btn btn-success" (click)='show("single-choice")'>Jednokrotny wybór</button>
+        <button class="btn btn-danger" (click)='show("multiple-choice")'>Wielokrotny wybór</button>
+        <br />
+        <button class="btn btn-danger" (click)='show("puzzle")'>Rozsypanka wyrazowa</button>
+        <button class="btn btn-primary" (click)='show("gaps")'>Uzupełnianie luk</button>
+        <button class="btn btn-success" (click)='show("pairs")'>Łączenie w pary</button>
+        <br />
+        <br />
+      </div>
+      <div *ngIf="shown">
+        <app-true-false-question *ngIf="trueFalse && (nr == 0)"
+          (add)="onAdd($event)" [edit]="false" [content]="{}"></app-true-false-question>
+        <app-single-choice-question *ngIf="singleChoice && (nr == 0)"
+          (add)="onAdd($event)" [edit]="false" [content]="{}"></app-single-choice-question>
+        <app-multiple-choice-question *ngIf="multipleChoice && (nr == 0)"
+          (add)="onAdd($event)" [edit]="false" [content]="{}"></app-multiple-choice-question>
+        <app-puzzle-question *ngIf="puzzle && (nr == 0)"
+          (add)="onAdd($event)" [edit]="false" [content]="{}"></app-puzzle-question>
+        <app-gaps-question *ngIf="gaps && (nr == 0)"
+          (add)="onAdd($event)" [edit]="false" [content]="{}"></app-gaps-question>
+        <app-pairs-question *ngIf="pairs && (nr == 0)"
+          (add)="onAdd($event)" [edit]="false" [content]="{}"></app-pairs-question>
+      </div>
+      <div *ngIf="test.length != 0">
+        <h3 *ngIf="!componentVisible">Dodane pytania: </h3>
+        <br />
+        <h5>Maksymalna liczba punktów do zdobycia: <b>{{ pointsAll }}</b></h5>
+        <table class="table">
+          <thead *ngIf="!componentVisible">
+            <tr>
+              <th>Lp.</th>
+              <th>Typ</th>
+              <th class="mobile">Punkty</th>
+              <th class="mobile">Pytanie</th>
+              <th>Usuń</th>
+              <th class="mobile">Przenieś</th>
+            </tr>
+          </thead>
+          <tbody style="cursor: pointer;" *ngFor="let question of test">
+            <tr *ngIf="!componentVisible">
+              <td (click)='showComponents(question.content.type, question.nr)'>{{ question.nr }}</td>
+              <td (click)='showComponents(question.content.type, question.nr)'
+                  *ngIf='question.content.type == "true-false"'>Prawda/fałsz</td>
+              <td (click)='showComponents(question.content.type, question.nr)'
+                  *ngIf='question.content.type == "single-choice"'>Jednokrotny wybór</td>
+              <td (click)='showComponents(question.content.type, question.nr)'
+                  *ngIf='question.content.type == "multiple-choice"'>Wielokrotny wybór</td>
+              <td (click)='showComponents(question.content.type, question.nr)'
+                  *ngIf='question.content.type == "puzzle"'>Rozsypanka wyrazowa</td>
+              <td (click)='showComponents(question.content.type, question.nr)'
+                  *ngIf='question.content.type == "gaps"'>Uzupełnianie luk</td>
+              <td (click)='showComponents(question.content.type, question.nr)'
+                  *ngIf='question.content.type == "pairs"'>Łączenie w pary</td>
+              <td (click)='showComponents(question.content.type, question.nr)'
+                  class="mobile">{{ question.content.points }}</td>
+              <td (click)='showComponents(question.content.type, question.nr)'
+                  class="mobile">{{ question.shortcut }}</td>
+              <td><button class="btn btn-danger" (click)="delete(question.nr)">Usuń</button></td>
+              <td class="mobile">
+                <button *ngIf="question.nr != 1" class="btn btn-success" (click)="moveUp(question.nr)">Góra</button>
+                <button *ngIf="question.nr != test.length" class="btn btn-warning" (click)="moveDown(question.nr)">Dół</button>
+                <span (click)='showComponents(question.content.type, question.nr)'
+                      *ngIf="(question.nr == 1) && (question.nr == test.length)" >---</span>
+              </td>
+            </tr>
+            <tr *ngIf="componentVisible && (nr == question.nr)">
+              <td colspan="5">
+                <app-true-false-question *ngIf='trueFalse && (question.content.type == "true-false") && (nr == question.nr)'
+                  (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-true-false-question>
+                <app-single-choice-question *ngIf='singleChoice && question.content.type == "single-choice" && (nr == question.nr)'
+                  (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-single-choice-question>
+                <app-multiple-choice-question *ngIf='multipleChoice && question.content.type == "multiple-choice" && (nr == question.nr)'
+                  (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-multiple-choice-question>
+                <app-puzzle-question *ngIf='puzzle && question.content.type == "puzzle" && (nr == question.nr)'
+                  (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-puzzle-question>
+                <app-gaps-question *ngIf='gaps && question.content.type == "gaps" && (nr == question.nr)'
+                  (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-gaps-question>
+                <app-pairs-question *ngIf='pairs && question.content.type == "pairs" && (nr == question.nr)'
+                  (editing)="onAdd($event)" [edit]="true" [content]="test[question.nr - 1]"></app-pairs-question>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+      </div>
+      <div *ngIf="(test.length != 0) && (!componentVisible)" >
+        <button class="btn btn-primary" (click)="save()">Edytuj test!</button>
+        <button class="btn btn-danger ml-2" routerLink="/tests/">Powrót</button>
+      </div>
+      <button *ngIf="!((test.length != 0) && (!componentVisible))" class="btn btn-danger" routerLink="/tests/">Powrót</button>
+    </div>
+  </div>
+</div>

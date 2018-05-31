@@ -14,17 +14,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
 public class TestCreateDTO {
-    private Long id;
+
     private String title;
     private String owner;
     @JsonIgnore
-    private Long idOwner;
-    @JsonIgnore
+    private long idOwner;
+    //@JsonIgnore
+    @JsonProperty("add_date")
     private Date addDate;
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonProperty("edit_date")
     private Date editDate;
     @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
     private String permission;
+
     @JsonIgnore
     private Long grade;
     @JsonProperty("body")
@@ -32,16 +35,10 @@ public class TestCreateDTO {
     
     
     public TestCreateDTO() {
+
     	
     }
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getTitle() {
 		return title;
@@ -59,11 +56,11 @@ public class TestCreateDTO {
 		this.owner = owner;
 	}
 
-	public Long getIdOwner() {
+	public long getIdOwner() {
 		return idOwner;
 	}
 
-	public void setIdOwner(Long idOwner) {
+	public void setIdOwner(long idOwner) {
 		this.idOwner = idOwner;
 	}
 
@@ -73,6 +70,18 @@ public class TestCreateDTO {
 
 	public void setAddDate(Date addDate) {
 		this.addDate = addDate;
+	}
+	
+	public void setAddDate() {
+		java.util.Date utilDate = new java.util.Date();
+		Date sqlDate = new Date(utilDate.getTime());
+		this.addDate = sqlDate;
+	}
+
+	public void setEditDate() {
+		java.util.Date utilDate = new java.util.Date();
+		Date sqlDate = new Date(utilDate.getTime());
+		this.editDate = sqlDate;
 	}
 
 	public Date getEditDate() {
@@ -91,11 +100,11 @@ public class TestCreateDTO {
 		this.permission = permission;
 	}
 
-	public List<Question> getQuestions() {
+	public List<QuestionCreateDTO> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(List<Question> questions) {
+	public void setQuestions(List<QuestionCreateDTO> questions) {
 		this.questions = questions;
 	}
 

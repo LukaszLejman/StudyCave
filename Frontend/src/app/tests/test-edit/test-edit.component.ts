@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TestsService } from '../tests.service';
+import { Subscription } from 'rxjs/Subscription';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-test-maker',
-  templateUrl: './test-maker.component.html',
-  styleUrls: ['./test-maker.component.css']
+  selector: 'app-test-edit',
+  templateUrl: './test-edit.component.html',
+  styleUrls: ['./test-edit.component.css']
 })
-export class TestMakerComponent implements OnInit {
+export class TestEditComponent implements OnInit, OnDestroy {
 
+  private ident: Number;
   private owner: Number = 0;
   private title: String = '';
   private permission: Boolean = false;
@@ -26,11 +29,44 @@ export class TestMakerComponent implements OnInit {
   private nr: Number = 0;
   private pointsAll: Number = 0;
 
-  constructor(private testsService: TestsService) {}
+  private testSubscribtion: Subscription;
 
-  ngOnInit() {}
+  constructor(private testsService: TestsService, private route: ActivatedRoute) {}
 
-  // edycja - onLoad() - na odp. serwera -> dla każdego pytania twórz shortcut i dodaj wszystko do zmiennej test. Tytuł testu w zm. title
+  ngOnInit() {
+    this.ident = this.route.snapshot.params.id;
+    this.testSubscribtion = this.testsService.getTest(this.ident).subscribe(
+      data => {
+        this.title = data['title'];
+        this.owner = data['owner'];
+        if (data['permission'] === 'public') {
+          this.permission = true;
+        } else {
+          this.permission = false;
+        }
+        const d = data['body'];
+        for (let i = 0; i < d.length; i++) {
+          let short = d[i]['question'];
+          if (short.length > 15) {
+            short = short.substr(0, 14) + '...';
+          }
+          const obj = {
+            nr: d[i]['nr'],
+            content: {
+              type: d[i]['type'],
+              question: d[i]['question'],
+              answers: d[i]['answers'],
+              points: d[i]['points']
+            },
+            shortcut: short
+          };
+          this.test.push(obj);
+        }
+        this.countPoints();
+      },
+      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+    );
+  }
 
   onAdd(question: Object): void {
     this.pointsAll = 0;
@@ -148,6 +184,7 @@ export class TestMakerComponent implements OnInit {
         owner = own['username'];
       }
       const toSend = {
+        id: this.ident,
         title: this.title,
         owner: owner,
         permission: p
@@ -165,8 +202,12 @@ export class TestMakerComponent implements OnInit {
       }
       toSend['body'] = body;
       console.log(toSend);
-      this.testsService.add(toSend);
+      // this.testsService.edit(toSend);
     }
+  }
+
+  ngOnDestroy() {
+    this.testSubscribtion.unsubscribe();
   }
 
 }

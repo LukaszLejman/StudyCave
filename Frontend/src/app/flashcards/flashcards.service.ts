@@ -31,9 +31,7 @@ export class FlashcardsService {
 
   changeSetPermission(id, permission) {
     this.httpClient.put('sets/' + id + '/permission', permission , {headers: this.headers})
-    .subscribe(data => { this.sendResponse(data); },
-      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
-      );
+    .subscribe();
   }
 
   add(body) {
@@ -51,8 +49,11 @@ export class FlashcardsService {
   }
 
   setOwner(owner) {
+    if (owner === null) {
+    this.owner = ' ';
+    } else {
     this.owner = owner;
-
+    }
   }
 
   getOwner() {
