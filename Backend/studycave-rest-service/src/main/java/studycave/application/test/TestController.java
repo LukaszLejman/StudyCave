@@ -59,22 +59,22 @@ public class TestController {
 			if(question instanceof QuestionChoices) {
 			for (AnswerChoices answer : ((QuestionChoices) question).getAnswers())
 				answer.setQuestion(question);
-				((QuestionChoices) question).setType();
+				//((QuestionChoices) question).setType();
 			}
 			if(question instanceof QuestionPairs) {
 			for (AnswerPairs answer : ((QuestionPairs) question).getAnswers())
 				answer.setQuestion(question);
-				((QuestionPairs) question).setType();
+				//((QuestionPairs) question).setType();
 			}
 			if(question instanceof QuestionPuzzle) {
 			for (AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers())
 				answer.setQuestion(question);
-				((QuestionPuzzle) question).setType();
+				//((QuestionPuzzle) question).setType();
 			}
 			if(question instanceof QuestionGaps) {
 			for (AnswerGaps answer : ((QuestionGaps) question).getAnswers())
 				answer.setQuestion(question);
-				((QuestionGaps) question).setType();
+				//((QuestionGaps) question).setType();
 			}
 		}
 		test.setAddDate();
