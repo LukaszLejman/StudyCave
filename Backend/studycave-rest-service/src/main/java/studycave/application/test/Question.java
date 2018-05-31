@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiModelProperty;
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
 	@JsonSubTypes.Type(value = QuestionChoices.class, name="single-choice"),
-	@JsonSubTypes.Type(value = QuestionChoices.class, name="multilpe-choices"),
+	@JsonSubTypes.Type(value = QuestionChoices.class, name="multilpe-choice"),
 	@JsonSubTypes.Type(value = QuestionChoices.class, name="true-false"),
 	@JsonSubTypes.Type(value = QuestionPairs.class, name="pairs"),
 	@JsonSubTypes.Type(value = QuestionPuzzle.class, name="puzzle"),
