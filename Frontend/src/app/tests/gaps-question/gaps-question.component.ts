@@ -154,11 +154,12 @@ export class GapsQuestionComponent implements OnInit {
       } else {
         let hasVisibleText = false;
         for (let i = 0; i < this.answersCorrect.length; i++) {
-          if ((!this.answersCorrect[i]['is_gap']) &&
-              (this.answersCorrect[i]['content'] !== '\n') &&
-              (this.answersCorrect[i]['content'].trim().length !== 0)) {
-            hasVisibleText = true;
-            break;
+          if (!this.answersCorrect[i]['is_gap']) {
+            if ((this.answersCorrect[i]['content'][0] !== '\n') &&
+                (this.answersCorrect[i]['content'][0].trim().length !== 0)) {
+              hasVisibleText = true;
+              break;
+            }
           }
         }
         if (!hasVisibleText) {
