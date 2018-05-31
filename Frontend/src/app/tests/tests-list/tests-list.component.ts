@@ -18,7 +18,8 @@ export class TestsListComponent implements OnInit {
     { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa'},
     { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania' },
     { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji' },
-    { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel' }
+    { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel' },
+    { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena' }
   ];
 
 
@@ -26,7 +27,6 @@ export class TestsListComponent implements OnInit {
 
   ngOnInit() {
     this.gridOptions = {
-      
       onRowClicked: this.goToTest.bind(this),
       getRowStyle: function (params) {
         return {
