@@ -1,6 +1,7 @@
 package studycave.application.test;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -33,11 +36,13 @@ public class Test {
     private Date editDate;
     
     private String permission;
-
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
+    //@Column(nullable = true)
+    private int grade;
+    
     @JsonProperty("body")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
     @JsonManagedReference
-    List<Question> questions;
+    List<Question> questions = new ArrayList<>();
 
 	public Test() {
 		super();
@@ -86,14 +91,6 @@ public class Test {
 	public void setEditDate(Date editDate) {
 		this.editDate = editDate;
 	}
-
-	public List<Question> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
-	}
     
     public String getPermission() {
 		return permission;
@@ -101,6 +98,34 @@ public class Test {
 
 	public void setPermission(String permission) {
 		this.permission = permission;
+	}
+
+	public int getGrade() {
+		return grade;
+	}
+	
+	public void setGrade() {
+		this.grade = 0;
+	}
+	
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+
+	public Date getEditDate() {
+		return editDate;
+	}
+
+	public void setAddDate(Date addDate) {
+		this.addDate = addDate;
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
 	}
     
     

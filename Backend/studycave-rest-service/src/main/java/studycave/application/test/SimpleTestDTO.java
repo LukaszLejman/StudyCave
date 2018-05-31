@@ -2,49 +2,26 @@ package studycave.application.test;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
-@Entity
-@Table(name = "test")
-public class SimpleTest {
-	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+public class SimpleTestDTO {
     private Long id;
     private String title;
-    @Column(name="id_owner")
-    @JsonProperty("owner")
+    private String owner;
+    @JsonIgnore
     private Long idOwner;
-    @Column(name="add_date")
-    @JsonProperty("add_date")
+    @JsonIgnore
     private Date addDate;
-    @Column(name="edit_date")
-    @JsonProperty("edit_date")
+    @JsonIgnore
     private Date editDate;
-    //@Column(nullable = true)
-    private int grade;
+    @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
     private String permission;
+    private Long grade;
     
-    protected SimpleTest() {
-    	
-    }
-    
-    public SimpleTest(String title,Long idOwner) {
+    SimpleTestDTO(){
     	super();
-    	this.title = title;
-    	this.idOwner = idOwner; 	
-    }
-    
-    public SimpleTest(Test test) {
-    	super();
-    	this.title = test.getTitle();
-    	this.idOwner = test.getIdOwner();
     }
 
 	public Long getId() {
@@ -61,6 +38,14 @@ public class SimpleTest {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
 	public Long getIdOwner() {
@@ -95,13 +80,12 @@ public class SimpleTest {
 		this.permission = permission;
 	}
 
-	public int getGrade() {
+	public Long getGrade() {
 		return grade;
 	}
 
-	public void setGrade(int grade) {
+	public void setGrade(Long grade) {
 		this.grade = grade;
 	}
-    
     
 }

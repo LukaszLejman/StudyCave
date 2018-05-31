@@ -1,6 +1,7 @@
 package studycave.application.test;
 
 import java.util.Optional;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -55,18 +56,44 @@ public class TestController {
 		test.setId((long) 0);
 		for (Question question : test.getQuestions()) {
 			question.setTest(test);
-			for (Answer answer : question.getAnswers())
+			if(question instanceof QuestionChoices) {
+			for (AnswerChoices answer : ((QuestionChoices) question).getAnswers())
 				answer.setQuestion(question);
+				((QuestionChoices) question).setType();
+			}
+			if(question instanceof QuestionPairs) {
+			for (AnswerPairs answer : ((QuestionPairs) question).getAnswers())
+				answer.setQuestion(question);
+				((QuestionPairs) question).setType();
+			}
+			if(question instanceof QuestionPuzzle) {
+			for (AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers())
+				answer.setQuestion(question);
+				((QuestionPuzzle) question).setType();
+			}
+			if(question instanceof QuestionGaps) {
+			for (AnswerGaps answer : ((QuestionGaps) question).getAnswers())
+				answer.setQuestion(question);
+				((QuestionGaps) question).setType();
+			}
 		}
 		test.setAddDate();
 		test.setEditDate();
-		
+		test.setGrade();
 		testRepository.save(test);
 	}
 	
 	@GetMapping
-	public List<SimpleTest> getTest() {
-		return simpleTestRepository.findAll();
+	public List<SimpleTestDTO> getTest() {
+		List<SimpleTest> tests = simpleTestRepository.findAll();
+		ArrayList<SimpleTestDTO> testDTOs = new ArrayList<SimpleTestDTO>();
+		for(SimpleTest test : tests) {
+			User user = userRepository.findById((long) test.getIdOwner()).get();
+		    SimpleTestDTO testDTO = modelMapper.map(test, SimpleTestDTO.class);
+		    testDTO.setOwner(user.getUsername());
+		    testDTOs.add(testDTO);
+		}
+		return testDTOs;
 	}
 
 }

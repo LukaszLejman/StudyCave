@@ -27,10 +27,15 @@ public class TestCreateDTO {
     private Date editDate;
     @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
     private String permission;
+
+    @JsonIgnore
+    private Long grade;
     @JsonProperty("body")
-    List<QuestionCreateDTO> questions;
+    List<Question> questions;
     
-    protected TestCreateDTO() {
+    
+    public TestCreateDTO() {
+
     	
     }
 
@@ -101,6 +106,14 @@ public class TestCreateDTO {
 
 	public void setQuestions(List<QuestionCreateDTO> questions) {
 		this.questions = questions;
+	}
+
+	public Long getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Long grade) {
+		this.grade = grade;
 	}
     
     
