@@ -12,9 +12,7 @@ public class SimpleTestDTO {
     private String owner;
     @JsonIgnore
     private Long idOwner;
-    @JsonIgnore
     private Date addDate;
-    @JsonIgnore
     private Date editDate;
     @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
     private String permission;
