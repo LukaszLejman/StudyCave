@@ -37,7 +37,7 @@ public class Test {
     
     private String permission;
     
-    private Long grade;
+    private int grade;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy="test",cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -99,11 +99,15 @@ public class Test {
 		this.permission = permission;
 	}
 
-	public Long getGrade() {
+	public int getGrade() {
 		return grade;
 	}
-
-	public void setGrade(Long grade) {
+	
+	public void setGrade() {
+		this.grade = 0;
+	}
+	
+	public void setGrade(int grade) {
 		this.grade = grade;
 	}
 

@@ -32,6 +32,9 @@ public class QuestionGaps extends Question {
 	public void setAnswers(List<AnswerGaps> answers) {
 		this.answers = answers;
 	}
-	
+
+	public void setType() {
+		this.type = "gaps";
+	}
 
 }

@@ -59,27 +59,30 @@ public class TestController {
 		System.out.println("zmapowalem model");
 		for (Question question : test.getQuestions()) {
 			question.setTest(test);
-			if(question instanceof QuestionChoices)
-				//QuestionChoices questionch = (questionch)question;
-				//QuestionChoices questionch = (QuestionChoices)question;
+			if(question instanceof QuestionChoices) {
 			for (AnswerChoices answer : ((QuestionChoices) question).getAnswers())
 				answer.setQuestion(question);
-			
-			if(question instanceof Question)
+				((QuestionChoices) question).setType();
+			}
+			if(question instanceof QuestionPairs) {
 			for (AnswerPairs answer : ((QuestionPairs) question).getAnswers())
 				answer.setQuestion(question);
-		
-			if(question instanceof QuestionPuzzle)
+				((QuestionPairs) question).setType();
+			}
+			if(question instanceof QuestionPuzzle) {
 			for (AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers())
 				answer.setQuestion(question);
-			
-			if(question instanceof QuestionGaps)
+				((QuestionPuzzle) question).setType();
+			}
+			if(question instanceof QuestionGaps) {
 			for (AnswerGaps answer : ((QuestionGaps) question).getAnswers())
 				answer.setQuestion(question);
-			
+				((QuestionGaps) question).setType();
+			}
 		}
 		test.setAddDate();
 		test.setEditDate();
+		test.setGrade();
 		testRepository.save(test);
 	}
 	

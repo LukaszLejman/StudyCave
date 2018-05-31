@@ -73,4 +73,9 @@ select * from flashcard;
 select * from Test;
 select * from Question;
 select * from Answer;
-select * from AnswerPairs;
+select * from Answer_Pairs;
+select * from Answer_Gaps;
+select * from Answer_Puzzle;
+select * from Answer_Choices;
+
+SHOW TABLES;

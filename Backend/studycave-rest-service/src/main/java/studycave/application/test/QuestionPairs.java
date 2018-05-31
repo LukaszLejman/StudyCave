@@ -31,7 +31,9 @@ public class QuestionPairs extends Question{
 		this.answers = answers;
 	}
 	
-
+	public void setType() {
+		this.type = "pairs";
+	}
 		
 	
 }

@@ -56,7 +56,7 @@ public abstract class Question {
     @JsonProperty("nr")
     private int nrQuestion;
     //@NotNull
-    //private String type;
+    protected String type;
     private int points;
 
 	@ApiModelProperty(hidden = true)
@@ -68,8 +68,18 @@ public abstract class Question {
 	public Question() {
 		super();
 	}
-	
-	
+
+	public String getType() {
+		return type;
+	}
+
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
 
 	public int getNrQuestion() {
 		return nrQuestion;

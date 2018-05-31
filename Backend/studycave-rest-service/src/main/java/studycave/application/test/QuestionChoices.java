@@ -33,5 +33,8 @@ public class QuestionChoices extends Question {
 		this.answers = answers;
 	}
 	
+	public void setType() {
+		this.type = "choices";
+	}
 	
 }

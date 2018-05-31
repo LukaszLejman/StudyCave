@@ -20,11 +20,11 @@ import springfox.documentation.annotations.ApiIgnore;
 @Entity
 public class AnswerChoices extends Answer {
 	
-	String content; 
+	private String content; 
 
     @Column(name="is_good")
     @JsonProperty("is_good")
-    private boolean good;
+    private Boolean good;
 
     public AnswerChoices() {
     	super();
@@ -39,13 +39,14 @@ public class AnswerChoices extends Answer {
 		this.content = content;
 	}
 
-
-	public boolean isGood() {
+	public Boolean getGood() {
 		return good;
 	}
 
-
-	public void setGood(boolean good) {
+	public void setGood(Boolean good) {
 		this.good = good;
-	}    
+	}
+
+
+  
 }

@@ -30,6 +30,9 @@ public class QuestionPuzzle extends Question {
 		this.answers = answers;
 	}
 	
+	public void setType() {
+		this.type = "puzzle";
+	}
 
 
 }
