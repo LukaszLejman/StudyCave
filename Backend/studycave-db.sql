@@ -48,7 +48,7 @@ create table Test(
 create table Question(
 	id int NOT NULL AUTO_INCREMENT primary key,
 	#type varchar(15),
-    question varchar(15),
+    question varchar(120),
     nr_question int,
     id_test int,
     points int,
