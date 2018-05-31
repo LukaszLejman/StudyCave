@@ -11,8 +11,9 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+
+//@DiscriminatorValue("1")
 @Entity
-@DiscriminatorValue("1")
 public class QuestionChoices extends Question {
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="question",cascade = CascadeType.ALL)

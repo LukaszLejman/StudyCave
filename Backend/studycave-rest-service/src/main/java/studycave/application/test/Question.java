@@ -23,26 +23,40 @@ import org.hibernate.annotations.DiscriminatorFormula;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.*;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import io.swagger.annotations.ApiModelProperty;
 
 
+
+//
+//@DiscriminatorFormula("case when type in ('true-false', 'single-choice', 'multiple-choice') then 1 when 'pairs' then 2 when 'puzzle' then 3 when 'gaps' then 4 else 5 end")
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=As.PROPERTY, property = "type", visible = true )
+@JsonSubTypes({
+	@JsonSubTypes.Type(value = QuestionChoices.class, name="choices"),
+	@JsonSubTypes.Type(value = QuestionPairs.class, name="pairs"),
+	@JsonSubTypes.Type(value = QuestionPuzzle.class, name="puzzle"),
+	@JsonSubTypes.Type(value = QuestionGaps.class, name="gaps")
+})
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorFormula("case when type in ('true-false', 'single-choice', 'multiple-choice') then 1 when 'pairs' then 2 when 'puzzle' then 3 when 'gaps' then 4 else 5 end")
 public abstract class Question {
     
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-
+	
+	@Column(name="question")
     @JsonProperty("question")
     private String text;
+
     @Column(name="nr_question")
     @JsonProperty("nr")
     private int nrQuestion;
-    @NotNull
-    private String type;
+    //@NotNull
+    //private String type;
     private int points;
 
 	@ApiModelProperty(hidden = true)
@@ -51,13 +65,10 @@ public abstract class Question {
     @JsonBackReference
     private Test test;
 
-	@OneToMany(fetch = FetchType.LAZY,mappedBy="question",cascade = CascadeType.ALL)
-    @JsonManagedReference
-    List<Answer> answers = new ArrayList<>();
-
 	public Question() {
 		super();
 	}
+	
 	
 
 	public int getNrQuestion() {

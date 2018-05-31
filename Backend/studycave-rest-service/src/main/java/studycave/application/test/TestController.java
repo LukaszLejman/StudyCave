@@ -30,8 +30,11 @@ public class TestController {
 	
 	@Autowired
 	TestRepository testRepository;
+	@Autowired
 	SimpleTestRepository simpleTestRepository;
+	@Autowired
 	UserRepository userRepository;
+	@Autowired
 	ModelMapper modelMapper;
 	
 	@GetMapping("/{id}")
@@ -46,12 +49,14 @@ public class TestController {
 	
 	@PostMapping
 	public void postTestChoices(@RequestBody TestCreateDTO testDTO) {
+		System.out.println("tu juz jestem " + testDTO.getOwner());
 		User user = userRepository.findByUsername(testDTO.getOwner()).get();
 		testDTO.setIdOwner(user.getId());
-		
+		System.out.println("znalazlem owner");
 		Test test = modelMapper.map(testDTO, Test.class);
 		test.setId((long) 0);
 		
+		System.out.println("zmapowalem model");
 		for (Question question : test.getQuestions()) {
 			question.setTest(test);
 			if(question instanceof QuestionChoices)

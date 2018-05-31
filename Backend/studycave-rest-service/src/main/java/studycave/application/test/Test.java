@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-public abstract class Test {
+public class Test {
     
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
