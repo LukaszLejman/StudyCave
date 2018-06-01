@@ -202,7 +202,7 @@ export class TestEditComponent implements OnInit, OnDestroy {
       }
       toSend['body'] = body;
       console.log(toSend);
-      // this.testsService.edit(toSend);
+      this.testsService.edit(toSend);
     }
   }
 
