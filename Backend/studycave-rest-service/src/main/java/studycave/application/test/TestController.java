@@ -20,16 +20,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
-import studycave.application.files.MaterialGetDTO;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
+
+
+
+
 
 @RestController
 @CrossOrigin
 @RequestMapping("/tests")
 @Api
 public class TestController {
-
+	
 	@Autowired
 	TestRepository testRepository;
 	@Autowired
@@ -42,12 +45,12 @@ public class TestController {
 	UserRepository userRepository;
 	@Autowired
 	ModelMapper modelMapper;
-
+	
 	@GetMapping("/{id}")
 	public Optional<Test> getTest(@PathVariable(required = true) Long id) {
-		return testRepository.findById(id);
+		return  testRepository.findById(id);
 	}
-
+	
 	@GetMapping("/{id}/solve")
 	public Optional<Test> getTestToSolve(@PathVariable(required = true) Long id) {
 
@@ -67,12 +70,12 @@ public class TestController {
 
 		return test;
 	}
-
+	
 	@DeleteMapping("/{id}")
-	public void deleteTest(@PathVariable(required = true) Long id) {
+	public void deleteTest(@PathVariable(required = true)Long id) {
 		testRepository.deleteById(id);
 	}
-
+	
 	@PostMapping
 	public void postTest(@RequestBody TestCreateDTO testDTO) {
 		User user = userRepository.findByUsername(testDTO.getOwner()).get();
@@ -81,25 +84,25 @@ public class TestController {
 		test.setId((long) 0);
 		for (Question question : test.getQuestions()) {
 			question.setTest(test);
-			if (question instanceof QuestionChoices) {
-				for (AnswerChoices answer : ((QuestionChoices) question).getAnswers())
-					answer.setQuestion(question);
-				// ((QuestionChoices) question).setType();
+			if(question instanceof QuestionChoices) {
+			for (AnswerChoices answer : ((QuestionChoices) question).getAnswers())
+				answer.setQuestion(question);
+				//((QuestionChoices) question).setType();
 			}
-			if (question instanceof QuestionPairs) {
-				for (AnswerPairs answer : ((QuestionPairs) question).getAnswers())
-					answer.setQuestion(question);
-				// ((QuestionPairs) question).setType();
+			if(question instanceof QuestionPairs) {
+			for (AnswerPairs answer : ((QuestionPairs) question).getAnswers())
+				answer.setQuestion(question);
+				//((QuestionPairs) question).setType();
 			}
-			if (question instanceof QuestionPuzzle) {
-				for (AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers())
-					answer.setQuestion(question);
-				// ((QuestionPuzzle) question).setType();
+			if(question instanceof QuestionPuzzle) {
+			for (AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers())
+				answer.setQuestion(question);
+				//((QuestionPuzzle) question).setType();
 			}
-			if (question instanceof QuestionGaps) {
-				for (AnswerGaps answer : ((QuestionGaps) question).getAnswers())
-					answer.setQuestion(question);
-				// ((QuestionGaps) question).setType();
+			if(question instanceof QuestionGaps) {
+			for (AnswerGaps answer : ((QuestionGaps) question).getAnswers())
+				answer.setQuestion(question);
+				//((QuestionGaps) question).setType();
 			}
 		}
 		test.setAddDate();
@@ -107,141 +110,142 @@ public class TestController {
 		test.setGrade();
 		testRepository.save(test);
 	}
-
+	
 	@GetMapping
-	public ResponseEntity<?> getTest(@RequestParam(value = "owner", required = false) String owner,
-			@RequestParam(value = "permission", required = false) String permission) {
-
+	public ResponseEntity<?> getTest(
+			@RequestParam(value = "owner", required = false) String  owner,
+            @RequestParam(value = "permission", required = false) String permission)  {
+		
 		Optional<User> user = userRepository.findByUsername(owner);
 		Long ownerId = user.isPresent() ? user.get().getId() : null;
-
-		if (owner != null && !user.isPresent())
-			return new ResponseEntity<>(new String("User not found"), HttpStatus.NOT_FOUND);
+		
+		if (owner!=null && !user.isPresent()) return new ResponseEntity<>(new String("User not found"),HttpStatus.NOT_FOUND);
 
 		ArrayList<SimpleTestDTO> testDTOs = new ArrayList<SimpleTestDTO>();
 
-		List<SimpleTest> tests = simpleTestRepository.findByOptionalPermissionAndOptionalOwner(permission, ownerId);
-		for (SimpleTest test : tests) {
+		List<SimpleTest> tests = simpleTestRepository.findByOptionalPermissionAndOptionalOwner(permission,ownerId);
+		for(SimpleTest test : tests) {
 			String username = userRepository.findById((long) test.getIdOwner()).get().getUsername();
-			SimpleTestDTO testDTO = modelMapper.map(test, SimpleTestDTO.class);
-			testDTO.setOwner(username);
-			testDTOs.add(testDTO);
+		    SimpleTestDTO testDTO = modelMapper.map(test, SimpleTestDTO.class);
+		    testDTO.setOwner(username);
+		    testDTOs.add(testDTO);
 		}
 		return new ResponseEntity<List<SimpleTestDTO>>(testDTOs, HttpStatus.OK);
 	}
-
+	
+	
 	@PutMapping
 	public void editTest(@RequestBody TestEditDTO testDTO) {
 		User user = userRepository.findByUsername(testDTO.getOwner()).get();
 		testDTO.setIdOwner(user.getId());
-
+		
 		Test test = modelMapper.map(testDTO, Test.class);
 		for (Question question : test.getQuestions()) {
 			question.setTest(test);
-			if (question instanceof QuestionChoices) {
-				for (AnswerChoices answer : ((QuestionChoices) question).getAnswers())
-					answer.setQuestion(question);
-				// ((QuestionChoices) question).setType();
+			if(question instanceof QuestionChoices) {
+			for (AnswerChoices answer : ((QuestionChoices) question).getAnswers())
+				answer.setQuestion(question);
+				//((QuestionChoices) question).setType();
 			}
-			if (question instanceof QuestionPairs) {
-				for (AnswerPairs answer : ((QuestionPairs) question).getAnswers())
-					answer.setQuestion(question);
-				// ((QuestionPairs) question).setType();
+			if(question instanceof QuestionPairs) {
+			for (AnswerPairs answer : ((QuestionPairs) question).getAnswers())
+				answer.setQuestion(question);
+				//((QuestionPairs) question).setType();
 			}
-			if (question instanceof QuestionPuzzle) {
-				for (AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers())
-					answer.setQuestion(question);
-				// ((QuestionPuzzle) question).setType();
+			if(question instanceof QuestionPuzzle) {
+			for (AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers())
+				answer.setQuestion(question);
+				//((QuestionPuzzle) question).setType();
 			}
-			if (question instanceof QuestionGaps) {
-				for (AnswerGaps answer : ((QuestionGaps) question).getAnswers())
-					answer.setQuestion(question);
-				// ((QuestionGaps) question).setType();
+			if(question instanceof QuestionGaps) {
+			for (AnswerGaps answer : ((QuestionGaps) question).getAnswers())
+				answer.setQuestion(question);
+				//((QuestionGaps) question).setType();
 			}
 		}
-
+		
 		List<Long> deleteq = new ArrayList<>();
 		List<Long> deletea = new ArrayList<>();
 		Test oldtest = testRepository.findById(test.getId()).orElse(null);
-
+		
 		test.setAddDate(oldtest.getAddDate());
 		test.setEditDate();
 		test.setGrade(oldtest.getGrade());
-
+		
 		Boolean isinq = false;
 		Boolean isina = false;
-
+		
 		for (Question oldquestion : oldtest.getQuestions()) {
-			isinq = false;
-			for (Question question : test.getQuestions()) {
-				if (oldquestion.getId() == question.getId())
-					isinq = true;
-
-				if (oldquestion instanceof QuestionChoices && question instanceof QuestionChoices) {
-					for (AnswerChoices oldanswer : ((QuestionChoices) oldquestion).getAnswers()) {
-						isina = false;
-						for (AnswerChoices answer : ((QuestionChoices) question).getAnswers())
-							if (oldanswer.getId() == answer.getId())
-								isina = true;
-						if (isina == false) {
-							deletea.add(oldanswer.getId());
-							System.out.println("usuwam answer: " + oldanswer.getId());
-						}
+			isinq=false;
+			for(Question question : test.getQuestions()) {
+				if(oldquestion.getId() == question.getId())
+					isinq=true;	
+			
+			if(oldquestion instanceof QuestionChoices && question instanceof QuestionChoices) {
+				for (AnswerChoices oldanswer : ((QuestionChoices) oldquestion).getAnswers()) {
+					isina=false;
+					for(AnswerChoices answer : ((QuestionChoices)question).getAnswers())
+						if(oldanswer.getId() == answer.getId())
+							isina = true;
+					if(isina == false) {
+						deletea.add(oldanswer.getId());
+						//System.out.println("usuwam answer: "+oldanswer.getId());
 					}
 				}
-				if (oldquestion instanceof QuestionPairs && question instanceof QuestionPairs) {
-					for (AnswerPairs oldanswer : ((QuestionPairs) oldquestion).getAnswers()) {
-						isina = false;
-						for (AnswerPairs answer : ((QuestionPairs) question).getAnswers())
-							if (oldanswer.getId() == answer.getId())
-								isina = true;
-						if (isina == false) {
-							deletea.add(oldanswer.getId());
-							System.out.println("usuwam answer: " + oldanswer.getId());
-						}
-					}
-				}
-				if (oldquestion instanceof QuestionPuzzle && question instanceof QuestionPuzzle) {
-					for (AnswerPuzzle oldanswer : ((QuestionPuzzle) oldquestion).getAnswers()) {
-						isina = false;
-						for (AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers())
-							if (oldanswer.getId() == answer.getId())
-								isina = true;
-						if (isina == false) {
-							deletea.add(oldanswer.getId());
-							System.out.println("usuwam answer: " + oldanswer.getId());
-						}
-					}
-				}
-				if (oldquestion instanceof QuestionGaps && question instanceof QuestionGaps) {
-					for (AnswerGaps oldanswer : ((QuestionGaps) oldquestion).getAnswers()) {
-						isina = false;
-						for (AnswerGaps answer : ((QuestionGaps) question).getAnswers())
-							if (oldanswer.getId() == answer.getId())
-								isina = true;
-						if (isina == false) {
-							deletea.add(oldanswer.getId());
-							System.out.println("usuwam answer: " + oldanswer.getId());
-						}
-					}
-				}
-
-				System.out.println(question.getId() + " " + oldquestion.getId());
 			}
-			if (isinq == false) {
+			if(oldquestion instanceof QuestionPairs && question instanceof QuestionPairs) {
+				for (AnswerPairs oldanswer : ((QuestionPairs) oldquestion).getAnswers()) {
+					isina=false;
+					for(AnswerPairs answer : ((QuestionPairs)question).getAnswers())
+						if(oldanswer.getId() == answer.getId())
+							isina = true;
+					if(isina == false) {
+						deletea.add(oldanswer.getId());
+						//System.out.println("usuwam answer: "+oldanswer.getId());
+					}
+				}		
+			}
+			if(oldquestion instanceof QuestionPuzzle && question instanceof QuestionPuzzle) {
+				for (AnswerPuzzle oldanswer : ((QuestionPuzzle) oldquestion).getAnswers()) {
+					isina=false;
+					for(AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers())
+						if(oldanswer.getId() == answer.getId())
+							isina=true;
+					if(isina == false) {
+						deletea.add(oldanswer.getId());
+						//System.out.println("usuwam answer: "+oldanswer.getId());
+					}
+				}
+			}
+			if(oldquestion instanceof QuestionGaps && question instanceof QuestionGaps) {
+				for (AnswerGaps oldanswer : ((QuestionGaps) oldquestion).getAnswers()) {
+				isina=false;
+				for(AnswerGaps answer : ((QuestionGaps)question).getAnswers())
+					if(oldanswer.getId() == answer.getId())
+						isina=true;
+				if(isina == false) {
+					deletea.add(oldanswer.getId());
+					//System.out.println("usuwam answer: "+oldanswer.getId());
+				}
+				}
+			}	
+			
+			//System.out.println(question.getId()+" "+ oldquestion.getId());
+			}
+			if(isinq == false) {
 				deleteq.add(oldquestion.getId());
-				System.out.println("usuwam " + oldquestion.getId());
+				//System.out.println("usuwam "+oldquestion.getId());
 			}
 		}
 		testRepository.save(test);
-
-		for (Long a : deletea)
-			if (a != null)
-				if (answerRepository.findById(a) != null)
+		
+		for(Long a : deletea)
+			if(a != null)
+				if(answerRepository.findById(a) != null)
 					answerRepository.deleteById(a);
-		for (Long q : deleteq)
-			if (q != null)
-				if (questionRepository.findById(q) != null)
+		for(Long q: deleteq)
+			if(q != null)
+				if(questionRepository.findById(q) != null)
 					questionRepository.deleteById(q);
 
 	}
