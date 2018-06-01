@@ -102,7 +102,7 @@ public class TestController {
 	}
 	
 	@PutMapping
-	public void editTest(@RequestBody TestCreateDTO testDTO) {
+	public void editTest(@RequestBody TestEditDTO testDTO) {
 		User user = userRepository.findByUsername(testDTO.getOwner()).get();
 		testDTO.setIdOwner(user.getId());
 		

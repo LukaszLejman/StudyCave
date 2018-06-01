@@ -49,7 +49,6 @@ public abstract class Question {
     
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-	@JsonIgnore
     private Long id;
 	
 	@Column(name="question")
