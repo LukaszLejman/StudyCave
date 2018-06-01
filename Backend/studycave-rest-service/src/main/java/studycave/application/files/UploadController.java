@@ -16,6 +16,7 @@ import studycave.application.SetRepository;
 import studycave.application.SimpleSet;
 import studycave.application.SimpleSetDTO;
 import studycave.application.files.MaterialRepository;
+import studycave.application.test.SimpleTestDTO;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
 
@@ -158,13 +159,16 @@ public class UploadController {
 	}
 	
 	@GetMapping("/materials")
-	public ArrayList<MaterialGetDTO> getMaterials(
+	public ResponseEntity<?> getMaterials(
 			@RequestParam(value = "owner", required = false) String  owner,
             @RequestParam(value = "permission", required = false) String permission) {
 		Optional<User> user = userRepository.findByUsername(owner);
 		Integer ownerId = user.isPresent() ? user.get().getId().intValue() : null;
-		ArrayList<MaterialGetDTO> materialDTOs = new ArrayList<MaterialGetDTO>();
 		
+		if (owner!=null && !user.isPresent()) return new ResponseEntity<>(new String("User not found"),HttpStatus.NOT_FOUND);
+
+		
+		ArrayList<MaterialGetDTO> materialDTOs = new ArrayList<MaterialGetDTO>();
 		List<Material> materials = materialRepository.findByOptionalPermissionAndOptionalOwner(permission,ownerId);
 		
 		for(Material material : materials) {
@@ -173,7 +177,7 @@ public class UploadController {
 		    materialDTO.setOwner(username);
 		    materialDTOs.add(materialDTO);
 		}
-		return materialDTOs;
+		return new ResponseEntity<List<MaterialGetDTO>>(materialDTOs, HttpStatus.OK);
 	}
 	
 	@PutMapping("materials/{id}/permission")

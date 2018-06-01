@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -89,17 +92,27 @@ public class TestController {
 	}
 	
 	@GetMapping
-	public List<SimpleTestDTO> getTest() {
-		List<SimpleTest> tests = simpleTestRepository.findAll();
+	public ResponseEntity<?> getTest(
+			@RequestParam(value = "owner", required = false) String  owner,
+            @RequestParam(value = "permission", required = false) String permission)  {
+		
+		Optional<User> user = userRepository.findByUsername(owner);
+		Long ownerId = user.isPresent() ? user.get().getId() : null;
+		
+		if (owner!=null && !user.isPresent()) return new ResponseEntity<>(new String("User not found"),HttpStatus.NOT_FOUND);
+
 		ArrayList<SimpleTestDTO> testDTOs = new ArrayList<SimpleTestDTO>();
+
+		List<SimpleTest> tests = simpleTestRepository.findByOptionalPermissionAndOptionalOwner(permission,ownerId);
 		for(SimpleTest test : tests) {
-			User user = userRepository.findById((long) test.getIdOwner()).get();
+			String username = userRepository.findById((long) test.getIdOwner()).get().getUsername();
 		    SimpleTestDTO testDTO = modelMapper.map(test, SimpleTestDTO.class);
-		    testDTO.setOwner(user.getUsername());
+		    testDTO.setOwner(username);
 		    testDTOs.add(testDTO);
 		}
-		return testDTOs;
+		return new ResponseEntity<List<SimpleTestDTO>>(testDTOs, HttpStatus.OK);
 	}
+	
 	
 	@PutMapping
 	public void editTest(@RequestBody TestEditDTO testDTO) {
