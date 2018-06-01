@@ -68,7 +68,7 @@ export class FlashcardsService {
   }
 
   putData(url, body) {
-    this.httpClient.put(url, body, { headers: this.headers,  observe: 'response' }) // błąd xml - Firefox
+    this.httpClient.put(url, body, { headers: this.headers,  observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
       error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );
@@ -108,7 +108,7 @@ export class FlashcardsService {
     return this.httpClient.get('sets/' + id + '/test/filling-in/').map((data: Array<Object>) => data);
   }
 
-  getTestMemory(id) { // do zmiany adres
+  getTestMemory(id) {
     return this.httpClient.get('sets/' + id + '/test/memory/').map((data: Array<Object>) => data);
   }
 

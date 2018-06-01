@@ -185,7 +185,6 @@ export class GapsQuestionComponent implements OnInit {
           } else {
             this.add.emit(this.content);
           }
-          console.log(this.content);
           this.clear();
         }
       }
