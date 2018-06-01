@@ -167,8 +167,10 @@ public class TestController {
 					for(AnswerChoices answer : ((QuestionChoices)question).getAnswers())
 						if(oldanswer.getId() == answer.getId())
 							isina = true;
-					if(isina == true)
+					if(isina == false) {
 						deletea.add(oldanswer.getId());
+						System.out.println("usuwam answer: "+oldanswer.getId());
+					}
 				}
 			}
 			if(oldquestion instanceof QuestionPairs && question instanceof QuestionPairs) {
@@ -177,8 +179,10 @@ public class TestController {
 					for(AnswerPairs answer : ((QuestionPairs)question).getAnswers())
 						if(oldanswer.getId() == answer.getId())
 							isina = true;
-					if(isina == true)
+					if(isina == false) {
 						deletea.add(oldanswer.getId());
+						System.out.println("usuwam answer: "+oldanswer.getId());
+					}
 				}		
 			}
 			if(oldquestion instanceof QuestionPuzzle && question instanceof QuestionPuzzle) {
@@ -187,8 +191,10 @@ public class TestController {
 					for(AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers())
 						if(oldanswer.getId() == answer.getId())
 							isina=true;
-					if(isina == true)
+					if(isina == false) {
 						deletea.add(oldanswer.getId());
+						System.out.println("usuwam answer: "+oldanswer.getId());
+					}
 				}
 			}
 			if(oldquestion instanceof QuestionGaps && question instanceof QuestionGaps) {
@@ -197,23 +203,30 @@ public class TestController {
 				for(AnswerGaps answer : ((QuestionGaps)question).getAnswers())
 					if(oldanswer.getId() == answer.getId())
 						isina=true;
-				if(isina == true)
+				if(isina == false) {
 					deletea.add(oldanswer.getId());
+					System.out.println("usuwam answer: "+oldanswer.getId());
+				}
 				}
 			}	
-		}	
-			if(isinq == true)
+			
+			System.out.println(question.getId()+" "+ oldquestion.getId());
+			}
+			if(isinq == false) {
 				deleteq.add(oldquestion.getId());
+				System.out.println("usuwam "+oldquestion.getId());
+			}
 		}
 		testRepository.save(test);
-		for(Long q: deleteq)
-			if(q != null)
-				if(questionRepository.findById(q) != null)
-					questionRepository.deleteById(q);
-	
+		
 		for(Long a : deletea)
 			if(a != null)
 				if(answerRepository.findById(a) != null)
 					answerRepository.deleteById(a);
+		for(Long q: deleteq)
+			if(q != null)
+				if(questionRepository.findById(q) != null)
+					questionRepository.deleteById(q);
+
 	}
 }
