@@ -169,7 +169,7 @@ public class TestController {
 							isina = true;
 					if(isina == false) {
 						deletea.add(oldanswer.getId());
-						System.out.println("usuwam answer: "+oldanswer.getId());
+						//System.out.println("usuwam answer: "+oldanswer.getId());
 					}
 				}
 			}
@@ -181,7 +181,7 @@ public class TestController {
 							isina = true;
 					if(isina == false) {
 						deletea.add(oldanswer.getId());
-						System.out.println("usuwam answer: "+oldanswer.getId());
+						//System.out.println("usuwam answer: "+oldanswer.getId());
 					}
 				}		
 			}
@@ -193,7 +193,7 @@ public class TestController {
 							isina=true;
 					if(isina == false) {
 						deletea.add(oldanswer.getId());
-						System.out.println("usuwam answer: "+oldanswer.getId());
+						//System.out.println("usuwam answer: "+oldanswer.getId());
 					}
 				}
 			}
@@ -205,16 +205,16 @@ public class TestController {
 						isina=true;
 				if(isina == false) {
 					deletea.add(oldanswer.getId());
-					System.out.println("usuwam answer: "+oldanswer.getId());
+					//System.out.println("usuwam answer: "+oldanswer.getId());
 				}
 				}
 			}	
 			
-			System.out.println(question.getId()+" "+ oldquestion.getId());
+			//System.out.println(question.getId()+" "+ oldquestion.getId());
 			}
 			if(isinq == false) {
 				deleteq.add(oldquestion.getId());
-				System.out.println("usuwam "+oldquestion.getId());
+				//System.out.println("usuwam "+oldquestion.getId());
 			}
 		}
 		testRepository.save(test);
