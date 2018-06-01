@@ -11,6 +11,7 @@ export class TrueFalseQuestionComponent implements OnInit {
   @Input() private edit: Boolean;
 
   private isChecked: Boolean = false;
+  private id: Number = null;
 
   @Output() private add: EventEmitter<Object> = new EventEmitter();
   @Output() private editing: EventEmitter<Object> = new EventEmitter();
@@ -20,14 +21,16 @@ export class TrueFalseQuestionComponent implements OnInit {
   ngOnInit() {
     if (this.edit) {
       this.content['edit'] = true;
+      this.id = this.content['content']['id'];
     } else {
       this.content = {};
       this.content['content'] = {
+        id: null,
         type: 'true-false',
         question: '',
         answers:  [
-          {content: 'Prawda', is_good: false},
-          {content: 'Fałsz', is_good: false}
+          {id: null, content: 'Prawda', is_good: false},
+          {id: null, content: 'Fałsz', is_good: false}
         ],
         points: 1
       };
@@ -44,21 +47,23 @@ export class TrueFalseQuestionComponent implements OnInit {
   addTable(value: any): void {
     if (this.isChecked) {
       this.content['content'] = {
+        id: this.id,
         type: 'true-false',
         question: value['question'],
         answers:  [
-          {content: 'Prawda', is_good: true},
-          {content: 'Fałsz', is_good: false}
+          {id: this.content['content']['answers'][0]['id'], content: 'Prawda', is_good: true},
+          {id: this.content['content']['answers'][1]['id'], content: 'Fałsz', is_good: false}
         ],
         points: value['points']
       };
     } else {
       this.content['content'] = {
+        id: this.id,
         type: 'true-false',
         question: value['question'],
         answers:  [
-          {content: 'Prawda', is_good: false},
-          {content: 'Fałsz', is_good: true}
+          {id: this.content['content']['answers'][0]['id'], content: 'Prawda', is_good: false},
+          {id: this.content['content']['answers'][1]['id'], content: 'Fałsz', is_good: true}
         ],
         points: value['points']
       };

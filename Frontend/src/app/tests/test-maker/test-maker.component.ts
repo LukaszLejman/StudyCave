@@ -30,8 +30,6 @@ export class TestMakerComponent implements OnInit {
 
   ngOnInit() {}
 
-  // edycja - onLoad() - na odp. serwera -> dla każdego pytania twórz shortcut i dodaj wszystko do zmiennej test. Tytuł testu w zm. title
-
   onAdd(question: Object): void {
     this.pointsAll = 0;
     this.shown = false;
@@ -160,7 +158,8 @@ export class TestMakerComponent implements OnInit {
           type: this.test[i]['content']['type'],
           question: this.test[i]['content']['question'],
           answers: this.test[i]['content']['answers'],
-          points: this.test[i]['content']['points']
+          points: this.test[i]['content']['points'],
+          id: this.test[i]['content']['id']
         });
       }
       toSend['body'] = body;

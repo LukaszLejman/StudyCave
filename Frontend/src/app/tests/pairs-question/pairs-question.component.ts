@@ -12,9 +12,14 @@ export class PairsQuestionComponent implements OnInit {
 
   private answers: Array<Object> = [];
   private answersCorrect: Array<Object> = [];
-  private newAttribute: any = {};
+  private newAttribute: any = {
+    id: null,
+    first: '',
+    second: ''
+  };
   private question: String = 'Połącz w pary.';
   private points: Number = 1;
+  private id: Number = null;
 
   @Output() private add: EventEmitter<Object> = new EventEmitter();
   @Output() private editing: EventEmitter<Object> = new EventEmitter();
@@ -26,9 +31,11 @@ export class PairsQuestionComponent implements OnInit {
       this.answers = [];
       this.content['edit'] = true;
       this.question = this.content['content']['question'];
+      this.id = this.content['content']['id'];
       const answ = this.content['content']['answers'];
       for (let i = 0; i < answ.length; i++) {
         this.answersCorrect.push({
+          id: answ[i]['id'],
           first: answ[i]['first'],
           second: answ[i]['second']
         });
@@ -37,6 +44,7 @@ export class PairsQuestionComponent implements OnInit {
     } else {
       this.content = {};
       this.content['content'] = {
+        id: null,
         type: 'pairs',
         question: 'Połącz w pary.',
         answers: [],
@@ -67,6 +75,7 @@ export class PairsQuestionComponent implements OnInit {
           if (!exists) {
             this.answersCorrect.push(this.newAttribute);
             this.newAttribute = {
+              id: null,
               first: '',
               second: ''
             };
@@ -118,6 +127,7 @@ export class PairsQuestionComponent implements OnInit {
             this.answers = this.answersCorrect;
             this.content['content']['answers'] = this.answers;
             this.content['content']['points'] = this.points;
+            this.content['content']['id'] = this.id;
             if (this.edit) {
               this.editing.emit(this.content);
             } else {

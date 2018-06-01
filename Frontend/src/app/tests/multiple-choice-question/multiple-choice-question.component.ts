@@ -13,9 +13,14 @@ export class MultipleChoiceQuestionComponent implements OnInit {
   private isChecked: Boolean = false;
   private answers: Array<Object> = [];
   private answersCorrect: Array<Object> = [];
-  private newAttribute: any = {};
+  private newAttribute: any = {
+    id: null,
+    content: '',
+    is_good: false
+  };
   private question: String = '';
   private points: Number = 1;
+  private id: Number = null;
 
   @Output() private add: EventEmitter<Object> = new EventEmitter();
   @Output() private editing: EventEmitter<Object> = new EventEmitter();
@@ -28,8 +33,10 @@ export class MultipleChoiceQuestionComponent implements OnInit {
       this.question = this.content['content']['question'];
       this.answers = [];
       const answ = this.content['content']['answers'];
+      this.id = this.content['content']['id'];
       for (let i = 0; i < answ.length; i++) {
         this.answersCorrect.push({
+          id: answ[i]['id'],
           content: answ[i]['content'],
           is_good: answ[i]['is_good']
         });
@@ -38,6 +45,7 @@ export class MultipleChoiceQuestionComponent implements OnInit {
     } else {
       this.content = {};
       this.content['content'] = {
+        id: this.id,
         type: 'multiple-choice',
         question: '',
         answers: [],
@@ -70,6 +78,7 @@ export class MultipleChoiceQuestionComponent implements OnInit {
           if (!exists) {
             this.answersCorrect.push(this.newAttribute);
             this.newAttribute = {
+              id: null,
               content: '',
               is_good: this.isChecked
             };
@@ -125,6 +134,7 @@ export class MultipleChoiceQuestionComponent implements OnInit {
             this.answers = this.answersCorrect;
             this.content['content']['answers'] = this.answers;
             this.content['content']['points'] = this.points;
+            this.content['content']['id'] = this.id;
             if (this.edit) {
               this.editing.emit(this.content);
             } else {

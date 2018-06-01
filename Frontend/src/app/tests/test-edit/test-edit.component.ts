@@ -53,6 +53,7 @@ export class TestEditComponent implements OnInit, OnDestroy {
           const obj = {
             nr: d[i]['nr'],
             content: {
+              id: d[i]['id'],
               type: d[i]['type'],
               question: d[i]['question'],
               answers: d[i]['answers'],
@@ -197,7 +198,8 @@ export class TestEditComponent implements OnInit, OnDestroy {
           type: this.test[i]['content']['type'],
           question: this.test[i]['content']['question'],
           answers: this.test[i]['content']['answers'],
-          points: this.test[i]['content']['points']
+          points: this.test[i]['content']['points'],
+          id: this.test[i]['content']['id']
         });
       }
       toSend['body'] = body;

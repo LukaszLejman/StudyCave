@@ -20,6 +20,7 @@ export class GapsQuestionComponent implements OnInit {
   private answers: Array<Object> = [];
   private question: String = 'Uzupełnij luki w tekście.';
   private points: Number = 1;
+  private id: Number = null;
 
   @Output() private add: EventEmitter<Object> = new EventEmitter();
   @Output() private editing: EventEmitter<Object> = new EventEmitter();
@@ -31,11 +32,13 @@ export class GapsQuestionComponent implements OnInit {
       this.content['edit'] = true;
       this.question = this.content['content']['question'];
       const answ = this.content['content']['answers'];
+      this.id = this.content['content']['id'];
       this.addToAnswersCorrect(answ);
       this.points = this.content['content']['points'];
     } else {
       this.content = {};
       this.content['content'] = {
+        id: null,
         type: 'gaps',
         question: 'Uzupełnij luki w tekście.',
         answers: [],
@@ -49,11 +52,13 @@ export class GapsQuestionComponent implements OnInit {
     for (let i = 0; i < answ.length; i++) {
       if (answ[i]['is_gap']) {
         this.answersCorrect.push({
+          id: answ[i]['id'],
           content: answ[i]['content'].join(';'),
           is_gap: true
         });
       } else {
         this.answersCorrect.push({
+          id: answ[i]['id'],
           content: answ[i]['content'],
           is_gap: false
         });
@@ -76,6 +81,7 @@ export class GapsQuestionComponent implements OnInit {
       alert('Tekst widoczny nie może być pusty!');
     } else {
       this.answersCorrect.push({
+        id: null,
         content: this.noGapText,
         is_gap: false
       });
@@ -89,6 +95,7 @@ export class GapsQuestionComponent implements OnInit {
       alert('Tekst luki nie może być pusty!');
     } else {
       this.answersCorrect.push({
+        id: null,
         content: this.gapText,
         is_gap: true
       });
@@ -101,6 +108,7 @@ export class GapsQuestionComponent implements OnInit {
     this.visibleText = false;
     this.gap = false;
     this.answersCorrect.push({
+      id: null,
       content: '\n',
       is_gap: false
     });
@@ -126,11 +134,13 @@ export class GapsQuestionComponent implements OnInit {
     for (let i = 0; i < this.answersCorrect.length; i++) {
       if (this.answersCorrect[i]['is_gap']) {
         this.answers.push({
+          id: this.answersCorrect[i]['id'],
           content: this.answersCorrect[i]['content'].split(';'),
           is_gap: true
         });
       } else {
         this.answers.push({
+          id: this.answersCorrect[i]['id'],
           content: [this.answersCorrect[i]['content']],
           is_gap: false
         });
@@ -169,11 +179,13 @@ export class GapsQuestionComponent implements OnInit {
           this.content['content']['question'] = this.question;
           this.content['content']['answers'] = this.answers;
           this.content['content']['points'] = this.points;
+          this.content['content']['id'] = this.id;
           if (this.edit) {
             this.editing.emit(this.content);
           } else {
             this.add.emit(this.content);
           }
+          console.log(this.content);
           this.clear();
         }
       }

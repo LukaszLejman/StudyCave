@@ -18,6 +18,8 @@ export class PuzzleQuestionComponent implements OnInit {
   };
   private question: String = 'Ułóż elementy w prawidłowej kolejności.';
   private points: Number = 1;
+  private id: Number = null;
+  private idAnsw: Number = null;
 
   @Output() private add: EventEmitter<Object> = new EventEmitter();
   @Output() private editing: EventEmitter<Object> = new EventEmitter();
@@ -28,8 +30,10 @@ export class PuzzleQuestionComponent implements OnInit {
     if (this.edit) {
       this.content['edit'] = true;
       this.question = this.content['content']['question'];
+      this.id = this.content['content']['id'];
       this.answers = [];
       const answ = this.content['content']['answers'][0]['correct'];
+      this.idAnsw = this.content['content']['answers'][0]['id'];
       for (let i = 0; i < answ.length; i++) {
         this.answersCorrect.push({
           correct: answ[i]
@@ -103,11 +107,13 @@ export class PuzzleQuestionComponent implements OnInit {
         } else {
           this.addToAnswers();
           this.answers.push({
+            id: this.idAnsw,
             correct: this.answersCorrect2
           });
           this.content['content']['question'] = this.question;
           this.content['content']['answers'] = this.answers;
           this.content['content']['points'] = this.points;
+          this.content['content']['id'] = this.id;
           if (this.edit) {
             this.editing.emit(this.content);
           } else {
