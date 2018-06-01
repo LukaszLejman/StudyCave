@@ -51,6 +51,26 @@ public class TestController {
 		return  testRepository.findById(id);
 	}
 	
+	@GetMapping("/{id}/solve")
+	public Optional<Test> getTestToSolve(@PathVariable(required = true) Long id) {
+
+		Optional<Test> test = testRepository.findById(id);
+
+		for (Question question : test.get().getQuestions()) {
+			if (question.getType().equals("true-false") || question.getType().equals("single-choice")
+					|| question.getType().equals("multiple-choice")) {
+				List<AnswerChoices> answersDTOs = new ArrayList<AnswerChoices>();
+				for (Answer answer : ((QuestionChoices) question).getAnswers()) {
+					AnswerChoicesSolveDTO answerDTO = modelMapper.map(answer, AnswerChoicesSolveDTO.class);
+					answersDTOs.add(answerDTO);
+				}
+				((QuestionChoices) question).setAnswers(answersDTOs);
+			}
+		}
+
+		return test;
+	}
+	
 	@DeleteMapping("/{id}")
 	public void deleteTest(@PathVariable(required = true)Long id) {
 		testRepository.deleteById(id);
@@ -169,7 +189,7 @@ public class TestController {
 							isina = true;
 					if(isina == false) {
 						deletea.add(oldanswer.getId());
-						System.out.println("usuwam answer: "+oldanswer.getId());
+						//System.out.println("usuwam answer: "+oldanswer.getId());
 					}
 				}
 			}
@@ -181,7 +201,7 @@ public class TestController {
 							isina = true;
 					if(isina == false) {
 						deletea.add(oldanswer.getId());
-						System.out.println("usuwam answer: "+oldanswer.getId());
+						//System.out.println("usuwam answer: "+oldanswer.getId());
 					}
 				}		
 			}
@@ -193,7 +213,7 @@ public class TestController {
 							isina=true;
 					if(isina == false) {
 						deletea.add(oldanswer.getId());
-						System.out.println("usuwam answer: "+oldanswer.getId());
+						//System.out.println("usuwam answer: "+oldanswer.getId());
 					}
 				}
 			}
@@ -205,16 +225,16 @@ public class TestController {
 						isina=true;
 				if(isina == false) {
 					deletea.add(oldanswer.getId());
-					System.out.println("usuwam answer: "+oldanswer.getId());
+					//System.out.println("usuwam answer: "+oldanswer.getId());
 				}
 				}
 			}	
 			
-			System.out.println(question.getId()+" "+ oldquestion.getId());
+			//System.out.println(question.getId()+" "+ oldquestion.getId());
 			}
 			if(isinq == false) {
 				deleteq.add(oldquestion.getId());
-				System.out.println("usuwam "+oldquestion.getId());
+				//System.out.println("usuwam "+oldquestion.getId());
 			}
 		}
 		testRepository.save(test);
