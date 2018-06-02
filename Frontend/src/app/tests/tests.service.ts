@@ -12,7 +12,7 @@ export class TestsService {
 
   // tslint:disable-next-line:max-line-length
   constructor(private httpClient: HttpClient, private router: Router,
-              private authenticationService: AuthenticationService ) {
+    private authenticationService: AuthenticationService) {
     this.setHeaders();
   }
 
@@ -23,11 +23,12 @@ export class TestsService {
       this.headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': '' + this.authenticationService.getToken()
-        });
-      }else {
-        this.headers = new HttpHeaders({
-          'Content-Type': 'application/json'});
-        }
+      });
+    } else {
+      this.headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+    }
   }
 
   add(body) {
@@ -41,18 +42,18 @@ export class TestsService {
   }
 
   putData(url, body) {
-    this.httpClient.put(url, body, { headers: this.headers,  observe: 'response' })
+    this.httpClient.put(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(
-        data => { this.sendResponse(data); },
-        error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+      data => { this.sendResponse(data); },
+      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );
   }
 
   sendData(url, body) {
     this.httpClient.post(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(
-        data => { this.sendResponse(data); },
-        error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+      data => { this.sendResponse(data); },
+      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
       );
   }
 
@@ -66,10 +67,19 @@ export class TestsService {
   }
 
   getTest(id): Observable<any> {
-    return this.httpClient.get('tests/' + id + '/', { headers: this.headers});
+    return this.httpClient.get('tests/' + id + '/', { headers: this.headers });
+  }
+
+  getUserTests(): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    return this.httpClient.get('tests?owner=' + user.username, { headers: this.headers });
   }
 
   getTests(): Observable<any> {
-    return this.httpClient.get('tests', { headers: this.headers });
+    return this.httpClient.get('tests?permission=public', { headers: this.headers });
+  }
+
+  removeTest(id): Observable<any> {
+    return this.httpClient.delete('tests/' + id + '/', { headers: this.headers });
   }
 }

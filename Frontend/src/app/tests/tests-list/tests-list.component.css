@@ -20,3 +20,7 @@
 ag-grid-angular{
     margin: 10px;
 }
+
+.buttons-container > div{
+    margin: 10px;
+}

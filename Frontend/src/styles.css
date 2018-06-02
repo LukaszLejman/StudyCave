@@ -18,5 +18,31 @@ body{
 @import "~ag-grid/dist/styles/ag-theme-blue.css";
 
 .ag-header-cell-label {
-   justify-content: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
+
+.ag-cell{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.ag-paging-page-summary-panel{
+    color: #00b0f9;;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.ag-paging-row-summary-panel{
+    color: #00b0f9;
+}
+
+/* @media screen and (max-width: 800px) {
+.hide{
+    display: none;
+}
+} */
