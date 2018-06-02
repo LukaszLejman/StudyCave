@@ -59,7 +59,7 @@ export class GapsQuestionComponent implements OnInit {
       } else {
         this.answersCorrect.push({
           id: answ[i]['id'],
-          content: answ[i]['content'],
+          content: answ[i]['content'][0],
           is_gap: false
         });
       }
