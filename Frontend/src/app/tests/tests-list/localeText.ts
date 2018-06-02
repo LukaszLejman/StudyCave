@@ -22,11 +22,13 @@ const localeText = {
 
     // for number filter
     equals: 'Równy',
+    notEqual: 'Nie równy',
     lessThan: 'Mniejszy niż',
     greaterThan: 'Większy niż',
 
     // for text filter
     contains: 'Zawiera',
+    notContains: 'Nie zawiera',
     startsWith: 'Zaczyna się od',
     endsWith: 'Kończy się na',
 

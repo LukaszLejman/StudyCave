@@ -1,3 +1,32 @@
-<p>
-  test-details works!
-</p>
+<div class="wrapper">
+  <div class="content">
+
+    <div *ngIf="test !== undefined">
+      <div class="header">
+        <button class="btn btn-primary" (click)="back()">Wróć do listy testów</button>
+        <span>
+          <button class="btn btn-danger" (click)="remove()">Usuń</button>
+          <button class="btn btn-success" (click)="edit()">Edytuj</button>
+        </span>
+      </div>
+      <div>
+        <h3>{{test.title}}</h3>
+      </div>
+      <div *ngIf="!isStarted">
+        <button class="btn btn-success" (click)="start()">Rozpocznij test</button>
+      </div>
+      <div *ngIf="isStarted">
+        <div class="questions-count">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label *ngFor="let item of test.body; let i = index" class="btn btn-primary">
+              <input type="radio" name="options" id="i" autocomplete="off"> {{i+1}}
+            </label>
+          </div>
+        </div>
+      </div>
+
+    <div *ngIf="test === undefined">
+      Błąd. Test nie istnieje lub nie masz do niego dostępu.
+    </div>
+  </div>
+</div>
