@@ -1,7 +1,8 @@
-package studycave.application.test;
+package studycave.application.test.solvedto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import studycave.application.test.AnswerChoices;
 
 public class AnswerChoicesSolveDTO extends AnswerChoices {
 	
