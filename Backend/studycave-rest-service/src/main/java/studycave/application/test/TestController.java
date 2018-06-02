@@ -25,6 +25,11 @@ import studycave.application.test.solvedto.AnswerChoicesSolveDTO;
 import studycave.application.test.solvedto.AnswerGapsSolveDTO;
 import studycave.application.test.solvedto.AnswerPairsSolveDTO;
 import studycave.application.test.solvedto.AnswerPuzzleSolveDTO;
+import studycave.application.test.verify.AnswerChoicesVerifyDTO;
+import studycave.application.test.verify.AnswerVerifyDTO;
+import studycave.application.test.verify.QuestionVerifier;
+import studycave.application.test.verify.QuestionVerifyDTO;
+import studycave.application.test.verify.ResultResponse;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
 
@@ -46,6 +51,8 @@ public class TestController {
 	UserRepository userRepository;
 	@Autowired
 	ModelMapper modelMapper;
+	@Autowired
+	QuestionVerifier questionVerifier;
 
 	@GetMapping("/{id}")
 	public Optional<Test> getTest(@PathVariable(required = true) Long id) {
@@ -107,6 +114,12 @@ public class TestController {
 		}
 		return test;
 	}
+	
+	@PostMapping("/{id}/questions/verify")
+	public ResultResponse verifyQuestion(@PathVariable(required = true) Long id, @RequestBody QuestionVerifyDTO question) {
+		return questionVerifier.verify(id,question);
+
+	}
 
 	@DeleteMapping("/{id}")
 	public void deleteTest(@PathVariable(required = true) Long id) {
@@ -147,6 +160,10 @@ public class TestController {
 		test.setGrade();
 		testRepository.save(test);
 	}
+	
+
+	
+	
 
 	@GetMapping
 	public ResponseEntity<?> getTest(@RequestParam(value = "owner", required = false) String owner,
