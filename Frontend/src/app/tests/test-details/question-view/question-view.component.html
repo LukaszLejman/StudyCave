@@ -4,7 +4,7 @@
     <app-true-false [question]="question" (emitNextQuestionRequest)="handleEmitNextQuestionRequest($event)"></app-true-false>
   </div>
   <div *ngSwitchCase="'single-choice'">
-    <app-single-choice></app-single-choice>
+    <app-single-choice [question]="question" (emitNextQuestionRequest)="handleEmitNextQuestionRequest($event)"></app-single-choice>
   </div>
   <div *ngSwitchCase="'multiple-choice'">
     <app-multiple-choice></app-multiple-choice>
