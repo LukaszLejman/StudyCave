@@ -1,6 +1,6 @@
 <form #f="ngForm" (ngSubmit)="nextQuestion(f)" novalidate>
   <div class="alert alert-primary question">
-    {{question.question}}
+    {{question.question}} ({{question.points}}pkt.)
     <div class="answers">
       <div *ngFor="let item of question.answers">
         <input type="radio" name="answer" [value]="item.content" ngModel> {{item.content}}

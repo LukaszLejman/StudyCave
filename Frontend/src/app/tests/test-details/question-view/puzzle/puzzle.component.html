@@ -1,4 +1,5 @@
 <div>
+   {{question.question}} ({{question.points}}pkt.)
   <h3>Dostępne elementy rozsypanki:</h3>
   <div class="puzzles-container">
     <div class='puzzle' *ngFor="let item of puzzles; let i = index" (click)="puzzleClick(item,i)" [ngClass]="{'active': (selectedPuzzle.puzzleText === item && selectedPuzzle.indexOfPuzzle === i && selectedPuzzle.from === 'puzzles'), 'empty': (item === undefined || item === '')}">

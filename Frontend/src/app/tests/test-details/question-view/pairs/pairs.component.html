@@ -1,4 +1,5 @@
 <div>
+  {{question.question}} ({{question.points}}pkt.)
   <h3>Dostępne lewe strony:</h3>
   <div class="puzzles-container">
     <div class='puzzle' *ngFor="let item of leftSides; let i = index" (click)="leftSideClick(item,i)" [ngClass]="{'active': (selectedLeftSide.leftSideText === item && selectedLeftSide.indexOfLeftSide === i && selectedLeftSide.from === 'leftSides'), 'empty': (item === undefined || item === '')}">
