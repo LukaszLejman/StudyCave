@@ -1,0 +1,17 @@
+.question{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+label{
+    margin: 0;
+}
+
+@media screen and (max-width: 800px) {
+    .question{
+        display: block;
+    }
+}

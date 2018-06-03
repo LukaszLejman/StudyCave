@@ -86,4 +86,8 @@ export class TestsService {
   removeTest(id): Observable<any> {
     return this.httpClient.delete('tests/' + id + '/', { headers: this.headers });
   }
+
+  verifyAnswer(id, body): Observable<any> {
+    return this.httpClient.post('tests/' + id + '/questions/verify', body, { headers: this.headers });
+  }
 }

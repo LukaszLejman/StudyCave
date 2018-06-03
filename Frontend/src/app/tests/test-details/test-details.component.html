@@ -12,21 +12,48 @@
       <div>
         <h3>{{test.title}}</h3>
       </div>
+
+      <div *ngIf="prevAnswerResultBool !== undefined && prevAnswerResultBool" class="alert alert-success">
+        Poprzednia odpowiedź była poprawna.
+      </div>
+      <div *ngIf="prevAnswerResultBool !== undefined && !prevAnswerResultBool" class="alert alert-danger">
+        Poprzednia odpowiedź była niepoprawna.
+      </div>
+
       <div *ngIf="!isStarted">
         <button class="btn btn-success" (click)="start()">Rozpocznij test</button>
       </div>
-      <div *ngIf="isStarted">
-        <div class="questions-count">
+      <div *ngIf="isStarted && !isEnded">
+        <!-- <div class="questions-count">
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label *ngFor="let item of test.body; let i = index" class="btn btn-primary">
               <input type="radio" name="options" id="i" autocomplete="off"> {{i+1}}
             </label>
           </div>
+        </div> -->
+
+
+        <div class="question-view">
+          <app-question-view [question]="test.body[currentQuestionIndex]" [questionIndex]="currentQuestionIndex" (emitNextQuestionRequest)="handleEmitNextQuestionRequest($event)"></app-question-view>
         </div>
+
+
+
       </div>
+
+
+
+
+      <h3 *ngIf="isEnded">
+        Koniec pytań. Twój wynik to {{points}}/{{maxPoints}}.
+      </h3>
+
+
+    </div>
 
     <div *ngIf="test === undefined">
       Błąd. Test nie istnieje lub nie masz do niego dostępu.
     </div>
+
   </div>
 </div>

@@ -13,8 +13,23 @@ export class TestDetailsComponent implements OnInit {
   private questionsCount = 0;
   private isStarted = false;
   private currentQuestionIndex = 0;
+  private isEnded = false;
+  private points = 0;
+  private maxPoints = 0;
+  private prevAnswerResultBool;
 
   constructor(private route: ActivatedRoute, private router: Router, private testService: TestsService) { }
+
+  handleEmitNextQuestionRequest(e) {
+    this.points += e.points;
+    this.prevAnswerResultBool = e.points > 0 ? true : false;
+    console.log(e);
+    if (this.currentQuestionIndex < this.questionsCount - 1) {
+      this.currentQuestionIndex += 1;
+    } else {
+      this.isEnded = true;
+    }
+  }
 
   start() {
     this.isStarted = true;
@@ -42,7 +57,10 @@ export class TestDetailsComponent implements OnInit {
       d => {
         this.test = d;
         this.questionsCount = d.body.length;
-        console.log(d);
+        d.body.forEach(element => {
+          this.maxPoints += element.points;
+        });
+        console.log(this.test);
       }
     );
   }

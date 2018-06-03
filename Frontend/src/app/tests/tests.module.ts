@@ -18,6 +18,13 @@ import { TestsListComponent } from './tests-list/tests-list.component';
 import { TestEditComponent } from './test-edit/test-edit.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { TestDetailsComponent } from './test-details/test-details.component';
+import { QuestionViewComponent } from './test-details/question-view/question-view.component';
+import { TrueFalseComponent } from './test-details/question-view/true-false/true-false.component';
+import { SingleChoiceComponent } from './test-details/question-view/single-choice/single-choice.component';
+import { MultipleChoiceComponent } from './test-details/question-view/multiple-choice/multiple-choice.component';
+import { PuzzleComponent } from './test-details/question-view/puzzle/puzzle.component';
+import { GapsComponent } from './test-details/question-view/gaps/gaps.component';
+import { PairsComponent } from './test-details/question-view/pairs/pairs.component';
 
 @NgModule({
   imports: [
@@ -38,7 +45,14 @@ import { TestDetailsComponent } from './test-details/test-details.component';
     PairsQuestionComponent,
     TestsListComponent,
     TestEditComponent,
-    TestDetailsComponent
+    TestDetailsComponent,
+    QuestionViewComponent,
+    TrueFalseComponent,
+    SingleChoiceComponent,
+    MultipleChoiceComponent,
+    PuzzleComponent,
+    GapsComponent,
+    PairsComponent
   ],
   providers: [TestsService],
 })

@@ -1,0 +1,21 @@
+<div [ngSwitch]="question.type">
+  <div *ngSwitchCase="'true-false'">
+    <small>Pytanie typu prawda-fałsz</small>
+    <app-true-false [question]="question" (emitNextQuestionRequest)="handleEmitNextQuestionRequest($event)"></app-true-false>
+  </div>
+  <div *ngSwitchCase="'single-choice'">
+    <app-single-choice></app-single-choice>
+  </div>
+  <div *ngSwitchCase="'multiple-choice'">
+    <app-multiple-choice></app-multiple-choice>
+  </div>
+  <div *ngSwitchCase="'puzzle'">
+    <app-puzzle></app-puzzle>
+  </div>
+  <div *ngSwitchCase="'gaps'">
+    <app-gaps></app-gaps>
+  </div>
+  <div *ngSwitchCase="'pairs'">
+    <app-pairs></app-pairs>
+  </div>
+</div>
