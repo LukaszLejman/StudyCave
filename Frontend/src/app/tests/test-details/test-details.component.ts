@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestsService } from '../tests.service';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-test-details',
   templateUrl: './test-details.component.html',
   styleUrls: ['./test-details.component.css']
 })
-export class TestDetailsComponent implements OnInit {
+export class TestDetailsComponent implements OnInit, OnDestroy {
   private id: number;
   private test;
   private questionsCount = 0;
@@ -19,6 +20,10 @@ export class TestDetailsComponent implements OnInit {
   private prevMaxResult = 0;
   private prevAnswerResultBool;
   private currentUser;
+  private sendResultSubscription: ISubscription;
+  private removeTestSubscription: ISubscription;
+  private getResultSubscription: ISubscription;
+  private getTestWithoutAnswersSubscription: ISubscription;
 
   constructor(private route: ActivatedRoute, private router: Router, private testService: TestsService) { }
 
@@ -30,7 +35,7 @@ export class TestDetailsComponent implements OnInit {
     } else {
       this.isEnded = true;
       if (this.currentUser) {
-        this.testService.sendResult(this.test.id, this.points, this.currentUser.username).subscribe(d => {
+        this.sendResultSubscription = this.testService.sendResult(this.test.id, this.points, this.currentUser.username).subscribe(d => {
           this.getMaxResult();
         });
       }
@@ -50,7 +55,7 @@ export class TestDetailsComponent implements OnInit {
   }
 
   remove() {
-    this.testService.removeTest(this.id).subscribe(
+    this.removeTestSubscription = this.testService.removeTest(this.id).subscribe(
       d => {
         this.router.navigate(['tests']);
       }
@@ -59,7 +64,7 @@ export class TestDetailsComponent implements OnInit {
 
   getMaxResult() {
     if (this.currentUser) {
-      this.testService.getResult(this.test.id, this.currentUser.username).subscribe(d => {
+      this.getResultSubscription = this.testService.getResult(this.test.id, this.currentUser.username).subscribe(d => {
         this.prevMaxResult = d.userScore;
       });
     }
@@ -68,7 +73,7 @@ export class TestDetailsComponent implements OnInit {
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.id = this.route.snapshot.params.id;
-    this.testService.getTestWithoutAnswers(this.id).subscribe(
+    this.getTestWithoutAnswersSubscription = this.testService.getTestWithoutAnswers(this.id).subscribe(
       d => {
         this.test = d;
         this.questionsCount = d.body.length;
@@ -78,6 +83,19 @@ export class TestDetailsComponent implements OnInit {
         this.getMaxResult();
       }
     );
+  }
+
+  ngOnDestroy() {
+    if (this.removeTestSubscription) {
+      this.removeTestSubscription.unsubscribe();
+    }
+    if (this.sendResultSubscription) {
+      this.sendResultSubscription.unsubscribe();
+    }
+    if (this.getResultSubscription) {
+      this.getResultSubscription.unsubscribe();
+    }
+    this.getTestWithoutAnswersSubscription.unsubscribe();
   }
 
 }

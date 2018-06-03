@@ -1,19 +1,20 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TestsService } from '../../../tests.service';
 import * as $ from 'jquery';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-pairs',
   templateUrl: './pairs.component.html',
   styleUrls: ['./pairs.component.css']
 })
-export class PairsComponent implements OnInit, OnChanges {
+export class PairsComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   private question;
   @Output() emitNextQuestionRequest = new EventEmitter();
   private id;
-
+  private verifyAnswerSubscription: ISubscription;
   private leftSides = [];
   private rightSides = [];
   private leftSidesToSend = [];
@@ -34,7 +35,7 @@ export class PairsComponent implements OnInit, OnChanges {
       id: this.question.id, type: 'pairs',
       answers: answers
     };
-    this.testsService.verifyAnswer(this.id, body).subscribe(d => {
+    this.verifyAnswerSubscription = this.testsService.verifyAnswer(this.id, body).subscribe(d => {
       $('.answers').find('[type="text"]').prop('value', '');
       this.emitNextQuestionRequest.emit(d);
     });
@@ -84,5 +85,11 @@ export class PairsComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.prepareLists();
+  }
+
+  ngOnDestroy() {
+    if (this.verifyAnswerSubscription) {
+      this.verifyAnswerSubscription.unsubscribe();
+    }
   }
 }

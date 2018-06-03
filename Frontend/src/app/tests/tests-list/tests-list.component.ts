@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestsService } from '../tests.service';
 import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
 import localeText from './localeText';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-tests-list',
   templateUrl: './tests-list.component.html',
   styleUrls: ['./tests-list.component.css']
 })
-export class TestsListComponent implements OnInit {
+export class TestsListComponent implements OnInit, OnDestroy {
   private tests = [];
   private gridApi;
   private gridColumnApi;
@@ -17,6 +18,9 @@ export class TestsListComponent implements OnInit {
   private localeText = localeText;
   private logged = false;
   private publicMode = true;
+  private getTestsSubscription: ISubscription;
+  private removeTestSubscription: ISubscription;
+  private getUserTestsSubscription: ISubscription;
 
   columnDefs = [
     { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
@@ -76,7 +80,7 @@ export class TestsListComponent implements OnInit {
   }
 
   public onActionRemoveClick(e) {
-    this.testService.removeTest(e.data.id).subscribe(
+    this.removeTestSubscription = this.testService.removeTest(e.data.id).subscribe(
       d => {
         if (this.publicMode) {
           this.getPublicTestsData();
@@ -98,7 +102,7 @@ export class TestsListComponent implements OnInit {
 
   showPrivateTests() {
     this.publicMode = false;
-    this.testService.getUserTests().subscribe(
+    this.getTestsSubscription = this.getUserTestsSubscription = this.testService.getUserTests().subscribe(
       d => {
         this.tests = d;
         this.gridApi.sizeColumnsToFit();
@@ -160,6 +164,18 @@ export class TestsListComponent implements OnInit {
 
   onGidColumnsChanged(params) {
     params.api.sizeColumnsToFit();
+  }
+
+  ngOnDestroy() {
+    if (this.removeTestSubscription) {
+      this.removeTestSubscription.unsubscribe();
+    }
+    if (this.getTestsSubscription) {
+      this.getTestsSubscription.unsubscribe();
+    }
+    if (this.getUserTestsSubscription) {
+      this.getUserTestsSubscription.unsubscribe();
+    }
   }
 
 }
