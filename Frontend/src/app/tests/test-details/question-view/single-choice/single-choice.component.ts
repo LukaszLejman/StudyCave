@@ -23,7 +23,7 @@ export class SingleChoiceComponent implements OnInit {
     answers.forEach(element => {
       element.is_good = element.content === f.value.answer ? true : false;
     });
-    const body = { id: this.question.id, type: 'true-false', answers: answers };
+    const body = { id: this.question.id, type: 'single-choice', answers: answers };
     this.testsService.verifyAnswer(this.id, body).subscribe(d => {
       $('.answers').find('[type="radio"]').prop('checked', false);
       this.emitNextQuestionRequest.emit(d);
