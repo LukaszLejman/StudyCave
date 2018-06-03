@@ -42,7 +42,7 @@ public class QuestionVerifyDeserializer extends JsonDeserializer<QuestionVerifyD
 				answers.add(answer);
 				continue;
 			}
-			if (type.equals("gaps-choice")) {
+			if (type.equals("gaps")) {
 				AnswerGapsVerifyDTO answer = objectMapper.treeToValue(next, AnswerGapsVerifyDTO.class);
 				answers.add(answer);
 				continue;
