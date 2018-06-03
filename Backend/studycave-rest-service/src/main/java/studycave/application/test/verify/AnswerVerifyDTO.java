@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class AnswerVerifyDTO {
 
-	protected Long id;
+//	protected Long id;
 
 	@JsonIgnore
 	protected String type;
@@ -15,17 +15,17 @@ public abstract class AnswerVerifyDTO {
 
 	}
 
-	public AnswerVerifyDTO(Long id) {
-		super();
-		this.id = id;
-		this.type = "test";
-	}
-
-	public AnswerVerifyDTO(Long id, String type) {
-		super();
-		this.id = id;
-		this.type = type;
-	}
+//	public AnswerVerifyDTO(Long id) {
+//		super();
+//		this.id = id;
+//		this.type = "test";
+//	}
+//
+//	public AnswerVerifyDTO(Long id, String type) {
+//		super();
+//		this.id = id;
+//		this.type = type;
+//	}
 
 	public String getType() {
 		return type;
@@ -35,12 +35,12 @@ public abstract class AnswerVerifyDTO {
 		this.type = type;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+//	public Long getId() {
+//		return id;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
 
 }

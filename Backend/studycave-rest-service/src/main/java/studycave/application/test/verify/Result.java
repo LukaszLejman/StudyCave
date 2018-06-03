@@ -23,10 +23,4 @@ public class Result {
 	public void setCorrect(Boolean correct) {
 		this.correct = correct;
 	}
-
-	
-	
-	
-	
-	
 }

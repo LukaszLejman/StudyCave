@@ -25,7 +25,8 @@ public class QuestionVerifier {
 	public ResultResponse choiceVerify(QuestionVerifyDTO question, Question questionCorrect) {
 		List<Result> results = new ArrayList<Result>();
 		float points = questionCorrect.getPoints();
-		for (AnswerVerifyDTO answer : question.getAnswers()) {
+		for (AnswerVerifyDTO element : question.getAnswers()) {
+			AnswerChoicesVerifyDTO answer=  (AnswerChoicesVerifyDTO)element;
 			Optional<AnswerChoices> answerCorrect = ((QuestionChoices) questionCorrect).getAnswers().stream()
 					.filter(a -> a.getId().equals(answer.getId())).findAny();
 			if (answerCorrect.get().getGood() == ((AnswerChoicesVerifyDTO) answer).getIsGood()) {
@@ -41,21 +42,39 @@ public class QuestionVerifier {
 	public ResultResponse gapsVerify(QuestionVerifyDTO question, Question questionCorrect) {
 		List<Result> results = new ArrayList<Result>();
 		float points = questionCorrect.getPoints();
-		for (AnswerVerifyDTO answer : question.getAnswers()) {
-
+		for (AnswerVerifyDTO element : question.getAnswers()) {
+			AnswerGapsVerifyDTO answer=  (AnswerGapsVerifyDTO)element;
 			Optional<AnswerGaps> answerCorrect = ((QuestionGaps) questionCorrect).getAnswers().stream()
 					.filter(a -> a.getId().equals(answer.getId())).findAny();
-			if(Arrays.asList(answerCorrect.get().getContent()).contains(((AnswerGapsVerifyDTO) answer).getContent())) {
+			if (Arrays.asList(answerCorrect.get().getContent()).stream()
+					.anyMatch(((AnswerGapsVerifyDTO) answer).getContent()::equalsIgnoreCase)) {
 				results.add(new Result(answer.getId(), true));
-			}
-			else {
+			} else {
 				results.add(new Result(answer.getId(), false));
 				points = 0;
 			}
 		}
 		return new ResultResponse(points, results);
-	
 	}
+
+	public ResultResponse pairsVerify(QuestionVerifyDTO question, Question questionCorrect) {
+		List<Result> results = new ArrayList<Result>();
+		float points = questionCorrect.getPoints();
+		for (AnswerVerifyDTO element : question.getAnswers()) {
+			AnswerPairsVerifyDTO answer = (AnswerPairsVerifyDTO)element;
+			Optional<AnswerPairs> answerCorrect = ((QuestionPairs) questionCorrect).getAnswers().stream()
+					.filter(a -> a.getFirst().equals(answer.getLeft()) || a.getFirst().equals(answer.getRight())).findAny();
+			if (answerCorrect.get().getSecond().equals(answer.getLeft()) || answerCorrect.get().getSecond().equals(answer.getRight())){
+				results.add(new ResultPairs(answer.getLeft(),answer.getRight(), true));
+		} else {
+				results.add(new ResultPairs(answer.getLeft(),answer.getRight(), false));
+				points = 0;
+			}
+		}
+		return new ResultResponse(points, results);
+	}
+	
+	
 	
 	
 	public ResultResponse verify(Long idTest, QuestionVerifyDTO question) {
@@ -72,14 +91,19 @@ public class QuestionVerifier {
 				}
 
 			}
-			
+
 			if (type.equals("gaps")) {
 				{
 					return gapsVerify(question, questionCorrect.get());
 				}
-			}			
-			
-		} 
+			}
+			if (type.equals("pairs")) {
+				{
+					return pairsVerify(question, questionCorrect.get());
+				}
+			}
+
+		}
 		return null;
 
 	}
