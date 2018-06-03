@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TestsService } from '../../../tests.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-true-false',
@@ -24,6 +25,8 @@ export class TrueFalseComponent implements OnInit {
     });
     const body = { id: this.question.id, type: 'true-false', answers: answers };
     this.testsService.verifyAnswer(this.id, body).subscribe(d => {
+      $('.btn-group').find('label').removeClass('active').end().find('[type="radio"]').prop('checked', false);
+      this.answer = undefined;
       this.emitNextQuestionRequest.emit(d);
     });
   }
