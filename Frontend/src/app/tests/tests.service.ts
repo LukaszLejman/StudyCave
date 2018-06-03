@@ -90,4 +90,13 @@ export class TestsService {
   verifyAnswer(id, body): Observable<any> {
     return this.httpClient.post('tests/' + id + '/questions/verify', body, { headers: this.headers });
   }
+
+  sendResult(id, points, currentUser): Observable<any> {
+    const body = { id: id, owner: currentUser, userScore: points };
+    return this.httpClient.post('tests/results', body, { headers: this.headers });
+  }
+
+  getResult(id, currentUser): Observable<any> {
+    return this.httpClient.get('tests/results/max?id=' + id + '&username=' + currentUser, { headers: this.headers });
+  }
 }

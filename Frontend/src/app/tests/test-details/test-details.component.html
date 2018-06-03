@@ -5,6 +5,7 @@
       <div class="header">
         <button class="btn btn-primary" (click)="back()">Wróć do listy testów</button>
         <span>
+          <div *ngIf="currentUser">Twój maksymalny wynik: {{prevMaxResult}}/{{maxPoints}}</div>
           <button class="btn btn-danger" (click)="remove()">Usuń</button>
           <button class="btn btn-success" (click)="edit()">Edytuj</button>
         </span>
@@ -24,13 +25,6 @@
         <button class="btn btn-success" (click)="start()">Rozpocznij test</button>
       </div>
       <div *ngIf="isStarted && !isEnded">
-        <!-- <div class="questions-count">
-          <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label *ngFor="let item of test.body; let i = index" class="btn btn-primary">
-              <input type="radio" name="options" id="i" autocomplete="off"> {{i+1}}
-            </label>
-          </div>
-        </div> -->
 
 
         <div class="question-view">

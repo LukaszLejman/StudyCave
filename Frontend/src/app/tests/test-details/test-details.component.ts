@@ -16,7 +16,9 @@ export class TestDetailsComponent implements OnInit {
   private isEnded = false;
   private points = 0;
   private maxPoints = 0;
+  private prevMaxResult = 0;
   private prevAnswerResultBool;
+  private currentUser;
 
   constructor(private route: ActivatedRoute, private router: Router, private testService: TestsService) { }
 
@@ -27,6 +29,11 @@ export class TestDetailsComponent implements OnInit {
       this.currentQuestionIndex += 1;
     } else {
       this.isEnded = true;
+      if (this.currentUser) {
+        this.testService.sendResult(this.test.id, this.points, this.currentUser.username).subscribe(d => {
+          this.getMaxResult();
+        });
+      }
     }
   }
 
@@ -50,7 +57,16 @@ export class TestDetailsComponent implements OnInit {
     );
   }
 
+  getMaxResult() {
+    if (this.currentUser) {
+      this.testService.getResult(this.test.id, this.currentUser.username).subscribe(d => {
+        this.prevMaxResult = d.userScore;
+      });
+    }
+  }
+
   ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.id = this.route.snapshot.params.id;
     this.testService.getTestWithoutAnswers(this.id).subscribe(
       d => {
@@ -59,6 +75,7 @@ export class TestDetailsComponent implements OnInit {
         d.body.forEach(element => {
           this.maxPoints += element.points;
         });
+        this.getMaxResult();
       }
     );
   }
