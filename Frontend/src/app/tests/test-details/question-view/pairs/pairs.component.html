@@ -1,3 +1,22 @@
-<p>
-  pairs works!
-</p>
+<div>
+  <h3>Dostępne lewe strony:</h3>
+  <div class="puzzles-container">
+    <div class='puzzle' *ngFor="let item of leftSides; let i = index" (click)="leftSideClick(item,i)" [ngClass]="{'active': (selectedLeftSide.leftSideText === item && selectedLeftSide.indexOfLeftSide === i && selectedLeftSide.from === 'leftSides'), 'empty': (item === undefined || item === '')}">
+      <span>{{item}}</span>
+    </div>
+  </div>
+  <h3>Twoja odpowiedź:</h3>
+  <div class="puzzles-container">
+    <div *ngFor="let item of leftSidesToSend; let i = index" class="both-sides">
+      <div class='puzzle' (click)="leftSideToSendClick(item,i)" [ngClass]="{'active': (selectedLeftSide.leftSideText === item && selectedLeftSide.indexOfLeftSide === i && selectedLeftSide.from === 'leftSidesToSend')}">
+        <span>{{item}}</span>
+      </div>
+      <div class='puzzle-right'>
+        <span>{{rightSides[i]}}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="btn btn-primary" (click)="nextQuestion()">Dalej</button>
+</div>

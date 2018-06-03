@@ -23,7 +23,6 @@ export class TestDetailsComponent implements OnInit {
   handleEmitNextQuestionRequest(e) {
     this.points += e.points;
     this.prevAnswerResultBool = e.points > 0 ? true : false;
-    console.log(e);
     if (this.currentQuestionIndex < this.questionsCount - 1) {
       this.currentQuestionIndex += 1;
     } else {
@@ -60,7 +59,6 @@ export class TestDetailsComponent implements OnInit {
         d.body.forEach(element => {
           this.maxPoints += element.points;
         });
-        console.log(this.test);
       }
     );
   }

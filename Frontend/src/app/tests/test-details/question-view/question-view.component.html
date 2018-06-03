@@ -21,6 +21,6 @@
   </div>
   <div *ngSwitchCase="'pairs'">
     <small>Pytanie typu łączenie w pary</small>
-    <app-pairs></app-pairs>
+    <app-pairs [question]="question" (emitNextQuestionRequest)="handleEmitNextQuestionRequest($event)"></app-pairs>
   </div>
 </div>

@@ -23,7 +23,6 @@ export class QuestionViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.question);
   }
 
 }

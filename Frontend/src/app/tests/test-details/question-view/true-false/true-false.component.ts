@@ -36,7 +36,6 @@ export class TrueFalseComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.question);
   }
 
 }
