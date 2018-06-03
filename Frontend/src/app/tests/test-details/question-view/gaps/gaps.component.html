@@ -1,3 +1,13 @@
-<p>
-  gaps works!
-</p>
+<form #f="ngForm" (ngSubmit)="nextQuestion(f)" novalidate>
+  <div class="alert alert-primary question">
+    {{question.question}}
+    <div class="answers">
+      <div *ngFor="let item of question.answers">
+        <span *ngIf="!item.is_gap">{{item.content}}</span>
+        <input *ngIf="item.is_gap" class="form-control" type="text" [name]="item.id" ngModel />
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" type="submit">Dalej</button>
+</form>
