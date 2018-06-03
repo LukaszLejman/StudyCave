@@ -1,6 +1,9 @@
 package studycave.application.test;
 
 import java.util.Optional;
+
+import javax.persistence.criteria.Order;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import studycave.application.test.result.GetResultDTO;
+import studycave.application.test.result.SaveTestResultDTO;
+import studycave.application.test.result.TestResult;
+import studycave.application.test.result.TestResultRepository;
 import studycave.application.test.solvedto.AnswerChoicesSolveDTO;
 import studycave.application.test.solvedto.AnswerGapsSolveDTO;
 import studycave.application.test.solvedto.AnswerPairsSolveDTO;
@@ -53,6 +60,8 @@ public class TestController {
 	ModelMapper modelMapper;
 	@Autowired
 	QuestionVerifier questionVerifier;
+	@Autowired
+	TestResultRepository testResultRepository;
 
 	@GetMapping("/{id}")
 	public Optional<Test> getTest(@PathVariable(required = true) Long id) {
@@ -114,6 +123,40 @@ public class TestController {
 		}
 		return test;
 	}
+	
+	
+	@PostMapping("/results")
+	public void saveResult(@RequestBody SaveTestResultDTO resultDTO) {
+		User user = userRepository.findByUsername(resultDTO.getOwner()).get();
+		Optional<Test> test = testRepository.findById(resultDTO.getIdTest());
+		int maxScore=0;
+		for (Question question : test.get().getQuestions()) {
+			maxScore+=question.getPoints();
+			
+		}
+		TestResult result = modelMapper.map(resultDTO, TestResult.class);
+		result.setIdOwner(user.getId());
+		result.setMaxScore(maxScore);
+		result.setIdResult((long) 0);
+		testResultRepository.save(result);
+	}
+	
+	@GetMapping("/results/max")
+	public GetResultDTO saveResult(@RequestParam Long id, @RequestParam String username) {
+		
+		User user = userRepository.findByUsername(username).get();
+		List<TestResult> result = testResultRepository.findByIdOwnerAndIdTest(user.getId(),id);
+		TestResult maxResult=result.get(0);
+		for (TestResult t : result) {
+			if(t.getUserScore() > maxResult.getUserScore()) {
+				maxResult=t;
+			}
+			
+		}
+		return new GetResultDTO(maxResult.getUserScore(),maxResult.getMaxScore());
+	}
+	
+	
 	
 	@PostMapping("/{id}/questions/verify")
 	public ResultResponse verifyQuestion(@PathVariable(required = true) Long id, @RequestBody QuestionVerifyDTO question) {
