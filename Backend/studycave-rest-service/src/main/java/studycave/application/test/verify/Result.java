@@ -1,10 +1,16 @@
 package studycave.application.test.verify;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class Result {
+	
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	protected Long id;
 	protected Boolean correct;
 	
-	
+	public Result() {
+		super();
+	}
 	
 	public Result(Long id, Boolean correct) {
 		super();

@@ -22,11 +22,11 @@ public class QuestionVerifier {
 	@Autowired
 	TestRepository testRepository;
 
-	public ResultResponse choiceVerify(QuestionVerifyDTO question, Question questionCorrect) {
+	private ResultResponse choiceVerify(QuestionVerifyDTO question, Question questionCorrect) {
 		List<Result> results = new ArrayList<Result>();
 		float points = questionCorrect.getPoints();
 		for (AnswerVerifyDTO element : question.getAnswers()) {
-			AnswerChoicesVerifyDTO answer=  (AnswerChoicesVerifyDTO)element;
+			AnswerChoicesVerifyDTO answer = (AnswerChoicesVerifyDTO) element;
 			Optional<AnswerChoices> answerCorrect = ((QuestionChoices) questionCorrect).getAnswers().stream()
 					.filter(a -> a.getId().equals(answer.getId())).findAny();
 			if (answerCorrect.get().getGood() == ((AnswerChoicesVerifyDTO) answer).getIsGood()) {
@@ -39,11 +39,11 @@ public class QuestionVerifier {
 		return new ResultResponse(points, results);
 	}
 
-	public ResultResponse gapsVerify(QuestionVerifyDTO question, Question questionCorrect) {
+	private ResultResponse gapsVerify(QuestionVerifyDTO question, Question questionCorrect) {
 		List<Result> results = new ArrayList<Result>();
 		float points = questionCorrect.getPoints();
 		for (AnswerVerifyDTO element : question.getAnswers()) {
-			AnswerGapsVerifyDTO answer=  (AnswerGapsVerifyDTO)element;
+			AnswerGapsVerifyDTO answer = (AnswerGapsVerifyDTO) element;
 			Optional<AnswerGaps> answerCorrect = ((QuestionGaps) questionCorrect).getAnswers().stream()
 					.filter(a -> a.getId().equals(answer.getId())).findAny();
 			if (Arrays.asList(answerCorrect.get().getContent()).stream()
@@ -57,26 +57,56 @@ public class QuestionVerifier {
 		return new ResultResponse(points, results);
 	}
 
-	public ResultResponse pairsVerify(QuestionVerifyDTO question, Question questionCorrect) {
+	private ResultResponse pairsVerify(QuestionVerifyDTO question, Question questionCorrect) {
 		List<Result> results = new ArrayList<Result>();
 		float points = questionCorrect.getPoints();
 		for (AnswerVerifyDTO element : question.getAnswers()) {
-			AnswerPairsVerifyDTO answer = (AnswerPairsVerifyDTO)element;
+			AnswerPairsVerifyDTO answer = (AnswerPairsVerifyDTO) element;
 			Optional<AnswerPairs> answerCorrect = ((QuestionPairs) questionCorrect).getAnswers().stream()
-					.filter(a -> a.getFirst().equals(answer.getLeft()) || a.getFirst().equals(answer.getRight())).findAny();
-			if (answerCorrect.get().getSecond().equals(answer.getLeft()) || answerCorrect.get().getSecond().equals(answer.getRight())){
-				results.add(new ResultPairs(answer.getLeft(),answer.getRight(), true));
-		} else {
-				results.add(new ResultPairs(answer.getLeft(),answer.getRight(), false));
+					.filter(a -> a.getFirst().equals(answer.getLeft()) || a.getFirst().equals(answer.getRight()))
+					.findAny();
+			if (answerCorrect.get().getSecond().equals(answer.getLeft())
+					|| answerCorrect.get().getSecond().equals(answer.getRight())) {
+				results.add(new ResultPairs(answer.getLeft(), answer.getRight(), true));
+			} else {
+				results.add(new ResultPairs(answer.getLeft(), answer.getRight(), false));
 				points = 0;
 			}
 		}
 		return new ResultResponse(points, results);
 	}
-	
-	
-	
-	
+
+	private ResultResponse puzzleVerify(QuestionVerifyDTO question, Question questionCorrect) {
+		List<Result> results = new ArrayList<Result>();
+
+		float points = questionCorrect.getPoints();
+		for (AnswerVerifyDTO element : question.getAnswers()) {
+			AnswerPuzzleVerifyDTO answer = (AnswerPuzzleVerifyDTO) element;
+			Optional<AnswerPuzzle> answerCorrect = ((QuestionPuzzle) questionCorrect).getAnswers().stream()
+					.filter(a -> a.getId().equals(answer.getId())).findAny();
+
+			List<String> userPuzzles = answer.getPuzzles();
+			String[] correctPuzzles = answerCorrect.get().getCorrect();
+
+			if (userPuzzles.size() == correctPuzzles.length) {
+				Result result = new Result(answer.getId(), true);
+				for (int i = 0; i < userPuzzles.size(); i++) {
+					if (userPuzzles.get(i).equalsIgnoreCase(correctPuzzles[i])) {
+						// pass
+					} else {
+						result.setCorrect(false);
+						points = 0;
+					}
+				}
+				results.add(result);
+			} else
+				points = 0;
+
+		}
+
+		return new ResultResponse(points, results);
+	}
+
 	public ResultResponse verify(Long idTest, QuestionVerifyDTO question) {
 		Optional<Test> test = testRepository.findById(idTest);
 		String type = question.getType();
@@ -102,9 +132,15 @@ public class QuestionVerifier {
 					return pairsVerify(question, questionCorrect.get());
 				}
 			}
+			if (type.equals("puzzle")) {
+				{
+					return puzzleVerify(question, questionCorrect.get());
+				}
+			}
 
 		}
 		return null;
 
 	}
+
 }
