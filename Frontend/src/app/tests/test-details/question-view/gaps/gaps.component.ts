@@ -17,7 +17,6 @@ export class GapsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private testsService: TestsService) { }
 
   nextQuestion(f) {
-    console.log(f);
     this.id = this.route.snapshot.params.id;
     const answers = this.question.answers.filter(element => {
       return element.is_gap;
@@ -28,7 +27,6 @@ export class GapsComponent implements OnInit {
     });
     const body = { id: this.question.id, type: 'gaps', answers: gapsContent };
     this.testsService.verifyAnswer(this.id, body).subscribe(d => {
-      console.log(body);
       $('.answers').find('[type="text"]').prop('value', '');
       this.emitNextQuestionRequest.emit(d);
     });

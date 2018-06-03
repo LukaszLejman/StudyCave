@@ -13,7 +13,7 @@
   </div>
   <div *ngSwitchCase="'puzzle'">
     <small>Pytanie typu rozsypanka wyrazowa</small>
-    <app-puzzle></app-puzzle>
+    <app-puzzle [question]="question" (emitNextQuestionRequest)="handleEmitNextQuestionRequest($event)"></app-puzzle>
   </div>
   <div *ngSwitchCase="'gaps'">
     <small>Pytanie typu uzupełnianie luk</small>

@@ -1,3 +1,16 @@
-<p>
-  puzzle works!
-</p>
+<div>
+  <h3>Dostępne elementy rozsypanki:</h3>
+  <div class="puzzles-container">
+    <div class='puzzle' *ngFor="let item of puzzles; let i = index" (click)="puzzleClick(item,i)" [ngClass]="{'active': (selectedPuzzle.puzzleText === item && selectedPuzzle.indexOfPuzzle === i && selectedPuzzle.from === 'puzzles'), 'empty': (item === undefined || item === '')}">
+      <span>{{item}}</span>
+    </div>
+  </div>
+  <h3>Twoja odpowiedź:</h3>
+  <div class="puzzles-container">
+    <div class='puzzle' *ngFor="let item of puzzlesToSend; let i = index" (click)="puzzleToSendClick(item,i)" [ngClass]="{'active': (selectedPuzzle.puzzleText === item && selectedPuzzle.indexOfPuzzle === i && selectedPuzzle.from === 'puzzlesToSend')}">
+      <span>{{item}}</span>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" (click)="nextQuestion()">Dalej</button>
+</div>
