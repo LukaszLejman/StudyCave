@@ -17,7 +17,7 @@
   </div>
   <div *ngSwitchCase="'gaps'">
     <small>Pytanie typu uzupełnianie luk</small>
-    <app-gaps></app-gaps>
+    <app-gaps [question]="question" (emitNextQuestionRequest)="handleEmitNextQuestionRequest($event)"></app-gaps>
   </div>
   <div *ngSwitchCase="'pairs'">
     <small>Pytanie typu łączenie w pary</small>
