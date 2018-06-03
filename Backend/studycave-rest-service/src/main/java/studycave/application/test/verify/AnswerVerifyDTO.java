@@ -1,13 +1,13 @@
 package studycave.application.test.verify;
 
-import org.springframework.data.annotation.Transient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 public abstract class AnswerVerifyDTO {
 
 	protected Long id;
 
-	@Transient
+	@JsonIgnore
 	protected String type;
 
 	public AnswerVerifyDTO() {
