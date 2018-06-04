@@ -123,16 +123,15 @@ public class TestController {
 		}
 		return test;
 	}
-	
-	
+
 	@PostMapping("/results")
 	public void saveResult(@RequestBody SaveTestResultDTO resultDTO) {
 		User user = userRepository.findByUsername(resultDTO.getOwner()).get();
 		Optional<Test> test = testRepository.findById(resultDTO.getIdTest());
-		int maxScore=0;
+		int maxScore = 0;
 		for (Question question : test.get().getQuestions()) {
-			maxScore+=question.getPoints();
-			
+			maxScore += question.getPoints();
+
 		}
 		TestResult result = modelMapper.map(resultDTO, TestResult.class);
 		result.setIdOwner(user.getId());
@@ -140,27 +139,36 @@ public class TestController {
 		result.setIdResult((long) 0);
 		testResultRepository.save(result);
 	}
-	
+
 	@GetMapping("/results/max")
 	public GetResultDTO saveResult(@RequestParam Long id, @RequestParam String username) {
-		
+
 		User user = userRepository.findByUsername(username).get();
-		List<TestResult> result = testResultRepository.findByIdOwnerAndIdTest(user.getId(),id);
-		TestResult maxResult=result.get(0);
-		for (TestResult t : result) {
-			if(t.getUserScore() > maxResult.getUserScore()) {
-				maxResult=t;
+		List<TestResult> result = testResultRepository.findByIdOwnerAndIdTest(user.getId(), id);
+
+		if (!result.isEmpty()) {
+			TestResult maxResult = result.get(0);
+			for (TestResult t : result) {
+				if (t.getUserScore() > maxResult.getUserScore()) {
+					maxResult = t;
+				}
 			}
-			
+			return new GetResultDTO(maxResult.getUserScore(), maxResult.getMaxScore());
+		} else {
+			Optional<Test> test = testRepository.findById(id);
+			int maxScore = 0;
+			for (Question question : test.get().getQuestions()) {
+				maxScore += question.getPoints();
+			}
+			return new GetResultDTO(0, maxScore);
 		}
-		return new GetResultDTO(maxResult.getUserScore(),maxResult.getMaxScore());
+
 	}
-	
-	
-	
+
 	@PostMapping("/{id}/questions/verify")
-	public ResultResponse verifyQuestion(@PathVariable(required = true) Long id, @RequestBody QuestionVerifyDTO question) {
-		return questionVerifier.verify(id,question);
+	public ResultResponse verifyQuestion(@PathVariable(required = true) Long id,
+			@RequestBody QuestionVerifyDTO question) {
+		return questionVerifier.verify(id, question);
 
 	}
 
@@ -203,10 +211,6 @@ public class TestController {
 		test.setGrade();
 		testRepository.save(test);
 	}
-	
-
-	
-	
 
 	@GetMapping
 	public ResponseEntity<?> getTest(@RequestParam(value = "owner", required = false) String owner,
