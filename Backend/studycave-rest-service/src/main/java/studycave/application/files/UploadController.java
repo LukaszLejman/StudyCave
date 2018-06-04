@@ -207,9 +207,7 @@ public class UploadController {
 		Material material = materialRepository.findById(id).orElse(null);
 		
 		Resource file = storageService.loadFile(material.getPath());
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-				.body(file);
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
  /*
 	@GetMapping("/file/getall")
