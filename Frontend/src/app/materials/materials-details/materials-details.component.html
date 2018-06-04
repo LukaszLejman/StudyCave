@@ -8,7 +8,7 @@
           UPRAWNIENIA: {{perm}} <br />
           </div>
           <br />
-          <button class="btn btn-primary" (click)="download()">POBIERZ</button>
+          <a [href]="serverURL+id"><button class="btn btn-success" >POBIERZ</button></a>
           <div *ngIf="user && owned">
                  <button class="btn btn-danger" (click)="deleteMat()">USUŃ</button>
                   <button class="btn btn-danger" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
