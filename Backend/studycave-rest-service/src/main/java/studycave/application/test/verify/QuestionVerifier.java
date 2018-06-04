@@ -60,17 +60,23 @@ public class QuestionVerifier {
 	private ResultResponse pairsVerify(QuestionVerifyDTO question, Question questionCorrect) {
 		List<Result> results = new ArrayList<Result>();
 		float points = questionCorrect.getPoints();
+
 		for (AnswerVerifyDTO element : question.getAnswers()) {
 			AnswerPairsVerifyDTO answer = (AnswerPairsVerifyDTO) element;
 			Optional<AnswerPairs> answerCorrect = ((QuestionPairs) questionCorrect).getAnswers().stream()
 					.filter(a -> a.getFirst().equals(answer.getLeft()) || a.getFirst().equals(answer.getRight()))
 					.findAny();
-			if (answerCorrect.get().getSecond().equals(answer.getLeft())
-					|| answerCorrect.get().getSecond().equals(answer.getRight())) {
-				results.add(new ResultPairs(answer.getLeft(), answer.getRight(), true));
+			if (answerCorrect.isPresent()) {
+				if (answerCorrect.get().getSecond().equals(answer.getLeft())
+						|| answerCorrect.get().getSecond().equals(answer.getRight())) {
+					results.add(new ResultPairs(answer.getLeft(), answer.getRight(), true));
+				} else {
+					results.add(new ResultPairs(answer.getLeft(), answer.getRight(), false));
+					points = 0;
+				}
 			} else {
-				results.add(new ResultPairs(answer.getLeft(), answer.getRight(), false));
 				points = 0;
+				results.add(new ResultPairs(answer.getLeft(), answer.getRight(), false));
 			}
 		}
 		return new ResultResponse(points, results);
