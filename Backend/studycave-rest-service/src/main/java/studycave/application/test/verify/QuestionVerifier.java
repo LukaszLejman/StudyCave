@@ -64,11 +64,10 @@ public class QuestionVerifier {
 		for (AnswerVerifyDTO element : question.getAnswers()) {
 			AnswerPairsVerifyDTO answer = (AnswerPairsVerifyDTO) element;
 			Optional<AnswerPairs> answerCorrect = ((QuestionPairs) questionCorrect).getAnswers().stream()
-					.filter(a -> a.getFirst().equals(answer.getLeft()) || a.getFirst().equals(answer.getRight()))
+					.filter(a -> a.getFirst().equals(answer.getLeft()))
 					.findAny();
 			if (answerCorrect.isPresent()) {
-				if (answerCorrect.get().getSecond().equals(answer.getLeft())
-						|| answerCorrect.get().getSecond().equals(answer.getRight())) {
+				if (answerCorrect.get().getSecond().equals(answer.getRight())) {
 					results.add(new ResultPairs(answer.getLeft(), answer.getRight(), true));
 				} else {
 					results.add(new ResultPairs(answer.getLeft(), answer.getRight(), false));
