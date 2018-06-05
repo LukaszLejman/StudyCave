@@ -38,7 +38,8 @@ export class MaterialsService {
     }
 
     getMaterialsOwners(): Observable<any> {
-      return this.httpClient.get('file/materials/', {headers: this.headers, params: { owner: this.owner.username}});
+      let owner = JSON.parse(localStorage.getItem('currentUser'));
+      return this.httpClient.get('file/materials/', {headers: this.headers, params: { owner: owner.username}});
     }
     pushFileToStorage(file: File, user: string, title: string, permission: string, url: string): Observable<HttpEvent<{}>> {
       const formdata: FormData = new FormData();
