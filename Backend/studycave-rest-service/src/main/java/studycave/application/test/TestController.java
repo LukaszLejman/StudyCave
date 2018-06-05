@@ -190,7 +190,7 @@ public class TestController {
 				return new ResponseEntity(HttpStatus.OK);
 			}
 		}
-		return new ResponseEntity("Access Forbidden",HttpStatus.FORBIDDEN);
+		return new ResponseEntity("Access Forbidden", HttpStatus.FORBIDDEN);
 	}
 
 	@PostMapping
@@ -251,7 +251,7 @@ public class TestController {
 	}
 
 	@PutMapping
-	public void editTest(@RequestBody TestEditDTO testDTO) {
+	public ResponseEntity editTest(@RequestHeader(value = "Authorization") String headerStr,@RequestBody TestEditDTO testDTO) {
 		User user = userRepository.findByUsername(testDTO.getOwner()).get();
 		testDTO.setIdOwner(user.getId());
 
@@ -353,7 +353,16 @@ public class TestController {
 				// System.out.println("usuwam "+oldquestion.getId());
 			}
 		}
-		testRepository.save(test);
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+
+		if (userId.equals(user.getId())) {
+			testRepository.save(test);
+
+		} else
+			return new ResponseEntity("Access Forbidden", HttpStatus.FORBIDDEN);
 
 		for (Long a : deletea)
 			if (a != null)
@@ -363,6 +372,8 @@ public class TestController {
 			if (q != null)
 				if (questionRepository.findById(q) != null)
 					questionRepository.deleteById(q);
+
+		return new ResponseEntity(HttpStatus.OK);
 
 	}
 }
