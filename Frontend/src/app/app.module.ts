@@ -20,6 +20,7 @@ import { UserModule } from './user/user.module';
 import { AuthenticationService } from './authentication.service';
 import { MaterialsModule } from './materials/materials.module';
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 
 
@@ -45,7 +46,9 @@ import { WorkInProgressComponent } from './work-in-progress/work-in-progress.com
     UserModule,
     MaterialsModule
   ],
-  providers: [ AuthGuard, httpInterceptorProviders, AuthenticationService],
+  providers: [AuthGuard, httpInterceptorProviders, AuthenticationService, {
+    provide: LocationStrategy, useClass: HashLocationStrategy
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
