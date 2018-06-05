@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import studycave.application.test.Test;
+import studycave.application.test.TestEditDTO;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
 
@@ -288,8 +290,22 @@ public class SetController {
 	}
 
 	@PutMapping
-	public void putSet(@RequestBody SetOwnerDTO setDTO) {
+	public ResponseEntity putSet(@RequestHeader(value = "Authorization",required=false) String headerStr,@RequestBody SetOwnerDTO setDTO) {
 
+		//Authorization
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String currentPrincipalName = authentication.getName();
+			Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+
+			
+			Optional<Set> originalSet = setRepository.findById(setDTO.getId());
+			if (userId.equals(originalSet.get().getIdOwner())) {
+				// pass
+
+			} else
+				return new ResponseEntity("Access Forbidden", HttpStatus.FORBIDDEN);
+
+		//
 		User user = userRepository.findByUsername(setDTO.getOwner()).get();
 		setDTO.setIdOwner(user.getId());
 
@@ -320,6 +336,8 @@ public class SetController {
 			if (n != null)
 				if (flashcardRepository.findById(n) != null)
 					flashcardRepository.deleteById(n);
+		
+		return new ResponseEntity(HttpStatus.OK);
 	}
 
 	@GetMapping("/{setid}/{id}/{content}/{side}/test/check")

@@ -251,7 +251,7 @@ public class TestController {
 	}
 
 	@PutMapping
-	public ResponseEntity editTest(@RequestBody TestEditDTO testDTO) {
+	public ResponseEntity editTest(@RequestHeader(value = "Authorization",required=false) String headerStr,@RequestBody TestEditDTO testDTO) {
 
 		
 		//Authorization
@@ -261,9 +261,6 @@ public class TestController {
 
 		
 		Optional<Test> originalTest = testRepository.findById(testDTO.getId());
-		
-		System.out.println(userId);
-		System.out.println(originalTest.get().getIdOwner());
 		
 		if (userId.equals(originalTest.get().getIdOwner())) {
 			// pass
