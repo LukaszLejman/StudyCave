@@ -32,10 +32,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -195,7 +198,20 @@ public class UploadController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deletematerial(@PathVariable(required = true)Long id) {
+	public ResponseEntity<String> deletematerial(@RequestHeader(value = "Authorization",required=false) String headerStr,@PathVariable(required = true)Long id) {
+		
+		//Authorization
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+
+		System.out.println();
+		
+		if (!userId.equals((long)materialRepository.findById(id).get().getOwner())) {
+				return new ResponseEntity("Access Forbidden", HttpStatus.FORBIDDEN);
+		}
+		//
+		
 		storageService.savedelete((materialRepository.findById(id).orElse(null)).getPath());
 		materialRepository.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).body("usunieto");
