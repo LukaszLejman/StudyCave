@@ -35,7 +35,7 @@ export class PairsComponent implements OnInit, OnChanges, OnDestroy {
       id: this.question.id, type: 'pairs',
       answers: answers
     };
-    console.log(body);
+    //console.log(body);
     this.verifyAnswerSubscription = this.testsService.verifyAnswer(this.id, body).subscribe(d => {
       $('.answers').find('[type="text"]').prop('value', '');
       this.emitNextQuestionRequest.emit(d);
