@@ -93,8 +93,8 @@ export class MaterialsService {
         });
       }
       return this.httpClient.delete('file/delete/' + id, { headers: this.headers, observe: 'response', responseType: 'text' })
-        .subscribe(data => {  },
-        error => { console.log(error);alert('error 123 Coś poszło nie tak. Spróbuj ponownie później.'); }
+        .subscribe(data => { this.sendResponse(data); },
+        error => { alert('error 123 Coś poszło nie tak. Spróbuj ponownie później.'); }
         );
 
     }
