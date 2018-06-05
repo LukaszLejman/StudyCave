@@ -251,10 +251,29 @@ public class TestController {
 	}
 
 	@PutMapping
-	public ResponseEntity editTest(@RequestHeader(value = "Authorization") String headerStr,@RequestBody TestEditDTO testDTO) {
+	public ResponseEntity editTest(@RequestBody TestEditDTO testDTO) {
+
+		
+		//Authorization
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+
+		
+		Optional<Test> originalTest = testRepository.findById(testDTO.getId());
+		
+		System.out.println(userId);
+		System.out.println(originalTest.get().getIdOwner());
+		
+		if (userId.equals(originalTest.get().getIdOwner())) {
+			// pass
+
+		} else
+			return new ResponseEntity("Access Forbidden", HttpStatus.FORBIDDEN);
+
+		//
 		User user = userRepository.findByUsername(testDTO.getOwner()).get();
 		testDTO.setIdOwner(user.getId());
-
 		Test test = modelMapper.map(testDTO, Test.class);
 		for (Question question : test.getQuestions()) {
 			question.setTest(test);
@@ -354,15 +373,7 @@ public class TestController {
 			}
 		}
 
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
-
-		if (userId.equals(user.getId())) {
-			testRepository.save(test);
-
-		} else
-			return new ResponseEntity("Access Forbidden", HttpStatus.FORBIDDEN);
+		testRepository.save(test);
 
 		for (Long a : deletea)
 			if (a != null)
