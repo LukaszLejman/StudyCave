@@ -3,6 +3,8 @@ package studycave.application.user;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,10 +43,16 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/{username}")
-	public Optional<User> getInfo(
+	public ResponseEntity<?> getInfo(
 			@RequestHeader(value="Authorization") String headerStr,
 			@PathVariable(required = true)String username) {
-		return userRepository.findByUsername(username);
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		User user =  userRepository.findByUsername(username).get();
+		if (currentPrincipalName.equals(username)) return new ResponseEntity<User>(user,HttpStatus.OK);
+		else return new ResponseEntity("Access Forbidden",HttpStatus.FORBIDDEN);
+		
 	}
 	
 	@PutMapping("/user/info/update")
