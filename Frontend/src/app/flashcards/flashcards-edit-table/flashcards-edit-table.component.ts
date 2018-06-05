@@ -61,6 +61,7 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
   }
 
   addTable(value: any) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (this.fieldArray.length === 0) {
       alert('Zestaw fiszek nie może być pusty!');
     } else {
@@ -68,7 +69,7 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
         id: this.ident,
         name: value.title,
         category: value.category,
-        owner: 0,
+        owner: currentUser.username,
         flashcards: this.fieldArray
       };
       this.flashcardsService.edit(this.tableToSend);

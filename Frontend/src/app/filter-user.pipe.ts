@@ -10,7 +10,7 @@ export class FilterUserPipe implements PipeTransform {
       return sets;
     } else {
       return sets.filter(function(set){
-        return set.owner.toString().includes(searchOwner.toString());
+        return set.owner.toString() === (searchOwner.toString());
       });
     }
 

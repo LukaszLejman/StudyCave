@@ -10,7 +10,7 @@ export class FilterPipe implements PipeTransform {
       return sets;
     } else {
       return sets.filter(function(set){
-        return set.permission.toLowerCase().includes(search.toLowerCase());
+        return set.permission === (search);
       });
     }
 
