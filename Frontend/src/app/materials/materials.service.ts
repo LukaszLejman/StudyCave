@@ -101,6 +101,10 @@ export class MaterialsService {
         );
     }
 
+    downloadFile(id) {
+      return this.httpClient.get('/file/files/' + id);
+    }
+
     sendResponse(data) {
       if (data.status === 200) {
         alert('Operacja przebiegła pomyślnie!');

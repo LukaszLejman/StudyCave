@@ -21,6 +21,8 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
   own: string;
   perm: string;
   owned: Boolean = false;
+  serverURL = 'http://studycave-api.eu-west-1.elasticbeanstalk.com/file/files/' ; // działa na globalu
+  // serverURL = 'http://localhost:8080/file/files/' ; // działa na localhost
   constructor(private route: ActivatedRoute, private materialsService: MaterialsService, private router: Router) { }
 
   ngOnInit() {
@@ -68,6 +70,11 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
       const data = this.id;
       this.matSubscribtion = this.materialsService.deleteMat(data);
 
+    }
+
+    download() {
+      this.materialsService.downloadFile(this.id);
+      console.log('download');
     }
 
 }
