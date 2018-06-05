@@ -82,6 +82,16 @@ export class MaterialsService {
       return this.perm;
     }
     deleteMat(id) {
+      if (localStorage.getItem('currentUser')) {
+        this.headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': '' + this.authenticationService.getToken()
+        });
+      } else {
+        this.headers = new HttpHeaders({
+          'Content-Type': 'application/json'
+        });
+      }
       return this.httpClient.delete('file/delete/' + id, { headers: this.headers, observe: 'response' })
         .subscribe(data => { this.sendResponse(data); },
         error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
