@@ -241,15 +241,17 @@ public class SetController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity deleteSet(@RequestHeader(value = "Authorization",required=false) String headerStr,@PathVariable(required = true) Long id) {
-		
+	public ResponseEntity deleteSet(@RequestHeader(value = "Authorization", required = false) String headerStr,
+			@PathVariable(required = true) Long id) {
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
 
 		Optional<Set> set = setRepository.findById(id);
 		if (set.isPresent()) {
-			if (userId.equals(set.get().getIdOwner())) {
+
+			if (userId.equals((long) set.get().getIdOwner())) {
 				setRepository.deleteById(id);
 				return new ResponseEntity(HttpStatus.OK);
 			}
@@ -259,13 +261,13 @@ public class SetController {
 
 	@GetMapping
 	public List<SimpleSetDTO> getSets() {
-		List<SimpleSet> sets=  simpleSetRepository.findAll();
+		List<SimpleSet> sets = simpleSetRepository.findAll();
 		ArrayList<SimpleSetDTO> setDTOs = new ArrayList<SimpleSetDTO>();
-		for(SimpleSet set : sets) {
+		for (SimpleSet set : sets) {
 			User user = userRepository.findById((long) set.getIdOwner()).get();
-		    SimpleSetDTO setDTO = modelMapper.map(set, SimpleSetDTO.class);
-		    setDTO.setOwner(user.getUsername());
-		    setDTOs.add(setDTO);
+			SimpleSetDTO setDTO = modelMapper.map(set, SimpleSetDTO.class);
+			setDTO.setOwner(user.getUsername());
+			setDTOs.add(setDTO);
 		}
 		return setDTOs;
 	}
@@ -290,20 +292,20 @@ public class SetController {
 	}
 
 	@PutMapping
-	public ResponseEntity putSet(@RequestHeader(value = "Authorization",required=false) String headerStr,@RequestBody SetOwnerDTO setDTO) {
+	public ResponseEntity putSet(@RequestHeader(value = "Authorization", required = false) String headerStr,
+			@RequestBody SetOwnerDTO setDTO) {
 
-		//Authorization
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			String currentPrincipalName = authentication.getName();
-			Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+		// Authorization
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
 
-			
-			Optional<Set> originalSet = setRepository.findById(setDTO.getId());
-			if (userId.equals(originalSet.get().getIdOwner())) {
-				// pass
+		Optional<Set> originalSet = setRepository.findById(setDTO.getId());
+		if (userId.equals((long)originalSet.get().getIdOwner())) {
+			// pass
 
-			} else
-				return new ResponseEntity("Access Forbidden", HttpStatus.FORBIDDEN);
+		} else
+			return new ResponseEntity("Access Forbidden", HttpStatus.FORBIDDEN);
 
 		//
 		User user = userRepository.findByUsername(setDTO.getOwner()).get();
@@ -336,7 +338,7 @@ public class SetController {
 			if (n != null)
 				if (flashcardRepository.findById(n) != null)
 					flashcardRepository.deleteById(n);
-		
+
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
