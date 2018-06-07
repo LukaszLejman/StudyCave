@@ -83,7 +83,6 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
         owner: currentUser.username,
         flashcards: this.fieldArray
       };
-      console.log(this.tableToSend);
       this.flashcardsService.edit(this.tableToSend);
     }
   }

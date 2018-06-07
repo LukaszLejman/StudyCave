@@ -16,7 +16,7 @@ export class AuthenticationService {
     login(username: string, password: string): Observable<boolean> {
         return this.http.post('login', { password: password, username: username }, { headers: this.headers, observe: 'response' })
             .map((response) => {
-                //console.log(response);
+                // console.log(response);
                 // czy login ok jeśli w response jest token
                 // const token = response.json() && response.json().token;
                 const token = response.headers.get('authorization');

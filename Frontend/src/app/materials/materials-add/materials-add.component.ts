@@ -33,7 +33,7 @@ export class MaterialsAddComponent implements OnInit {
     } else {
       this.user = this.currentUser.username;
     }
-    //console.log(this.user);
+    // console.log(this.user);
   }
   selectFile(event) {
     this.selectedFiles = event.target.files;
