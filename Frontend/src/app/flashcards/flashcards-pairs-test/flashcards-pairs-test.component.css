@@ -45,3 +45,11 @@
         margin-bottom: 2.5rem;
     }
 }
+
+@media screen and (max-width: 350px) {
+
+    #container-small {
+        height: 350px;
+    }
+
+}
