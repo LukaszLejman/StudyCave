@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
 
   private ident: number;
+  private permission: Boolean = false;
   private table: Boolean = false;
   private tableToSend: any = {};
   private fieldArray: Array<any> = [];
@@ -24,6 +25,11 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
     this.ident = this.route.snapshot.params.id;
     this.flashcardSubscribtion = this.flashcardsService.getSet(this.ident).subscribe(data => {
       this.set = data;
+      if (data['permission'] === 'Private') {
+        this.permission = false;
+      } else {
+        this.permission = true;
+      }
       const flashcards = data['flashcards'];
       for (let i = 0; i < flashcards.length; i++) {
         const id = flashcards[i]['id'];
@@ -65,15 +71,25 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
     if (this.fieldArray.length === 0) {
       alert('Zestaw fiszek nie może być pusty!');
     } else {
+      let perm = 'Private';
+      if (this.permission) {
+        perm = 'Public';
+      }
       this.tableToSend = {
         id: this.ident,
         name: value.title,
+        permission: perm,
         category: value.category,
         owner: currentUser.username,
         flashcards: this.fieldArray
       };
+      console.log(this.tableToSend);
       this.flashcardsService.edit(this.tableToSend);
     }
+  }
+
+  changePermission(): void {
+    this.permission = !this.permission;
   }
 
   ngOnDestroy() {

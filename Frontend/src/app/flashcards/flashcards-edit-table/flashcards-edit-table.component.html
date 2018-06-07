@@ -5,14 +5,23 @@
       <h1>Edycja zestawu</h1>
       <br />
       <form ngNativeValidate action="/" method="post" #user="ngForm" (ngSubmit)="addTable(user.value)">
-        <label>
-            Wprowadź nazwę dla zestawu:
-            <input type="text" name="title" class="form-control" [(ngModel)]="set.name" required />
-        </label>
-        <label>
-            Wprowadź kategorię zestawu:
-            <input type="text" name="category" class="form-control" [(ngModel)]="set.category" required />
-        </label>
+        <div class="row">
+          <div class="col-md-10">
+            <label>
+              Wprowadź nazwę dla zestawu:
+              <input type="text" name="title" class="form-control" [(ngModel)]="set.name" required />
+            </label>
+          <label>
+              Wprowadź kategorię zestawu:
+              <input type="text" name="category" class="form-control" [(ngModel)]="set.category" required />
+          </label>
+          </div>
+          <label class="col-md-2">
+            <br />
+            <input type="checkbox" name="{{ permission }}" class="form-control" [checked]="permission" (change)="changePermission()"/>
+            <b>Udostępnij publicznie</b>
+          </label>
+        </div>
         <br />
         <label>
           Wypełnij tabelę fiszkami:
@@ -50,8 +59,10 @@
           </table>
         </label>
         <br />
-        <button class="btn btn-primary" type="submit">Edytuj fiszki!</button>
-        <button class="btn btn-danger" [routerLink]="['/flashcards/sets', ident]">Powrót</button>
+        <div>
+          <button class="btn btn-primary" type="submit">Edytuj fiszki!</button>
+          <button class="btn btn-danger" [routerLink]="['/flashcards/sets', ident]">Powrót</button>
+        </div>
       </form>
     </div>
   </div>
