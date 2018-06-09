@@ -21,7 +21,7 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
   own: string;
   perm: string;
   owned: Boolean = false;
-  serverURL = 'http://studycave-api.eu-west-1.elasticbeanstalk.com/file/files/' ; // działa na globalu
+  serverURL = 'http://studycave.eu-west-1.elasticbeanstalk.com/file/files/' ; // działa na globalu
   // serverURL = 'http://localhost:8080/file/files/' ; // działa na localhost
   constructor(private route: ActivatedRoute, private materialsService: MaterialsService, private router: Router) { }
 
@@ -74,6 +74,7 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
 
     download() {
       this.materialsService.downloadFile(this.id);
+      this.router.navigate(['materials/list']);
       // console.log('download');
     }
 
