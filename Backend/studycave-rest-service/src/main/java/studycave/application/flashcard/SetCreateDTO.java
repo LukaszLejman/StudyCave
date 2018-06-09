@@ -1,23 +1,25 @@
-package studycave.application;
+package studycave.application.flashcard;
 
 import java.sql.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
+import studycave.application.user.User;
+import studycave.application.user.UserRepository;
 
 
-
-
-public class SetOwnerDTO {
+public class SetCreateDTO {
 	
-	
-	private long id;
     private String name;
     private String category;
     private String owner;
@@ -30,21 +32,10 @@ public class SetOwnerDTO {
     private int grade;
     @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
     private String permission;
-    
-    List<Flashcard> flashcards;
+    List<FlashcardSetCreateDTO> flashcards;
 
-    protected SetOwnerDTO() {
+    protected SetCreateDTO() {
     }
-
-
-	public long getId() {
-		return id;
-	}
-
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 
 	public String getName() {
@@ -120,12 +111,13 @@ public class SetOwnerDTO {
 	}
 
 
-	public List<Flashcard> getFlashcards() {
+
+	public List<FlashcardSetCreateDTO> getFlashcards() {
 		return flashcards;
 	}
 
 
-	public void setFlashcards(List<Flashcard> flashcards) {
+	public void setFlashcards(List<FlashcardSetCreateDTO> flashcards) {
 		this.flashcards = flashcards;
 	}
 

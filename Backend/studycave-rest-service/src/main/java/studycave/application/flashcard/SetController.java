@@ -1,4 +1,4 @@
-package studycave.application;
+package studycave.application.flashcard;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +24,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import io.swagger.annotations.Api;
-import studycave.application.test.Test;
-import studycave.application.test.TestEditDTO;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
 
@@ -260,16 +256,25 @@ public class SetController {
 	}
 
 	@GetMapping
-	public List<SimpleSetDTO> getSets() {
-		List<SimpleSet> sets = simpleSetRepository.findAll();
+	public ResponseEntity<?> getSets(@RequestParam(value = "owner", required = false) String owner,
+			@RequestParam(value = "permission", required = false) String permission) {
+
+		Optional<User> user = userRepository.findByUsername(owner);
+		Integer ownerId = user.isPresent() ? user.get().getId().intValue() : null;
+
+		if (owner != null && !user.isPresent())
+			return new ResponseEntity<>(new String("User not found"), HttpStatus.NOT_FOUND);
+
 		ArrayList<SimpleSetDTO> setDTOs = new ArrayList<SimpleSetDTO>();
+		List<SimpleSet> sets = simpleSetRepository.findByOptionalPermissionAndOptionalOwner(permission, ownerId);
+
 		for (SimpleSet set : sets) {
-			User user = userRepository.findById((long) set.getIdOwner()).get();
+			String username = userRepository.findById((long) set.getIdOwner()).get().getUsername();
 			SimpleSetDTO setDTO = modelMapper.map(set, SimpleSetDTO.class);
-			setDTO.setOwner(user.getUsername());
+			setDTO.setOwner(username);
 			setDTOs.add(setDTO);
 		}
-		return setDTOs;
+		return new ResponseEntity<List<SimpleSetDTO>>(setDTOs, HttpStatus.OK);
 	}
 
 	@PostMapping
@@ -301,7 +306,7 @@ public class SetController {
 		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
 
 		Optional<Set> originalSet = setRepository.findById(setDTO.getId());
-		if (userId.equals((long)originalSet.get().getIdOwner())) {
+		if (userId.equals((long) originalSet.get().getIdOwner())) {
 			// pass
 
 		} else

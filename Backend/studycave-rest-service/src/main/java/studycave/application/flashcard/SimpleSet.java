@@ -1,4 +1,4 @@
-package studycave.application;
+package studycave.application.flashcard;
 
 import java.sql.Date;
 import javax.persistence.Column;

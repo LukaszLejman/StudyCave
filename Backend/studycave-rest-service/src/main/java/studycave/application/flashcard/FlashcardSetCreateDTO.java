@@ -1,4 +1,4 @@
-package studycave.application;
+package studycave.application.flashcard;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 

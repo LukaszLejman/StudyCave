@@ -1,63 +1,51 @@
-package studycave.application;
+package studycave.application.flashcard;
 
 import java.sql.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModelProperty;
 
-@Entity
-@Table(name = "flashcardset") 
-public class Set {
-	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
+
+
+
+public class SetOwnerDTO {
+	
+	
+	private long id;
     private String name;
     private String category;
-    @Column(name="id_owner")
-	@JsonProperty("owner")
-    private int idOwner;
-    @Column(name="add_date")
+    private String owner;
+	@JsonIgnore
+	private long idOwner;
 	@JsonProperty("add_date")
     private Date addDate;
-    @Column(name="edit_date")
 	@JsonProperty("edit_date")
     private Date editDate;
     private int grade;
-    @Column(name="permission")
+    @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
     private String permission;
     
-    @OneToMany(fetch = FetchType.LAZY,mappedBy="flashcardSet",cascade = CascadeType.ALL)
-    @JsonManagedReference
     List<Flashcard> flashcards;
 
-    protected Set() {}
+    protected SetOwnerDTO() {
+    }
 
-	public Set(String name, String category, int idOwner) {
-		super();
-		this.name = name;
-		this.category = category;
-		this.idOwner = idOwner;
-	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+
+	public void setId(long id) {
 		this.id = id;
 	}
+
 
 	public String getName() {
 		return name;
@@ -75,12 +63,14 @@ public class Set {
 		this.category = category;
 	}
 
-	public int getIdOwner() {
-		return idOwner;
+	
+
+	public String getOwner() {
+		return owner;
 	}
 
-	public void setIdOwner(int idOwner) {
-		this.idOwner = idOwner;
+	public void setOwner(String owner) {
+		this.owner=owner;
 	}
 
 	public Date getAddDate() {
@@ -119,13 +109,26 @@ public class Set {
 		this.grade = grade;
 	}
 
+
+	public long getIdOwner() {
+		return idOwner;
+	}
+
+
+	public void setIdOwner(long idOwner) {
+		this.idOwner = idOwner;
+	}
+
+
 	public List<Flashcard> getFlashcards() {
 		return flashcards;
 	}
 
+
 	public void setFlashcards(List<Flashcard> flashcards) {
 		this.flashcards = flashcards;
 	}
+
 
 	public String getPermission() {
 		return permission;
@@ -134,7 +137,4 @@ public class Set {
 	public void setPermission(String permission) {
 		this.permission = permission;
 	}
-	
-	
-	
 }

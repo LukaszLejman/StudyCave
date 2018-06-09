@@ -1,4 +1,4 @@
-package studycave.application;
+package studycave.application.flashcard;
 
 import java.util.List;
 import java.util.Optional;

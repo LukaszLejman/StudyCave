@@ -1,42 +1,63 @@
-package studycave.application;
+package studycave.application.flashcard;
 
 import java.sql.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
-import studycave.application.user.User;
-import studycave.application.user.UserRepository;
 
-
-public class SetCreateDTO {
-	
+@Entity
+@Table(name = "flashcardset") 
+public class Set {
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String category;
-    private String owner;
-	@JsonIgnore
-	private long idOwner;
+    @Column(name="id_owner")
+	@JsonProperty("owner")
+    private int idOwner;
+    @Column(name="add_date")
 	@JsonProperty("add_date")
     private Date addDate;
+    @Column(name="edit_date")
 	@JsonProperty("edit_date")
     private Date editDate;
     private int grade;
-    @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
+    @Column(name="permission")
     private String permission;
-    List<FlashcardSetCreateDTO> flashcards;
+    
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="flashcardSet",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    List<Flashcard> flashcards;
 
-    protected SetCreateDTO() {
-    }
+    protected Set() {}
 
+	public Set(String name, String category, int idOwner) {
+		super();
+		this.name = name;
+		this.category = category;
+		this.idOwner = idOwner;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -54,14 +75,12 @@ public class SetCreateDTO {
 		this.category = category;
 	}
 
-	
-
-	public String getOwner() {
-		return owner;
+	public int getIdOwner() {
+		return idOwner;
 	}
 
-	public void setOwner(String owner) {
-		this.owner=owner;
+	public void setIdOwner(int idOwner) {
+		this.idOwner = idOwner;
 	}
 
 	public Date getAddDate() {
@@ -100,27 +119,13 @@ public class SetCreateDTO {
 		this.grade = grade;
 	}
 
-
-	public long getIdOwner() {
-		return idOwner;
-	}
-
-
-	public void setIdOwner(long idOwner) {
-		this.idOwner = idOwner;
-	}
-
-
-
-	public List<FlashcardSetCreateDTO> getFlashcards() {
+	public List<Flashcard> getFlashcards() {
 		return flashcards;
 	}
 
-
-	public void setFlashcards(List<FlashcardSetCreateDTO> flashcards) {
+	public void setFlashcards(List<Flashcard> flashcards) {
 		this.flashcards = flashcards;
 	}
-
 
 	public String getPermission() {
 		return permission;
@@ -129,4 +134,7 @@ public class SetCreateDTO {
 	public void setPermission(String permission) {
 		this.permission = permission;
 	}
+	
+	
+	
 }

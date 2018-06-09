@@ -1,4 +1,4 @@
-package studycave.application;
+package studycave.application.flashcard;
 
 public class FlashcardTestDTO {
     private Long id;
