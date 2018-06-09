@@ -2,51 +2,24 @@
 <div class="wrapper">
     <div class="content">
       <app-materials-menu></app-materials-menu>
-      <div *ngIf="user">
-          <button class="btn btn-primary" (click)="ShowPublic()" >PUBLICZNE</button>
-          <button class="btn btn-primary" (click)="ShowPrivate()" >PRYWATNE</button>
+      <div class="buttons-container">
+        <div>
+          <button class="btn btn-success" (click)="toMaterialsMaker()">Dodaj materiały</button>
+        </div>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-primary active" (click)="ShowPublic()">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked> Publiczne
+          </label>
+          <label *ngIf="logged" class="btn btn-primary" (click)="ShowPrivate()">
+            <input type="radio" name="options" id="option2" autocomplete="off"> Prywatne
+          </label>
+        </div>
       </div>
-      <table class="table" *ngIf="!ShowStatus">
-        <tr>
-          <th class="mobile">NAZWA</th>
-          <th class="mobile">WŁAŚCICIEL</th>
-          <th class="mobile">DATA DODANIA</th>
-          <th class="mobile">DATA MODYFIKACJI</th>
-          <th class="mobile">OCENA</th>
-        </tr>
-        <tr *ngFor="let mat of mats" [class.selected]="mat === selectedMat" (click)="onSelect(mat)" class="listItem">
-          <td class="name">{{mat.title}}</td>
-          <td class="owner mobile">{{mat.owner}}</td>
-          <td class="add_date mobile">{{mat.add_date}}</td>
-          <td class="edit_date mobile">{{mat.edit_date}}</td>
-          <td class="grade mobile">{{mat.grade}}</td>
-        </tr>
-        <tr *ngIf="matssEmpty">
-          <td colspan="6" class="empty">BRAK MATERIAŁÓW</td>
-        </tr>
-      </table>
-      <table class="table" *ngIf="ShowStatus">
-          <tr>
-            <th class="mobile">NAZWA</th>
-            <th class="mobile">WŁAŚCICIEL</th>
-            <th class="mobile">DATA DODANIA</th>
-            <th class="mobile">DATA MODYFIKACJI</th>
-            <th class="mobile">OCENA</th>
-            <th class="mobile">POZWOLENIE</th>
-          </tr>
-          <tr *ngFor="let mat of matsPrivate" [class.selected]="mat === selectedMat" (click)="onSelect(mat)" class="listItem">
-            <td class="name">{{mat.title}}</td>
-            <td class="owner mobile">{{mat.owner}}</td>
-            <td class="add_date mobile">{{mat.add_date}}</td>
-            <td class="edit_date mobile">{{mat.edit_date}}</td>
-            <td class="grade mobile">{{mat.grade}}</td>
-            <td class="grade mobile">{{mat.permission}}</td>
-          </tr>
-          <tr *ngIf="matssEmpty">
-            <td colspan="6" class="empty">BRAK MATERIAŁÓW</td>
-          </tr>
-        </table>
-      <div *ngIf="selectedSet">
-      </div>
+      <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-blue" [rowData]="mats" [columnDefs]="columnDefs" [enableSorting]="true"
+      [enableFilter]="true" (gridReady)="onGridReady($event)" (gridSizeChanged)="onGridSizeChanged($event)" [gridOptions]="gridOptions"
+      [pagination]="true" [paginationAutoPageSize]="true" (rowClicked)="onRowClicked($event)" [localeText]="localeText" 
+      (gridColumnsChanged)="onGidColumnsChanged($event)">
+    </ag-grid-angular>
+
     </div>
   </div>

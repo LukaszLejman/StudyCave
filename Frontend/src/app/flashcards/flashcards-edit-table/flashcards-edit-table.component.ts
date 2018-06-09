@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FlashcardsService } from '../flashcards.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-flashcards-edit-table',
@@ -19,7 +20,7 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
   private set: Object = {};
   private flashcardSubscribtion: Subscription;
 
-  constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute) {}
+  constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.ident = this.route.snapshot.params.id;
@@ -41,7 +42,9 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
       }
     });
   }
-
+  returnToSet() {
+    this.router.navigate(['/flashcards/sets/', this.ident]);
+  }
   addFieldValue() {
     const undefinedAttr = ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined));
       if (undefinedAttr) {

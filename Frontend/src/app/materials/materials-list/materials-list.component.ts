@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/cor
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { MaterialsService } from '../materials.service';
+import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
+import localeText from './localeText';
 
 @Component({
   selector: 'app-materials-list',
@@ -10,20 +12,64 @@ import { MaterialsService } from '../materials.service';
 })
 export class MaterialsListComponent implements OnInit, OnDestroy {
 
-  mats = [{}];
-  matsPrivate = [{}];
+  mats = [];
+  matsPrivate = [];
   matsEmpty = true;
   selectedMat: any;
+  matSubscription: Subscription;
   materialsSubscription: Subscription;
   materialsSubscriptionOwners: Subscription;
   ShowStatus: Boolean = false;
   user: Boolean = false;
+  private gridApi;
+  private gridColumnApi;
+  public gridOptions: GridOptions;
+  private localeText = localeText;
+  private logged = false;
+  private publicMode = true;
+  private permission;
+  // serverURL = 'http://studycave-api.eu-west-1.elasticbeanstalk.com/file/files/' ; // działa na globalu
+  // serverURL = 'http://localhost:8080/file/files/' ; // działa na localhost
+
+  columnDefs = [
+    { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+        { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
+        { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
+        { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+    { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
+    {
+      headerName: '',
+      suppressMenu: true,
+      suppressSorting: true,
+      template: `
+      <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
+      <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
+      `}
+  ];
 
   constructor(private materialsService: MaterialsService, private router: Router) {}
 
   ngOnInit() {
+    if (localStorage.getItem('currentUser')) {
+      this.logged = true;
+    }
+
+    this.gridOptions = {
+      rowHeight: 50,
+      headerHeight: 25,
+      getRowStyle: function (params) {
+        return {
+          cursor: 'pointer'
+        };
+      },
+    };
     this.getMats();
     this.IsLogin();
+  }
+
+
+  toMaterialsMaker() {
+    this.router.navigate(['materials/add-materials']);
   }
 
   IsLogin() {
@@ -41,6 +87,54 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
     this.ShowStatus = true;
     this.getMatsOwners();
   }
+
+  public onRowClicked(e) {
+    if (e.event.target !== undefined) {
+      const data = e.data;
+      const actionType = e.event.target.getAttribute('data-action-type');
+
+      switch (actionType) {
+        case 'remove':
+          return this.onActionRemoveClick(e);
+        case 'changePermission':
+          return this.changePermission(e);
+        case 'download':
+          return this.download(e);
+        default:
+          return this.goToMats(e);
+      }
+    }
+
+  }
+  public onActionRemoveClick(e) {
+    this.matSubscription = this.materialsService.deleteMat(e.data.id);
+
+  }
+
+  download(e) {
+    this.materialsService.downloadFile(e.data.id);
+    console.log('download');
+  }
+
+  changePermission(e): void {
+    if (e.data.permission === 'Public') {
+      this.permission = 'Private';
+    } else {
+      this.permission = 'Public';
+    }
+    this.materialsService.changeMatPermission(e.data.id, this.permission);
+    alert('Zmieniono pozwolenie na: ' + this.permission);
+    this.router.navigate(['materials/list']);
+  }
+
+  goToMats(e) {
+    this.materialsService.setOwner(e.data.owner);
+    this.materialsService.setTitle(e.data.title);
+    this.materialsService.setPerm(e.data.permission);
+    this.router.navigate(['materials/', e.data.id]);
+  }
+
+
   onSelect(mat: any): void {
     this.selectedMat = mat;
     this.materialsService.setOwner(this.selectedMat.owner);
@@ -63,14 +157,64 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
   getMatsOwners(): void {
     this.materialsSubscriptionOwners = this.materialsService.getMaterialsOwners()
       .subscribe(data => {
-        this.matsPrivate = data;
-        if (this.matsPrivate.length > 0) {
+        this.mats = [];
+        this.mats = data;
+        if (this.mats.length > 0) {
           this.matsEmpty = false;
         } else {
           this.matsEmpty = true;
         }
       });
   }
+
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    this.gridApi.sizeColumnsToFit();
+  }
+
+  onGridSizeChanged(params) {
+    if (params.clientWidth < 800) {
+      this.columnDefs = [
+        { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+        { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
+        { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
+        { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+        { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: true },
+        {
+          headerName: '',
+          suppressMenu: true,
+          suppressSorting: true,
+          template: `
+        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
+        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
+        `}
+      ];
+    } else {
+      this.columnDefs = [
+        { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+        { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
+        { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
+        { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+        { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
+        {
+          headerName: '',
+          suppressMenu: true,
+          suppressSorting: true,
+          template: `
+        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
+        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
+        `}
+      ];
+    }
+
+    params.api.sizeColumnsToFit();
+  }
+
+  onGidColumnsChanged(params) {
+    params.api.sizeColumnsToFit();
+  }
+
   ngOnDestroy() {
     if (this.materialsSubscription) {
    this.materialsSubscription.unsubscribe();
@@ -78,6 +222,9 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
     if (this.materialsSubscriptionOwners) {
    this.materialsSubscriptionOwners.unsubscribe();
     }
+    if (this.matSubscription) {
+      this.matSubscription.unsubscribe();
+       }
   }
 
 }

@@ -21,3 +21,45 @@
     margin-bottom: 2rem;
     text-align: center;
 }
+
+.buttons-container > div{
+    margin: 10px;
+}
+
+.puzzle{
+    min-height: 50px;
+    min-width: 100px;
+    background-color: #00b0f9;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 5px 5px 5px;
+}
+
+.puzzle-right{
+    min-height: 50px;
+    min-width: 100px;
+    background-color: #007bff;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 5px 5px 5px;
+}
+
+.both-sides{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.puzzles-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty{
+    background-color: gray;
+    cursor: not-allowed;
+}
+

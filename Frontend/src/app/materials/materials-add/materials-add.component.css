@@ -32,7 +32,29 @@
     margin-bottom: 4rem;
 }
 
-.wrapper {
+.wrapper{
     width: 100%;
-    margin-bottom: 5rem;
+    padding: 20px;
+    min-height: 100%;
+    margin-bottom: 40px;
+}
+
+.content{
+    border-radius: 25px;
+    border: 5px solid white;
+    background-color: #00293A;
+    padding: 20px; 
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ag-grid-angular{
+    margin: 10px;
+}
+
+.buttons-container > div{
+    margin: 10px;
 }

@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialsService } from './materials.service';
 import { MaterialsAddComponent } from './materials-add/materials-add.component';
 import { MaterialsDetailsComponent } from './materials-details/materials-details.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { MaterialsDetailsComponent } from './materials-details/materials-details
     BrowserModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    AgGridModule.withComponents([])
   ],
   declarations: [MaterialsMenuComponent, MaterialsListComponent, MaterialsAddComponent, MaterialsDetailsComponent],
   providers: [MaterialsService]

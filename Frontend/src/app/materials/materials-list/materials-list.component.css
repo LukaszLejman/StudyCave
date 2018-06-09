@@ -10,11 +10,6 @@
     cursor: pointer;
 }
 
-.wrapper{
-    width: 100%;
-    padding: 20px;
-    min-height: 100%;
-}
 
 @media screen and (max-width: 800px) {
     .mobile{
@@ -26,6 +21,13 @@
     text-align: center;
 }
 
+.wrapper{
+    width: 100%;
+    padding: 20px;
+    min-height: 100%;
+    margin-bottom: 40px;
+}
+
 .content{
     border-radius: 25px;
     border: 5px solid white;
@@ -34,4 +36,14 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ag-grid-angular{
+    margin: 10px;
+}
+
+.buttons-container > div{
+    margin: 10px;
 }

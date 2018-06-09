@@ -45,7 +45,11 @@ export class FlashcardsService {
   }
 
   getSets(): Observable<any> {
-    return this.httpClient.get('sets');
+    return this.httpClient.get('sets', {headers: this.headers, params: { permission: 'Public'}});
+  }
+  getSetsOwners(): Observable<any> {
+    const owner = JSON.parse(localStorage.getItem('currentUser'));
+    return this.httpClient.get('sets', {headers: this.headers, params: { owner: owner.username}});
   }
 
   setOwner(owner) {
