@@ -14,7 +14,7 @@
 
 @media screen and (max-width: 800px) {
     .content{
-        margin-top: 150px;
+        margin-top: 170px;
         min-height: calc(100% - 150px);
     }
 }

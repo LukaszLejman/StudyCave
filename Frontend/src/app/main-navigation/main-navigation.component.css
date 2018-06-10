@@ -83,7 +83,7 @@ a:hover{
 @media screen and (max-width: 800px) {
     .wrapper{
         flex-wrap: wrap;
-        height: 150px;
+        height: 170px;
         justify-content: center;
     }
     .study-cave{
