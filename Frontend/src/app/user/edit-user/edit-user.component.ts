@@ -26,6 +26,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   errorMessage = '';
   editSub: Subscription;
   private userProfileSub: Subscription;
+  private relogSub: Subscription;
   private user: User = {
     id: 0,
     email: '',
@@ -58,12 +59,16 @@ export class EditUserComponent implements OnInit, OnDestroy {
         } else {
           const usernameChange = JSON.parse(localStorage.getItem('currentUser'));
           usernameChange.username = value.login;
+          this.relogSub = this.userService.login(body.username, body.password).subscribe(
+            d => {
+              this.editSub.unsubscribe();
+            }
+          );
           const usernameChangeStr = JSON.stringify(usernameChange);
           localStorage.setItem('currentUser', usernameChangeStr);
           this.editStatus = true;
           this.invalidEdit = false;
         }
-        this.getUserInfo();
       },
         error => {
           this.errorMessage = 'Wystąpił błąd. Spróbuj ponownie później.';
@@ -97,7 +102,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userProfileSub.unsubscribe();
+    if (this.editSub) { this.userProfileSub.unsubscribe(); }
+    if (this.relogSub) { this.relogSub.unsubscribe(); }
     if (this.editSub) {
       this.editSub.unsubscribe();
     }

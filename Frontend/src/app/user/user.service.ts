@@ -40,4 +40,18 @@ export class UserService {
     return this.httpClient.put('user/info/update', body, { headers: this.headers, responseType: 'text' });
   }
 
+  login(username: string, password: string) {
+    return this.httpClient.post('login', { password: password, username: username }, { headers: this.headers, observe: 'response' })
+      .map((response) => {
+        const token = response.headers.get('authorization');
+        if (token) {
+          // store username and jwt token w local storage aby nie wylogowało przy zmianie stron
+          localStorage.setItem('currentUser', JSON.stringify({ username: username, authorization: token }));
+          return true;
+        } else {
+          return false;
+        }
+      });
+  }
+
 }

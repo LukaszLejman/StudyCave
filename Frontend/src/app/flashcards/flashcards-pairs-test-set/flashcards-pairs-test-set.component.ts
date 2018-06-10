@@ -39,6 +39,9 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDes
   }
 
   ngOnDestroy() {
+    if (this.verifyAnswerSubscription) {
+      this.verifyAnswerSubscription.unsubscribe();
+    }
   }
 
   nextQuestion(f) {
@@ -71,7 +74,7 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDes
     }
   }
 
-  send(){
+  send() {
     this.isChecked.emit(true);
     this.goodEvent.emit(this.good);
   }
