@@ -125,7 +125,7 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
 
   download(e) {
     this.materialsService.downloadFile(e.data.id);
-    console.log('download');
+    // console.log('download');
   }
 
   changePermission(e): void {
