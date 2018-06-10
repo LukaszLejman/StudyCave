@@ -63,10 +63,21 @@ export class TestEditComponent implements OnInit, OnDestroy {
           };
           this.test.push(obj);
         }
+        this.test.sort(this.compare);
         this.countPoints();
       },
       error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
     );
+  }
+
+  compare(a, b) {
+    let comparison = 0;
+    if (a['nr'] > b['nr']) {
+      comparison = 1;
+    } else if (b['nr'] > a['nr']) {
+      comparison = -1;
+    }
+    return comparison;
   }
 
   onAdd(question: Object): void {
