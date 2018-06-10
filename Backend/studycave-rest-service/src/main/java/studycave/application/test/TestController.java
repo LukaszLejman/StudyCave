@@ -1,12 +1,9 @@
 package studycave.application.test;
 
-import java.util.Optional;
-
-import javax.persistence.criteria.Order;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +32,6 @@ import studycave.application.test.solvedto.AnswerChoicesSolveDTO;
 import studycave.application.test.solvedto.AnswerGapsSolveDTO;
 import studycave.application.test.solvedto.AnswerPairsSolveDTO;
 import studycave.application.test.solvedto.AnswerPuzzleSolveDTO;
-import studycave.application.test.verify.AnswerChoicesVerifyDTO;
-import studycave.application.test.verify.AnswerVerifyDTO;
 import studycave.application.test.verify.QuestionVerifier;
 import studycave.application.test.verify.QuestionVerifyDTO;
 import studycave.application.test.verify.ResultResponse;
@@ -72,7 +67,7 @@ public class TestController {
 	}
 
 	@GetMapping("/{id}/solve")
-	public Optional<Test> getTestToSolve(@PathVariable(required = true) Long id) {
+	public TestOwnerDTO getTestToSolve(@PathVariable(required = true) Long id) {
 
 		Optional<Test> test = testRepository.findById(id);
 
@@ -124,7 +119,10 @@ public class TestController {
 				((QuestionPairs) question).setAnswers(answersDTOs);
 			}
 		}
-		return test;
+		User user = userRepository.findById(test.get().getIdOwner()).get();
+		TestOwnerDTO testDTO = modelMapper.map(test.get(), TestOwnerDTO.class);
+		testDTO.setOwner(user.getUsername());
+		return testDTO;
 	}
 
 	@PostMapping("/results")

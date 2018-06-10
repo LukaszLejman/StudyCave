@@ -10,11 +10,15 @@ import org.springframework.stereotype.Component;
 
 import studycave.application.test.AnswerChoices;
 import studycave.application.test.AnswerGaps;
+import studycave.application.test.AnswerPairs;
+import studycave.application.test.AnswerPuzzle;
 import studycave.application.test.Question;
 import studycave.application.test.QuestionChoices;
+import studycave.application.test.QuestionGaps;
+import studycave.application.test.QuestionPairs;
+import studycave.application.test.QuestionPuzzle;
 import studycave.application.test.Test;
 import studycave.application.test.TestRepository;
-import studycave.application.test.*;
 
 @Component
 public class QuestionVerifier {
