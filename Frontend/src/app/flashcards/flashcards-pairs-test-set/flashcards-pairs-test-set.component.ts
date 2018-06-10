@@ -1,6 +1,8 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FlashcardsService } from '../flashcards.service';
 import { Subscription } from 'rxjs/Subscription';
+import * as $ from 'jquery';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-flashcards-pairs-test-set',
@@ -16,79 +18,103 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDes
   @Output() goodEvent = new EventEmitter();
   @Output() isChecked = new EventEmitter();
 
-  private flashcardSubscribtion: Array<Subscription> = [];
-  private answer: Array<Object> = [];
-  private setLeft: Array<Object> = [];
-  private setRight: Array<Object> = [];
-  private checked: Boolean = false;
+  private verifyAnswerSubscription: ISubscription;
+  private leftSides = [];
+  private rightSides = [];
+  private leftSidesToSend = [];
+  private result = [];
+  private verify = false;
   private good = 0;
+  private selectedLeftSide = { indexOfLeftSide: Number, left_side: String, from: '', id: Number };
 
-  constructor(private uploadService: FlashcardsService) {  }
+  constructor(private flashcardsService: FlashcardsService) { }
 
   ngOnInit() {
     this.isChecked.emit(false);
-    this.checked = false;
-    this.flashcardSubscribtion = [];
-    this.setLeft = this.package[this.package_id]['setLeft'];
-    this.setRight = this.package[this.package_id]['setRight'];
+    this.prepareLists();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.ngOnDestroy();
-    const package_idChanges = changes['package_id'];
-    if (package_idChanges) {
-      this.ngOnInit();
-    }
+    this.prepareLists();
   }
 
-  check(value: any) {
-    const side = 'left';
-    const n = this.setLeft.length;
-    const body = [];
-    this.answer = [];
+  ngOnDestroy() {
+  }
+
+  nextQuestion(f) {
+    let canSend = true;
     this.good = 0;
-    for (let i = 0; i < n; i++) {
-      body.push({
-        content: value[`right-side-${this.setLeft[i]['id']}`],
-        id: this.setLeft[i]['id'],
-        side: side
-      });
-      this.flashcardSubscribtion[i] = this.uploadService.testCheck(this.id, body[i]).subscribe(data => {
-        this.answer.push(data);
-        if (this.answer.length === n) {
-          this.showWrong(this.answer);
-        }
+    this.result = [];
+    this.leftSides.forEach(element => {
+      if (element !== '') {
+        canSend = false;
+      }
+    });
+    if (canSend) {
+      this.verify = true;
+      this.leftSidesToSend.forEach((element, index) => {
+        const body = {
+          content: this.rightSides[index].right_side,
+          id: element.id,
+          side: 'left'
+        };
+        this.verifyAnswerSubscription = this.flashcardsService.testCheck(this.id, body).subscribe(d => {
+          this.result[index] = d.result;
+          if (d.result) {
+            this.good += 1;
+          }
+          console.log(this.result.length, this.leftSidesToSend.length);
+          if (this.result.length === this.leftSidesToSend.length) {
+            this.send();
+          }
+        });
       });
     }
   }
 
-  showWrong(flashcards: Array<Object>) {
-    const n = flashcards.length;
-    for (let i = 0; i < n; i++) {
-      this.isGood(flashcards[i]['result'], flashcards[i]['id']);
-    }
-    this.checked = true;
+  send(){
     this.isChecked.emit(true);
     this.goodEvent.emit(this.good);
   }
 
-  isGood(flashcard: Boolean, i: number) {
-    if (!flashcard) {
-      document.getElementById(`right-side-${i}`).style.border = '2px solid red';
-      document.getElementById(`comment-${i}`).innerHTML = 'Źle :(';
-      document.getElementById(`comment-${i}`).style.color = 'red';
-    } else {
-      document.getElementById(`right-side-${i}`).style.border = '2px solid green';
-      document.getElementById(`comment-${i}`).innerHTML = 'Dobrze :)';
-      document.getElementById(`comment-${i}`).style.color = 'green';
-      this.good += 1;
+  leftSideClick(item, i) {
+    if (item !== '' && item !== undefined) {
+      if (this.selectedLeftSide.from === 'leftSides') {
+        this.selectedLeftSide = { indexOfLeftSide: undefined, left_side: undefined, from: undefined, id: undefined };
+      } else {
+        this.selectedLeftSide = { indexOfLeftSide: i, left_side: item.left_side, from: 'leftSides', id: item.id };
+      }
     }
   }
 
-  ngOnDestroy() {
-    for (let i = 0; i < this.flashcardSubscribtion.length; i++) {
-      this.flashcardSubscribtion[i].unsubscribe();
+  leftSideToSendClick(item, i) {
+    if (this.selectedLeftSide.from === 'leftSides') {
+      const helper = this.leftSidesToSend[i];
+      this.leftSidesToSend[i] = this.selectedLeftSide;
+      this.leftSides[Number(this.selectedLeftSide.indexOfLeftSide)] = helper;
+      this.selectedLeftSide = { indexOfLeftSide: undefined, left_side: undefined, from: undefined, id: undefined };
+    } else if (this.selectedLeftSide.from === 'leftSidesToSend') {
+      const helper = this.leftSidesToSend[i];
+      this.leftSidesToSend[i] = this.selectedLeftSide;
+      this.leftSidesToSend[Number(this.selectedLeftSide.indexOfLeftSide)] = helper;
+      this.selectedLeftSide = { indexOfLeftSide: undefined, left_side: undefined, from: undefined, id: undefined };
+    } else if (item !== '' && item !== undefined) {
+      this.selectedLeftSide = { indexOfLeftSide: i, left_side: item.left_side, from: 'leftSidesToSend', id: item.id };
     }
+  }
+
+  prepareLists() {
+    console.log(this.package);
+    this.selectedLeftSide = { indexOfLeftSide: undefined, left_side: undefined, from: undefined, id: undefined };
+    this.leftSides = [];
+    this.rightSides = [];
+    this.leftSidesToSend = [];
+    this.verify = false;
+    this.leftSides = JSON.parse(JSON.stringify(this.package[0].setLeft));
+    this.rightSides = JSON.parse(JSON.stringify(this.package[0].setRight));
+    this.leftSides.forEach(element => {
+      this.leftSidesToSend.push('');
+    });
   }
 
 }

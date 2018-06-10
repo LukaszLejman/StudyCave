@@ -81,10 +81,12 @@ export class PairsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    console.log(this.question);
     this.prepareLists();
   }
 
   ngOnChanges() {
+    console.log(this.question);
     this.prepareLists();
   }
 

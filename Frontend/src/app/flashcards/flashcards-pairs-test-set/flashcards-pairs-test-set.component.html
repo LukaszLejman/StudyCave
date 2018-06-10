@@ -1,14 +1,31 @@
-<form ngNativeValidate action="/" method="post" #userForm="ngForm" (ngSubmit)="check(userForm.value)">
-  <div class="row">
-    <div *ngFor="let left of setLeft; let i = index" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" id="flashcard-{{ i }}">
-      <p>Przód: <b>{{ left.left_side }}</b></p>
-      <p>Tył: </p>
-      <select ngModel id="right-side-{{ left.id }}" name="right-side-{{ left.id }}" class="form-control" required>
-        <option *ngFor="let right of setRight" value="{{ right.right_side }}">{{ right.right_side }}</option>
-      </select>
-      <p id="comment-{{ left.id }}" style="text-align: center"></p>
+<div>
+  <h3>Dostępne lewe strony:</h3>
+  <div class="puzzles-container">
+    <div class='puzzle' *ngFor="let item of leftSides; let i = index" (click)="leftSideClick(item,i)" [ngClass]="{'active': (selectedLeftSide.leftSideText === item && selectedLeftSide.indexOfLeftSide === i && selectedLeftSide.from === 'leftSides'), 'empty': (item === undefined || item === '')}">
+      <span>{{item.left_side}}</span>
     </div>
   </div>
-  <br />
-  <button class="btn btn-success" *ngIf="!checked">Sprawdź</button>
-</form>
+  <h3>Twoja odpowiedź:</h3>
+  <div class="puzzles-container">
+    <div *ngFor="let item of leftSidesToSend; let i = index" class="both-sides">
+      <div class="puzzle good" *ngIf="result[i] && verify">
+        <span>{{item.left_side}}
+        </span>
+      </div>
+      <div class="puzzle wrong" *ngIf="!result[i] && verify">
+        <span>{{item.left_side}}
+        </span>
+      </div>
+      <div *ngIf="!verify" class='puzzle' (click)="leftSideToSendClick(item,i)" [ngClass]="{'active': (selectedLeftSide.leftSideText === item && selectedLeftSide.indexOfLeftSide === i && selectedLeftSide.from === 'leftSidesToSend')}">
+        <span>{{item.left_side}}
+        </span>
+      </div>
+      <div class='puzzle-right'>
+        <span>{{rightSides[i].right_side}}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <button *ngIf="!verify" class="btn btn-primary" (click)="nextQuestion()">Sprawdź</button>
+</div>
