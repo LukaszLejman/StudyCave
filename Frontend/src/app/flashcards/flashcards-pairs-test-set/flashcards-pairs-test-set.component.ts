@@ -63,7 +63,6 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDes
           if (d.result) {
             this.good += 1;
           }
-          console.log(this.result.length, this.leftSidesToSend.length);
           if (this.result.length === this.leftSidesToSend.length) {
             this.send();
           }
@@ -104,7 +103,6 @@ export class FlashcardsPairsTestSetComponent implements OnInit, OnChanges, OnDes
   }
 
   prepareLists() {
-    console.log(this.package);
     this.selectedLeftSide = { indexOfLeftSide: undefined, left_side: undefined, from: undefined, id: undefined };
     this.leftSides = [];
     this.rightSides = [];

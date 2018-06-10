@@ -76,7 +76,6 @@ export class TestDetailsComponent implements OnInit, OnDestroy {
     this.getTestWithoutAnswersSubscription = this.testService.getTestWithoutAnswers(this.id).subscribe(
       d => {
         this.test = d;
-        console.log(d);
         this.questionsCount = d.body.length;
         d.body.forEach(element => {
           this.maxPoints += element.points;
