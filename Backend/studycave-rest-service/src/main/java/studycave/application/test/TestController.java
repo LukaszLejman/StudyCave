@@ -72,7 +72,7 @@ public class TestController {
 	}
 
 	@GetMapping("/{id}/solve")
-	public Optional<Test> getTestToSolve(@PathVariable(required = true) Long id) {
+	public TestOwnerDTO getTestToSolve(@PathVariable(required = true) Long id) {
 
 		Optional<Test> test = testRepository.findById(id);
 
@@ -124,7 +124,10 @@ public class TestController {
 				((QuestionPairs) question).setAnswers(answersDTOs);
 			}
 		}
-		return test;
+		User user = userRepository.findById(test.get().getIdOwner()).get();
+		TestOwnerDTO testDTO = modelMapper.map(test.get(), TestOwnerDTO.class);
+		testDTO.setOwner(user.getUsername());
+		return testDTO;
 	}
 
 	@PostMapping("/results")
