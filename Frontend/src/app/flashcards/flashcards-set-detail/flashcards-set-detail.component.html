@@ -3,8 +3,8 @@
         <div class="button-container">
             <button class="btn btn-primary" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
             <button class="btn btn-primary" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
-            <button class="btn btn-success" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
-            <button class="btn btn-danger" (click)="deleteSet()">USUŃ FISZKI</button>
+            <button *ngIf="owned" class="btn btn-success" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
+            <button *ngIf="owned" class="btn btn-danger" (click)="deleteSet()">USUŃ FISZKI</button>
             <div *ngIf="user && owned">
                     <button class="btn btn-danger" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
             </div>

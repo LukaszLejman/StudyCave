@@ -33,21 +33,33 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
 
   columnDefs = [
     { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
-        { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
-        { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
-        { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+    { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
+    { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
+    { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
     { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
     {
       headerName: '',
       suppressMenu: true,
       suppressSorting: true,
-      template: `
-      <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-      <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
-      `}
+      cellRenderer: this.customCellRendererFunc
+    }
   ];
 
-  constructor(private materialsService: MaterialsService, private router: Router) {}
+  constructor(private materialsService: MaterialsService, private router: Router) { }
+
+  customCellRendererFunc(params) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      return '';
+    } else if (params.data['owner'] === currentUser.username) {
+      return `
+        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
+        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
+        `;
+    } else {
+      return '';
+    }
+  }
 
   ngOnInit() {
     if (localStorage.getItem('currentUser')) {
@@ -74,9 +86,9 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
 
   IsLogin() {
     if (localStorage.getItem('currentUser')) {
-    this.user = true;
+      this.user = true;
     } else {
-    this.user = false;
+      this.user = false;
     }
   }
   ShowPublic() {
@@ -185,10 +197,8 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          template: `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
-        `}
+          cellRenderer: this.customCellRendererFunc
+        }
       ];
     } else {
       this.columnDefs = [
@@ -201,10 +211,8 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          template: `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
-        `}
+          cellRenderer: this.customCellRendererFunc
+        }
       ];
     }
 
@@ -217,14 +225,14 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.materialsSubscription) {
-   this.materialsSubscription.unsubscribe();
+      this.materialsSubscription.unsubscribe();
     }
     if (this.materialsSubscriptionOwners) {
-   this.materialsSubscriptionOwners.unsubscribe();
+      this.materialsSubscriptionOwners.unsubscribe();
     }
     if (this.matSubscription) {
       this.matSubscription.unsubscribe();
-       }
+    }
   }
 
 }

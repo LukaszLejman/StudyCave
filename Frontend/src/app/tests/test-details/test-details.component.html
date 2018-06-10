@@ -6,8 +6,8 @@
         <button class="btn btn-primary" (click)="back()">Wróć do listy testów</button>
         <span>
           <div *ngIf="currentUser">Twój maksymalny wynik: {{prevMaxResult}}/{{maxPoints}}</div>
-          <button class="btn btn-danger" (click)="remove()">Usuń</button>
-          <button class="btn btn-success" (click)="edit()">Edytuj</button>
+          <button *ngIf="currentUser === test.owner" class="btn btn-danger" (click)="remove()">Usuń</button>
+          <button *ngIf="currentUser === test.owner" class="btn btn-success" (click)="edit()">Edytuj</button>
         </span>
       </div>
       <div>

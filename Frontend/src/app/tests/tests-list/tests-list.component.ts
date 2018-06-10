@@ -21,6 +21,7 @@ export class TestsListComponent implements OnInit, OnDestroy {
   private getTestsSubscription: ISubscription;
   private removeTestSubscription: ISubscription;
   private getUserTestsSubscription: ISubscription;
+  private currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
   columnDefs = [
     { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
@@ -32,16 +33,29 @@ export class TestsListComponent implements OnInit, OnDestroy {
       headerName: '',
       suppressMenu: true,
       suppressSorting: true,
-      template: `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="edit" class="btn btn-success btn-sm">Edytuj</button>
-        `}
+      cellRenderer: this.customCellRendererFunc
+    }
   ];
 
 
   constructor(private router: Router, private testService: TestsService) { }
 
+  customCellRendererFunc(params) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      return '';
+    } else if (params.data['owner'] === currentUser.username) {
+      return `
+        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
+        <button type="button" data-action-type="edit" class="btn btn-success btn-sm">Edytuj</button>
+        `;
+    } else {
+      return '';
+    }
+  }
+
   ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (localStorage.getItem('currentUser')) {
       this.logged = true;
     }
@@ -136,10 +150,8 @@ export class TestsListComponent implements OnInit, OnDestroy {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          template: `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="edit" class="btn btn-success btn-sm">Edytuj</button>
-        `}
+          cellRenderer: this.customCellRendererFunc
+        }
       ];
     } else {
       this.columnDefs = [
@@ -152,10 +164,8 @@ export class TestsListComponent implements OnInit, OnDestroy {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          template: `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="edit" class="btn btn-success btn-sm">Edytuj</button>
-        `}
+          cellRenderer: this.customCellRendererFunc
+        }
       ];
     }
 

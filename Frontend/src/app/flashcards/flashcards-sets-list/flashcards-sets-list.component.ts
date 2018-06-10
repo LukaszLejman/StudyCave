@@ -43,12 +43,24 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
       headerName: '',
       suppressMenu: true,
       suppressSorting: true,
-      template: `
-      <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-      <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
-      `}
+      cellRenderer: this.customCellRendererFunc
+    }
   ];
   constructor(private flashcardsService: FlashcardsService, private router: Router) { }
+
+  customCellRendererFunc(params) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      return '';
+    } else if (params.data['owner'] === currentUser.username) {
+      return `
+        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
+        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
+        `;
+    } else {
+      return '';
+    }
+  }
 
   onSelect(set: Set): void {
     this.selectedSet = set;
@@ -75,13 +87,13 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
     }
   }
   public onActionRemoveClick(e) {
-      this.flashcardSubscription = this.flashcardsService.deleteSet(e.data.id);
-    }
+    this.flashcardSubscription = this.flashcardsService.deleteSet(e.data.id);
+  }
   changePermission(e): void {
     if (e.data.permission === 'Public') {
-     this.permission = 'Private';
+      this.permission = 'Private';
     } else {
-     this.permission = 'Public';
+      this.permission = 'Public';
     }
     this.flashcardsService.changeSetPermission(e.data.id, this.permission);
     alert('Zmieniono pozwolenie na: ' + this.permission);
@@ -95,11 +107,11 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
   IsLogin() {
     const own = JSON.parse(localStorage.getItem('currentUser'));
     if (localStorage.getItem('currentUser')) {
-    this.user = true;
-    this.searchOwner = own.username;
+      this.user = true;
+      this.searchOwner = own.username;
     } else {
-    this.user = false;
-    this.searchOwner = ' ';
+      this.user = false;
+      this.searchOwner = ' ';
     }
   }
   ShowPublic() {
@@ -172,10 +184,8 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          template: `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
-        `}
+          cellRenderer: this.customCellRendererFunc
+        }
       ];
     } else {
       this.columnDefs = [
@@ -188,10 +198,8 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          template: `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
-        `}
+          cellRenderer: this.customCellRendererFunc
+        }
       ];
     }
 
@@ -205,10 +213,10 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.flashcardSubscription) {
-    this.flashcardSubscription.unsubscribe();
+      this.flashcardSubscription.unsubscribe();
     }
     if (this.flashcardSubscriptionOwners) {
-    this.flashcardSubscriptionOwners.unsubscribe();
+      this.flashcardSubscriptionOwners.unsubscribe();
     }
   }
 }
