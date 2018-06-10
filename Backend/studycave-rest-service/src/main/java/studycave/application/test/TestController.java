@@ -1,12 +1,9 @@
 package studycave.application.test;
 
-import java.util.Optional;
-
-import javax.persistence.criteria.Order;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +32,6 @@ import studycave.application.test.solvedto.AnswerChoicesSolveDTO;
 import studycave.application.test.solvedto.AnswerGapsSolveDTO;
 import studycave.application.test.solvedto.AnswerPairsSolveDTO;
 import studycave.application.test.solvedto.AnswerPuzzleSolveDTO;
-import studycave.application.test.verify.AnswerChoicesVerifyDTO;
-import studycave.application.test.verify.AnswerVerifyDTO;
 import studycave.application.test.verify.QuestionVerifier;
 import studycave.application.test.verify.QuestionVerifyDTO;
 import studycave.application.test.verify.ResultResponse;

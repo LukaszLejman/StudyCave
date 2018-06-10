@@ -1,30 +1,15 @@
 package studycave.application.files;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import com.opencsv.CSVReader;
-
-import io.swagger.annotations.Api;
-import studycave.application.files.MaterialRepository;
-import studycave.application.flashcard.Flashcard;
-import studycave.application.flashcard.FlashcardRepository;
-import studycave.application.flashcard.Set;
-import studycave.application.flashcard.SetRepository;
-import studycave.application.flashcard.SimpleSet;
-import studycave.application.flashcard.SimpleSetDTO;
-import studycave.application.test.SimpleTestDTO;
-import studycave.application.user.User;
-import studycave.application.user.UserRepository;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +19,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,10 +32,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable; 
+
+import com.opencsv.CSVReader;
+
+import io.swagger.annotations.Api;
+import studycave.application.flashcard.Flashcard;
+import studycave.application.flashcard.FlashcardRepository;
+import studycave.application.flashcard.Set;
+import studycave.application.flashcard.SetRepository;
+import studycave.application.user.User;
+import studycave.application.user.UserRepository; 
 
 @RestController
 @CrossOrigin

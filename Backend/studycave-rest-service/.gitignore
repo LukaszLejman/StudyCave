@@ -22,4 +22,4 @@
 /nbbuild/
 /dist/
 /nbdist/
-/.nb-gradle/ /save-dir/
+/.nb-gradle/ /save-dir/*

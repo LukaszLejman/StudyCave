@@ -1,7 +1,5 @@
 package studycave.application.test;
 
-import javax.persistence.Column;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AnswerCreateDTO {
