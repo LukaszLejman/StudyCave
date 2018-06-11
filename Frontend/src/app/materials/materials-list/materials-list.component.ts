@@ -54,7 +54,7 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
     } else if (params.data['owner'] === currentUser.username) {
       return `
         <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Uprawnienia</button>
+        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Upraw.</button>
         `;
     } else {
       return '';
@@ -189,9 +189,9 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
     if (params.clientWidth < 800) {
       this.columnDefs = [
         { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
-        { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
-        { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
-        { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+        { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: true },
+        { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: true },
+        { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: true },
         { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: true },
         {
           headerName: '',
