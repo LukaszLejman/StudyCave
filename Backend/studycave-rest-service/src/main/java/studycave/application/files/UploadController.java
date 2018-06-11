@@ -13,7 +13,9 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +31,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.Resource;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.opencsv.CSVReader;
 
 import io.swagger.annotations.Api;
@@ -41,7 +50,7 @@ import studycave.application.flashcard.FlashcardRepository;
 import studycave.application.flashcard.Set;
 import studycave.application.flashcard.SetRepository;
 import studycave.application.user.User;
-import studycave.application.user.UserRepository; 
+import studycave.application.user.UserRepository;
 
 @RestController
 @CrossOrigin
@@ -61,7 +70,12 @@ public class UploadController {
 	MaterialRepository materialRepository;
 	@Autowired
 	UserRepository userRepository;
-	
+	@Autowired
+	S3ServicesImpl amazonFolder;
+	@Autowired
+	private AmazonS3 s3client;
+
+	private String bucketName = "studycave-folder";
 	
 	List<String> files = new ArrayList<String>();
  
@@ -114,13 +128,17 @@ public class UploadController {
 		}	
 	}
 	
-	@PostMapping("/save")
+	@PostMapping("/save")//----------------------------------------------- file save
 	public ResponseEntity<String> handleFileSave(@RequestParam String owner,@RequestParam String permission,@RequestParam String title,@RequestParam int grade, @RequestParam("file") MultipartFile file){
 		String msg ="";
 		try {
 		DateFormat currentDate = new SimpleDateFormat("MM.dd.yyyy.HH.mm.ss");
-		Date today = Calendar.getInstance().getTime();  
+		Date today = Calendar.getInstance().getTime();
 		storageService.save(file);
+		File convFile = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") +file.getOriginalFilename());
+		file.transferTo(convFile);
+		s3client.putObject(new PutObjectRequest(bucketName,currentDate.format(today) + file.getOriginalFilename() , convFile).withCannedAcl(CannedAccessControlList.PublicRead));
+		
 		String filepath = "save-dir\\" + file.getOriginalFilename();
 		
 		files.add(file.getOriginalFilename());
@@ -146,6 +164,7 @@ public class UploadController {
 		String simplepath = currentDate.format(today) + file.getOriginalFilename();
 		material.setPath(simplepath);
 		materialRepository.save(material);
+		//amazonFolder.uploadFile(material.getPath(),"save-dir\\" + material.getPath());
 		msg = "You successfully uploaded " + file.getOriginalFilename() + "!";
 		return ResponseEntity.status(HttpStatus.OK).body(msg);
 		}catch(Exception e) {
@@ -215,8 +234,9 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<Resource> getFile(@PathVariable(required = true) Long id) {
 		Material material = materialRepository.findById(id).orElse(null);
+		ResourceLoader rl = new DefaultResourceLoader();
+		Resource file = rl.getResource("url:https://s3-eu-west-1.amazonaws.com/studycave-folder/" + material.getPath());
 		
-		Resource file = storageService.loadFile(material.getPath());
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
  /*

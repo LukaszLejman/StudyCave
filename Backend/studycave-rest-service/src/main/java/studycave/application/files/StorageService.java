@@ -33,7 +33,7 @@ public class StorageService {
 		try {
 			Files.copy(file.getInputStream(), this.saveLocation.resolve(file.getOriginalFilename()));
 		} catch (Exception e) {
-			throw new RuntimeException("FAIL!");
+			throw new RuntimeException("FAIL WHILE SAVING!");
 		}
 	}
 	
