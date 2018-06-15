@@ -113,7 +113,10 @@ export class MaterialsService {
     }
 
     downloadFile(id) {
-      return this.httpClient.get('/file/files/' + id);
+      return this.httpClient.get('/file/files/' + id, {
+        responseType: 'blob',
+        headers: this.headers
+      });
     }
 
     sendResponse(data) {

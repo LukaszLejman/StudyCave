@@ -74,7 +74,7 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
 
     download() {
       this.materialsService.downloadFile(this.id);
-      this.router.navigate(['materials/list']);
+      // this.router.navigate(['materials/list']);
       // console.log('download');
     }
 
