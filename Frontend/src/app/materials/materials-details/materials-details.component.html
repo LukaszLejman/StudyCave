@@ -9,7 +9,6 @@
           </div>
           <br />
           <a [href]="serverURL+id"><button class="btn btn-success" >POBIERZ</button></a>
-          <button class="btn btn-success" (click)="download()" >1POBIERZ</button>
           <div *ngIf="user && owned">
                  <button class="btn btn-danger" (click)="deleteMat()">USUŃ</button>
                   <button class="btn btn-danger" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
