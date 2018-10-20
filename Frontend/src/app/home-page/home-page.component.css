@@ -47,12 +47,14 @@ img{
     float: left;
     border: 5px solid white;
     margin-right: 15px;
+    margin-bottom: 15px;
 }
 
 .left{
     display: inline-block;
     width: 50%;
     padding-right: 20px;
+    margin-bottom: 20px;
 }
 
 .right{
@@ -93,5 +95,11 @@ h2{
     .top-section{
         width: 100%;
         padding: 70px 0;
+    }
+}
+
+@media screen and (max-width: 440px) {
+    .title {
+        font-size: 36px;
     }
 }
