@@ -226,7 +226,7 @@ export class Test2PDF {
                 }
               }
             }
-            const answerText = pdf.splitTextToSize(text, 430);
+            const answerText = pdf.splitTextToSize(text, 375);
             for (let j = 0; j < answerText.length; j++) {
               pdf.text(20, height, answerText[j]);
               textSize = textSize + 12;
