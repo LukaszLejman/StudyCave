@@ -1,18 +1,19 @@
 <div class="wrapper">
   <div class="content">
     <div class="buttons-container">
-      <div>
+      <div *ngIf="logged">
         <button class="btn btn-success" (click)="toTestMaker()">Dodaj test</button>
       </div>
-      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <div *ngIf="logged" class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-primary active" (click)="getPublicTestsData()">
           <input type="radio" name="options" id="option1" autocomplete="off" checked> Publiczne
         </label>
-        <label *ngIf="logged" class="btn btn-primary" (click)="showPrivateTests()">
+        <label class="btn btn-primary" (click)="showPrivateTests()">
           <input type="radio" name="options" id="option2" autocomplete="off"> Prywatne
         </label>
       </div>
     </div>
+    <h1>TESTY</h1>
     <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-blue" [rowData]="tests" [columnDefs]="columnDefs" [enableSorting]="true"
       [enableFilter]="true" (gridReady)="onGridReady($event)" (gridSizeChanged)="onGridSizeChanged($event)" [gridOptions]="gridOptions"
       [pagination]="true" [paginationAutoPageSize]="true" (rowClicked)="onRowClicked($event)" [localeText]="localeText" 
