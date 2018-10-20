@@ -18,7 +18,7 @@ export class GapsQuestionComponent implements OnInit {
 
   private answersCorrect: Array<Object> = [];
   private answers: Array<Object> = [];
-  private question: String = 'Uzupełnij luki w tekście.';
+  private question: String = 'Uzupełnij luki w tekście:';
   private points: Number = 1;
   private id: Number = null;
 

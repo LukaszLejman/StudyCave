@@ -16,7 +16,7 @@ export class PuzzleQuestionComponent implements OnInit {
   private newAttribute: Object = {
     correct: ''
   };
-  private question: String = 'Ułóż elementy w prawidłowej kolejności.';
+  private question: String = 'Ułóż elementy w prawidłowej kolejności:';
   private points: Number = 1;
   private id: Number = null;
   private idAnsw: Number = null;

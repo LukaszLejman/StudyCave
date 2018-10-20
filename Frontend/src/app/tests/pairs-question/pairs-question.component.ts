@@ -17,7 +17,7 @@ export class PairsQuestionComponent implements OnInit {
     first: '',
     second: ''
   };
-  private question: String = 'Połącz w pary.';
+  private question: String = 'Połącz w pary:';
   private points: Number = 1;
   private id: Number = null;
 

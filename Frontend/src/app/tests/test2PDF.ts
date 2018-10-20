@@ -160,7 +160,7 @@ export class Test2PDF {
             let puzzle = '';
             for (let k = 0; k < answers.length; k++) {
               if (k < answers.length - 1) {
-                puzzle = puzzle + answers[k] + ', ';
+                puzzle = puzzle + answers[k] + ' | ';
               } else {
                 puzzle = puzzle + answers[k];
               }
@@ -221,7 +221,7 @@ export class Test2PDF {
                   if (m === gapLength - 1) {
                     text = text + ' ';
                   } else {
-                    text = text + '__';
+                    text = text + '____';
                   }
                 }
               }
