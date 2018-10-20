@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-import { ButtonModule } from 'primeng/button';
 
 import { MaterialsModule } from './materials/materials.module';
 import { FlashcardsModule } from './flashcards/flashcards.module';
@@ -41,8 +40,7 @@ import { WorkInProgressComponent } from './work-in-progress/work-in-progress.com
     HttpModule,
     HttpClientModule,
     UserModule,
-    MaterialsModule,
-    ButtonModule
+    MaterialsModule
   ],
   providers: [AuthGuard, httpInterceptorProviders, AuthenticationService, {
     provide: LocationStrategy, useClass: HashLocationStrategy
