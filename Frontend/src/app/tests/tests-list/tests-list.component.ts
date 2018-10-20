@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TestsService } from '../tests.service';
 import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
 import localeText from './localeText';
 import { ISubscription } from 'rxjs/Subscription';
+import { Test2PDF } from '../test2PDF';
+import { Test } from '../test_model';
 
 @Component({
   selector: 'app-tests-list',
@@ -43,11 +45,12 @@ export class TestsListComponent implements OnInit, OnDestroy {
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) {
-      return '';
+      return '<button type="button" data-action-type="get" class="btn btn-primary btn-sm">Pobierz PDF</button>';
     } else if (params.data['owner'] === currentUser.username) {
       return `
         <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
         <button type="button" data-action-type="edit" class="btn btn-success btn-sm">Edytuj</button>
+        <button type="button" data-action-type="get" class="btn btn-primary btn-sm">Pobierz PDF</button>
         `;
     } else {
       return '';
@@ -82,11 +85,24 @@ export class TestsListComponent implements OnInit, OnDestroy {
           return this.onActionEditClick(e);
         case 'remove':
           return this.onActionRemoveClick(e);
+        case 'get':
+          return this.onActionGetClick(e);
         default:
           return this.goToTest(e);
       }
     }
 
+  }
+
+  public onActionGetClick(e) {
+    this.testService.getTest(e.data.id).subscribe(
+      success => {
+        this.getPDF(success);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   public onActionEditClick(e) {
@@ -103,6 +119,11 @@ export class TestsListComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  getPDF(test: Test) {
+    const pdf = new Test2PDF();
+    pdf.getPDF(test);
   }
 
   getPublicTestsData() {

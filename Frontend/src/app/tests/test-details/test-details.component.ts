@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestsService } from '../tests.service';
 import { ISubscription } from 'rxjs/Subscription';
+import { Test } from '../test_model';
+import { Test2PDF } from '../test2PDF';
 
 @Component({
   selector: 'app-test-details',
@@ -83,6 +85,22 @@ export class TestDetailsComponent implements OnInit, OnDestroy {
         this.getMaxResult();
       }
     );
+  }
+
+  get() {
+    this.testService.getTest(this.id).subscribe(
+      success => {
+        this.getPDF(success);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  getPDF(test: Test) {
+    const pdf = new Test2PDF();
+    pdf.getPDF(test);
   }
 
   ngOnDestroy() {

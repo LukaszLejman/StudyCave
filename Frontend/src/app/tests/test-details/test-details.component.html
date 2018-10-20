@@ -8,6 +8,7 @@
           <div *ngIf="currentUser">Twój maksymalny wynik: {{prevMaxResult}}/{{maxPoints}}</div>
           <button *ngIf="currentUser.username === test.owner" class="btn btn-danger" (click)="remove()">Usuń</button>
           <button *ngIf="currentUser.username === test.owner" class="btn btn-success" (click)="edit()">Edytuj</button>
+          <button class="btn btn-primary" (click)="get()">Pobierz PDF</button>
         </span>
       </div>
       <div>
