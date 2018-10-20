@@ -1,7 +1,7 @@
 #container-small {
     border: 5px solid white;
-    background-color: #00293A;
-    padding: 20px; 
+    background-color: #121618;
+    padding: 30px; 
     width: 32%;
     height: 400px; 
     box-sizing: border-box;
@@ -18,8 +18,8 @@
 
 #container-large {
     border: 5px solid white;
-    background-color: #00293A;
-    padding: 20px; 
+    background-color: #121618;
+    padding: 30px; 
     width: 62%;
     min-height: 400px;
     text-align: center;

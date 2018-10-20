@@ -18,21 +18,23 @@
         </div>
         <div>
           <label class="btn -btn default">
-            Podaj nazwę pliku:
+            <p>Podaj nazwę pliku:</p>
              <input type="text" name="title" class="form-control" ngModel required [(ngModel)]="title"> {{title}}
            </label>
         </div>
-          <label class="btn btn-default">
-            Wybierz plik:
+        <br />
+          <label>
+            <p>Wybierz plik:</p>
             <input type="file" (change)="selectFile($event)" accept=".pdf,.doc,.docx,.txt,.ptt,.pttx">
           </label>
           <div>
             <br />
             <input type="checkbox" name="{{ permission }}" class="form-control" [checked]="permission" (change)="changePermission()"/>
             <b>Udostępnij publicznie</b>
+            <br /><br />
         </div>
           <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj materiały!</button>
-          <br />
+          <br /><br />
           <button class="btn btn-danger" routerLink="/materials/list/">Powrót</button>
       </div>
     </div>

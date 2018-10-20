@@ -37,15 +37,16 @@
           [ngStyle]="{width:progress.percentage+'%'}">
           {{progress.percentage}}%</div>
       </div>
-        <label class="btn btn-default">
-          Wybierz plik:
+        <label>
+          <p>Wybierz plik:</p>
           <input type="file" accept=".csv" (change)="selectFile($event)">
         </label>
         <div>
-        <input type="checkbox" name="{{ permission }}" class="form-control" [checked]="permission" (change)="changePermission()"/><b>Udostępnij publicznie</b>
-        </div>
-        <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
         <br />
+        <input type="checkbox" name="{{ permission }}" class="form-control" [checked]="permission" (change)="changePermission()"/><b>Udostępnij publicznie</b>
+        </div><br />
+        <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
+        <br /><br />
         <button class="btn btn-danger" routerLink="/flashcards/sets/">Powrót</button>
     </div>
   </div>

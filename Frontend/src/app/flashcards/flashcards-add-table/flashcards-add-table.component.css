@@ -9,8 +9,8 @@ table, th, td, tr {
 
 .container {
     border: 5px solid white;
-    background-color: #00293A;
-    padding: 20px; 
+    background-color: #121618;
+    padding: 30px; 
     margin-top: 2rem;
     margin-bottom: 2rem;
     text-align: center;
@@ -26,15 +26,15 @@ table, th, td, tr {
 
 .wrapper{
     width: 100%;
-    padding: 20px;
+    padding: 30px;
     min-height: 100%;
     margin-bottom: 40px;
 }
 
 .content{
     border: 5px solid white;
-    background-color: #00293A;
-    padding: 20px; 
+    background-color: #121618;
+    padding: 30px; 
     margin-top: 2rem;
     margin-bottom: 2rem;
     text-align: center;

@@ -2,6 +2,9 @@
 <div class="wrapper">
     <div class="content">
       <app-materials-menu></app-materials-menu>
+      <br />
+      <h1>MATERIAŁY</h1>
+      <br />
       <div class="buttons-container">
         <div *ngIf="logged">
           <button class="btn btn-success" (click)="toMaterialsMaker()">Dodaj materiały</button>
@@ -16,7 +19,6 @@
         </div>
       </div>
       <br />
-      <h1>MATERIAŁY</h1>
       <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-blue" [rowData]="mats" [columnDefs]="columnDefs" [enableSorting]="true"
       [enableFilter]="true" (gridReady)="onGridReady($event)" (gridSizeChanged)="onGridSizeChanged($event)" [gridOptions]="gridOptions"
       [pagination]="true" [paginationAutoPageSize]="true" (rowClicked)="onRowClicked($event)" [localeText]="localeText" 

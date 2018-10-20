@@ -5,11 +5,10 @@
         <br />
         <div class="row">
           <label class="col-md-10">
-            <p>Wprowadź nazwę dla testu:</p>
-            <input type="text" name="title" class="form-control" [(ngModel)]="title" required />
-          </label>
-          <label class="col-md-2">
             <br />
+            <input type="text" name="title" placeholder="Wprowadź nazwę dla testu" class="form-control" [(ngModel)]="title" required />
+          </label>
+          <label class="col-md-2 mt-3">
             <input type="checkbox" name="{{ permission }}" class="form-control" [checked]="permission" (change)="changePermission()"/>
             <b>Udostępnij publicznie</b>
           </label>

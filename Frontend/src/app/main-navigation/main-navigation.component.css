@@ -2,18 +2,17 @@
     position: fixed;
     top: 0px;
     box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: #000;
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    height: 120px;
-    border-bottom: 5px solid white;
+    height: 100px;
+    /*border-bottom: 5px solid white;*/
     display: flex;
     flex-direction: row;
     flex-shrink: 0;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
 }
 
 .logo-and-name{
@@ -31,23 +30,23 @@
 
 .study-cave{
     display: inline-block;
-    font-size: 72px;
+    font-size: 3rem;
+    margin-left: 0.5rem;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.study{
+.study {
     color: white;
 }
 
-.cave{
+.cave {
     color: #00b0f9;
 }
 
-a{
+a {
     color: white;
-    font-size: 30px;
-    font-weight: bold;
+    font-size: 1.25rem;
     font-family: Arial, Helvetica, sans-serif;
     padding: 0px 10px;
     cursor: pointer;
@@ -71,6 +70,11 @@ a:hover{
     flex-direction: column;
 }
 
+.logo {
+    height: 4rem;
+    width: 4rem;
+}
+
 @media screen and (max-width: 1200px) {
     .study-cave{
         font-size: 32px;
@@ -90,6 +94,6 @@ a:hover{
         font-size: 32px;
     }
     a{
-        font-size: 12px;
+        font-size: 14px;
     }
 }

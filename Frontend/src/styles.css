@@ -50,3 +50,7 @@ body{
 .btn, div, button, input, label {
     border-radius: 0 !important;
 }
+
+.ag-theme-blue {
+    margin: 0 !important;
+}

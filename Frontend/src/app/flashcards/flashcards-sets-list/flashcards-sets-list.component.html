@@ -1,6 +1,9 @@
 <div class="wrapper">
   <div class="content">
     <app-flashcards></app-flashcards>
+    <br />
+    <h1>FISZKI</h1>
+    <br />
     <div class="buttons-container">
         <div *ngIf="logged">
           <button class="btn btn-success" (click)="toFlashcardsMaker()">Dodaj fiszki</button>
@@ -15,7 +18,6 @@
         </div>
       </div>
       <br />
-    <h1>FISZKI</h1>
     <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-blue" [rowData]="sets" [columnDefs]="columnDefs" [enableSorting]="true"
     [enableFilter]="true" (gridReady)="onGridReady($event)" (gridSizeChanged)="onGridSizeChanged($event)" [gridOptions]="gridOptions"
     [pagination]="true" [paginationAutoPageSize]="true" (rowClicked)="onRowClicked($event)" [localeText]="localeText" 
