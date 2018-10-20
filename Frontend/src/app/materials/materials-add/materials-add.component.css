@@ -1,7 +1,6 @@
 .description {
     background-color: gray;
     padding: 1rem;
-    border-radius: 25px;
     margin-top: 1rem;
     margin-bottom: 2rem;
     text-align: left;
@@ -9,7 +8,6 @@
 }
 
 .container {
-    border-radius: 25px;
     border: 5px solid white;
     background-color: #00293A;
     padding: 20px; 
@@ -40,7 +38,6 @@
 }
 
 .content{
-    border-radius: 25px;
     border: 5px solid white;
     background-color: #00293A;
     padding: 20px; 

@@ -1,9 +1,11 @@
-import * as $ from 'jquery';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+
+import { ButtonModule } from 'primeng/button';
 
 import { FlashcardsModule } from './flashcards/flashcards.module';
 import { LoginComponent } from './login/login.component';
@@ -14,16 +16,10 @@ import { TestsModule } from './tests/tests.module';
 import { MainNavigationComponent } from './main-navigation/main-navigation.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { UserModule } from './user/user.module';
 import { AuthenticationService } from './authentication.service';
-import { MaterialsModule } from './materials/materials.module';
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-
-
-
 
 
 @NgModule({
@@ -44,7 +40,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     HttpModule,
     HttpClientModule,
     UserModule,
-    MaterialsModule
+    ButtonModule
   ],
   providers: [AuthGuard, httpInterceptorProviders, AuthenticationService, {
     provide: LocationStrategy, useClass: HashLocationStrategy

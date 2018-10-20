@@ -22,7 +22,6 @@ input.ng-untouched {
 }
 
 .content{
-    border-radius: 25px;
     border: 5px solid white;
     background-color: #00293A;
     padding: 20px; 
