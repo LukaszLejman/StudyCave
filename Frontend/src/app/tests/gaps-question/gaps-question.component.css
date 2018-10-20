@@ -4,7 +4,7 @@
 
 .container {
     border: 5px solid white;
-    background-color: #121618;
+    background-color: #22272a;
     padding: 30px; 
     margin-top: 2rem;
     margin-bottom: 1rem;
@@ -13,6 +13,7 @@
 
 .wrapper-add {
     width: 100%;
+    padding: 30px;
     display: flex;
     justify-content: center;
     align-content: center;

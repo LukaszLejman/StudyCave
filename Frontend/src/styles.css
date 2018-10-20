@@ -54,3 +54,8 @@ body{
 .ag-theme-blue {
     margin: 0 !important;
 }
+
+.container {
+    max-width: 100% !important;
+    margin: 2rem auto !important;
+}
