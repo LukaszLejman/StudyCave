@@ -32,7 +32,7 @@
             <div class="col-md-2">
               <b>Akcja</b>
               <br />
-              <button class="btn btn-danger" type="button" (click)="removefromAnswers(i)">Usuń</button>
+              <button class="btn btn-red" type="button" (click)="removefromAnswers(i)">Usuń</button>
             </div>
             <div class="mobile col-md-2">
               <b>Przesuń</b>
@@ -51,7 +51,7 @@
             <div class="col-md-2">
               <b>Akcja</b>
               <br />
-              <button class="btn btn-success" type="button" (click)="addToVisibleText()">Zapisz</button>
+              <button class="btn btn-purple" type="button" (click)="addToVisibleText()">Zapisz</button>
             </div>
           </div>
           <div *ngIf="gap" class="row">
@@ -68,7 +68,7 @@
           </div>
           <br />
           <button class="btn btn-danger mb-2" (click)="showVisibleTextInput()">Dodaj tekst widoczny</button>
-          <button class="btn btn-success mb-2" (click)="showGapInput()">Dodaj tekst luki</button>
+          <button class="btn btn-purple mb-2" (click)="showGapInput()">Dodaj tekst luki</button>
           <button class="btn btn-primary mb-2" (click)="addNewLine()">Wstaw nową linię</button>
           <div *ngIf="answersCorrect.length != 0">
             <br />
@@ -82,9 +82,9 @@
         </div>
         <br />
         <br />
-        <button *ngIf='!edit' class="btn btn-primary" type="submit" (click)="addTable()">Dodaj pytanie!</button>
-        <button *ngIf='edit' class="btn btn-primary" type="submit" (click)="addTable()">Edytuj pytanie!</button>
-        <button class="btn btn-success ml-2" (click)="empty()">Powrót</button>
+        <button *ngIf='!edit' class="btn btn-blue" type="submit" (click)="addTable()">Dodaj pytanie!</button>
+        <button *ngIf='edit' class="btn btn-blue" type="submit" (click)="addTable()">Edytuj pytanie!</button>
+        <button class="btn btn-grey ml-2" (click)="empty()">Powrót</button>
       </div>
     </div>
   </div>

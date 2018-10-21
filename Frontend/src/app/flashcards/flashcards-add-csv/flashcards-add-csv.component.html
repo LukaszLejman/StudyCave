@@ -1,8 +1,8 @@
 <div class="wrapper">
     <div class="content">
         <div class="buttons-container">
-            <button class="btn btn-danger" routerLink="/flashcards/sets">WRÓĆ DO LISTY</button>
-            <button class="btn btn-primary" routerLink="/flashcards/add/table">DODAJ ZA POMOCĄ TABELI</button>
+            <button class="btn btn-grey" routerLink="/flashcards/sets">WRÓĆ DO LISTY</button>
+            <button class="btn btn-green" routerLink="/flashcards/add/table">DODAJ ZA POMOCĄ TABELI</button>
         </div>
 </div>
   <div class="wrapper-add">
@@ -45,9 +45,9 @@
         <br />
         <input type="checkbox" name="{{ permission }}" class="form-control" [checked]="permission" (change)="changePermission()"/><b>Udostępnij publicznie</b>
         </div><br />
-        <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
+        <button class="btn btn-green" [disabled]="!selectedFiles" (click)="upload()">Dodaj fiszki!</button>
         <br /><br />
-        <button class="btn btn-danger" routerLink="/flashcards/sets/">Powrót</button>
+        <button class="btn btn-grey" routerLink="/flashcards/sets/">Powrót</button>
     </div>
   </div>
 </div>

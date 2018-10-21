@@ -6,13 +6,13 @@
     <br />
     <div class="buttons-container">
         <div *ngIf="logged">
-          <button class="btn btn-success" (click)="toFlashcardsMaker()">Dodaj fiszki</button>
+          <button class="btn btn-green" (click)="toFlashcardsMaker()">Dodaj fiszki</button>
         </div>
         <div *ngIf="logged" class="btn-group btn-group-toggle" data-toggle="buttons">
-          <label class="btn btn-primary active" (click)="ShowPublic()">
+          <label class="btn btn-blue active" (click)="ShowPublic()">
             <input type="radio" name="options" id="option1" autocomplete="off" checked> Publiczne
           </label>
-          <label class="btn btn-primary" (click)="ShowPrivate()">
+          <label class="btn btn-blue" (click)="ShowPrivate()">
             <input type="radio" name="options" id="option2" autocomplete="off"> Prywatne
           </label>
         </div>

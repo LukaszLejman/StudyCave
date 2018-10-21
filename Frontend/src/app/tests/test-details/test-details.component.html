@@ -3,12 +3,12 @@
 
     <div *ngIf="test !== undefined">
       <div class="header">
-        <button class="btn btn-primary" (click)="back()">Wróć do listy testów</button>
+        <button class="btn btn-grey" (click)="back()">Wróć do listy testów</button>
         <span>
           <div *ngIf="currentUser">Twój maksymalny wynik: {{prevMaxResult}}/{{maxPoints}}</div>
-          <button *ngIf="currentUser.username === test.owner" class="btn btn-danger" (click)="remove()">Usuń</button>
-          <button *ngIf="currentUser.username === test.owner" class="btn btn-success" (click)="edit()">Edytuj</button>
-          <button class="btn btn-primary" (click)="get()">Pobierz PDF</button>
+          <button *ngIf="currentUser.username === test.owner && (!isStarted || isEnded)" class="btn btn-red" (click)="remove()">Usuń</button>
+          <button *ngIf="currentUser.username === test.owner" class="btn btn-green" (click)="edit()">Edytuj</button>
+          <button class="btn btn-purple" (click)="get()">Pobierz PDF</button>
         </span>
       </div>
       <div>
@@ -23,7 +23,7 @@
       </div>
 
       <div *ngIf="!isStarted">
-        <button class="btn btn-success" (click)="start()">Rozpocznij test</button>
+        <button class="btn btn-brown" (click)="start()">Rozpocznij test</button>
       </div>
       <div *ngIf="isStarted && !isEnded">
 

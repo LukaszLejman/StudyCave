@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="content">
         <div class="buttons-container">
-            <button class="btn btn-danger" routerLink="/materials/list">WRÓĆ DO LISTY</button>
+            <button class="btn btn-grey" routerLink="/materials/list">WRÓĆ DO LISTY</button>
         </div>
 </div>
     <div class="wrapper-add">
@@ -33,9 +33,9 @@
             <b>Udostępnij publicznie</b>
             <br /><br />
         </div>
-          <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Dodaj materiały!</button>
+          <button class="btn btn-green" [disabled]="!selectedFiles" (click)="upload()">Dodaj materiały!</button>
           <br /><br />
-          <button class="btn btn-danger" routerLink="/materials/list/">Powrót</button>
+          <button class="btn btn-grey" routerLink="/materials/list/">Powrót</button>
       </div>
     </div>
   </div>

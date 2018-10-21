@@ -1,17 +1,17 @@
 <div class="wrapper">
   <div class="content">
       <div>
-          <button class="btn btn-primary" routerLink="/materials/list/">WRÓĆ DO LISTY</button>
+          <button class="btn btn-grey" routerLink="/materials/list/">WRÓĆ DO LISTY</button>
           <div>
           MATERIAŁY: {{title}} <br />
           WŁAŚCICIEL: {{own}} <br />
           UPRAWNIENIA: {{perm}} <br />
           </div>
           <br />
-          <a [href]="serverURL+id"><button class="btn btn-success" >POBIERZ</button></a>
+          <a [href]="serverURL+id"><button class="btn btn-purple" >POBIERZ</button></a>
           <div *ngIf="user && owned">
-                 <button class="btn btn-danger" (click)="deleteMat()">USUŃ</button>
-                  <button class="btn btn-danger" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
+                 <button class="btn btn-red" (click)="deleteMat()">USUŃ</button>
+                  <button class="btn btn-blue" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
           </div>
       </div>
   </div>

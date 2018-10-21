@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="content">
         <div class="buttons-container">
-                <button class="btn btn-danger" (click)="returnToSet()">WRÓĆ DO ZESTAWU</button>
+                <button class="btn btn-grey" (click)="returnToSet()">WRÓĆ DO ZESTAWU</button>
         </div>
 </div>
   <div class="wrapper-add">
@@ -45,7 +45,7 @@
                   <input [(ngModel)]="field.right_side" class="form-control" type="text" name="{{field.right_side}}" />
                 </td>
                 <td>
-                  <button class="btn btn-danger"  type="button" (click)="deleteFieldValue(i)">Usuń fiszkę</button>
+                  <button class="btn btn-red"  type="button" (click)="deleteFieldValue(i)">Usuń fiszkę</button>
                 </td>
               </tr>
               <tr>
@@ -56,7 +56,7 @@
                     <input class="form-control" type="text" id="newAttributeRight" [(ngModel)]="newAttribute.right_side" name="newAttributeRight" />
                 </td>
                 <td>
-                  <button class="btn btn-success" type="button" (click)="addFieldValue()">Dodaj fiszkę</button>
+                  <button class="btn btn-purple" type="button" (click)="addFieldValue()">Dodaj fiszkę</button>
                 </td>
               </tr>
             </tbody>
@@ -64,8 +64,8 @@
         </label>
         <br />
         <div>
-          <button class="btn btn-primary" type="submit">Edytuj fiszki!</button>
-          <button class="btn btn-danger" [routerLink]="['/flashcards/sets', ident]">Powrót</button>
+          <button class="btn btn-green" type="submit">Edytuj fiszki!</button>
+          <button class="btn btn-grey" [routerLink]="['/flashcards/sets', ident]">Powrót</button>
         </div>
       </form>
     </div>

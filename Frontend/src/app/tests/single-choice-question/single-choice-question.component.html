@@ -27,7 +27,7 @@
             <div class="col-md-3">
               <b>Akcja</b>
               <br />
-              <button class="btn btn-danger" type="button" (click)="deleteFieldValue(i)">Usuń</button>
+              <button class="btn btn-red" type="button" (click)="deleteFieldValue(i)">Usuń</button>
             </div>
           </div>
           <br />
@@ -43,15 +43,15 @@
             <div class="col-md-3">
               <b>Akcja</b>
               <br />
-              <button class="btn btn-success" type="button" (click)="addFieldValue()">Dodaj</button>
+              <button class="btn btn-purple" type="button" (click)="addFieldValue()">Dodaj</button>
             </div>
           </div>
         </div>
         <br />
         <br />
-        <button *ngIf='!edit' class="btn btn-primary" type="submit" (click)="addTable()">Dodaj pytanie!</button>
-        <button *ngIf='edit' class="btn btn-primary" type="submit" (click)="addTable()">Edytuj pytanie!</button>
-        <button class="btn btn-success ml-2" (click)="empty()">Powrót</button>
+        <button *ngIf='!edit' class="btn btn-blue" type="submit" (click)="addTable()">Dodaj pytanie!</button>
+        <button *ngIf='edit' class="btn btn-blue" type="submit" (click)="addTable()">Edytuj pytanie!</button>
+        <button class="btn btn-grey ml-2" (click)="empty()">Powrót</button>
       </div>
     </div>
   </div>

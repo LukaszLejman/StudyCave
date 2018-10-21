@@ -4,13 +4,13 @@
     <br />
     <div class="buttons-container">
       <div *ngIf="logged">
-        <button class="btn btn-success" (click)="toTestMaker()">Dodaj test</button>
+        <button class="btn btn-green" (click)="toTestMaker()">Dodaj test</button>
       </div>
       <div *ngIf="logged" class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-primary active" (click)="getPublicTestsData()">
+        <label class="btn btn-blue active" (click)="getPublicTestsData()">
           <input type="radio" name="options" id="option1" autocomplete="off" checked> Publiczne
         </label>
-        <label class="btn btn-primary" (click)="showPrivateTests()">
+        <label class="btn btn-blue" (click)="showPrivateTests()">
           <input type="radio" name="options" id="option2" autocomplete="off"> Prywatne
         </label>
       </div>

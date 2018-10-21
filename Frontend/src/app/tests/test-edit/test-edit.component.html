@@ -74,7 +74,7 @@
                   class="mobile">{{ question.content.points }}</td>
               <td (click)='showComponents(question.content.type, question.nr)'
                   class="mobile">{{ question.shortcut }}</td>
-              <td><button class="btn btn-danger" (click)="delete(question.nr)">Usuń</button></td>
+              <td><button class="btn btn-red" (click)="delete(question.nr)">Usuń</button></td>
               <td class="mobile">
                 <button *ngIf="question.nr != 1" class="btn btn-success" (click)="moveUp(question.nr)">Góra</button>
                 <button *ngIf="question.nr != test.length" class="btn btn-warning" (click)="moveDown(question.nr)">Dół</button>
@@ -103,10 +103,10 @@
         <br />
       </div>
       <div *ngIf="(test.length != 0) && (!componentVisible)" >
-        <button class="btn btn-primary" (click)="save()">Edytuj test!</button>
-        <button class="btn btn-danger ml-2" routerLink="/tests/">Powrót</button>
+        <button class="btn btn-green" (click)="save()">Edytuj test!</button>
+        <button class="btn btn-grey ml-2" routerLink="/tests/">Powrót</button>
       </div>
-      <button *ngIf="!((test.length != 0) && (!componentVisible))" class="btn btn-danger" routerLink="/tests/">Powrót</button>
+      <button *ngIf="!((test.length != 0) && (!componentVisible))" class="btn btn-grey" routerLink="/tests/">Powrót</button>
     </div>
   </div>
 </div>
