@@ -1,5 +1,5 @@
 <form #f="ngForm" (ngSubmit)="nextQuestion(f)" novalidate>
-  <div class="alert alert-primary question">
+  <div class="alert alert-grey question">
     {{question.question}} ({{question.points}}pkt.)
     <div class="answers">
       <div *ngFor="let item of question.answers">

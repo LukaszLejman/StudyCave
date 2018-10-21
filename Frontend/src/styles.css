@@ -123,3 +123,15 @@ body{
 .btn-blue:not([disabled]):not(.disabled).active {
     box-shadow: 0 0 0 .2rem rgba(0,123,255,.5);
 }
+
+.btn-green:not([disabled]):not(.disabled).active {
+    box-shadow: 0 0 0 .2rem rgba(6, 87, 10, 0.5);
+}
+
+.btn-red:not([disabled]):not(.disabled).active {
+    box-shadow: 0 0 0 .2rem rgba(155, 14, 14, 0.5);
+}
+
+.alert-grey {
+    background-color: #22272a;
+}

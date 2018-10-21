@@ -1,11 +1,11 @@
-<div class="alert alert-primary question">
+<div class="alert alert-grey question">
   {{question.question}} ({{question.points}}pkt.)
 
   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    <label class="btn btn-success" (click)="chooseAnswer('Prawda')">
+    <label class="btn btn-green mr-2" (click)="chooseAnswer('Prawda')">
       <input type="radio" name="options" id="option1" autocomplete="off"> Prawda
     </label>
-    <label class="btn btn-danger" (click)="chooseAnswer('Fałsz')">
+    <label class="btn btn-red" (click)="chooseAnswer('Fałsz')">
       <input type="radio" name="options" id="option2" autocomplete="off"> Fałsz
     </label>
   </div>

@@ -97,12 +97,25 @@ export class TestsListComponent implements OnInit, OnDestroy {
   public onActionGetClick(e) {
     this.testService.getTest(e.data.id).subscribe(
       success => {
+        success.body = this.sortArrayByProperty(success.body, 'nr');
         this.getPDF(success);
       },
       error => {
         console.log(error);
       }
     );
+  }
+
+  public sortArrayByProperty(array: Object[], property: string): Object[] {
+    return array.sort(function(a, b) {
+      if (a[property] < b[property]) {
+        return -1;
+      }
+      if (a[property] > b[property]) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   public onActionEditClick(e) {
