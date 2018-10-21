@@ -37,8 +37,8 @@
             <div class="mobile col-md-2">
               <b>Przesuń</b>
               <br />
-              <button *ngIf="i != 0" class="mobile btn btn-success" (click)="moveUp(i + 1)">Góra</button>
-              <button *ngIf="i != answersCorrect.length - 1" class="mobile btn btn-warning" (click)="moveDown(i + 1)">Dół</button>
+              <button *ngIf="i != 0" class="mobile btn btn-green" (click)="moveUp(i + 1)">Góra</button>
+              <button *ngIf="i != answersCorrect.length - 1" class="mobile btn btn-brown" (click)="moveDown(i + 1)">Dół</button>
               <span *ngIf="(i == 0) && (i == answersCorrect.length - 1)" >---</span>
             </div>
           </div>
@@ -67,9 +67,9 @@
             </div>
           </div>
           <br />
-          <button class="btn btn-danger mb-2" (click)="showVisibleTextInput()">Dodaj tekst widoczny</button>
+          <button class="btn btn-brown mb-2" (click)="showVisibleTextInput()">Dodaj tekst widoczny</button>
           <button class="btn btn-purple mb-2" (click)="showGapInput()">Dodaj tekst luki</button>
-          <button class="btn btn-primary mb-2" (click)="addNewLine()">Wstaw nową linię</button>
+          <button class="btn btn-blue mb-2" (click)="addNewLine()">Wstaw nową linię</button>
           <div *ngIf="answersCorrect.length != 0">
             <br />
             <h5>Podgląd: </h5>

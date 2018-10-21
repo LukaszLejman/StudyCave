@@ -16,13 +16,13 @@
         <div *ngIf="!trueFalse && !singleChoice && !multipleChoice && !puzzle && !gaps && !pairs">
           <br />
           <h4>Wybierz rodzaj pytania:</h4>
-          <button class="btn btn-primary" (click)='show("true-false")'>Prawda/fałsz</button>
-          <button class="btn btn-success" (click)='show("single-choice")'>Jednokrotny wybór</button>
-          <button class="btn btn-danger" (click)='show("multiple-choice")'>Wielokrotny wybór</button>
+          <button class="btn btn-green" (click)='show("true-false")'>Prawda/fałsz</button>
+          <button class="btn btn-grey" (click)='show("single-choice")'>Jednokrotny wybór</button>
+          <button class="btn btn-red" (click)='show("multiple-choice")'>Wielokrotny wybór</button>
           <br />
-          <button class="btn btn-danger" (click)='show("puzzle")'>Rozsypanka wyrazowa</button>
-          <button class="btn btn-primary" (click)='show("gaps")'>Uzupełnianie luk</button>
-          <button class="btn btn-success" (click)='show("pairs")'>Łączenie w pary</button>
+          <button class="btn btn-brown" (click)='show("puzzle")'>Rozsypanka wyrazowa</button>
+          <button class="btn btn-blue" (click)='show("gaps")'>Uzupełnianie luk</button>
+          <button class="btn btn-purple" (click)='show("pairs")'>Łączenie w pary</button>
           <br />
           <br />
         </div>
@@ -76,8 +76,8 @@
                     class="mobile">{{ question.shortcut }}</td>
                 <td><button class="btn btn-red" (click)="delete(question.nr)">Usuń</button></td>
                 <td class="mobile">
-                  <button *ngIf="question.nr != 1" class="btn btn-success" (click)="moveUp(question.nr)">Góra</button>
-                  <button *ngIf="question.nr != test.length" class="btn btn-warning" (click)="moveDown(question.nr)">Dół</button>
+                  <button *ngIf="question.nr != 1" class="btn btn-green" (click)="moveUp(question.nr)">Góra</button>
+                  <button *ngIf="question.nr != test.length" class="btn btn-brown" (click)="moveDown(question.nr)">Dół</button>
                   <span (click)='showComponents(question.content.type, question.nr)'
                         *ngIf="(question.nr == 1) && (question.nr == test.length)" >---</span>
                 </td>
