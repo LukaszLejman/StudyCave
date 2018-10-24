@@ -49,7 +49,7 @@ const localeText = {
     toolPanelButton: 'Narzędzia',
 
     // other
-    noRowsToShow: 'Brak testów do wyświetlenia',
+    noRowsToShow: 'Brak fiszek do wyświetlenia',
 
     // enterprise menu
     pinColumn: 'Przypiąta kolumna',
