@@ -140,7 +140,7 @@ export class Test2PDF {
 
             let giveAnswer = '';
             for (let k = 0; k < question.answers.length; k++) {
-              giveAnswer = giveAnswer + `${k + 1}. _______ `;
+              giveAnswer = giveAnswer + `${k + 1}. ______ `;
             }
 
             const giveAnswerText = pdf.splitTextToSize(giveAnswer, 420);
