@@ -48,7 +48,7 @@ const routes: Routes = [
   { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent, canActivate: [AuthGuard] },
   { path: 'tests', component: TestsListComponent},
   { path: 'tests/:id', component: TestDetailsComponent},
-  { path: 'tests/edit/:id', component: TestEditComponent },
+  { path: 'tests/edit/:id', component: TestEditComponent, canActivate: [AuthGuard]},
   { path: 'test-maker', component: TestMakerComponent },
   { path: 'sign-up', component: RegisterComponent },
   { path: 'profile/:id', component: UserComponent, canActivate: [AuthGuard] },
