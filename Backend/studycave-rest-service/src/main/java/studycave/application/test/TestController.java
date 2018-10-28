@@ -174,8 +174,7 @@ public class TestController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity deleteTest(@RequestHeader(value = "Authorization") String headerStr,
-			@PathVariable(required = true) Long id) {
+	public ResponseEntity deleteTest(@PathVariable(required = true) Long id) {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
@@ -249,7 +248,7 @@ public class TestController {
 	}
 
 	@PutMapping
-	public ResponseEntity editTest(@RequestHeader(value = "Authorization",required=false) String headerStr,@RequestBody TestEditDTO testDTO) {
+	public ResponseEntity editTest(@RequestBody TestEditDTO testDTO) {
 
 		
 		//Authorization

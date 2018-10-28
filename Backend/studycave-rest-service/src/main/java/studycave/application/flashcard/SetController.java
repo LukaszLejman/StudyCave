@@ -238,8 +238,7 @@ public class SetController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity deleteSet(@RequestHeader(value = "Authorization", required = false) String headerStr,
-			@PathVariable(required = true) Long id) {
+	public ResponseEntity deleteSet(@PathVariable(required = true) Long id) {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
@@ -298,8 +297,7 @@ public class SetController {
 	}
 
 	@PutMapping
-	public ResponseEntity putSet(@RequestHeader(value = "Authorization", required = false) String headerStr,
-			@RequestBody SetOwnerDTO setDTO) {
+	public ResponseEntity putSet(@RequestBody SetOwnerDTO setDTO) {
 
 		// Authorization
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
