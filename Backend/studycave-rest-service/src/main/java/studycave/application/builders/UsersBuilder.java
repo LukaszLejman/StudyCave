@@ -21,10 +21,17 @@ public class UsersBuilder {
     }
 
     public void build() {
-    	int usersNumber = 10;
+		User user = new User();
+		user.setEmail(String.format("-"));
+		user.setName(String.format("-"));
+		user.setPassword(("-"));
+		user.setSurname(String.format("-"));
+		user.setUsername(String.format("anonim"));
+		userRepository.save(user); 
+    	int usersNumber = 12;
     	
-    	for (int i = 0; i < usersNumber; i++) {
-    		User user = new User();
+    	for (int i = 2; i < usersNumber; i++) {
+    		user = new User();
     		user.setEmail(String.format("u%d@email.com", i));
     		user.setName(String.format("Name%d", i));
     		user.setPassword(bCryptPasswordEncoder.encode("123qwe"));
