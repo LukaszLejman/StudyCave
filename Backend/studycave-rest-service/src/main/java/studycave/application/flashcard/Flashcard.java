@@ -33,7 +33,7 @@ public class Flashcard {
     @JsonBackReference
     private Set flashcardSet;
 	
-    protected Flashcard() {}
+    public Flashcard() {}
 
     public Flashcard(String firstName, String lastName) {
         this.leftSide = firstName;

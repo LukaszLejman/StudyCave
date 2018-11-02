@@ -10,18 +10,22 @@ public class DataLoader implements ApplicationRunner {
 
 
     private UsersBuilder usersBuilder;
+    private FlashcardsBuilder flashcardsBuilder;
 
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String databaseMode;
     
     @Autowired
-    public DataLoader(UsersBuilder usersBuilder) {
+    public DataLoader(UsersBuilder usersBuilder, FlashcardsBuilder flashcardsBuilder) {
         this.usersBuilder = usersBuilder;
+        this.flashcardsBuilder = flashcardsBuilder;
     }
+
 
     public void run(ApplicationArguments args) {
     	 if (this.databaseMode.contains("create")) {
     		 this.usersBuilder.build();
+    		 // this.flashcardsBuilder.build();
     		 System.out.println("All builders completed");
     	 }
     }

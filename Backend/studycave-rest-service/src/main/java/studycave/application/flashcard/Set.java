@@ -42,7 +42,7 @@ public class Set {
     @JsonManagedReference
     List<Flashcard> flashcards;
 
-    protected Set() {}
+    public Set() {}
 
 	public Set(String name, String category, int idOwner) {
 		super();
