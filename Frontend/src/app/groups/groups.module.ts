@@ -5,10 +5,14 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AgGridModule } from 'ag-grid-angular';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DialogModule } from 'primeng/dialog';
 
 import { GroupsService } from './groups.service';
 
 import { MyGroupsComponent } from './my-groups/my-groups.component';
+import { GroupCreatorComponent } from './group-creator/group-creator.component';
 
 @NgModule({
   imports: [
@@ -17,10 +21,14 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
     HttpModule,
     HttpClientModule,
     RouterModule,
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([]),
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    DialogModule
   ],
   declarations: [
-    MyGroupsComponent
+    MyGroupsComponent,
+    GroupCreatorComponent
   ],
   providers: [GroupsService]
 })

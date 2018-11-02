@@ -34,6 +34,7 @@ import { WorkInProgressComponent } from './work-in-progress/work-in-progress.com
 import { TestDetailsComponent } from './tests/test-details/test-details.component';
 import { MaterialsDetailsComponent } from './materials/materials-details/materials-details.component';
 import { MyGroupsComponent } from './groups/my-groups/my-groups.component';
+import { GroupCreatorComponent } from './groups/group-creator/group-creator.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -62,7 +63,8 @@ const routes: Routes = [
   { path: 'materials/add-materials', component: MaterialsAddComponent, canActivate: [AuthGuard] },
   { path: 'work-in-progress', component: WorkInProgressComponent },
   { path: 'materials/:id', component: MaterialsDetailsComponent},
-  { path: 'my-groups', component: MyGroupsComponent, canActivate: [AuthGuard] }
+  { path: 'my-groups', component: MyGroupsComponent, canActivate: [AuthGuard] },
+  { path: 'create-group', component: GroupCreatorComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

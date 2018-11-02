@@ -36,4 +36,9 @@ export class GroupsService {
     return this.httpClient.get(url, { headers: this.headers });
   }
 
+  postGroup(body): Observable<any> {
+    const url = this.getGroupsURL;
+    return this.httpClient.post(url, body, { headers: this.headers });
+  }
+
 }

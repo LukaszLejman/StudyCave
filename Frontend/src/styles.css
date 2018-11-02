@@ -1,3 +1,5 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 body{
     margin: 0 auto;
     background-image: url("./assets/background.jpg");
@@ -47,7 +49,7 @@ body{
 }
 } */
 
-.btn, div, button, input, label {
+.btn, div, button, input, label, textarea {
     border-radius: 0 !important;
 }
 
@@ -134,4 +136,27 @@ body{
 
 .alert-grey {
     background-color: #22272a;
+}
+
+body .ui-dialog .ui-dialog-titlebar {
+    border: 1px solid #000 !important;
+    background-color: #000 !important;
+}
+
+body .ui-dialog .ui-dialog-content {
+    background-color: #005d87 !important;
+}
+
+.snackbar-success {
+    background-color: #082d05 !important;
+    border-color: #28a745 !important;
+    border-radius: 0 !important;
+    color: white !important;
+}
+
+.snackbar-error {
+    background-color: #3f1010 !important;
+    border-color: #dc3545 !important;
+    border-radius: 0 !important;
+    color: white !important;
 }
