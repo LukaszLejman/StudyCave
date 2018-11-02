@@ -40,7 +40,7 @@ export class MyGroupsComponent implements OnInit, OnDestroy {
     this.getGroupsSubscription = this.groupsService.getGroups().subscribe(
       success => {
         console.log('Grupy użytkownika: ', success);
-        this.groups = success; // to check later when back-end will be ready
+        this.groups = success['groups']; // to check later when back-end will be ready
         this.gridOptions = {
           rowHeight: 50,
           headerHeight: 25,
