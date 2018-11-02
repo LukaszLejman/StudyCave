@@ -45,7 +45,6 @@ export class GroupCreatorComponent implements OnInit, OnDestroy {
         this.showInfoDialog = true;
       },
       error => {
-        this.showInfoDialog = true;
         this.btn.nativeElement.disabled = false;
         this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
