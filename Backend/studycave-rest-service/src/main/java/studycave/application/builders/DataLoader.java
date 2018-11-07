@@ -25,7 +25,7 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) {
     	 if (this.databaseMode.contains("create")) {
     		 this.usersBuilder.build();
-    		 // this.flashcardsBuilder.build();
+    		 this.flashcardsBuilder.build();
     		 System.out.println("All builders completed");
     	 }
     }

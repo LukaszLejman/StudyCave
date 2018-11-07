@@ -35,17 +35,16 @@ public class FlashcardsBuilder {
     		Set set = new Set();
     		set.setAddDate();
     		set.setEditDate();
-    		set.setCategory(String.format("BuilderTEST #", j));
-    		set.setName(String.format("Set",j));
+    		set.setCategory(String.format("BuilderTEST #%d", j));
+    		set.setName(String.format("Set %d",j));
     		set.setPermission("public");
     		set.setIdOwner(1);
     		
     		List<Flashcard> flashcards = new ArrayList<Flashcard>();
     		for (int i = 0; i < flashcardsNumber; i++) {
 	    		Flashcard flashcard = new Flashcard();
-	    		flashcard.setLeftSide(String.format("LeftSide", j, i));
-	    		flashcard.setRightSide(String.format("RightSide", j, i));
-	    		flashcardRepository.save(flashcard);
+	    		flashcard.setLeftSide(String.format("LeftSide %d %d", j, i));
+	    		flashcard.setRightSide(String.format("RightSide %d %d", j, i));
 	    		flashcards.add(flashcard);
 	    	}
     		set.setFlashcards(flashcards);
