@@ -63,7 +63,15 @@ public class TestController {
 
 	@GetMapping("/{id}")
 	public Optional<Test> getTest(@PathVariable(required = true) Long id) {
-		return testRepository.findById(id);
+		Optional<Test> test = testRepository.findById(id);
+		for (Question question : test.get().getQuestions()) {
+			if(question instanceof QuestionGaps) {
+				List<AnswerGaps> answers = ((QuestionGaps)question).getAnswers();
+				Collections.sort(answers, 
+                        (o1, o2) -> o1.getId().compareTo(o2.getId()));
+			}
+		}
+		return test;
 	}
 
 	@GetMapping("/{id}/solve")
@@ -174,8 +182,7 @@ public class TestController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity deleteTest(@RequestHeader(value = "Authorization") String headerStr,
-			@PathVariable(required = true) Long id) {
+	public ResponseEntity deleteTest(@PathVariable(required = true) Long id) {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
@@ -249,7 +256,7 @@ public class TestController {
 	}
 
 	@PutMapping
-	public ResponseEntity editTest(@RequestHeader(value = "Authorization",required=false) String headerStr,@RequestBody TestEditDTO testDTO) {
+	public ResponseEntity editTest(@RequestBody TestEditDTO testDTO) {
 
 		
 		//Authorization
@@ -347,14 +354,21 @@ public class TestController {
 						}
 					}
 				}
+				List<AnswerGaps> answers = new ArrayList<>();
 				if (oldquestion instanceof QuestionGaps && question instanceof QuestionGaps) {
+					for (AnswerGaps answer : ((QuestionGaps) question).getAnswers()) {
+						answers.add(answer);
+					}
+					Collections.reverse(answers);
+					for (AnswerGaps answer : answers) {
+						answer.setId(null);
+						answer.setQuestion(question);
+					}
+						
 					for (AnswerGaps oldanswer : ((QuestionGaps) oldquestion).getAnswers()) {
-						isina = false;
-						for (AnswerGaps answer : ((QuestionGaps) question).getAnswers())
-							if (oldanswer.getId() == answer.getId())
-								isina = true;
-						if (isina == false) {
+						if (answerRepository.findById(oldanswer.getId()) != null) {
 							deletea.add(oldanswer.getId());
+							// deleteq.add(oldquestion.getId());
 							// System.out.println("usuwam answer: "+oldanswer.getId());
 						}
 					}

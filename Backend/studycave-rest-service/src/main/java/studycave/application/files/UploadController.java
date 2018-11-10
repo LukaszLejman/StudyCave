@@ -211,7 +211,7 @@ public class UploadController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deletematerial(@RequestHeader(value = "Authorization",required=false) String headerStr,@PathVariable(required = true)Long id) {
+	public ResponseEntity<String> deletematerial(@PathVariable(required = true)Long id) {
 		
 		//Authorization
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
