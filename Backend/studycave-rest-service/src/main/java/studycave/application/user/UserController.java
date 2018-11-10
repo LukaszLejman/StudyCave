@@ -42,7 +42,6 @@ public class UserController {
 	
 	@GetMapping("/user/{username}")
 	public ResponseEntity<?> getInfo(
-			@RequestHeader(value="Authorization") String headerStr,
 			@PathVariable(required = true)String username) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
