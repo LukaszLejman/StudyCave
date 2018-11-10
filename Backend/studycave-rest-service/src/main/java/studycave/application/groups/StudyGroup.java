@@ -23,6 +23,10 @@ public class StudyGroup {
 
 	private String name;
 	
+	private String description;
+	
+	private String groupKey;
+	
     @OneToMany(fetch = FetchType.LAZY,mappedBy="group",cascade = CascadeType.ALL)
     List<StudyGroupMember> members = new ArrayList<>();
     
@@ -52,5 +56,21 @@ public class StudyGroup {
 
 	public void setMembers(List<StudyGroupMember> members) {
 		this.members = members;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getGroupKey() {
+		return groupKey;
+	}
+
+	public void setGroupKey(String groupKey) {
+		this.groupKey = groupKey;
 	}
 }
