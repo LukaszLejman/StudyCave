@@ -1,5 +1,8 @@
 package studycave.application.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
+import studycave.application.groups.members.StudyGroupMember;
+import studycave.application.groups.members.StudyGroupMemberRepository;
 
 @RestController
 @CrossOrigin
@@ -25,7 +32,8 @@ public class UserController {
 	
 	@Autowired
 	UserRepository userRepository;
-	
+	@Autowired
+	StudyGroupMemberRepository memberRepository;	
 	@Autowired 
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -76,5 +84,23 @@ public class UserController {
     		@RequestBody UserLoginDTO user){
         throw new IllegalStateException("This method shouldn't be called. It's implemented by Spring Security filters.");
     }
+    
+	@GetMapping("user/{id}/groups")
+	public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestParam (required = true) Long id) {		
+		List<StudyGroupMember> groups = new ArrayList<>(); 
+		groups = this.memberRepository.findByMember(id);
+		List<SimpleStudyGroupMemberDTO> simplegroups = new ArrayList<>();
+		SimpleStudyGroupMemberDTO s = new SimpleStudyGroupMemberDTO();
+		for (StudyGroupMember g : groups) {
+			s.setName(g.getGroup().getName());
+			s.setId(g.getGroup().getId());
+			if(g.getIsGroupLeader() == true)
+				s.setRole("OWNER");
+			else
+				s.setRole("MEMBER"); 
+			simplegroups.add(s);
+		}
+		return simplegroups;
+	}
 	
 }

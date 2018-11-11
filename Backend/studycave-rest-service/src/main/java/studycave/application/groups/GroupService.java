@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMember;
+import studycave.application.groups.members.StudyGroupMemberRepository;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
 
@@ -48,4 +50,5 @@ public class GroupService {
 	    createdGroupDto.setOwner(group.getMembers().get(0).getUser().getUsername());
 	    return new ResponseEntity<GroupDto>(createdGroupDto, HttpStatus.OK);
 	}
+
 }
