@@ -41,4 +41,8 @@ export class GroupsService {
     return this.httpClient.post(url, body, { headers: this.headers });
   }
 
+  getGroupDetails(id): Observable<any> {
+    return this.httpClient.get('group/' + id + '/', { headers: this.headers });
+  }
+
 }

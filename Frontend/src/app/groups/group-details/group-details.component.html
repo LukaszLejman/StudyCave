@@ -1,0 +1,18 @@
+<div class="wrapper">
+    <div class="content">
+      <h1>{{group.name}}</h1>
+      <br/>
+      <p>{{group.description}}</p>
+      <div class="buttons-container">
+          <div>
+            <div *ngIf="group.owner===currentUser.username">
+              <button class="btn btn-green" (click)="goToEditing()">Edytuj grupę</button>
+            </div> 
+            <button class="btn btn-green" routerLink="/materials/list">Materiały</button>
+            <button class="btn btn-green" routerLink="/flashcards/sets">Fiszki</button>
+            <button class="btn btn-green" routerLink="/tests">Testy</button>
+          </div>
+        </div>
+        <!-- TODO: add lists for materials and test after deciding how to display it -->
+    </div>
+</div>  
