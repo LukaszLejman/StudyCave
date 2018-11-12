@@ -84,23 +84,5 @@ public class UserController {
     		@RequestBody UserLoginDTO user){
         throw new IllegalStateException("This method shouldn't be called. It's implemented by Spring Security filters.");
     }
-    
-	@GetMapping("user/{id}/groups")
-	public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestParam (required = true) Long id) {		
-		List<StudyGroupMember> groups = new ArrayList<>(); 
-		groups = this.memberRepository.findByMember(id);
-		List<SimpleStudyGroupMemberDTO> simplegroups = new ArrayList<>();
-		SimpleStudyGroupMemberDTO s = new SimpleStudyGroupMemberDTO();
-		for (StudyGroupMember g : groups) {
-			s.setName(g.getGroup().getName());
-			s.setId(g.getGroup().getId());
-			if(g.getIsGroupLeader() == true)
-				s.setRole("OWNER");
-			else
-				s.setRole("MEMBER"); 
-			simplegroups.add(s);
-		}
-		return simplegroups;
-	}
 	
 }

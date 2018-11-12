@@ -26,6 +26,8 @@ public class GroupService {
 	GroupRepository groupRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	StudyGroupMemberRepository memberRepository;
 
 	public ResponseEntity<?> createGroup(CreateGroupDto groupDto) {
 		StudyGroup group = modelMapper.map(groupDto, StudyGroup.class);
@@ -38,6 +40,8 @@ public class GroupService {
 		if (!owner.isPresent()) {
 			return new ResponseEntity("Invalid Owner",HttpStatus.BAD_REQUEST);
 		}
+		
+
 	    List<StudyGroupMember> members = new ArrayList<>();
 	    StudyGroupMember member = new StudyGroupMember();
 	    member.setUser(owner.get());
@@ -51,4 +55,20 @@ public class GroupService {
 	    return new ResponseEntity<GroupDto>(createdGroupDto, HttpStatus.OK);
 	}
 
+	public List<SimpleStudyGroupMemberDTO> getMyGroups(Long id){
+	List<StudyGroupMember> groups = new ArrayList<>(); 
+	groups = this.memberRepository.findByMember(id);
+	List<SimpleStudyGroupMemberDTO> simplegroups = new ArrayList<>();
+	SimpleStudyGroupMemberDTO s = new SimpleStudyGroupMemberDTO();
+	for (StudyGroupMember g : groups) {
+		s.setName(g.getGroup().getName());
+		s.setId(g.getGroup().getId());
+		if(g.getIsGroupLeader() == true)
+			s.setRole("OWNER");
+		else
+			s.setRole("MEMBER"); 
+		simplegroups.add(s);
+		}
+	return simplegroups;
+	}
 }

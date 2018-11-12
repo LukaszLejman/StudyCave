@@ -20,6 +20,7 @@ import studycave.application.groups.members.StudyGroupMember;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/groups")
 @Api
 public class GroupController {
 
@@ -29,9 +30,14 @@ public class GroupController {
 
 //	@PreAuthorize("isAuthenticated()")
 	@PreAuthorize("#groupDto.owner == authentication.name")
-	@PostMapping("/groups")
+	@PostMapping()
 	public ResponseEntity<?> create(@RequestBody CreateGroupDto groupDto) {
 		return this.groupService.createGroup(groupDto);
+	}
+	
+	@GetMapping()
+	public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestParam (required = true) Long id) {		
+		return this.groupService.getMyGroups(id);
 	}
 		
 }
