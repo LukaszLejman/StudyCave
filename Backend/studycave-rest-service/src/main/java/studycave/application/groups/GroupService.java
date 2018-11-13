@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import studycave.application.groups.members.StudyGroupMember;
+import studycave.application.groups.members.StudyGroupMemberRepository;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
 
@@ -24,6 +25,8 @@ public class GroupService {
 	GroupRepository groupRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	StudyGroupMemberRepository memberRepository;
 
 	public ResponseEntity<?> createGroup(CreateGroupDto groupDto) {
 		StudyGroup group = modelMapper.map(groupDto, StudyGroup.class);
@@ -47,5 +50,17 @@ public class GroupService {
 	    createdGroupDto.setKey(group.getGroupKey());
 	    createdGroupDto.setOwner(group.getMembers().get(0).getUser().getUsername());
 	    return new ResponseEntity<GroupDto>(createdGroupDto, HttpStatus.OK);
+	}
+	
+	public StudyGroup getGroupInfo(Long id) {
+		StudyGroup group = new StudyGroup();
+		group = this.groupRepository.findById(id).orElse(null);
+		return group;
+	}
+	
+	public void deleteUserFromGroup(Long gId, Long pId) {
+		StudyGroupMember user = new StudyGroupMember();
+		user = this.memberRepository.findUserInGroup(gId,pId);
+		this.memberRepository.delete(user);
 	}
 }
