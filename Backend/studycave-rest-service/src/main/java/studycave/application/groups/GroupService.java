@@ -39,6 +39,8 @@ public class GroupService {
 	    List<StudyGroupMember> members = new ArrayList<>();
 	    StudyGroupMember member = new StudyGroupMember();
 	    member.setUser(owner.get());
+	    member.setIsGroupLeader(true);
+	    member.setGroup(group);
 	    members.add(member);
 	    group.setMembers(members);
 	    
