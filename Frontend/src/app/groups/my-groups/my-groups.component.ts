@@ -39,8 +39,15 @@ export class MyGroupsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getGroupsSubscription = this.groupsService.getGroups().subscribe(
       success => {
+        for (let i = 0; i < success.length; i++) {
+          if (success[i]['role'] === 'OWNER') {
+            success[i]['role'] = 'Lider';
+          } else {
+            success[i]['role'] = 'Członek';
+          }
+        }
+        this.groups = success;
         console.log('Grupy użytkownika: ', success);
-        this.groups = success['groups']; // to check later when back-end will be ready
         this.gridOptions = {
           rowHeight: 50,
           headerHeight: 25,
@@ -62,11 +69,11 @@ export class MyGroupsComponent implements OnInit, OnDestroy {
   }
 
   goToGroup(event: RowDoubleClickedEvent) {
-    this.router.navigate(['groups', event.data.id]); // to check later
+    this.router.navigate(['groups', event.data.id]);
   }
 
   onActionManageClick(e) {
-    this.router.navigate(['groups/manage', e.data.id]); // to check later
+    this.router.navigate(['groups/manage', e.data.id]);
   }
 
   onRowClicked(e) {
