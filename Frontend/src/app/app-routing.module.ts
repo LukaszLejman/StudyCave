@@ -35,6 +35,7 @@ import { TestDetailsComponent } from './tests/test-details/test-details.componen
 import { MaterialsDetailsComponent } from './materials/materials-details/materials-details.component';
 import { MyGroupsComponent } from './groups/my-groups/my-groups.component';
 import { GroupCreatorComponent } from './groups/group-creator/group-creator.component';
+import { JoinToGroupComponent } from './groups/join-to-group/join-to-group.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -64,7 +65,8 @@ const routes: Routes = [
   { path: 'work-in-progress', component: WorkInProgressComponent },
   { path: 'materials/:id', component: MaterialsDetailsComponent},
   { path: 'my-groups', component: MyGroupsComponent, canActivate: [AuthGuard] },
-  { path: 'create-group', component: GroupCreatorComponent, canActivate: [AuthGuard] }
+  { path: 'create-group', component: GroupCreatorComponent, canActivate: [AuthGuard] },
+  { path: 'join-to-group', component: JoinToGroupComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

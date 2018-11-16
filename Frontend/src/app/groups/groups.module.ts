@@ -13,6 +13,7 @@ import { GroupsService } from './groups.service';
 
 import { MyGroupsComponent } from './my-groups/my-groups.component';
 import { GroupCreatorComponent } from './group-creator/group-creator.component';
+import { JoinToGroupComponent } from './join-to-group/join-to-group.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { GroupCreatorComponent } from './group-creator/group-creator.component';
   ],
   declarations: [
     MyGroupsComponent,
-    GroupCreatorComponent
+    GroupCreatorComponent,
+    JoinToGroupComponent
   ],
   providers: [GroupsService]
 })
