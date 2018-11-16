@@ -31,7 +31,7 @@ public class GroupController {
 	}
 	 
 	@GetMapping("/{id}/info")
-	public StudyGroup getGroupInfo(@PathVariable(required = true) Long id) {
+	public GroupInfoDto getGroupInfo(@PathVariable(required = true) Long id) {
 		return this.groupService.getGroupInfo(id);
 	}
 		

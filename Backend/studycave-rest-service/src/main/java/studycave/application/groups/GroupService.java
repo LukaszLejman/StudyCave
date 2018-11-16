@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import studycave.application.groups.members.StudyGroupMember;
 import studycave.application.groups.members.StudyGroupMemberRepository;
+import studycave.application.user.SimpleUserInfo;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
 
@@ -52,10 +53,23 @@ public class GroupService {
 	    return new ResponseEntity<GroupDto>(createdGroupDto, HttpStatus.OK);
 	}
 	
-	public StudyGroup getGroupInfo(Long id) {
+	public GroupInfoDto getGroupInfo(Long id) {
 		StudyGroup group = new StudyGroup();
 		group = this.groupRepository.findById(id).orElse(null);
-		return group;
+		GroupInfoDto groupInfo = new GroupInfoDto();
+		groupInfo.setId(group.getId());
+		groupInfo.setName(group.getName());
+		groupInfo.setDescription(group.getDescription());
+		groupInfo.setGroupKey(group.getGroupKey());
+		List<SimpleUserInfo> users = new ArrayList<>();
+		for(StudyGroupMember m : group.getMembers()) {
+			SimpleUserInfo u = new SimpleUserInfo();
+			u.setId(m.getUser().getId());
+			u.setUsername(m.getUser().getUsername());
+			users.add(u);
+		}
+		groupInfo.setUsers(users);
+		return groupInfo ;
 	}
 	
 	public void deleteUserFromGroup(Long gId, Long pId) {
