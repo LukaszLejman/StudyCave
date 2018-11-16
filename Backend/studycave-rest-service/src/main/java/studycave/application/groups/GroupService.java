@@ -72,9 +72,29 @@ public class GroupService {
 		return groupInfo ;
 	}
 	
-	public void deleteUserFromGroup(Long gId, Long pId) {
+	public ResponseEntity deleteUserFromGroup(Long gId, Long pId) {
 		StudyGroupMember user = new StudyGroupMember();
 		user = this.memberRepository.findUserInGroup(gId,pId);
 		this.memberRepository.delete(user);
+		return new ResponseEntity(HttpStatus.OK);
+		
+	}
+	
+	public ResponseEntity deleteGroup(Long id) {
+		StudyGroup group = new StudyGroup();
+		group = this.groupRepository.findById(id).orElse(null);
+		this.groupRepository.delete(group);
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	
+	public String generateCode(Long id) {
+		StudyGroup group = new StudyGroup();
+		group = this.groupRepository.findById(id).orElse(null);
+		RandomStringGenerator generator = new RandomStringGenerator.Builder()
+		        .withinRange('0', 'z')
+		        .filteredBy(Character::isLetterOrDigit)
+		        .build();
+		group.setGroupKey(generator.generate(10));
+		return group.getGroupKey();
 	}
 }
