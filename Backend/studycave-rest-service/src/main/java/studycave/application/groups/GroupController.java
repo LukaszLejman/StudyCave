@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMember;
+import studycave.application.user.UserRepository;
 
 
 @RestController
@@ -29,7 +30,8 @@ public class GroupController {
 
 	@Autowired
 	GroupService groupService;
-	
+	@Autowired
+	UserRepository userRepository;
 
 //	@PreAuthorize("isAuthenticated()")
 	@PreAuthorize("#groupDto.owner == authentication.name")
@@ -39,10 +41,11 @@ public class GroupController {
 	}
 	
 	@GetMapping()
-	// public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value = "Authorization",required = false) String headerStr) {
+	//public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value = "Authorization",required = false) String headerStr) {
 	public List<SimpleStudyGroupMemberDTO> getMyGroup() {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String currentPrincipalName = authentication.getName();
-			return this.groupService.getMyGroups(currentPrincipalName);
+			Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
+			return this.groupService.getMyGroups(id);
 	}	
 }

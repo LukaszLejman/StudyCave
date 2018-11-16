@@ -55,11 +55,11 @@ public class GroupService {
 	    return new ResponseEntity<GroupDto>(createdGroupDto, HttpStatus.OK);
 	}
 
-	public List<SimpleStudyGroupMemberDTO> getMyGroups(String username){
-	User user = new User();
-	user = this.userRepository.findByUsername(username).orElse(null);
+	public List<SimpleStudyGroupMemberDTO> getMyGroups(Long id){
+	// User user = new User();
+	// user = this.userRepository.findByUsername(username).orElse(null);
 	List<StudyGroupMember> groups = new ArrayList<>(); 
-	groups = this.memberRepository.findByMember(user.getId());
+	groups = this.memberRepository.findByMember(id);
 	List<SimpleStudyGroupMemberDTO> simplegroups = new ArrayList<>();
 	SimpleStudyGroupMemberDTO s = new SimpleStudyGroupMemberDTO();
 	for (StudyGroupMember g : groups) {

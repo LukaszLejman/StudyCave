@@ -10,6 +10,6 @@ import studycave.application.test.SimpleTest;
 
 public interface StudyGroupMemberRepository extends JpaRepository<StudyGroupMember, Long> {
 	
-    @Query("select t from StudyGroupMember t where t.user = :i")
+    @Query("select t from StudyGroupMember t where t.user.id = :i")
 	List<StudyGroupMember> findByMember(@Param("i") Long i);
 }
