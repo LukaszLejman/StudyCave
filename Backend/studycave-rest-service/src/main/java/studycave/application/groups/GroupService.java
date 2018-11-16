@@ -61,8 +61,8 @@ public class GroupService {
 	List<StudyGroupMember> groups = new ArrayList<>(); 
 	groups = this.memberRepository.findByMember(id);
 	List<SimpleStudyGroupMemberDTO> simplegroups = new ArrayList<>();
-	SimpleStudyGroupMemberDTO s = new SimpleStudyGroupMemberDTO();
 	for (StudyGroupMember g : groups) {
+		SimpleStudyGroupMemberDTO s = new SimpleStudyGroupMemberDTO();
 		s.setName(g.getGroup().getName());
 		s.setId(g.getGroup().getId());
 		if(g.getIsGroupLeader() == true)
