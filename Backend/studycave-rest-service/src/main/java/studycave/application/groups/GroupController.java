@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -47,5 +48,13 @@ public class GroupController {
 			String currentPrincipalName = authentication.getName();
 			Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
 			return this.groupService.getMyGroups(id);
+	}	
+	
+	@PostMapping("/{groupName}/members")
+	public ResponseEntity<?> addmember(@PathVariable(required = true) String groupName, GroupJoinDto groupDto) {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String currentPrincipalName = authentication.getName();
+			Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+			return this.groupService.joinToGroup(userId, groupDto.getGroupCode(), groupName);
 	}	
 }
