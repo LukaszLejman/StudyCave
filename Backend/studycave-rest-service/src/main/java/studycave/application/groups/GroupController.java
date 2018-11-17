@@ -51,7 +51,7 @@ public class GroupController {
 	}	
 	
 	@PostMapping("/{groupName}/members")
-	public ResponseEntity<?> addmember(@PathVariable(required = true) String groupName, GroupJoinDto groupDto) {
+	public ResponseEntity<?> addmember(@PathVariable(required = true) String groupName, @RequestBody GroupJoinDto groupDto) {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String currentPrincipalName = authentication.getName();
 			Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
