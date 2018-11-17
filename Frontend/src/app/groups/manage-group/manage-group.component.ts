@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GroupsService } from '../groups.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Group, UsersConfig } from '../group';
-import { GridOptions } from 'ag-grid';
+import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({
@@ -41,6 +41,11 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:max-line-length
   constructor(private route: ActivatedRoute, private groupsService: GroupsService, private confirmationService: ConfirmationService, private router: Router) { }
 
+  customCellRendererFunc(params) {
+    return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" >Usuń</button>`;
+  }
+
+
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -57,9 +62,6 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
     };
    }
 
-  customCellRendererFunc() {
-    return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" >Usuń</button>`;
-  }
 
   public onRowClicked(e) {
     if (e.event.target !== undefined) {
