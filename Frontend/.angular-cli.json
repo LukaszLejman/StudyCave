@@ -20,7 +20,11 @@
       "prefix": "app",
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-        "styles.css"
+        "styles.css",
+        "../node_modules/primeicons/primeicons.css",
+        "../node_modules/primeng/resources/themes/luna-blue/theme.css",
+        "../node_modules/primeng/resources/primeng.min.css",
+        "../node_modules/primeng/resources/components/dialog/dialog.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
