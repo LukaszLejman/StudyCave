@@ -1,25 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GroupsService } from '../groups.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-join-to-group',
   templateUrl: './join-to-group.component.html',
   styleUrls: ['./join-to-group.component.css']
 })
-export class JoinToGroupComponent implements OnInit {
+export class JoinToGroupComponent implements OnInit, OnDestroy {
 
   public isCodeWrong = false;
   public reditectToGroup = false;
   public reditectToGroupMessage = '';
+  private joinSubscribtion: Subscription;
 
   constructor(private groupsService: GroupsService, private router: Router) { }
 
-  public ngOnInit() {
-  }
-
   public joinToGroup(formValues: JoinToGroupForm) {
-    this.groupsService.joinToGroup(formValues).subscribe(
+    this.joinSubscribtion = this.groupsService.joinToGroup(formValues).subscribe(
       (data) => { },
       (error) => {
         if (error.status === 200) {
@@ -38,6 +37,15 @@ export class JoinToGroupComponent implements OnInit {
         }
       }
     );
+  }
+
+  public ngOnInit(): void {
+  }
+
+  public ngOnDestroy(): void {
+    if (this.joinSubscribtion) {
+      this.joinSubscribtion.unsubscribe();
+    }
   }
 
 }
