@@ -1,0 +1,105 @@
+package studycave.application.groups;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.commons.text.RandomStringGenerator;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
+import studycave.application.groups.members.StudyGroupMember;
+import studycave.application.groups.members.StudyGroupMemberRepository;
+import studycave.application.user.User;
+import studycave.application.user.UserRepository;
+
+@Service
+public class GroupService {
+
+	@Autowired
+	ModelMapper modelMapper;
+	@Autowired
+	GroupRepository groupRepository;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	StudyGroupMemberRepository memberRepository;
+
+	public ResponseEntity<?> createGroup(CreateGroupDto groupDto) {
+		StudyGroup group = modelMapper.map(groupDto, StudyGroup.class);
+		RandomStringGenerator generator = new RandomStringGenerator.Builder()
+		        .withinRange('0', 'z')
+		        .filteredBy(Character::isLetterOrDigit)
+		        .build();
+		group.setGroupKey(generator.generate(10));
+		Optional<User> owner = this.userRepository.findByUsername(groupDto.getOwner());
+		if (!owner.isPresent()) {
+			return new ResponseEntity("Invalid Owner",HttpStatus.BAD_REQUEST);
+		}
+		
+
+	    List<StudyGroupMember> members = new ArrayList<>();
+	    StudyGroupMember member = new StudyGroupMember();
+	    member.setUser(owner.get());
+	    member.setIsGroupLeader(true);
+	    member.setGroup(group);
+	    members.add(member);
+	    group.setMembers(members);
+	    
+	    group = this.groupRepository.save(group);
+	    GroupDto createdGroupDto = modelMapper.map(group, GroupDto.class);
+	    createdGroupDto.setKey(group.getGroupKey());
+	    createdGroupDto.setOwner(group.getMembers().get(0).getUser().getUsername());
+	    return new ResponseEntity<GroupDto>(createdGroupDto, HttpStatus.OK);
+	}
+
+	public List<SimpleStudyGroupMemberDTO> getMyGroups(Long id){
+	// User user = new User();
+	// user = this.userRepository.findByUsername(username).orElse(null);
+	List<StudyGroupMember> groups = new ArrayList<>(); 
+	groups = this.memberRepository.findByMember(id);
+	List<SimpleStudyGroupMemberDTO> simplegroups = new ArrayList<>();
+	for (StudyGroupMember g : groups) {
+		SimpleStudyGroupMemberDTO s = new SimpleStudyGroupMemberDTO();
+		s.setName(g.getGroup().getName());
+		s.setId(g.getGroup().getId());
+		if(g.getIsGroupLeader() == true)
+			s.setRole("OWNER");
+		else
+			s.setRole("MEMBER"); 
+		simplegroups.add(s);
+		}
+	return simplegroups;
+	}
+	
+	public ResponseEntity<?> joinToGroup(Long userId, String groupCode, String groupName) {
+		List<StudyGroup> groups = this.groupRepository.findByName(groupName);
+		
+		if (groups.isEmpty()) {
+			return new ResponseEntity("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		
+		for (StudyGroup group : groups) {
+			if (group.getGroupKey().equals(groupCode)) {
+				for (StudyGroupMember member: group.getMembers()) {
+					if (member.getUser().getId() == userId) {
+						return new ResponseEntity("Użytkownik znajduje się już w grupie", HttpStatus.CONFLICT);
+					}
+				}
+				StudyGroupMember newMember = new StudyGroupMember();
+				newMember.setIsGroupLeader(false);
+				newMember.setGroup(group);
+				newMember.setUser(this.userRepository.findById(userId).orElse(null));
+				this.memberRepository.save(newMember);
+				return new ResponseEntity("Dołączono do grupy", HttpStatus.OK);
+			}
+		}
+		
+		return new ResponseEntity("Niepoprawny kod", HttpStatus.BAD_REQUEST);
+	}
+	
+}
