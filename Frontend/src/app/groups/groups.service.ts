@@ -42,21 +42,21 @@ export class GroupsService {
   }
 
   getGroupDetails(id): Observable<any> {
-    const url = 'group/' + id + '/';
+    const url = 'groups/' + id + '/info';
     return this.httpClient.get(url, { headers: this.headers });
   }
 
-  deleteUser(id, login): Observable<any> {
-    const url = 'group/' + id + '/' + login + '/';
+  deleteUser(id, userId): Observable<any> {
+    const url = 'groups/' + id + '/member/' + userId ;
     return this.httpClient.delete(url, {headers: this.headers });
   }
   deleteGroup(id): Observable<any> {
-    const url = 'group/' + id + '/';
+    const url = 'groups/' + id + '/';
     return this.httpClient.delete(url, {headers: this.headers });
   }
 
   newKeyGenerate(id): Observable<any> {
-    const url = 'group/generateKey?id=' + id;
-    return this.httpClient.post(url, { headers: this.headers });
+    const url = 'groups/' + id + '/generate';
+    return this.httpClient.get(url, { headers: this.headers });
   }
 }

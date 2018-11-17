@@ -21,13 +21,13 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   groupDeleteSubscription: Subscription;
   newKeyGenerateSubscription: Subscription;
   display = false;
-
+  displayUser = false;
 
   private gridApi;
   public gridOptions: GridOptions;
 
   public columnDefs = [
-    { headerName: 'Użytkownik', field: 'login', headerTooltip: 'Login użytkownika' },
+    { headerName: 'Użytkownik', field: 'username', headerTooltip: 'Login użytkownika' },
     {
       headerName: '',
       suppressMenu: true,
@@ -36,30 +36,20 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
     }
   ];
 
-  public group: Group = {
-    'name': 'Grupa testowa 1',
-    'description': 'Przykładowy opis grupy testowej 1',
-    'owner': 'test',
-    'key': 'qwerty1234'
-  };
+  public group: Group;
 
-  public users = [
-    {'login': 'test' },
-    {'login': 'user1' },
-    {'login': 'user2' }
-  ];
 
-  constructor(private route: ActivatedRoute, private groupsService: GroupsService, private confirmationService: ConfirmationService) { }
+  // tslint:disable-next-line:max-line-length
+  constructor(private route: ActivatedRoute, private groupsService: GroupsService, private confirmationService: ConfirmationService, private router: Router) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    // this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id).subscribe(data => { this.group = data; });
-    // this.groupUserListSubscription = this.groupService.getUserList(this.id).subscribe(data => {this.users = data});
+    this.groupDetailsSubscription = this.groupsService.getGroupDetails(this.id).subscribe(data => { this.group = data; });
   }
 
   customCellRendererFunc() {
-      return `<button type="button" data-action-type="edit" class="btn btn-success btn-sm" click="deleteUser(login)">Usuń</button>`;
+    return `<button type="button" data-action-type="edit" class="btn btn-success btn-sm" click="showUserDialog()">Usuń</button>`;
   }
 
   onGridReady(params) {
@@ -74,7 +64,7 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   onGridSizeChanged(params) {
     if (params.clientWidth < 800) {
       this.columnDefs = [
-        { headerName: 'Użytkownik', field: 'login', headerTooltip: 'Login użytkownika' },
+        { headerName: 'Użytkownik', field: 'username', headerTooltip: 'Login użytkownika' },
         {
           headerName: '',
           suppressMenu: true,
@@ -84,7 +74,7 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
       ];
     } else {
       this.columnDefs = [
-        { headerName: 'Użytkownik', field: 'login', headerTooltip: 'Login użytkownika' },
+        { headerName: 'Użytkownik', field: 'username', headerTooltip: 'Login użytkownika' },
         {
           headerName: '',
           suppressMenu: true,
@@ -98,12 +88,13 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   }
 
 
-  deleteUser(login) {
-    this.userDeleteSubscription = this.groupsService.deleteUser(this.id, login).subscribe();
+  deleteUser(userId) {
+    this.userDeleteSubscription = this.groupsService.deleteUser(this.id, userId).subscribe();
   }
   deleteGroup() {
     this.groupDeleteSubscription = this.groupsService.deleteGroup(this.id).subscribe();
     this.display = false;
+    this.router.navigate(['/my-groups']);
   }
 
   newKeyGenerate() {
@@ -111,23 +102,23 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   }
   showDialog() {
     this.display = true;
-}
+  }
+  showUserDialog() {
+    this.displayUser = true;
+  }
   ngOnDestroy() {
     if (this.groupDetailsSubscription) {
       this.groupDetailsSubscription.unsubscribe();
-     }
-     if (this.groupUserListSubscription) {
-      this.groupUserListSubscription.unsubscribe();
-     }
-     if (this.userDeleteSubscription) {
+    }
+    if (this.userDeleteSubscription) {
       this.userDeleteSubscription.unsubscribe();
-     }
-     if (this.groupDeleteSubscription) {
+    }
+    if (this.groupDeleteSubscription) {
       this.groupDeleteSubscription.unsubscribe();
-     }
-     if (this.newKeyGenerateSubscription) {
+    }
+    if (this.newKeyGenerateSubscription) {
       this.newKeyGenerateSubscription.unsubscribe();
-     }
+    }
   }
 
 }
