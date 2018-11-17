@@ -55,7 +55,7 @@ export class GroupsService {
     return this.httpClient.delete(url, {headers: this.headers });
   }
   deleteGroup(id): Observable<any> {
-    const url = 'groups/' + id + '/';
+    const url = 'groups/' + id;
     this.setHeaders();
     return this.httpClient.delete(url, {headers: this.headers });
   }

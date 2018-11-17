@@ -74,9 +74,17 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
       }
     }
   }
+  redirectTo(uri) {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+    this.router.navigate([uri]));
+  }
 
   public onActionRemoveClick(e) {
-    this.userDeleteSubscription = this.groupsService.deleteUser(this.id, e.data.id).subscribe();  }
+    this.userDeleteSubscription = this.groupsService.deleteUser(this.id, e.data.id).subscribe();
+    setTimeout(() => {
+      this.redirectTo('/groups/manage/' + this.id);
+    }, 200);
+  }
 
 
   onGridReady(params) {
