@@ -100,7 +100,7 @@ public class GroupService {
 		        .filteredBy(Character::isLetterOrDigit)
 		        .build();
 		group.setGroupKey(generator.generate(10));
-		return group.getGroupKey();
+		return group.getGroupKey();}
 
 	public List<SimpleStudyGroupMemberDTO> getMyGroups(Long id){
 	// User user = new User();
