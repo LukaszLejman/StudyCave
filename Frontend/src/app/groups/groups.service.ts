@@ -32,11 +32,13 @@ export class GroupsService {
   }
 
   getGroups(): Observable<any> {
+    this.setHeaders();
     const url = this.getGroupsURL;
     return this.httpClient.get(url, { headers: this.headers });
   }
 
   postGroup(body): Observable<any> {
+    this.setHeaders();
     const url = this.getGroupsURL;
     return this.httpClient.post(url, body, { headers: this.headers });
   }
