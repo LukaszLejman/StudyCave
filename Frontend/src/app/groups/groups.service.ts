@@ -45,13 +45,13 @@ export class GroupsService {
 
   public joinToGroup(nameAndCodeOfGroup: JoinToGroupForm): Observable<any> {
     this.setHeaders();
-    return this.httpClient.post(`groups/${nameAndCodeOfGroup.name}/members?groupCode=${nameAndCodeOfGroup.code}`,
+    return this.httpClient.post(`groups/${nameAndCodeOfGroup.name}/members`,
       { groupCode: nameAndCodeOfGroup.code },
       {
         headers: this.headers,
-        observe: 'response'
-      })
-      .catch((error: any) => {
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
         return Observable.throw(error);
       });
   }

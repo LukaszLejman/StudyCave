@@ -19,14 +19,16 @@ export class JoinToGroupComponent implements OnInit, OnDestroy {
 
   public joinToGroup(formValues: JoinToGroupForm) {
     this.joinSubscribtion = this.groupsService.joinToGroup(formValues).subscribe(
-      (data) => { },
-      (error) => {
-        if (error.status === 200) {
+      (data) => {
+        if (data.status === 200) {
           this.isCodeWrong = false;
           this.reditectToGroupMessage = 'Dołączyłeś do grupy';
           this.reditectToGroup = true;
           setTimeout(() => this.router.navigate(['groups', formValues.name]), 3000);
-        } else if (error.status === 409) {
+        }
+      },
+      (error) => {
+        if (error.status === 409) {
           this.isCodeWrong = false;
           this.reditectToGroupMessage = 'Już jesteś w tej grupie';
           this.reditectToGroup = true;
