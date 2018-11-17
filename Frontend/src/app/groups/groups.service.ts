@@ -43,20 +43,24 @@ export class GroupsService {
 
   getGroupDetails(id): Observable<any> {
     const url = 'groups/' + id + '/info';
+    this.setHeaders();
     return this.httpClient.get(url, { headers: this.headers });
   }
 
   deleteUser(id, userId): Observable<any> {
     const url = 'groups/' + id + '/member/' + userId ;
+    this.setHeaders();
     return this.httpClient.delete(url, {headers: this.headers });
   }
   deleteGroup(id): Observable<any> {
     const url = 'groups/' + id + '/';
+    this.setHeaders();
     return this.httpClient.delete(url, {headers: this.headers });
   }
 
   newKeyGenerate(id): Observable<any> {
     const url = 'groups/' + id + '/generate';
+    this.setHeaders();
     return this.httpClient.get(url, { headers: this.headers });
   }
 }
