@@ -42,12 +42,15 @@ export class GroupsService {
   }
 
   public joinToGroup(nameAndCodeOfGroup: JoinToGroupForm): Observable<any> {
-    return this.httpClient.post('groups/join-to-group', nameAndCodeOfGroup, { headers: this.headers });
-    //  uncomment if request is get not post
-    // return this.httpClient.get(
-    //   `groups/join-to-group?name=${nameAndCodeOfGroup.name}&code=${nameAndCodeOfGroup.code}`,
-    //   { headers: this.headers }
-    // );
+    return this.httpClient.post(`groups/${nameAndCodeOfGroup.name}/members?groupCode=${nameAndCodeOfGroup.code}`,
+      { groupCode: nameAndCodeOfGroup.code },
+      {
+        headers: this.headers,
+        observe: 'response'
+      })
+      .catch((error: any) => {
+        return Observable.throw(error);
+      });
   }
 
 }

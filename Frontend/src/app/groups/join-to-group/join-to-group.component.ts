@@ -20,21 +20,21 @@ export class JoinToGroupComponent implements OnInit {
 
   public joinToGroup(formValues: JoinToGroupForm) {
     this.groupsService.joinToGroup(formValues).subscribe(
-      (data: number) => {
-        if (data === 2) {
+      (data) => { },
+      (error) => {
+        if (error.status === 200) {
           this.isCodeWrong = false;
           this.reditectToGroupMessage = 'Dołączyłeś do grupy';
           this.reditectToGroup = true;
-          // setTimeout(this.router.navigate(['groups', formValue.name]),3000);
+          setTimeout(() => this.router.navigate(['groups', formValues.name]), 3000);
+        } else if (error.status === 409) {
+          this.isCodeWrong = false;
+          this.reditectToGroupMessage = 'Już jesteś w tej grupie';
+          this.reditectToGroup = true;
+          setTimeout(() => this.router.navigate(['groups', formValues.name]), 3000);
         } else {
-          if (data === 1) {
-            this.isCodeWrong = false;
-            this.reditectToGroupMessage = 'Jesteś już w tej grupie';
-            this.reditectToGroup = true;
-            // setTimeout(this.router.navigate(['groups', formValue.name]),3000);
-          } else {
-            this.isCodeWrong = true;
-          }
+          this.isCodeWrong = true;
+          this.reditectToGroup = false;
         }
       }
     );
