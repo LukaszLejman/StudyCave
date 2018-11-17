@@ -13,10 +13,10 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 @Configuration
 public class S3Config {
 	//@Value("${jsa.aws.access_key_id}")
-	private String awsId="AKIAJH3YTAM7EJKL56YA";
+	private String awsId="";
  
 	//@Value("${jsa.aws.secret_access_key}")
-	private String awsKey="k6wgd6BjbAk0wh+IlSZg6UPX2cOdlvdneB041U1L";
+	private String awsKey="";
 	
 	//@Value("${jsa.s3.region}")
 	private String region="eu-west-1";

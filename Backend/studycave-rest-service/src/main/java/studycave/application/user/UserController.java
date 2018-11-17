@@ -1,5 +1,8 @@
 package studycave.application.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
+import studycave.application.groups.members.StudyGroupMember;
+import studycave.application.groups.members.StudyGroupMemberRepository;
 
 @RestController
 @CrossOrigin
@@ -25,7 +32,8 @@ public class UserController {
 	
 	@Autowired
 	UserRepository userRepository;
-	
+	@Autowired
+	StudyGroupMemberRepository memberRepository;	
 	@Autowired 
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -42,7 +50,6 @@ public class UserController {
 	
 	@GetMapping("/user/{username}")
 	public ResponseEntity<?> getInfo(
-			@RequestHeader(value="Authorization") String headerStr,
 			@PathVariable(required = true)String username) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
