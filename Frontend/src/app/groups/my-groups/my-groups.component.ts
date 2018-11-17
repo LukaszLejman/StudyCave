@@ -37,6 +37,15 @@ export class MyGroupsComponent implements OnInit, OnDestroy {
   constructor(private groupsService: GroupsService, private router: Router) { }
 
   ngOnInit() {
+    this.gridOptions = {
+      rowHeight: 50,
+      headerHeight: 25,
+      getRowStyle: function (params) {
+        return {
+          cursor: 'pointer'
+        };
+      },
+    };
     this.getGroupsSubscription = this.groupsService.getGroups().subscribe(
       success => {
         for (let i = 0; i < success.length; i++) {
@@ -48,15 +57,6 @@ export class MyGroupsComponent implements OnInit, OnDestroy {
         }
         this.groups = success;
         console.log('Grupy użytkownika: ', success);
-        this.gridOptions = {
-          rowHeight: 50,
-          headerHeight: 25,
-          getRowStyle: function (params) {
-            return {
-              cursor: 'pointer'
-            };
-          },
-        };
       },
       error => {
         console.log('Something went wrong :( \nError: ', error);
@@ -90,7 +90,7 @@ export class MyGroupsComponent implements OnInit, OnDestroy {
   }
 
   customCellRendererFunc(params) {
-    if (params.data['role'] === 'OWNER') {
+    if (params.data['role'] === 'Lider') {
       return `
         <button type="button" data-action-type="edit" class="btn btn-success btn-sm">Zarządzaj</button>
         `;
