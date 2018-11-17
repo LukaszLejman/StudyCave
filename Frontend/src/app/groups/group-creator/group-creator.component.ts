@@ -54,7 +54,7 @@ export class GroupCreatorComponent implements OnInit, OnDestroy {
   }
 
   goToManageGroup() {
-    this.router.navigate(['groups/manage', this.createdGroup.id]); // to check later
+    this.router.navigate(['groups/manage', this.createdGroup.id]);
   }
 
   ngOnDestroy() {
