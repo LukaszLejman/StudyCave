@@ -45,10 +45,20 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.groupDetailsSubscription = this.groupsService.getGroupDetails(this.id).subscribe(data => { this.group = data; });
-  }
+
+    this.gridOptions = {
+      rowHeight: 50,
+      headerHeight: 25,
+      getRowStyle: function (params) {
+        return {
+          cursor: 'pointer'
+        };
+      },
+    };
+   }
 
   customCellRendererFunc() {
-    return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>`;
+    return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" >Usuń</button>`;
   }
 
   public onRowClicked(e) {
@@ -99,6 +109,9 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
       ];
     }
 
+    params.api.sizeColumnsToFit();
+  }
+  onGidColumnsChanged(params) {
     params.api.sizeColumnsToFit();
   }
 
