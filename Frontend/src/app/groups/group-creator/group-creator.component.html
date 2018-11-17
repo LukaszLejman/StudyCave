@@ -1,0 +1,34 @@
+<div class="wrapper">
+  <div class="wrapper-add">
+    <div class="container">
+      <h1>Tworzenie grupy</h1>
+      <br />
+      <form ngNativeValidate action="/" method="post" #user="ngForm" (ngSubmit)="add(user.value)">
+        <label>
+            Wprowadź nazwę dla grupy:
+            <input type="text" name="name" maxlength="150" class="form-control" ngModel required />
+        </label>
+        <br />
+        <label>
+            Wprowadź opis grupy:
+            <textarea name="description" class="form-control" ngModel required></textarea>
+        </label>
+        <br /><br />
+        <button #btn class="btn btn-green" type="submit">Dodaj grupę!</button>
+        <button class="btn btn-grey" routerLink="/my-groups">Powrót</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Informacja" [(visible)]="showInfoDialog" [responsive]="true"
+  [minWidth]="300" [minY]="70" [draggable]="false" [closable]="false">
+  <p>Twoja grupa została utworzona prawidłowo.</p>
+  <p>Poniżej znajduje się kod dostępu poprzez który możesz dodawać członków:</p>
+  <p><b>{{ createdGroup.key }}</b></p>
+  <br />
+  <p>Kod ten będzie dostępny także w sekcji "Zarządzaj grupą."</p>
+  <br />
+  <!-- To check later -->
+  <button class="btn btn-blue" (click)="showInfoDialog = false" [routerLink]="['/groups/manage', createdGroup.id]">Rozumiem</button>
+</p-dialog>
