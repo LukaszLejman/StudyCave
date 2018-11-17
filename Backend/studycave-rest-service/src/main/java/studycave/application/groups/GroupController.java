@@ -75,4 +75,12 @@ public class GroupController {
 			return this.groupService.getMyGroups(id);
 	}	
 
+	@PostMapping("/{groupName}/members")
+	public ResponseEntity<?> addmember(@PathVariable(required = true) String groupName, @RequestBody GroupJoinDto groupDto) {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String currentPrincipalName = authentication.getName();
+			Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+			return this.groupService.joinToGroup(userId, groupDto.getGroupCode(), groupName);
+	}
+
 }
