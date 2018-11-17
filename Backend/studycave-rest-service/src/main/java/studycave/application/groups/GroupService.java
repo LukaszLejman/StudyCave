@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMember;
 import studycave.application.groups.members.StudyGroupMemberRepository;
 import studycave.application.user.SimpleUserInfo;
@@ -40,9 +41,13 @@ public class GroupService {
 		if (!owner.isPresent()) {
 			return new ResponseEntity("Invalid Owner",HttpStatus.BAD_REQUEST);
 		}
+		
+
 	    List<StudyGroupMember> members = new ArrayList<>();
 	    StudyGroupMember member = new StudyGroupMember();
 	    member.setUser(owner.get());
+	    member.setIsGroupLeader(true);
+	    member.setGroup(group);
 	    members.add(member);
 	    group.setMembers(members);
 	    
@@ -96,5 +101,23 @@ public class GroupService {
 		        .build();
 		group.setGroupKey(generator.generate(10));
 		return group.getGroupKey();
+
+	public List<SimpleStudyGroupMemberDTO> getMyGroups(Long id){
+	// User user = new User();
+	// user = this.userRepository.findByUsername(username).orElse(null);
+	List<StudyGroupMember> groups = new ArrayList<>(); 
+	groups = this.memberRepository.findByMember(id);
+	List<SimpleStudyGroupMemberDTO> simplegroups = new ArrayList<>();
+	for (StudyGroupMember g : groups) {
+		SimpleStudyGroupMemberDTO s = new SimpleStudyGroupMemberDTO();
+		s.setName(g.getGroup().getName());
+		s.setId(g.getGroup().getId());
+		if(g.getIsGroupLeader() == true)
+			s.setRole("OWNER");
+		else
+			s.setRole("MEMBER"); 
+		simplegroups.add(s);
+		}
+	return simplegroups;
 	}
 }
