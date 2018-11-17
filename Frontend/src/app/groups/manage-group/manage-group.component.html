@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="content">
-        <h1>Nazwa: {{group.name}}</h1>
-        <p>Klucz: {{group.groupKey}}</p>
+        <h1>Nazwa: {{group?.name}}</h1>
+        <p>Klucz: {{group?.groupKey}}</p>
         <br/>
         <div class="buttons-container">
             <button class="btn btn-green"  (click)="newKeyGenerate()">Generuj nowy klucz</button>
@@ -10,21 +10,13 @@
         <br/>
 
       <h2> Lista użytkowników </h2>
-      <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-blue" [rowData]="group.users" [columnDefs]="columnDefs"
+      <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-blue" [rowData]="group?.users" [columnDefs]="columnDefs"
       [enableSorting]="true" [enableFilter]="true" (gridReady)="onGridReady($event)" [gridOptions]="gridOptions"
       [pagination]="true" [paginationAutoPageSize]="true" [localeText]="localeText" 
       (gridColumnsChanged)="onGridColumnsChanged($event)" (gridSizeChanged)="onGridSizeChanged($event)">
     </ag-grid-angular>
     </div>
 </div>  
-
-<p-dialog header="Potwierdź" [(visible)]="displayUser">
-    Czy chcesz usunąć użytkownika?
-    <p-footer>
-        <button type="button" pButton icon="pi pi-check" (click)="deleteUser(group.users.id)" label="TAK"></button>
-        <button type="button" pButton icon="pi pi-close" (click)="displayUser=false" label="NIE" class="ui-button-secondary"></button>
-    </p-footer>
-  </p-dialog>
 
 <p-dialog header="Potwierdź" [(visible)]="display">
   Czy chcesz usunąć grupę?

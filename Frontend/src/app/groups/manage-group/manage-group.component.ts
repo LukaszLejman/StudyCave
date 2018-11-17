@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GroupsService } from '../groups.service';
 import { Subscription } from 'rxjs/Subscription';
-import { Group } from '../group';
+import { Group, UsersConfig } from '../group';
 import { GridOptions } from 'ag-grid';
 import { ConfirmationService } from 'primeng/api';
 
@@ -21,7 +21,6 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   groupDeleteSubscription: Subscription;
   newKeyGenerateSubscription: Subscription;
   display = false;
-  displayUser = false;
 
   private gridApi;
   public gridOptions: GridOptions;
@@ -49,8 +48,24 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   }
 
   customCellRendererFunc() {
-    return `<button type="button" data-action-type="edit" class="btn btn-success btn-sm" click="showUserDialog()">Usuń</button>`;
+    return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>`;
   }
+
+  public onRowClicked(e) {
+    if (e.event.target !== undefined) {
+      const data = e.data;
+      const actionType = e.event.target.getAttribute('data-action-type');
+
+      switch (actionType) {
+        case 'remove':
+          return this.onActionRemoveClick(e);
+      }
+    }
+  }
+
+  public onActionRemoveClick(e) {
+    this.userDeleteSubscription = this.groupsService.deleteUser(this.id, e.data.id).subscribe();  }
+
 
   onGridReady(params) {
     this.gridApi = params.api;
@@ -103,9 +118,7 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   showDialog() {
     this.display = true;
   }
-  showUserDialog() {
-    this.displayUser = true;
-  }
+
   ngOnDestroy() {
     if (this.groupDetailsSubscription) {
       this.groupDetailsSubscription.unsubscribe();

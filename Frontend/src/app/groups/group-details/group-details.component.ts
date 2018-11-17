@@ -14,11 +14,8 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   id: number;
   currentUser: string;
 
-  public group: Group = {
-    'name': 'Grupa testowa 1',
-    'description': 'Przykładowy opis grupy testowej 1',
-    'owner': 'test'
-  };
+  public group: Group;
+
   groupDetailsSubscription: Subscription;
 
   constructor(private route: ActivatedRoute, private groupService: GroupsService, private router: Router) { }
@@ -26,7 +23,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    // this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id).subscribe(data => { this.group = data; });
+    this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id).subscribe(data => { this.group = data; });
   }
 
   ngOnDestroy() {
