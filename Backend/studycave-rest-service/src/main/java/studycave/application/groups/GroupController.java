@@ -62,7 +62,7 @@ public class GroupController {
 	}
 	
 	@GetMapping("/{group_id}/generate")
-	public String generateCode(@PathVariable(required = true) Long group_id) {
+	public ResponseEntity generateCode(@PathVariable(required = true) Long group_id) {
 		return this.groupService.generateCode(group_id);
 	}
 	

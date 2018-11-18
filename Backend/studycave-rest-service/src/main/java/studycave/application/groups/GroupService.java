@@ -92,7 +92,7 @@ public class GroupService {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 	
-	public String generateCode(Long id) {
+	public ResponseEntity generateCode(Long id) {
 		StudyGroup group = new StudyGroup();
 		group = this.groupRepository.findById(id).orElse(null);
 		RandomStringGenerator generator = new RandomStringGenerator.Builder()
@@ -100,7 +100,9 @@ public class GroupService {
 		        .filteredBy(Character::isLetterOrDigit)
 		        .build();
 		group.setGroupKey(generator.generate(10));
-		return group.getGroupKey();}
+		this.groupRepository.save(group);
+		return new ResponseEntity(HttpStatus.OK);
+		}
 
 	public List<SimpleStudyGroupMemberDTO> getMyGroups(Long id){
 	// User user = new User();
