@@ -125,14 +125,14 @@ public class GroupService {
 		List<StudyGroup> groups = this.groupRepository.findByName(groupName);
 		
 		if (groups.isEmpty()) {
-			return new ResponseEntity("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
 		
 		for (StudyGroup group : groups) {
 			if (group.getGroupKey().equals(groupCode)) {
 				for (StudyGroupMember member: group.getMembers()) {
 					if (member.getUser().getId() == userId) {
-						return new ResponseEntity("Użytkownik znajduje się już w grupie", HttpStatus.CONFLICT);
+						return new ResponseEntity<>("Użytkownik znajduje się już w grupie", HttpStatus.CONFLICT);
 					}
 				}
 				StudyGroupMember newMember = new StudyGroupMember();
@@ -140,10 +140,11 @@ public class GroupService {
 				newMember.setGroup(group);
 				newMember.setUser(this.userRepository.findById(userId).orElse(null));
 				this.memberRepository.save(newMember);
-				return new ResponseEntity("Dołączono do grupy", HttpStatus.OK);
+			    GroupDto groupDto = modelMapper.map(group, GroupDto.class);
+				return new ResponseEntity<GroupDto>(groupDto, HttpStatus.OK);
 			}
 		}
 		
-		return new ResponseEntity("Niepoprawny kod", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("Niepoprawny kod", HttpStatus.BAD_REQUEST);
 	}
 }
