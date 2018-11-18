@@ -13,12 +13,12 @@ export class JoinToGroupComponent implements OnInit, OnDestroy {
   public isCodeWrong = false;
   public reditectToGroup = false;
   public errorMessage = '';
-  private joinSubscribtion: Subscription;
+  private joinSubscription: Subscription;
 
   constructor(private groupsService: GroupsService, private router: Router) { }
 
   public joinToGroup(formValues: JoinToGroupForm): void {
-    this.joinSubscribtion = this.groupsService.joinToGroup(formValues).subscribe(
+    this.joinSubscription = this.groupsService.joinToGroup(formValues).subscribe(
       (data) => {
         if (data.status === 200) {
           this.isCodeWrong = false;
@@ -49,8 +49,8 @@ export class JoinToGroupComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.joinSubscribtion) {
-      this.joinSubscribtion.unsubscribe();
+    if (this.joinSubscription) {
+      this.joinSubscription.unsubscribe();
     }
   }
 
