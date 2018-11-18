@@ -36,6 +36,8 @@ import { MaterialsDetailsComponent } from './materials/materials-details/materia
 import { MyGroupsComponent } from './groups/my-groups/my-groups.component';
 import { GroupCreatorComponent } from './groups/group-creator/group-creator.component';
 import { JoinToGroupComponent } from './groups/join-to-group/join-to-group.component';
+import { GroupDetailsComponent } from './groups/group-details/group-details.component';
+import { ManageGroupComponent } from './groups/manage-group/manage-group.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -66,12 +68,14 @@ const routes: Routes = [
   { path: 'materials/:id', component: MaterialsDetailsComponent},
   { path: 'my-groups', component: MyGroupsComponent, canActivate: [AuthGuard] },
   { path: 'create-group', component: GroupCreatorComponent, canActivate: [AuthGuard] },
-  { path: 'join-to-group', component: JoinToGroupComponent, canActivate: [AuthGuard] }
+  { path: 'join-to-group', component: JoinToGroupComponent, canActivate: [AuthGuard] },
+  { path: 'groups/:id', component: GroupDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'groups/manage/:id', component: ManageGroupComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'}),
     FlashcardsModule,
     TestsModule,
     UserModule,
