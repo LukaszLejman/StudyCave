@@ -15,6 +15,7 @@ import { GroupsService } from './groups.service';
 
 import { MyGroupsComponent } from './my-groups/my-groups.component';
 import { GroupCreatorComponent } from './group-creator/group-creator.component';
+import { JoinToGroupComponent } from './join-to-group/join-to-group.component';
 import { GroupDetailsComponent } from './group-details/group-details.component';
 import { ManageGroupComponent } from './manage-group/manage-group.component';
 
@@ -34,6 +35,7 @@ import { ManageGroupComponent } from './manage-group/manage-group.component';
   declarations: [
     MyGroupsComponent,
     GroupCreatorComponent,
+    JoinToGroupComponent,
     GroupDetailsComponent,
     ManageGroupComponent
   ],

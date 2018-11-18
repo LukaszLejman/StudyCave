@@ -72,6 +72,10 @@ export class MyGroupsComponent implements OnInit, OnDestroy {
     this.router.navigate(['groups', event.data.id]);
   }
 
+  public goToJoinToGroup(): void {
+    this.router.navigate(['join-to-group']);
+  }
+
   onActionManageClick(e) {
     this.router.navigate(['groups/manage', e.data.id]);
   }
