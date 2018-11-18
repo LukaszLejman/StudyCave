@@ -8,11 +8,15 @@ import { AgGridModule } from 'ag-grid-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogModule } from 'primeng/dialog';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
 
 import { GroupsService } from './groups.service';
 
 import { MyGroupsComponent } from './my-groups/my-groups.component';
 import { GroupCreatorComponent } from './group-creator/group-creator.component';
+import { GroupDetailsComponent } from './group-details/group-details.component';
+import { ManageGroupComponent } from './manage-group/manage-group.component';
 
 @NgModule({
   imports: [
@@ -24,12 +28,16 @@ import { GroupCreatorComponent } from './group-creator/group-creator.component';
     AgGridModule.withComponents([]),
     BrowserAnimationsModule,
     MatSnackBarModule,
-    DialogModule
+    DialogModule,
+    ConfirmDialogModule
   ],
   declarations: [
     MyGroupsComponent,
-    GroupCreatorComponent
+    GroupCreatorComponent,
+    GroupDetailsComponent,
+    ManageGroupComponent
   ],
-  providers: [GroupsService]
+  providers: [GroupsService, ConfirmationService]
 })
 export class GroupsModule { }
+
