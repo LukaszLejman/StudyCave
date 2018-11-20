@@ -68,10 +68,12 @@ public class GroupService {
 		groupInfo.setGroupKey(group.getGroupKey());
 		List<SimpleUserInfo> users = new ArrayList<>();
 		for(StudyGroupMember m : group.getMembers()) {
+			if(m.getIsGroupLeader() != true) {
 			SimpleUserInfo u = new SimpleUserInfo();
 			u.setId(m.getUser().getId());
 			u.setUsername(m.getUser().getUsername());
 			users.add(u);
+			}
 		}
 		groupInfo.setUsers(users);
 		return groupInfo ;
@@ -88,6 +90,9 @@ public class GroupService {
 	public ResponseEntity deleteGroup(Long id) {
 		StudyGroup group = new StudyGroup();
 		group = this.groupRepository.findById(id).orElse(null);
+		for(StudyGroupMember m : group.getMembers()) {
+			this.memberRepository.delete(m);
+		}
 		this.groupRepository.delete(group);
 		return new ResponseEntity(HttpStatus.OK);
 	}

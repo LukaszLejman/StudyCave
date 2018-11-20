@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMember;
+import studycave.application.groups.members.StudyGroupMemberRepository;
 import studycave.application.user.UserRepository;
 
 
@@ -37,6 +38,8 @@ public class GroupController {
 	GroupService groupService;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	StudyGroupMemberRepository memberRepository;
 
 //	@PreAuthorize("isAuthenticated()")
 	@PreAuthorize("#groupDto.owner == authentication.name")
@@ -53,7 +56,13 @@ public class GroupController {
 		
 	@DeleteMapping("/{group_id}/member/{user_id}")
 	public ResponseEntity deleteUserFromGroup(@PathVariable(required = true) Long group_id, @PathVariable(required = true) Long user_id) {
-		return this.groupService.deleteUserFromGroup(group_id,user_id);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
+		if(this.memberRepository.findUserInGroup(group_id, id).getIsGroupLeader() == true)
+			return this.groupService.deleteUserFromGroup(group_id,user_id);
+		else
+			return new ResponseEntity<>("Brak uprawnien do operacji", HttpStatus.BAD_REQUEST);
 	}
 	
 	@DeleteMapping("/{group_id}")
@@ -63,7 +72,13 @@ public class GroupController {
 	
 	@GetMapping("/{group_id}/generate")
 	public ResponseEntity generateCode(@PathVariable(required = true) Long group_id) {
-		return this.groupService.generateCode(group_id);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
+		if(this.memberRepository.findUserInGroup(group_id, id).getIsGroupLeader() == true)
+			return this.groupService.generateCode(group_id);
+		else
+			return new ResponseEntity<>("Brak uprawnien do operacji", HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping()
