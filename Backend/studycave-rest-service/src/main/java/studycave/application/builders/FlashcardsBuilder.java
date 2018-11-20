@@ -45,6 +45,7 @@ public class FlashcardsBuilder {
 	    		Flashcard flashcard = new Flashcard();
 	    		flashcard.setLeftSide(String.format("LeftSide %d %d", j, i));
 	    		flashcard.setRightSide(String.format("RightSide %d %d", j, i));
+	    		flashcard.setFlashcardSet(set);
 	    		flashcards.add(flashcard);
 	    	}
     		set.setFlashcards(flashcards);
