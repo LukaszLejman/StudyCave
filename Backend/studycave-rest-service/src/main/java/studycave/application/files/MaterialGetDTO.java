@@ -15,7 +15,7 @@ public class MaterialGetDTO {
 	@JsonProperty("edit_date")
     private Date editDate;
     private int grade;
-	protected MaterialGetDTO() {
+	public MaterialGetDTO() {
 		
 	}
 
