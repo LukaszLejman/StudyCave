@@ -12,6 +12,9 @@ export class GroupsService {
   private headers;
 
   private getGroupsURL = 'groups';
+  private getMaterialsToAddURL = 'users/materials?excludedGroupId={groupId}';
+  private getTestsToAddURL = 'users/sets?excludedGroupId={groupId}';
+  private getFlashcardsToAddURL = 'users/tests?excludedGroupId={groupId}';
 
   constructor(private httpClient: HttpClient, private router: Router,
     private authenticationService: AuthenticationService) {
@@ -67,6 +70,7 @@ export class GroupsService {
     this.setHeaders();
     return this.httpClient.delete(url, {headers: this.headers });
   }
+
   deleteGroup(id): Observable<any> {
     const url = 'groups/' + id;
     this.setHeaders();
@@ -78,4 +82,23 @@ export class GroupsService {
     this.setHeaders();
     return this.httpClient.get(url, { headers: this.headers });
   }
+
+  getMaterialsToAdd(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getMaterialsToAddURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers });
+  }
+
+  getTestsToAdd(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getTestsToAddURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers });
+  }
+
+  getFlashcardsToAdd(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getFlashcardsToAddURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers });
+  }
+
 }

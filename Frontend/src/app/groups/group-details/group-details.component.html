@@ -1,5 +1,9 @@
 <div class="wrapper">
     <div class="content">
+      <div>
+        <button class="btn btn-green float-right mr-1" (click)="goToAddingResource()">Dodaj zasoby do grupy</button>
+        <div style="clear: both;"></div>
+      </div>
       <h1>{{group?.name}}</h1>
       <br/>
       <h3>Opis grupy:</h3>
@@ -7,11 +11,11 @@
       <div class="buttons-container">
           <div>
             <div *ngIf="group?.owner===currentUser.username">
-              <button class="btn btn-green" (click)="goToEditing()">Edytuj grupę</button>
+              <button class="btn btn-blue" (click)="goToEditing()">Edytuj grupę</button>
             </div> 
-            <button class="btn btn-green" routerLink="/materials/list">Materiały</button>
-            <button class="btn btn-green" routerLink="/flashcards/sets">Fiszki</button>
-            <button class="btn btn-green" routerLink="/tests">Testy</button>
+            <button class="btn btn-blue" routerLink="/materials/list">Materiały</button>
+            <button class="btn btn-purple" routerLink="/flashcards/sets">Fiszki</button>
+            <button class="btn btn-red" routerLink="/tests">Testy</button>
           </div>
         </div>
         <!-- TODO: add lists for materials and test after deciding how to display it -->
