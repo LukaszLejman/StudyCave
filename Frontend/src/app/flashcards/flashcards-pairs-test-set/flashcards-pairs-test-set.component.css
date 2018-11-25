@@ -1,5 +1,4 @@
 #container-small {
-    border: 5px solid white;
     background-color: #121618;
     padding: 30px; 
     width: 25%;
@@ -17,7 +16,6 @@
     max-width: 100%;
 }
 #container-large {
-    border: 5px solid white;
     background-color: #121618;
     padding: 30px; 
     width: 65%;
@@ -41,7 +39,7 @@
     display: flex;
     min-height: 50px;
     min-width: 100px;
-    background-color: #00b0f9;
+    background-color: rgb(206, 168, 86);
     align-items: center;
     justify-content: center;
     margin: 5px 0 5px 5px;
@@ -52,7 +50,7 @@
     display: flex;
     min-height: 50px;
     min-width: 100px;
-    background-color: #007bff;
+    background-color: rgb(202, 144, 17);
     align-items: center;
     justify-content: center;
     margin: 5px 5px 5px 0;

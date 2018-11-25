@@ -1,5 +1,4 @@
 #container-small {
-    border: 5px solid white;
     background-color: #121618;
     padding: 30px; 
     width: 32%; 
@@ -17,7 +16,6 @@
 }
 
 #container-large {
-    border: 5px solid white;
     background-color: #121618;
     padding: 30px; 
     width: 62%;

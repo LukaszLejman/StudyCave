@@ -1,5 +1,5 @@
 .listItem:hover {
-    background-color: #00B0F9;
+    background-color: rgb(206, 168, 86);
 }
 
 .wrapper{
@@ -13,7 +13,6 @@
 }
 
 .content{
-    border: 5px solid white;
     background-color: #121618;
     padding: 30px; 
     margin-top: 2rem;
