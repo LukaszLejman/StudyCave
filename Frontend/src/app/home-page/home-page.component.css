@@ -35,7 +35,7 @@
     color: white;
     text-align: justify;
     text-justify: inter-word;
-    background-color: rgba(0, 0, 0, 0.534);
+    background-color: rgb(24, 22, 22);
     max-width: 90%;
     margin: 0 auto;
     line-height: 200%;
@@ -59,15 +59,9 @@ img{
 
 h2{
     text-align: center;
-    color: #272324;
+    color: rgb(206, 168, 86);
     font-weight: bold;
     padding: 50px 0;
-    background-color: #272324;
-    background-image: url("./../../assets/study6.jpg");
-    background-size: 100% auto;
-    background-position: center center; 
-    background-repeat: repeat;
-    background-attachment: fixed;
 }
 
 @media screen and (max-width: 800px) {

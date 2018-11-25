@@ -5,14 +5,14 @@
 body{
     margin: 0 auto;
     background-color: #272324;
-    background-size: 100% auto;
-    background-image: url("./assets/cave1.jpg");
-    background-position: center top; 
-    background-repeat: no-repeat;
-    background-attachment: fixed;
     width: 100%;
     font-family: Arial, Helvetica, sans-serif;
     color: white;
+    background-size:  auto 100%;
+    background-image: url("./assets/cave2.jpg");
+    background-position: center top; 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .btn{
@@ -34,7 +34,7 @@ body{
 }
 
 .ag-paging-page-summary-panel{
-    color: #00b0f9;;
+    color: #00b0f9;
     display: inline-block;
     white-space: nowrap;
 }

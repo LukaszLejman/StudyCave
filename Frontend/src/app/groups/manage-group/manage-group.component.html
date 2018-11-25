@@ -10,7 +10,7 @@
         <br/>
 
       <h2> Lista użytkowników </h2>
-      <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-blue" [rowData]="group?.users" [columnDefs]="columnDefs"
+      <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-dark" [rowData]="group?.users" [columnDefs]="columnDefs"
       [enableSorting]="true" [enableFilter]="true" (gridReady)="onGridReady($event)" [gridOptions]="gridOptions"
       [pagination]="true" [paginationAutoPageSize]="true" [localeText]="localeText" 
       (gridColumnsChanged)="onGridColumnsChanged($event)" (rowClicked)="onRowClicked($event)" (gridSizeChanged)="onGridSizeChanged($event)">
