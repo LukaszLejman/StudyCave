@@ -32,32 +32,36 @@ public class GroupService {
 
 	public ResponseEntity<?> createGroup(CreateGroupDto groupDto) {
 		StudyGroup group = modelMapper.map(groupDto, StudyGroup.class);
-		RandomStringGenerator generator = new RandomStringGenerator.Builder()
-		        .withinRange('0', 'z')
-		        .filteredBy(Character::isLetterOrDigit)
-		        .build();
-		group.setGroupKey(generator.generate(10));
+		RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('0', 'z')
+				.filteredBy(Character::isLetterOrDigit).build();
+
+		String groupKey = generator.generate(10);
+
+		while (!this.groupRepository.findByGroupKey(groupKey).isEmpty()) {
+			groupKey = generator.generate(10);
+		}
+		;
+		group.setGroupKey(groupKey);
 		Optional<User> owner = this.userRepository.findByUsername(groupDto.getOwner());
 		if (!owner.isPresent()) {
-			return new ResponseEntity("Invalid Owner",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Invalid Owner", HttpStatus.BAD_REQUEST);
 		}
-		
 
-	    List<StudyGroupMember> members = new ArrayList<>();
-	    StudyGroupMember member = new StudyGroupMember();
-	    member.setUser(owner.get());
-	    member.setIsGroupLeader(true);
-	    member.setGroup(group);
-	    members.add(member);
-	    group.setMembers(members);
-	    
-	    group = this.groupRepository.save(group);
-	    GroupDto createdGroupDto = modelMapper.map(group, GroupDto.class);
-	    createdGroupDto.setKey(group.getGroupKey());
-	    createdGroupDto.setOwner(group.getMembers().get(0).getUser().getUsername());
-	    return new ResponseEntity<GroupDto>(createdGroupDto, HttpStatus.OK);
+		List<StudyGroupMember> members = new ArrayList<>();
+		StudyGroupMember member = new StudyGroupMember();
+		member.setUser(owner.get());
+		member.setIsGroupLeader(true);
+		member.setGroup(group);
+		members.add(member);
+		group.setMembers(members);
+
+		group = this.groupRepository.save(group);
+		GroupDto createdGroupDto = modelMapper.map(group, GroupDto.class);
+		createdGroupDto.setKey(group.getGroupKey());
+		createdGroupDto.setOwner(group.getMembers().get(0).getUser().getUsername());
+		return new ResponseEntity<GroupDto>(createdGroupDto, HttpStatus.OK);
 	}
-	
+
 	public GroupInfoDto getGroupInfo(Long id) {
 		StudyGroup group = new StudyGroup();
 		group = this.groupRepository.findById(id).orElse(null);
@@ -67,69 +71,73 @@ public class GroupService {
 		groupInfo.setDescription(group.getDescription());
 		groupInfo.setGroupKey(group.getGroupKey());
 		List<SimpleUserInfo> users = new ArrayList<>();
-		for(StudyGroupMember m : group.getMembers()) {
-			if(m.getIsGroupLeader() != true) {
-			SimpleUserInfo u = new SimpleUserInfo();
-			u.setId(m.getUser().getId());
-			u.setUsername(m.getUser().getUsername());
-			users.add(u);
+		for (StudyGroupMember m : group.getMembers()) {
+			if (m.getIsGroupLeader() != true) {
+				SimpleUserInfo u = new SimpleUserInfo();
+				u.setId(m.getUser().getId());
+				u.setUsername(m.getUser().getUsername());
+				users.add(u);
 			}
 		}
 		groupInfo.setUsers(users);
-		return groupInfo ;
+		return groupInfo;
 	}
-	
+
 	public ResponseEntity deleteUserFromGroup(Long gId, Long pId) {
 		StudyGroupMember user = new StudyGroupMember();
-		user = this.memberRepository.findUserInGroup(gId,pId);
+		user = this.memberRepository.findUserInGroup(gId, pId);
 		this.memberRepository.delete(user);
 		return new ResponseEntity(HttpStatus.OK);
-		
+
 	}
-	
+
 	public ResponseEntity deleteGroup(Long id) {
 		StudyGroup group = new StudyGroup();
 		group = this.groupRepository.findById(id).orElse(null);
-		for(StudyGroupMember m : group.getMembers()) {
+		for (StudyGroupMember m : group.getMembers()) {
 			this.memberRepository.delete(m);
 		}
 		this.groupRepository.delete(group);
 		return new ResponseEntity(HttpStatus.OK);
 	}
-	
-	public ResponseEntity generateCode(Long id) {
+
+	public ResponseEntity<?> generateCode(Long id) {
 		StudyGroup group = new StudyGroup();
 		group = this.groupRepository.findById(id).orElse(null);
-		RandomStringGenerator generator = new RandomStringGenerator.Builder()
-		        .withinRange('0', 'z')
-		        .filteredBy(Character::isLetterOrDigit)
-		        .build();
-		group.setGroupKey(generator.generate(10));
-		this.groupRepository.save(group);
-		return new ResponseEntity(HttpStatus.OK);
-		}
+		RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('0', 'z')
+				.filteredBy(Character::isLetterOrDigit).build();
 
-	public List<SimpleStudyGroupMemberDTO> getMyGroups(Long id){
-	// User user = new User();
-	// user = this.userRepository.findByUsername(username).orElse(null);
-	List<StudyGroupMember> groups = new ArrayList<>(); 
-	groups = this.memberRepository.findByMember(id);
-	List<SimpleStudyGroupMemberDTO> simplegroups = new ArrayList<>();
-	for (StudyGroupMember g : groups) {
-		SimpleStudyGroupMemberDTO s = new SimpleStudyGroupMemberDTO();
-		s.setName(g.getGroup().getName());
-		s.setId(g.getGroup().getId());
-		if(g.getIsGroupLeader() == true)
-			s.setRole("OWNER");
-		else
-			s.setRole("MEMBER"); 
-		simplegroups.add(s);
+		String groupKey = generator.generate(10);
+
+		while (!this.groupRepository.findByGroupKey(groupKey).isEmpty()) {
+			groupKey = generator.generate(10);
 		}
-	return simplegroups;
+		;
+		this.groupRepository.save(group);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> joinToGroup(Long userId, String groupCode, String groupName) {
-		List<StudyGroup> groups = this.groupRepository.findByName(groupName);
+	public List<SimpleStudyGroupMemberDTO> getMyGroups(Long id) {
+		// User user = new User();
+		// user = this.userRepository.findByUsername(username).orElse(null);
+		List<StudyGroupMember> groups = new ArrayList<>();
+		groups = this.memberRepository.findByMember(id);
+		List<SimpleStudyGroupMemberDTO> simplegroups = new ArrayList<>();
+		for (StudyGroupMember g : groups) {
+			SimpleStudyGroupMemberDTO s = new SimpleStudyGroupMemberDTO();
+			s.setName(g.getGroup().getName());
+			s.setId(g.getGroup().getId());
+			if (g.getIsGroupLeader() == true)
+				s.setRole("OWNER");
+			else
+				s.setRole("MEMBER");
+			simplegroups.add(s);
+		}
+		return simplegroups;
+	}
+
+	public ResponseEntity<?> joinToGroup(Long userId, String groupCode) {
+		List<StudyGroup> groups = this.groupRepository.findByGroupKey(groupCode);
 		
 		if (groups.isEmpty()) {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
