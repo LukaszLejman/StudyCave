@@ -1,6 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+
+import { FlashcardsModule } from './flashcards/flashcards.module';
+import { TestsModule } from './tests/tests.module';
+import { UserModule } from './user/user.module';
+import { GroupsModule } from './groups/groups.module';
+
+import { AuthGuard } from './auth-guard.service';
+
 import { FlashcardsComponent } from './flashcards/flashcards/flashcards.component';
 import { FlashcardsSetsListComponent } from './flashcards/flashcards-sets-list/flashcards-sets-list.component';
 import { FlashcardsAddComponent } from './flashcards/flashcards-add/flashcards-add.component';
@@ -14,12 +21,8 @@ import { FlashcardsFillingInTestComponent } from './flashcards/flashcards-fillin
 import { FlashcardsTyperaceTestComponent } from './flashcards/flashcards-typerace-test/flashcards-typerace-test.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './auth-guard.service';
 import { TestMakerComponent } from './tests/test-maker/test-maker.component';
 import { TestEditComponent } from './tests/test-edit/test-edit.component';
-import { FlashcardsModule } from './flashcards/flashcards.module';
-import { TestsModule } from './tests/tests.module';
-import { UserModule } from './user/user.module';
 import { RegisterComponent } from './user/register/register.component';
 import { UserComponent } from './user/user/user.component';
 import { EditUserComponent } from './user/edit-user/edit-user.component';
@@ -30,6 +33,12 @@ import { TestsListComponent } from './tests/tests-list/tests-list.component';
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
 import { TestDetailsComponent } from './tests/test-details/test-details.component';
 import { MaterialsDetailsComponent } from './materials/materials-details/materials-details.component';
+import { MyGroupsComponent } from './groups/my-groups/my-groups.component';
+import { GroupCreatorComponent } from './groups/group-creator/group-creator.component';
+import { JoinToGroupComponent } from './groups/join-to-group/join-to-group.component';
+import { GroupDetailsComponent } from './groups/group-details/group-details.component';
+import { ManageGroupComponent } from './groups/manage-group/manage-group.component';
+import { SharingResourcesInGroupsComponent } from './groups/sharing-resources-in-groups/sharing-resources-in-groups.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -57,15 +66,22 @@ const routes: Routes = [
   { path: 'materials/list', component: MaterialsListComponent },
   { path: 'materials/add-materials', component: MaterialsAddComponent, canActivate: [AuthGuard] },
   { path: 'work-in-progress', component: WorkInProgressComponent },
-  { path: 'materials/:id', component: MaterialsDetailsComponent}
+  { path: 'materials/:id', component: MaterialsDetailsComponent},
+  { path: 'my-groups', component: MyGroupsComponent, canActivate: [AuthGuard] },
+  { path: 'create-group', component: GroupCreatorComponent, canActivate: [AuthGuard] },
+  { path: 'join-to-group', component: JoinToGroupComponent, canActivate: [AuthGuard] },
+  { path: 'groups/:id', component: GroupDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'groups/manage/:id', component: ManageGroupComponent, canActivate: [AuthGuard] },
+  { path: 'groups/add-resources/:id', component: SharingResourcesInGroupsComponent , canActivate: [AuthGuard] }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'}),
     FlashcardsModule,
     TestsModule,
-    UserModule
+    UserModule,
+    GroupsModule
   ],
   exports: [
     RouterModule,
