@@ -19,3 +19,8 @@
 .buttons-container > div {
     margin: 10px;
 }
+
+.multiselect-wrapper{
+    display: flex;
+    justify-content: center;
+}

@@ -19,6 +19,7 @@ import { JoinToGroupComponent } from './join-to-group/join-to-group.component';
 import { GroupDetailsComponent } from './group-details/group-details.component';
 import { ManageGroupComponent } from './manage-group/manage-group.component';
 import { SharingResourcesInGroupsComponent } from './sharing-resources-in-groups/sharing-resources-in-groups.component';
+import { ListboxModule } from 'primeng/listbox';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { SharingResourcesInGroupsComponent } from './sharing-resources-in-groups
     BrowserAnimationsModule,
     MatSnackBarModule,
     DialogModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    ListboxModule
   ],
   declarations: [
     MyGroupsComponent,
