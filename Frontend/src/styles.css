@@ -1,3 +1,5 @@
+@import "~ag-grid/dist/styles/ag-grid.css";
+@import "~ag-grid/dist/styles/ag-theme-dark.css";
 body{
     margin: 0 auto;
     background-color: #272324;
@@ -14,9 +16,6 @@ body{
 .btn{
     cursor: pointer;
 }
-
-@import "~ag-grid/dist/styles/ag-grid.css";
-@import "~ag-grid/dist/styles/ag-theme-blue.css";
 
 .ag-header-cell-label {
     display: flex;
@@ -52,7 +51,7 @@ body{
     border-radius: 0 !important;
 }
 
-.ag-theme-blue {
+.ag-theme-dark {
     margin: 0 !important;
 }
 
