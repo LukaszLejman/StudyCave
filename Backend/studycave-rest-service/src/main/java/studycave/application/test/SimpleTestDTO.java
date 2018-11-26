@@ -18,7 +18,7 @@ public class SimpleTestDTO {
     private String permission;
     private Long grade;
     
-    SimpleTestDTO(){
+    public SimpleTestDTO(){
     	super();
     }
 
