@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GroupsService } from '../groups.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Resource } from '../resource';
 import { SelectItem } from 'primeng/api';
 import { ResourceType } from './sharing-resources-in-groups';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-sharing-resources-in-groups',
   templateUrl: './sharing-resources-in-groups.component.html',
   styleUrls: ['./sharing-resources-in-groups.component.css']
 })
-export class SharingResourcesInGroupsComponent implements OnInit {
+export class SharingResourcesInGroupsComponent implements OnInit, OnDestroy {
 
   public id = 0;
 
@@ -20,6 +21,12 @@ export class SharingResourcesInGroupsComponent implements OnInit {
   public flashcardsToAdd: Resource[] = [];
   public selectedTypeOfResource: ResourceType;
   public selected: string[];
+  private getMaterialsToAddSub: Subscription;
+  private getTestsToAddSub: Subscription;
+  private getFlashcardsToAddSub: Subscription;
+  private addTestsToGroupSub: Subscription;
+  private addMaterialsToGroupSub: Subscription;
+  private addFlashcardsToGroupSub: Subscription;
 
   constructor(private route: ActivatedRoute,
     private groupService: GroupsService,
@@ -29,10 +36,31 @@ export class SharingResourcesInGroupsComponent implements OnInit {
     this.id = this.route.snapshot.params.id;
   }
 
+  ngOnDestroy() {
+    if (this.getMaterialsToAddSub) {
+      this.getMaterialsToAddSub.unsubscribe();
+    }
+    if (this.getTestsToAddSub) {
+      this.getTestsToAddSub.unsubscribe();
+    }
+    if (this.getFlashcardsToAddSub) {
+      this.getFlashcardsToAddSub.unsubscribe();
+    }
+    if (this.addTestsToGroupSub) {
+      this.addTestsToGroupSub.unsubscribe();
+    }
+    if (this.addMaterialsToGroupSub) {
+      this.addMaterialsToGroupSub.unsubscribe();
+    }
+    if (this.addFlashcardsToGroupSub) {
+      this.addFlashcardsToGroupSub.unsubscribe();
+    }
+  }
+
   getMaterialsToAdd() {
     this.selectedTypeOfResource = ResourceType.materials;
     this.selected = [];
-    this.groupService.getMaterialsToAdd(this.id).subscribe(
+    this.getMaterialsToAddSub = this.groupService.getMaterialsToAdd(this.id).subscribe(
       success => {
         this.testsToAdd = [];
         this.flashcardsToAdd = [];
@@ -50,7 +78,7 @@ export class SharingResourcesInGroupsComponent implements OnInit {
   getTestsToAdd() {
     this.selectedTypeOfResource = ResourceType.test;
     this.selected = [];
-    this.groupService.getTestsToAdd(this.id).subscribe(
+    this.getTestsToAddSub = this.groupService.getTestsToAdd(this.id).subscribe(
       success => {
         this.flashcardsToAdd = [];
         this.materialsToAdd = [];
@@ -68,7 +96,7 @@ export class SharingResourcesInGroupsComponent implements OnInit {
   getFlashcardsToAdd() {
     this.selectedTypeOfResource = ResourceType.flashcards;
     this.selected = [];
-    this.groupService.getFlashcardsToAdd(this.id).subscribe(
+    this.getFlashcardsToAddSub = this.groupService.getFlashcardsToAdd(this.id).subscribe(
       success => {
         this.materialsToAdd = [];
         this.testsToAdd = [];
@@ -107,6 +135,7 @@ export class SharingResourcesInGroupsComponent implements OnInit {
   }
 
   refreshList() {
+    this.selected = [];
     if (this.selectedTypeOfResource === ResourceType.test) {
       this.getTestsToAdd();
     }
@@ -120,11 +149,44 @@ export class SharingResourcesInGroupsComponent implements OnInit {
 
   addResources() {
     this.id = this.route.snapshot.params.id;
-    console.log(this.selected, this.id);
-    this.snackBar.open('Twoje materiały zostały dodane.', null,
-      { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+    if (this.selectedTypeOfResource === ResourceType.test) {
+      this.addTestsToGroupSub = this.groupService.addTestsToGroup(this.id, this.selected).subscribe(
+        success => {
+          this.snackBar.open('Twoje testy zostały dodane do grupy.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+        },
+        error => {
+          this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
+      );
+    } else if (this.selectedTypeOfResource === ResourceType.flashcards) {
+      this.addFlashcardsToGroupSub = this.groupService.addFlashcardsToGroup(this.id, this.selected).subscribe(
+        success => {
+          this.snackBar.open('Twoje fiszki zostały dodane do grupy.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+        },
+        error => {
+          this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
+      );
+    } else if (this.selectedTypeOfResource === ResourceType.materials) {
+      this.addMaterialsToGroupSub = this.groupService.addMaterialsToGroup(this.id, this.selected).subscribe(
+        success => {
+          this.snackBar.open('Twoje materiały zostały dodane do grupy.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+        },
+        error => {
+          this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
+      );
+    } else {
+      this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+    }
     this.refreshList();
-    // TODO: polaczenie z backendem
   }
 
 }
