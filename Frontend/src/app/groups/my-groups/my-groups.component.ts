@@ -96,7 +96,7 @@ export class MyGroupsComponent implements OnInit, OnDestroy {
   customCellRendererFunc(params) {
     if (params.data['role'] === 'Lider') {
       return `
-        <button type="button" data-action-type="edit" class="btn btn-success btn-sm">Zarządzaj</button>
+        <button type="button" data-action-type="edit" class="btn btn-study-cave btn-sm">Zarządzaj</button>
         `;
     } else {
       return '';

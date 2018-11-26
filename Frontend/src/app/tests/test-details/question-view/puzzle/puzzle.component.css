@@ -2,6 +2,7 @@
     display: flex;
     min-height: 50px;
     min-width: 100px;
+    color: black;
     background-color: rgb(206, 168, 86);
     align-items: center;
     justify-content: center;

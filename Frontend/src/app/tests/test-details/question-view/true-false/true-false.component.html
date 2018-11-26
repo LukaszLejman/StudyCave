@@ -2,13 +2,13 @@
   {{question.question}} ({{question.points}}pkt.)
 
   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    <label class="btn btn-green mr-2" (click)="chooseAnswer('Prawda')">
+    <label class="btn btn-study-cave mr-2" (click)="chooseAnswer('Prawda')">
       <input type="radio" name="options" id="option1" autocomplete="off"> Prawda
     </label>
-    <label class="btn btn-red" (click)="chooseAnswer('Fałsz')">
+    <label class="btn btn-study-cave" (click)="chooseAnswer('Fałsz')">
       <input type="radio" name="options" id="option2" autocomplete="off"> Fałsz
     </label>
   </div>
 </div>
 
-<button class="btn btn-brown" (click)="nextQuestion()">Dalej</button>
+<button class="btn btn-study-cave" (click)="nextQuestion()">Dalej</button>

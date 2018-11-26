@@ -54,8 +54,8 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
       return '';
     } else if (params.data['owner'] === currentUser.username) {
       return `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Upraw.</button>
+        <button type="button" data-action-type="remove" class="btn btn-study-cave btn-sm">Usuń</button>
+        <button type="button" data-action-type="changePermission" class="btn btn-study-cave btn-sm">Upraw.</button>
         `;
     } else {
       return '';

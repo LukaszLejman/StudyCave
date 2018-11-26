@@ -45,12 +45,12 @@ export class TestsListComponent implements OnInit, OnDestroy {
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) {
-      return '<button type="button" data-action-type="get" class="btn btn-primary btn-sm">Pobierz PDF</button>';
+      return '<button type="button" data-action-type="get" class="btn btn-study-cave">PDF</button>';
     } else if (params.data['owner'] === currentUser.username) {
       return `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="edit" class="btn btn-success btn-sm">Edytuj</button>
-        <button type="button" data-action-type="get" class="btn btn-primary btn-sm">Pobierz PDF</button>
+        <button type="button" data-action-type="remove" class="btn btn-study-cave btn-sm">Usuń</button>
+        <button type="button" data-action-type="edit" class="btn btn-study-cave btn-sm">Edytuj</button>
+        <button type="button" data-action-type="get" class="btn btn-study-cave btn-sm">PDF</button>
         `;
     } else {
       return '';

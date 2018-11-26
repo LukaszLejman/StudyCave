@@ -1,5 +1,5 @@
 #container-small {
-    background-color: #121618;
+    background-color: #181616;
     padding: 30px; 
     width: 25%;
     height: 400px; 
@@ -10,7 +10,7 @@
     text-align: center;
 }
 #container-login {
-    background-color: #121618;
+    background-color: #181616;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -28,7 +28,7 @@
     max-width: 100%;
 }
 #container-large {
-    background-color: #121618;
+    background-color: #181616;
     padding: 30px; 
     width: 65%;
     min-height: 400px;
