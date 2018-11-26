@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
+import studycave.application.groups.dto.AddMaterialDto;
+import studycave.application.groups.dto.AddSetDto;
+import studycave.application.groups.dto.AddTestDto;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMember;
 import studycave.application.groups.members.StudyGroupMemberRepository;
@@ -31,6 +34,7 @@ import studycave.application.user.UserRepository;
 @RestController
 @CrossOrigin
 @RequestMapping("/groups")
+@PreAuthorize("isAuthenticated()")
 @Api
 public class GroupController {
 
@@ -97,5 +101,19 @@ public class GroupController {
 			Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
 			return this.groupService.joinToGroup(userId, groupDto.getGroupCode(), groupName);
 	}
-
+	
+	@PostMapping("/{groupId}/flashcard-sets")
+	public ResponseEntity<?> addFlashardSet(@PathVariable(required = true) String groupId, @RequestBody List<AddSetDto> setIds) {
+		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+	}
+	
+	@PostMapping("/{groupId}/materials")
+	public ResponseEntity<?> addMaterial(@PathVariable(required = true) String groupId, @RequestBody List<AddMaterialDto> setIds) {
+		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+	}
+	
+	@PostMapping("/{groupId}/tests")
+	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> setIds) {
+		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+	}
 }
