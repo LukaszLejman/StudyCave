@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GroupsService } from '../groups.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Group, UsersConfig } from '../group';
-import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
+import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({

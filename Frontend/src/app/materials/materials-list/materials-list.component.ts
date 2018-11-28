@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/cor
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { MaterialsService } from '../materials.service';
-import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
+import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 import localeText from './localeText';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

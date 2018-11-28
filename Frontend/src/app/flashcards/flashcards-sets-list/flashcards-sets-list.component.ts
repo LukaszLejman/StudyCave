@@ -4,7 +4,7 @@ import { Set } from '../set';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { FilterPipe } from '../../filter.pipe';
-import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
+import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 import localeText from './localeText';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

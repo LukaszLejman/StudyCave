@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestsService } from '../tests.service';
-import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
+import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 import localeText from './localeText';
 import { ISubscription } from 'rxjs/Subscription';
 import { Test2PDF } from '../test2PDF';

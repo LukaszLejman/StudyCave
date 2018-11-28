@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
+import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 import { ISubscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
 
