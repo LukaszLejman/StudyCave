@@ -7,7 +7,7 @@
     <form class="join-to-group-form" #f="ngForm" (ngSubmit)="joinToGroup(f.value)" *ngIf="!reditectToGroup">
       <input type="text" name="name" class="form-control join-to-group-form-item" placeholder="Nazwa grupy" ngModel required/>
       <input type="text" name="code" class="form-control join-to-group-form-item" placeholder="Kod dostępu" ngModel required/>
-      <button type="submit" class="btn btn-green join-to-group-form-item" [disabled]="f.form.invalid">Dołącz!</button>
+      <button type="submit" class="btn btn-study-cave join-to-group-form-item" [disabled]="f.form.invalid">Dołącz!</button>
     </form>
   </div>
 </div>

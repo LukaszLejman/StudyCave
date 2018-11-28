@@ -1,5 +1,5 @@
-@import "~ag-grid/dist/styles/ag-grid.css";
-@import "~ag-grid/dist/styles/ag-theme-dark.css";
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-dark.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
@@ -63,76 +63,8 @@ body{
     margin: 2rem auto !important;
 }
 
-.btn-green {
-    color: #fff;
-    background-color: #082d05;
-    border-color: #28a745;
-}
-
-.btn-green:hover {
-    border-color: #1e7e34;
-}
-
-.btn-blue {
-    color: #fff;
-    background-color: #05182c;
-    border-color: #007bff;
-}
-
-.btn-blue:hover {
-    border-color: #0062cc;
-}
-
-.btn-purple {
-    color: #fff;
-    background-color: #200630;
-    border-color: #9b7cc8;
-}
-
-.btn-purple:hover {
-    border-color: #946baa;
-}
-
-.btn-red {
-    color: #fff;
-    background-color: #3f1010;
-    border-color: #dc3545;
-}
-
-.btn-red:hover {
-    border-color: #bd2130;
-}
-
-.btn-grey {
-    color: #fff;
-    background-color: #20222a;
-    border-color: #838383;
-}
-
-.btn-grey:hover {
-    border-color: #666;
-}
-
-.btn-brown {
-    color: #fff;
-    background-color: #291405;
-    border-color: #8d6b28;
-}
-
-.btn-brown:hover {
-    border-color: #7b5913;
-}
-
-.btn-blue:not([disabled]):not(.disabled).active {
-    box-shadow: 0 0 0 .2rem rgba(0,123,255,.5);
-}
-
-.btn-green:not([disabled]):not(.disabled).active {
-    box-shadow: 0 0 0 .2rem rgba(6, 87, 10, 0.5);
-}
-
-.btn-red:not([disabled]):not(.disabled).active {
-    box-shadow: 0 0 0 .2rem rgba(155, 14, 14, 0.5);
+.btn-study-cave:not([disabled]):not(.disabled).active {
+    box-shadow: 0 0 0 .2rem rgba(112, 81, 14, 0.5);
 }
 
 .alert-grey {
@@ -145,7 +77,9 @@ body .ui-dialog .ui-dialog-titlebar {
 }
 
 body .ui-dialog .ui-dialog-content {
-    background-color: #005d87 !important;
+    color: #fff !important;
+    background-color: #272324 !important;
+    border-color: #cea856 !important;
 }
 
 .snackbar-success {
@@ -178,10 +112,22 @@ a:hover{
 
 .btn-study-cave {
     color: #fff;
-    background-color: #05182c;
+    background-color: #272324;
     border-color: #cea856;
 }
 
-.btn-blue:hover {
+.btn-study-cave:hover {
     border-color: rgb(202, 144, 17);
+}
+
+.alert-danger{
+    background-color: transparent;
+    color: #cea856;
+    border-color: #cea856;
+}
+
+.alert-success{
+    background-color: transparent;
+    color: #cea856;
+    border-color: #cea856;
 }

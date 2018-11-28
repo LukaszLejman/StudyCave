@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TestsService } from '../tests.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-test-edit',
@@ -31,7 +32,7 @@ export class TestEditComponent implements OnInit, OnDestroy {
 
   private testSubscribtion: Subscription;
 
-  constructor(private testsService: TestsService, private route: ActivatedRoute) {}
+  constructor(private testsService: TestsService, private route: ActivatedRoute, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.ident = this.route.snapshot.params.id;
@@ -67,7 +68,10 @@ export class TestEditComponent implements OnInit, OnDestroy {
         this.test.sort(this.compare);
         this.countPoints();
       },
-      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+      error => {
+        this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+      }
     );
   }
 
@@ -185,7 +189,8 @@ export class TestEditComponent implements OnInit, OnDestroy {
 
   save(): void {
     if ((this.title === undefined) || (this.title.trim().length === 0)) {
-      alert('Podaj tytuł testu.');
+      this.snackBar.open('Podaj tytuł testu.', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       let p = 'private';
       if (this.permission) {

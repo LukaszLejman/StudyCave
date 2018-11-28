@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: center;
     margin: 5px 0 5px 5px;
+    color: black;
     cursor: pointer;
 }
 
@@ -13,7 +14,8 @@
     display: flex;
     min-height: 50px;
     min-width: 100px;
-    background-color: rgb(202, 144, 17);;
+    background-color: rgb(202, 144, 17);
+    color: black;
     align-items: center;
     justify-content: center;
     margin: 5px 5px 5px 0;

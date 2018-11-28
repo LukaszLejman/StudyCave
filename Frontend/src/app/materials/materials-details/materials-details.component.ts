@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialsService } from '../materials.service';
 import { Subscription } from 'rxjs/Subscription';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-materials-details',
@@ -21,61 +22,63 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
   own: string;
   perm: string;
   owned: Boolean = false;
-  serverURL = 'http://studycave.eu-west-1.elasticbeanstalk.com/#/file/files/' ; // działa na globalu
+  serverURL = 'http://studycave.eu-west-1.elasticbeanstalk.com/#/file/files/'; // działa na globalu
   // serverURL = 'http://localhost:8080/file/files/' ; // działa na localhost
-  constructor(private route: ActivatedRoute, private materialsService: MaterialsService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private materialsService: MaterialsService, private router: Router,
+    public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-      this.id = this.route.snapshot.params.id;
-      this.own = this.materialsService.getOwner();
-      this.title = this.materialsService.getTitle();
-      this.perm = this.materialsService.getPerm();
-      this.isOwner();
-      this.IsLogin();
-    }
+    this.id = this.route.snapshot.params.id;
+    this.own = this.materialsService.getOwner();
+    this.title = this.materialsService.getTitle();
+    this.perm = this.materialsService.getPerm();
+    this.isOwner();
+    this.IsLogin();
+  }
 
-    isOwner() {
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      if (localStorage.getItem('currentUser')) {
-        if (currentUser.username === this.own) {
-          this.owned = true;
-        }
-      } else {
-        this.owned = false;
+  isOwner() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (localStorage.getItem('currentUser')) {
+      if (currentUser.username === this.own) {
+        this.owned = true;
       }
+    } else {
+      this.owned = false;
     }
-    IsLogin() {
-      if (localStorage.getItem('currentUser')) {
+  }
+  IsLogin() {
+    if (localStorage.getItem('currentUser')) {
       this.user = true;
-      } else {
+    } else {
       this.user = false;
-      }
     }
-    changePermission(): void {
-      if (this.perm === 'Public') {
-       this.permission = 'Private';
-      } else {
-       this.permission = 'Public';
-      }
-      this.materialsService.changeMatPermission(this.id, this.permission);
-      alert('Zmieniono pozwolenie na: ' + this.permission);
-      this.router.navigate(['materials/list']);
+  }
+  changePermission(): void {
+    if (this.perm === 'Public') {
+      this.permission = 'Private';
+    } else {
+      this.permission = 'Public';
     }
-    ngOnDestroy() {
-      if (this.matSubscribtion) {
+    this.materialsService.changeMatPermission(this.id, this.permission);
+    this.snackBar.open('Zmieniono pozwolenie na: ' + this.permission, null,
+      { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+    this.router.navigate(['materials/list']);
+  }
+  ngOnDestroy() {
+    if (this.matSubscribtion) {
       this.matSubscribtion.unsubscribe();
-      }
     }
-    deleteMat() {
-      const data = this.id;
-      this.matSubscribtion = this.materialsService.deleteMat(data);
+  }
+  deleteMat() {
+    const data = this.id;
+    this.matSubscribtion = this.materialsService.deleteMat(data);
 
-    }
+  }
 
-    download() {
-      this.materialsService.downloadFile(this.id);
-      // this.router.navigate(['materials/list']);
-      // console.log('download');
-    }
+  download() {
+    this.materialsService.downloadFile(this.id);
+    // this.router.navigate(['materials/list']);
+    // console.log('download');
+  }
 
 }

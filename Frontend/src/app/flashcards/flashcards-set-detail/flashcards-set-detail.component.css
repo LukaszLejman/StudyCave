@@ -13,7 +13,7 @@
 }
 
 .content{
-    background-color: #121618;
+    background-color: #181616;
     padding: 30px; 
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -29,6 +29,7 @@
     min-width: 100px;
     background-color: rgb(206, 168, 86);
     align-items: center;
+    color: black;
     justify-content: center;
     margin: 5px 5px 5px 5px;
 }
@@ -36,6 +37,7 @@
 .puzzle-right{
     min-height: 50px;
     min-width: 100px;
+    color: black;
     background-color: rgb(202, 144, 17);;
     align-items: center;
     justify-content: center;
