@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { FilterPipe } from '../../filter.pipe';
 import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
 import localeText from './localeText';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-flashcards-sets-list',
@@ -46,7 +47,7 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
       cellRenderer: this.customCellRendererFunc
     }
   ];
-  constructor(private flashcardsService: FlashcardsService, private router: Router) { }
+  constructor(private flashcardsService: FlashcardsService, private router: Router, public snackBar: MatSnackBar) { }
 
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -96,7 +97,8 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
       this.permission = 'Public';
     }
     this.flashcardsService.changeSetPermission(e.data.id, this.permission);
-    alert('Zmieniono pozwolenie na: ' + this.permission);
+    this.snackBar.open('Zmieniono pozwolenie na: ' + this.permission, null,
+      { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
   }
 
   goToSets(e) {

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MaterialsService } from '../materials.service';
 import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
 import localeText from './localeText';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-materials-list',
@@ -45,7 +46,7 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
     }
   ];
 
-  constructor(private materialsService: MaterialsService, private router: Router) { }
+  constructor(private materialsService: MaterialsService, private router: Router, public snackBar: MatSnackBar) { }
 
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -135,7 +136,8 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
       this.permission = 'Public';
     }
     this.materialsService.changeMatPermission(e.data.id, this.permission);
-    alert('Zmieniono pozwolenie na: ' + this.permission);
+    this.snackBar.open('Zmieniono pozwolenie na: ' + this.permission, null,
+      { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
     this.router.navigate(['materials/list']);
   }
 
