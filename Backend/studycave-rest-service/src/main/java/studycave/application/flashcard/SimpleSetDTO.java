@@ -18,7 +18,7 @@ public class SimpleSetDTO {
     private int grade;
     private String permission;
     
-    protected SimpleSetDTO() {}
+    public SimpleSetDTO() {}
 
 	public SimpleSetDTO(String name, String category, String owner) {
 		super();
