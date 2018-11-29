@@ -13,23 +13,25 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import studycave.application.groups.members.StudyGroupMember;
+
 @Entity
 public class StudyGroup {
 
 	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String name;
-	
+
 	private String description;
-	
+
+	@Column(unique = true)
 	private String groupKey;
-	
-    @OneToMany(fetch = FetchType.LAZY,mappedBy="group",cascade = CascadeType.ALL)
-    List<StudyGroupMember> members = new ArrayList<>();
-    
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
+	List<StudyGroupMember> members = new ArrayList<>();
+
 	public StudyGroup() {
 		super();
 	}
