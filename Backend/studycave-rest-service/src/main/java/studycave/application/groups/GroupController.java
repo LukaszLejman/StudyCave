@@ -2,7 +2,6 @@ package studycave.application.groups;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,23 +51,23 @@ public class GroupController {
 		return this.groupService.createGroup(groupDto);
 	}
 
-	 
 	@GetMapping("{group_id}/info")
 	public GroupInfoDto getGroupInfo(@PathVariable(required = true) Long group_id) {
 		return this.groupService.getGroupInfo(group_id);
 	}
-		
+
 	@DeleteMapping("/{group_id}/member/{user_id}")
-	public ResponseEntity deleteUserFromGroup(@PathVariable(required = true) Long group_id, @PathVariable(required = true) Long user_id) {
+	public ResponseEntity deleteUserFromGroup(@PathVariable(required = true) Long group_id,
+			@PathVariable(required = true) Long user_id) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
-		if(this.memberRepository.findUserInGroup(group_id, id).getIsGroupLeader() == true)
-			return this.groupService.deleteUserFromGroup(group_id,user_id);
+		if (this.memberRepository.findUserInGroup(group_id, id).getIsGroupLeader() == true)
+			return this.groupService.deleteUserFromGroup(group_id, user_id);
 		else
 			return new ResponseEntity<>("Brak uprawnien do operacji", HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@DeleteMapping("/{group_id}")
 	public ResponseEntity deleteGroup(@PathVariable(required = true) Long group_id) {
 		return this.groupService.deleteGroup(group_id);
@@ -79,27 +78,28 @@ public class GroupController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
-		if(this.memberRepository.findUserInGroup(group_id, id).getIsGroupLeader() == true)
+		if (this.memberRepository.findUserInGroup(group_id, id).getIsGroupLeader() == true)
 			return this.groupService.generateCode(group_id);
 		else
 			return new ResponseEntity<>("Brak uprawnien do operacji", HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping()
-	//public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value = "Authorization",required = false) String headerStr) {
+	// public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value =
+	// "Authorization",required = false) String headerStr) {
 	public List<SimpleStudyGroupMemberDTO> getMyGroup() {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			String currentPrincipalName = authentication.getName();
-			Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
-			return this.groupService.getMyGroups(id);
-	}	
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
+		return this.groupService.getMyGroups(id);
+	}
 
-	@PostMapping("/{groupName}/members")
-	public ResponseEntity<?> addmember(@PathVariable(required = true) String groupName, @RequestBody GroupJoinDto groupDto) {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			String currentPrincipalName = authentication.getName();
-			Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
-			return this.groupService.joinToGroup(userId, groupDto.getGroupCode(), groupName);
+	@PostMapping("/members")
+	public ResponseEntity<?> addmember(@RequestBody GroupJoinDto groupDto) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+		return this.groupService.joinToGroup(userId, groupDto.getGroupCode());
 	}
 	
 	@PostMapping("/{groupId}/flashcard-sets")

@@ -48,7 +48,7 @@ export class GroupsService {
 
   public joinToGroup(nameAndCodeOfGroup: JoinToGroupForm): Observable<any> {
     this.setHeaders();
-    return this.httpClient.post(`groups/${nameAndCodeOfGroup.name}/members`,
+    return this.httpClient.post(`groups/members`,
       { groupCode: nameAndCodeOfGroup.code },
       {
         headers: this.headers,
