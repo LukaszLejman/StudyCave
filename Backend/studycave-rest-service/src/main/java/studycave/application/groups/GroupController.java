@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
+import studycave.application.flashcard.SetRepository;
 import studycave.application.groups.dto.AddMaterialDto;
 import studycave.application.groups.dto.AddSetDto;
 import studycave.application.groups.dto.AddTestDto;
@@ -94,16 +95,16 @@ public class GroupController {
 	
 	@PostMapping("/{groupId}/flashcard-sets")
 	public ResponseEntity<?> addFlashardSet(@PathVariable(required = true) String groupId, @RequestBody List<AddSetDto> setIds) {
-		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+		return this.groupService.addFlashcardSets(groupId, setIds);
 	}
 	
 	@PostMapping("/{groupId}/materials")
-	public ResponseEntity<?> addMaterial(@PathVariable(required = true) String groupId, @RequestBody List<AddMaterialDto> setIds) {
+	public ResponseEntity<?> addMaterial(@PathVariable(required = true) String groupId, @RequestBody List<AddMaterialDto> materialIds) {
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
 	
 	@PostMapping("/{groupId}/tests")
-	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> setIds) {
+	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> testIds) {
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
 
