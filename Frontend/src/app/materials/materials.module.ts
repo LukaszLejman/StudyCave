@@ -13,6 +13,7 @@ import { MaterialsAddComponent } from './materials-add/materials-add.component';
 import { MaterialsDetailsComponent } from './materials-details/materials-details.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { DialogModule } from 'primeng/dialog';
     HttpModule,
     HttpClientModule,
     AgGridModule.withComponents([]),
-    DialogModule
+    DialogModule,
+    ConfirmDialogModule
   ],
   declarations: [MaterialsMenuComponent, MaterialsListComponent, MaterialsAddComponent, MaterialsDetailsComponent],
   providers: [MaterialsService]
