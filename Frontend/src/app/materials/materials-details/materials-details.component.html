@@ -10,9 +10,16 @@
           <br />
           <a [href]="serverURL+id"><button class="btn btn-purple" >POBIERZ</button></a>
           <div *ngIf="user && owned">
-                 <button class="btn btn-red" (click)="deleteMat()">USUŃ</button>
+                 <button class="btn btn-red" (click)="openPopup()">USUŃ</button>
                   <button class="btn btn-blue" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
           </div>
       </div>
   </div>
+  <p-dialog header="Potwierdź" [(visible)]="display">
+        Czy chcesz usunąć materiał?
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="deleteMat()" label="TAK"></button>
+            <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+        </p-footer>
+      </p-dialog>
 </div>

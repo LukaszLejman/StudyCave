@@ -21,6 +21,7 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
   own: string;
   perm: string;
   owned: Boolean = false;
+  display = false;
   serverURL = 'http://studycave.eu-west-1.elasticbeanstalk.com/#/file/files/' ; // działa na globalu
   // serverURL = 'http://localhost:8080/file/files/' ; // działa na localhost
   constructor(private route: ActivatedRoute, private materialsService: MaterialsService, private router: Router) { }
@@ -32,6 +33,10 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
       this.perm = this.materialsService.getPerm();
       this.isOwner();
       this.IsLogin();
+    }
+
+    openPopup() {
+      this.display = true;
     }
 
     isOwner() {
@@ -69,6 +74,7 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
     deleteMat() {
       const data = this.id;
       this.matSubscribtion = this.materialsService.deleteMat(data);
+      this.display = false;
 
     }
 
