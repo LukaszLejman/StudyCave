@@ -78,6 +78,8 @@ public class GroupService {
 				u.setUsername(m.getUser().getUsername());
 				users.add(u);
 			}
+			else
+			groupInfo.setOwner(m.getUser().getUsername());
 		}
 		groupInfo.setUsers(users);
 		return groupInfo;
