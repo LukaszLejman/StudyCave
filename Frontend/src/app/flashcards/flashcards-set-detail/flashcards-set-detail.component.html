@@ -4,7 +4,7 @@
             <button class="btn btn-grey" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
             <button class="btn btn-purple" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
             <button *ngIf="owned" class="btn btn-green" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
-            <button *ngIf="owned" class="btn btn-red" (click)="deleteSet()">USUŃ FISZKI</button>
+            <button *ngIf="owned" class="btn btn-red" (click)="showPopup()">USUŃ FISZKI</button>
             <div *ngIf="user && owned">
                     <button class="btn btn-blue" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
             </div>
@@ -32,4 +32,12 @@
                 </table>
             </div>
     </div>
+
+    <p-dialog header="Potwierdź" [(visible)]="display">
+            Czy chcesz usunąć fiszkę?
+            <p-footer>
+                <button type="button" pButton icon="pi pi-check" (click)="deleteSet()" label="TAK"></button>
+                <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+            </p-footer>
+          </p-dialog>
 </div>
