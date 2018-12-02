@@ -40,23 +40,27 @@ public class TestsBuilder {
 			test.setIdOwner((long) 1);
 			test.setPermission("public");
 			List<Question> questions = new ArrayList<Question>();
-			Question question;
+			Question question = new Question();
 			for (int j = 0; j < questionsNumber; j++) {
 
 				Random rand = new Random();
 				switch(rand.nextInt(4)+1){
 					case 1: 
-						question = new QuestionChoices();
+						question.setType("single-choice");
+						break;
 					case 2:
-						question = new QuestionGaps();
+						question.setType("gaps");
+						break;
 					case 3:
-						question = new QuestionPairs();
+						question.setType("pairs");
+						break;
 					case 4:
-						question = new QuestionPuzzle();
+						question.setType("puzzle");
+						break;
 				}
-//				question.setNrQuestion(j);
-//				question.setText("question ???");
-//			questions.add(question);		
+				question.setNrQuestion(j);
+				question.setText("question ???");
+				questions.add(question);		
 				
 			}
 			test.setQuestions(questions);
