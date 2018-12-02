@@ -1,5 +1,8 @@
 package studycave.application.groups;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -164,8 +167,45 @@ public class GroupService {
 	}
 	
 	public ResponseEntity<?> getContent(Long group_id, String type) {
+		List<ContentDto> contents = new ArrayList<>();
+		ContentDto content = new ContentDto();
+		switch (type){
+			case "tests":
+				content.setId((long) 666);
+				content.setOwner("anonim");
+				content.setAddDate("2018-12-02");
+				content.setGrade((long) 6);
+				content.setTitle("test_1");	
+				contents.add(content);
+				if(contents.isEmpty())
+					return new ResponseEntity<>("Pusta lista testów", HttpStatus.OK);
+				else
+					return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
+			case "materials":
+				content.setId((long) 666);
+				content.setOwner("anonim");
+				content.setAddDate("2018-12-02");
+				content.setGrade((long) 6);
+				content.setTitle("materiał_1");
+				contents.add(content);
+				if(contents.isEmpty())
+					return new ResponseEntity<>("Pusta lista materiałów", HttpStatus.OK);
+				else
+					return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
+			case "flashcardsets":
+				content.setId((long) 666);
+				content.setOwner("anonim");
+				content.setAddDate("2018-12-02");
+				content.setGrade((long) 6);
+				content.setTitle("fiszki_1");
+				contents.add(content);
+				if(contents.isEmpty())
+					return new ResponseEntity<>("Pusta lista fiszek", HttpStatus.OK);
+				else
+					return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
+			default:
+				return new ResponseEntity<>("Błąd w zapytaniu", HttpStatus.BAD_REQUEST);
+		}
 		
-		
-		return new ResponseEntity<>("Pusta lista", HttpStatus.OK);
 	}
 }
