@@ -9,11 +9,20 @@
             <div *ngIf="group?.owner===currentUser.username">
               <button class="btn btn-green" (click)="goToEditing()">Edytuj grupę</button>
             </div> 
-            <button class="btn btn-green" routerLink="/materials/list">Materiały</button>
-            <button class="btn btn-green" routerLink="/flashcards/sets">Fiszki</button>
-            <button class="btn btn-green" routerLink="/tests">Testy</button>
+            <button class="btn btn-green" (click)="isDisplayed('materiałów')">Materiały</button>
+            <button class="btn btn-green" (click)="isDisplayed('fiszek')">Fiszki</button>
+            <button class="btn btn-green" (click)="isDisplayed('testów')">Testy</button>
           </div>
         </div>
-        <!-- TODO: add lists for materials and test after deciding how to display it -->
+
+
+        <div *ngIf="dataToDisplay !== ''">
+       <h2> Lista {{dataToDisplay}} </h2>
+        <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-blue" [rowData]="data" [columnDefs]="columnDefs"
+        [enableSorting]="true" [enableFilter]="true" (gridReady)="onGridReady($event)" [gridOptions]="gridOptions"
+        [pagination]="true" [paginationAutoPageSize]="true" [localeText]="localeText" 
+        (gridColumnsChanged)="onGridColumnsChanged($event)" (rowClicked)="onRowClicked($event)" (gridSizeChanged)="onGridSizeChanged($event)">
+      </ag-grid-angular>
     </div>
+     </div>
 </div>  
