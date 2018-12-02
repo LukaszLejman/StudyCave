@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Group, UsersConfig } from '../group';
 import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
 import { ConfirmationService } from 'primeng/api';
+import { ApiInterceptor } from '../../http-interceptors/api-interceptor';
 
 @Component({
   selector: 'app-manage-group',
@@ -80,10 +81,10 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   }
 
   public onActionRemoveClick(e) {
-    this.userDeleteSubscription = this.groupsService.deleteUser(this.id, e.data.id).subscribe();
-    setTimeout(() => {
-      this.redirectTo('/groups/manage/' + this.id);
-    }, 200);
+    // this.userDeleteSubscription = this.groupsService.deleteUser(this.id, e.data.id).subscribe();
+    // setTimeout(() => {
+    //   this.redirectTo('/groups/manage/' + this.id);
+    // }, 200);
   }
 
 
@@ -132,7 +133,8 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   deleteGroup() {
     this.groupDeleteSubscription = this.groupsService.deleteGroup(this.id).subscribe();
     this.display = false;
-    this.router.navigate(['/my-groups']);
+    this.gridApi.refreshCells();
+    this.redirectTo('/groups/manage/' + this.id);
   }
 
   newKeyGenerate() {

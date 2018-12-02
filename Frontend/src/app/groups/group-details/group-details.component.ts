@@ -17,6 +17,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   dataToDisplay = '';
   public group: Group;
   data;
+  display = false;
 
   groupDetailsSubscription: Subscription;
   resourceDeleteSubscription: Subscription;
@@ -92,7 +93,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    console.log(this.group.owner);
     if (currentUser.username === currentUser.username) { // TODO: change if statement after backend upgrades response
       return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" >Usuń</button>`;
     } else {
@@ -135,12 +135,18 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   }
 
   public onActionRemoveClick(e) {
-    // his.resourceDeleteSubscription = this.groupService.deleteResource(this.id, e.data.id).subscribe();
-    setTimeout(() => {
-      this.redirectTo('/groups/' + this.id);
-    }, 200);
+    this.display = true;
   }
 
+  deleteResource() {
+    setTimeout(() => {
+    // his.resourceDeleteSubscription = this.groupService.deleteResource(this.id, e.data.id).subscribe();
+    this.display = false;
+    this.gridApi.refreshCells();
+    // this.redirectTo('/groups/' + this.id);
+      }, 200);
+
+  }
 
   onGridReady(params) {
     this.gridApi = params.api;

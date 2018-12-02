@@ -25,4 +25,12 @@
       </ag-grid-angular>
     </div>
      </div>
+
+     <p-dialog header="Potwierdź" [(visible)]="display">
+        Czy chcesz usunąć zasób?
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="deleteResource()" label="TAK"></button>
+            <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+        </p-footer>
+      </p-dialog>
 </div>  
