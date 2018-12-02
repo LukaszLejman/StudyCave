@@ -14,7 +14,7 @@ import { GridOptions } from 'ag-grid';
 export class GroupDetailsComponent implements OnInit, OnDestroy {
   id: number;
   currentUser;
-  dataToDisplay = '';
+  dataToDisplay= '';
   public group: Group;
   data;
 
@@ -91,7 +91,8 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
 
   customCellRendererFunc(params) {
-   if (this.group.owner === this.currentUser.username) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+   if (currentUser.username === currentUser.username) {
       return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" >Usuń</button>`;
     } else {
       return '';
@@ -102,7 +103,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id).subscribe(data => { this.group = data; });
-
     this.gridOptions = {
       rowHeight: 50,
       headerHeight: 25,
@@ -200,9 +200,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.dataToDisplay = resource;
         this.data = this.mockFlashcards;
-        this.gridOptions.api.refreshCells();
-
-
       }, 200);
 
     }
@@ -210,9 +207,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.dataToDisplay = resource;
         this.data = this.mockMaterials;
-        this.gridOptions.api.refreshCells();
-
-
             }, 200);
 
     }
@@ -220,9 +214,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.dataToDisplay = resource;
         this.data = this.mockTests;
-        this.gridOptions.api.refreshCells();
-
-
             }, 200);
 
     }
