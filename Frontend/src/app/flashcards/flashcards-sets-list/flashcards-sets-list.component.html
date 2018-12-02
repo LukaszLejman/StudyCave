@@ -23,7 +23,13 @@
     [pagination]="true" [paginationAutoPageSize]="true" (rowClicked)="onRowClicked($event)" [localeText]="localeText" 
     (gridColumnsChanged)="onGidColumnsChanged($event)">
   </ag-grid-angular>
-
+  <p-dialog header="Potwierdź" [(visible)]="display">
+      Czy chcesz usunąć fiszkę?
+      <p-footer>
+          <button type="button" pButton icon="pi pi-check" (click)="deleteSet()" label="TAK"></button>
+          <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+      </p-footer>
+    </p-dialog>
 
   </div>
 </div>
