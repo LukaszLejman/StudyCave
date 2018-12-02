@@ -90,11 +90,11 @@ public class GroupController {
 		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
 		return this.groupService.joinToGroup(userId, groupDto.getGroupCode());
 	}
-
-	@GetMapping("/{group_id}/content")
-	public ResponseEntity<?> getContent(@PathVariable(required = true) Long group_id) {
-		return this.groupService.getContent(group_id);
+	
+	@GetMapping("/{group_id}/content/{type}")
+	public ResponseEntity<?> getContentFlashcard(@PathVariable(required = true) Long group_id, @PathVariable(required = true) String type) {
+		return this.groupService.getContent(group_id,type);
 	}
-	}
+	
 	
 }

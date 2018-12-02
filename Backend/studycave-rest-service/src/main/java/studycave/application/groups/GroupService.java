@@ -163,9 +163,9 @@ public class GroupService {
 		return new ResponseEntity<>("Niepoprawny kod", HttpStatus.BAD_REQUEST);
 	}
 	
-	public ResponseEntity<?> getContent(Long group_id) {
+	public ResponseEntity<?> getContent(Long group_id, String type) {
 		
 		
-		return new ResponseEntity<>("Pusta lisa", HttpStatus.OK);
+		return new ResponseEntity<>("Pusta lista", HttpStatus.OK);
 	}
 }
