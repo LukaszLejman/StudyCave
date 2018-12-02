@@ -14,7 +14,7 @@ import { GridOptions } from 'ag-grid';
 export class GroupDetailsComponent implements OnInit, OnDestroy {
   id: number;
   currentUser;
-  dataToDisplay= '';
+  dataToDisplay = '';
   public group: Group;
   data;
 
@@ -92,7 +92,8 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-   if (currentUser.username === currentUser.username) {
+    console.log(this.group.owner);
+    if (currentUser.username === currentUser.username) { // TODO: change if statement after backend upgrades response
       return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" >Usuń</button>`;
     } else {
       return '';
@@ -102,7 +103,10 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id).subscribe(data => { this.group = data; });
+    this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id)
+    .subscribe(data => { this.group = data; });
+    console.log(this.group);
+
     this.gridOptions = {
       rowHeight: 50,
       headerHeight: 25,
@@ -127,8 +131,8 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   }
 
   redirectTo(uri) {
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-    this.router.navigate([uri]));
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      this.router.navigate([uri]));
   }
 
   public onActionRemoveClick(e) {
@@ -187,8 +191,9 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.groupDetailsSubscription) {
-     this.groupDetailsSubscription.unsubscribe();
+      this.groupDetailsSubscription.unsubscribe();
     }
+    localStorage.removeItem('owner');
   }
 
   goToEditing() {
@@ -197,6 +202,8 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   isDisplayed(resource) {
     if (resource === 'fiszek') {
+      console.log(this.group);
+
       setTimeout(() => {
         this.dataToDisplay = resource;
         this.data = this.mockFlashcards;
@@ -204,17 +211,21 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
     }
     if (resource === 'materiałów') {
+      console.log(this.group);
+
       setTimeout(() => {
         this.dataToDisplay = resource;
         this.data = this.mockMaterials;
-            }, 200);
+      }, 200);
 
     }
     if (resource === 'testów') {
+      console.log(this.group);
+
       setTimeout(() => {
         this.dataToDisplay = resource;
         this.data = this.mockTests;
-            }, 200);
+      }, 200);
 
     }
   }
