@@ -91,4 +91,10 @@ public class GroupController {
 		return this.groupService.joinToGroup(userId, groupDto.getGroupCode());
 	}
 
+	@GetMapping("/{group_id}/content")
+	public ResponseEntity<?> getContent(@PathVariable(required = true) Long group_id) {
+		return this.groupService.getContent(group_id);
+	}
+	}
+	
 }
