@@ -31,6 +31,7 @@ import { ManageGroupComponent } from './manage-group/manage-group.component';
     MatSnackBarModule,
     DialogModule,
     ConfirmDialogModule
+    
   ],
   declarations: [
     MyGroupsComponent,
