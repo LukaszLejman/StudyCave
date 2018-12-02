@@ -234,8 +234,12 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<Resource> getFile(@PathVariable(required = true) Long id) {
 		Material material = materialRepository.findById(id).orElse(null);
-		ResourceLoader rl = new DefaultResourceLoader();
-		Resource file = rl.getResource("url:https://s3-eu-west-1.amazonaws.com/studycave-folder/" + material.getPath());
+//		ResourceLoader rl = new DefaultResourceLoader();
+//		Resource file = rl.getResource("url:https://s3-eu-west-1.amazonaws.com/studycave-folder/" + material.getPath());
+	
+		// ------------------------------------------------------------------------- LOCAL
+		Resource file = storageService.loadFile(material.getPath()); 
+		
 		
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
