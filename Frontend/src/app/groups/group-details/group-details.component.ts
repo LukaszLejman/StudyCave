@@ -105,7 +105,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id)
     .subscribe(data => { this.group = data; });
-    console.log(this.group);
 
     this.gridOptions = {
       rowHeight: 50,
@@ -202,8 +201,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   isDisplayed(resource) {
     if (resource === 'fiszek') {
-      console.log(this.group);
-
       setTimeout(() => {
         this.dataToDisplay = resource;
         this.data = this.mockFlashcards;
@@ -211,8 +208,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
     }
     if (resource === 'materiałów') {
-      console.log(this.group);
-
       setTimeout(() => {
         this.dataToDisplay = resource;
         this.data = this.mockMaterials;
@@ -220,8 +215,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
     }
     if (resource === 'testów') {
-      console.log(this.group);
-
       setTimeout(() => {
         this.dataToDisplay = resource;
         this.data = this.mockTests;
