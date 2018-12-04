@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import studycave.application.files.MaterialRepository;
 import studycave.application.groups.dto.AddMaterialDto;
+import studycave.application.flashcard.Flashcard;
+import studycave.application.flashcard.SetRepository;
+import studycave.application.groups.dto.AddSetDto;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMember;
 import studycave.application.groups.members.StudyGroupMemberRepository;
@@ -37,9 +40,11 @@ public class GroupService {
 	MaterialRepository materialRepository;
 	@Autowired
 	StudyGroupMemberRepository memberRepository;
+	@Autowired
+	SetRepository setRepository;
     @PersistenceContext
 	private EntityManager entityManager;
-    
+
 	public ResponseEntity<?> createGroup(CreateGroupDto groupDto) {
 		StudyGroup group = modelMapper.map(groupDto, StudyGroup.class);
 		RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('0', 'z')
@@ -148,14 +153,14 @@ public class GroupService {
 
 	public ResponseEntity<?> joinToGroup(Long userId, String groupCode) {
 		List<StudyGroup> groups = this.groupRepository.findByGroupKey(groupCode);
-		
+
 		if (groups.isEmpty()) {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
-		
+
 		for (StudyGroup group : groups) {
 			if (group.getGroupKey().equals(groupCode)) {
-				for (StudyGroupMember member: group.getMembers()) {
+				for (StudyGroupMember member : group.getMembers()) {
 					if (member.getUser().getId() == userId) {
 						return new ResponseEntity<>("Użytkownik znajduje się już w grupie", HttpStatus.CONFLICT);
 					}
@@ -165,14 +170,38 @@ public class GroupService {
 				newMember.setGroup(group);
 				newMember.setUser(this.userRepository.findById(userId).orElse(null));
 				this.memberRepository.save(newMember);
-			    GroupDto groupDto = modelMapper.map(group, GroupDto.class);
+				GroupDto groupDto = modelMapper.map(group, GroupDto.class);
 				return new ResponseEntity<GroupDto>(groupDto, HttpStatus.OK);
 			}
 		}
-		
+
 		return new ResponseEntity<>("Niepoprawny kod", HttpStatus.BAD_REQUEST);
 	}
 	
+	public ResponseEntity<?> addFlashcardSets(String groupId, @RequestBody List<AddSetDto> setIds) {
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
+		if (group == null) 	{
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		for (AddSetDto s : setIds) {
+				Long setId = Long.parseLong(s.getSetId());
+				this.setRepository.findById(setId).ifPresent(set -> {
+					List<Flashcard> flashcards = set.getFlashcards();
+					for (Flashcard flashcard : flashcards) {
+						entityManager.detach(flashcard);
+						flashcard.setId(null);
+					}
+					entityManager.detach(set);
+					set.setId(null);
+					set.setPermission("GROUP");
+					set.setStatus("UNVERIFIED");
+					set.setGroup(group);
+					this.setRepository.save(set);
+				});
+			}
+
+		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+	}
 	public ResponseEntity<?> addMaterials(String groupId, @RequestBody List<AddMaterialDto> materialIds) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
 		if (group == null) 	{
@@ -188,8 +217,7 @@ public class GroupService {
 					material.setGroup(group);
 					this.materialRepository.save(material);
 				});
-			}
-
+		}
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
 }
