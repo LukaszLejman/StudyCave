@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.apache.commons.text.RandomStringGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import studycave.application.files.MaterialRepository;
+import studycave.application.groups.dto.AddMaterialDto;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMember;
 import studycave.application.groups.members.StudyGroupMemberRepository;
@@ -28,8 +34,12 @@ public class GroupService {
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
+	MaterialRepository materialRepository;
+	@Autowired
 	StudyGroupMemberRepository memberRepository;
-
+    @PersistenceContext
+	private EntityManager entityManager;
+    
 	public ResponseEntity<?> createGroup(CreateGroupDto groupDto) {
 		StudyGroup group = modelMapper.map(groupDto, StudyGroup.class);
 		RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('0', 'z')
@@ -161,5 +171,25 @@ public class GroupService {
 		}
 		
 		return new ResponseEntity<>("Niepoprawny kod", HttpStatus.BAD_REQUEST);
+	}
+	
+	public ResponseEntity<?> addMaterials(String groupId, @RequestBody List<AddMaterialDto> materialIds) {
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
+		if (group == null) 	{
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		for (AddMaterialDto m : materialIds) {
+				Long materialId = Long.parseLong(m.getMaterialId());
+				this.materialRepository.findById(materialId).ifPresent(material -> {
+					entityManager.detach(material);
+					material.setId(null);
+					material.setPermission("GROUP");
+					material.setStatus("UNVERIFIED");
+					material.setGroup(group);
+					this.materialRepository.save(material);
+				});
+			}
+
+		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
 }
