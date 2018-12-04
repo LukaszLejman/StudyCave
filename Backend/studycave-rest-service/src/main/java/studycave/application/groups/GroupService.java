@@ -202,6 +202,7 @@ public class GroupService {
 
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
+	
 	public ResponseEntity<?> addMaterials(String groupId, @RequestBody List<AddMaterialDto> materialIds) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
 		if (group == null) 	{

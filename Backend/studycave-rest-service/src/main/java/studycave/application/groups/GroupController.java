@@ -100,7 +100,7 @@ public class GroupController {
 	
 	@PostMapping("/{groupId}/materials")
 	public ResponseEntity<?> addMaterial(@PathVariable(required = true) String groupId, @RequestBody List<AddMaterialDto> materialIds) {
-		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+		return this.groupService.addMaterials(groupId, materialIds);
 	}
 	
 	@PostMapping("/{groupId}/tests")
