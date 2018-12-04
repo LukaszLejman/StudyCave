@@ -3,6 +3,7 @@ import { Set } from '../set';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FlashcardsService } from '../flashcards.service';
 import { Subscription } from 'rxjs/Subscription';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-flashcards-set-detail',
@@ -21,7 +22,8 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   owned: Boolean = false;
   display = false;
 
-  constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService, private router: Router,
+    public snackBar: MatSnackBar) { }
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => { this.set = data; });
@@ -47,9 +49,9 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
 
   IsLogin() {
     if (localStorage.getItem('currentUser')) {
-    this.user = true;
+      this.user = true;
     } else {
-    this.user = false;
+      this.user = false;
     }
   }
 
@@ -59,12 +61,13 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
 
   changePermission(): void {
     if (this.set.permission === 'Public') {
-     this.permission = 'Private';
+      this.permission = 'Private';
     } else {
-     this.permission = 'Public';
+      this.permission = 'Public';
     }
     this.flashcardsService.changeSetPermission(this.id, this.permission);
-    alert('Zmieniono pozwolenie na: ' + this.permission);
+    this.snackBar.open('Zmieniono pozwolenie na: ' + this.permission, null,
+      { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
   }
 
   handleCancelFlashcardsTestyTypeMenu(e) {

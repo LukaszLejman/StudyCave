@@ -2,7 +2,8 @@
     display: flex;
     min-height: 50px;
     min-width: 100px;
-    background-color: #00b0f9;
+    color: black;
+    background-color: rgb(206, 168, 86);
     align-items: center;
     justify-content: center;
     margin: 5px;

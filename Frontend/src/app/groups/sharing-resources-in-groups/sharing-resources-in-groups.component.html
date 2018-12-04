@@ -1,0 +1,33 @@
+<div class="wrapper">
+  <div class="content">
+    <div>
+      <button class="btn btn-study-cave float-right mr-1" [routerLink]="['/groups/', id]">Powrót</button>
+      <div style="clear: both;"></div>
+    </div>
+    <h1>Dodawanie zasobów do grupy</h1>
+    <br />
+    <div>
+      <p>Wybierz typ zasobu do dodania:</p>
+      <div>
+        <button [disabled]="materialsToAdd.length > 0" class="btn btn-study-cave mr-1" (click)="getMaterialsToAdd()">Materiały</button>
+        <button [disabled]="flashcardsToAdd.length > 0" class="btn btn-study-cave mr-1" (click)="getFlashcardsToAdd()">Fiszki</button>
+        <button [disabled]="testsToAdd.length > 0" class="btn btn-study-cave mr-1" (click)="getTestsToAdd()">Testy</button>
+      </div>
+    </div>
+    <br /><br />
+    <div class="multiselect-wrapper">
+      <div *ngIf="materialsToAdd.length > 0 || flashcardsToAdd.length > 0 || testsToAdd.length > 0">
+        <p-listbox [options]="setResources()" [(ngModel)]="selected" [multiple]="true" [checkbox]="true" [listStyle]="{'text-align': 'left'}"
+          [showToggleAll]="false">
+          <p-header>
+            <h2 *ngIf="materialsToAdd.length > 0">Materiały</h2>
+            <h2 *ngIf="flashcardsToAdd.length > 0">Fiszki</h2>
+            <h2 *ngIf="testsToAdd.length > 0">Testy</h2>
+          </p-header>
+        </p-listbox>
+        <br /><br />
+        <button [disabled]="selected.length === 0" class="btn btn-study-cave mr-1" (click)="addResources()">Dodaj</button>
+      </div>
+    </div>
+  </div>
+</div>

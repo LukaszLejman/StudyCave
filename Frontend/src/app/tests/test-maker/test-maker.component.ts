@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TestsService } from '../tests.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-test-maker',
@@ -26,9 +27,9 @@ export class TestMakerComponent implements OnInit {
   private nr: Number = 0;
   private pointsAll: Number = 0;
 
-  constructor(private testsService: TestsService) {}
+  constructor(private testsService: TestsService, public snackBar: MatSnackBar) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onAdd(question: Object): void {
     this.pointsAll = 0;
@@ -134,7 +135,8 @@ export class TestMakerComponent implements OnInit {
 
   save(): void {
     if ((this.title === undefined) || (this.title.trim().length === 0)) {
-      alert('Podaj tytuł testu.');
+      this.snackBar.open('Podaj tytuł testu.', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       let p = 'private';
       if (this.permission) {
