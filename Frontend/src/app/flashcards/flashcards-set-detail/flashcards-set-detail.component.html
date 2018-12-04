@@ -1,12 +1,12 @@
 <div class="wrapper">
     <div class="content">
         <div class="button-container">
-            <button class="btn btn-grey" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
-            <button class="btn btn-purple" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
-            <button *ngIf="owned" class="btn btn-green" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
-            <button *ngIf="owned" class="btn btn-red" (click)="deleteSet()">USUŃ FISZKI</button>
+            <button class="btn btn-study-cave" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
+            <button class="btn btn-study-cave" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
+            <button *ngIf="owned" class="btn btn-study-cave" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
+            <button *ngIf="owned" class="btn btn-study-cave" (click)="deleteSet()">USUŃ FISZKI</button>
             <div *ngIf="user && owned">
-                    <button class="btn btn-blue" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
+                    <button class="btn btn-study-cave" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
             </div>
         </div>
 
