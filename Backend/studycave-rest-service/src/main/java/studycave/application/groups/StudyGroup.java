@@ -31,7 +31,11 @@ public class StudyGroup {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
 	List<StudyGroupMember> members = new ArrayList<>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
+	List<StudyGroupMember> flashcardSets = new ArrayList<>();
 
+	
 	public StudyGroup() {
 		super();
 	}
@@ -75,4 +79,14 @@ public class StudyGroup {
 	public void setGroupKey(String groupKey) {
 		this.groupKey = groupKey;
 	}
+
+	public List<StudyGroupMember> getFlashcardSets() {
+		return flashcardSets;
+	}
+
+	public void setFlashcardSets(List<StudyGroupMember> flashcardSets) {
+		this.flashcardSets = flashcardSets;
+	}
+	
+	
 }
