@@ -36,5 +36,8 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['groups/manage', this.id]);
   }
 
+  goToAddingResource() {
+    this.router.navigate(['groups/add-resources', this.id]);
+  }
 
 }

@@ -32,13 +32,13 @@
             <div class="col-md-2">
               <b>Akcja</b>
               <br />
-              <button class="btn btn-red" type="button" (click)="removefromAnswers(i)">Usuń</button>
+              <button class="btn btn-study-cave" type="button" (click)="removefromAnswers(i)">Usuń</button>
             </div>
             <div class="mobile col-md-2">
               <b>Przesuń</b>
               <br />
-              <button *ngIf="i != 0" class="mobile btn btn-green" (click)="moveUp(i + 1)">Góra</button>
-              <button *ngIf="i != answersCorrect.length - 1" class="mobile btn btn-brown" (click)="moveDown(i + 1)">Dół</button>
+              <button *ngIf="i != 0" class="mobile btn btn-study-cave" (click)="moveUp(i + 1)">Góra</button>
+              <button *ngIf="i != answersCorrect.length - 1" class="mobile btn btn-study-cave" (click)="moveDown(i + 1)">Dół</button>
               <span *ngIf="(i == 0) && (i == answersCorrect.length - 1)" >---</span>
             </div>
           </div>
@@ -51,7 +51,7 @@
             <div class="col-md-2">
               <b>Akcja</b>
               <br />
-              <button class="btn btn-purple" type="button" (click)="addToVisibleText()">Zapisz</button>
+              <button class="btn btn-study-cave" type="button" (click)="addToVisibleText()">Zapisz</button>
             </div>
           </div>
           <div *ngIf="gap" class="row">
@@ -67,9 +67,9 @@
             </div>
           </div>
           <br />
-          <button class="btn btn-brown mb-2" (click)="showVisibleTextInput()">Dodaj tekst widoczny</button>
-          <button class="btn btn-purple mb-2" (click)="showGapInput()">Dodaj tekst luki</button>
-          <button class="btn btn-blue mb-2" (click)="addNewLine()">Wstaw nową linię</button>
+          <button class="btn btn-study-cave mb-2" (click)="showVisibleTextInput()">Dodaj tekst widoczny</button>
+          <button class="btn btn-study-cave mb-2" (click)="showGapInput()">Dodaj tekst luki</button>
+          <button class="btn btn-study-cave mb-2" (click)="addNewLine()">Wstaw nową linię</button>
           <div *ngIf="answersCorrect.length != 0">
             <br />
             <h5>Podgląd: </h5>
@@ -82,9 +82,9 @@
         </div>
         <br />
         <br />
-        <button *ngIf='!edit' class="btn btn-blue" type="submit" (click)="addTable()">Dodaj pytanie!</button>
-        <button *ngIf='edit' class="btn btn-blue" type="submit" (click)="addTable()">Edytuj pytanie!</button>
-        <button class="btn btn-grey ml-2" (click)="empty()">Powrót</button>
+        <button *ngIf='!edit' class="btn btn-study-cave" type="submit" (click)="addTable()">Dodaj pytanie!</button>
+        <button *ngIf='edit' class="btn btn-study-cave" type="submit" (click)="addTable()">Edytuj pytanie!</button>
+        <button class="btn btn-study-cave ml-2" (click)="empty()">Powrót</button>
       </div>
     </div>
   </div>
