@@ -2,6 +2,9 @@ package studycave.application.groups;
 
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +26,9 @@ import studycave.application.flashcard.SetRepository;
 import studycave.application.groups.dto.AddMaterialDto;
 import studycave.application.groups.dto.AddSetDto;
 import studycave.application.groups.dto.AddTestDto;
+
+import studycave.application.groups.dto.VerifyDto;
+import studycave.application.groups.dto.VerifyDto.VerifyType;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMemberRepository;
 import studycave.application.user.UserRepository;
@@ -111,5 +118,41 @@ public class GroupController {
 	@PostMapping("/{groupId}/tests")
 	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> testIds) {
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+	}
+	
+	@PutMapping("/{groupId}/tests/{testId}/status")
+	public ResponseEntity<?> verifyTest(
+			@PathVariable(required = true) String groupId,
+			@PathVariable(required = true) String testId,
+			@Valid @RequestBody VerifyDto dto
+			) {
+		if (dto.getStatus() == VerifyType.ACCEPTED) {
+			return new ResponseEntity<>("Dodano", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+	}
+	
+	@PutMapping("/{groupId}/materials/{materialId}/status")
+	public ResponseEntity<?> verifyMaterial(
+			@PathVariable(required = true) String groupId,
+			@PathVariable(required = true) String materialId,
+			@Valid @RequestBody VerifyDto dto
+			) {
+		if (dto.getStatus() == VerifyType.ACCEPTED) {
+			return new ResponseEntity<>("Dodano", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+	}
+	
+	@PutMapping("/{groupId}/flashcard-sets/{setId}/status")
+	public ResponseEntity<?> verifySet(
+			@PathVariable(required = true) String groupId,
+			@PathVariable(required = true) String setId,
+			@Valid @RequestBody VerifyDto dto
+			) {
+		if (dto.getStatus() == VerifyType.ACCEPTED) {
+			return new ResponseEntity<>("Dodano", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
 	}
 }
