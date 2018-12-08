@@ -16,6 +16,14 @@ export class GroupsService {
   private getTestsToAddURL = 'users/sets?excludedGroupId={groupId}';
   private getFlashcardsToAddURL = 'users/tests?excludedGroupId={groupId}';
 
+  private getMaterialsInGroupURL = '';
+  private getTestsInGroupURL = '';
+  private getFlashcardsInGroupURL = '';
+
+  private confirmMaterialsInGroupURL = '';
+  private confirmTestsInGroupURL = '';
+  private confirmFlashcardsInGroupURL = '';
+
   constructor(private httpClient: HttpClient, private router: Router,
     private authenticationService: AuthenticationService) {
     this.setHeaders();
@@ -86,19 +94,25 @@ export class GroupsService {
   getMaterialsToAdd(id: number): Observable<any> {
     this.setHeaders();
     const url = this.getMaterialsToAddURL.replace('{groupId}', id.toString());
-    return this.httpClient.get(url, { headers: this.headers });
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   getTestsToAdd(id: number): Observable<any> {
     this.setHeaders();
     const url = this.getTestsToAddURL.replace('{groupId}', id.toString());
-    return this.httpClient.get(url, { headers: this.headers });
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   getFlashcardsToAdd(id: number): Observable<any> {
     this.setHeaders();
     const url = this.getFlashcardsToAddURL.replace('{groupId}', id.toString());
-    return this.httpClient.get(url, { headers: this.headers });
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   addFlashcardsToGroup(group: number, flashcard: Array<string>): Observable<any> {
@@ -141,6 +155,147 @@ export class GroupsService {
     return this.httpClient.post(`groups/${group}/materials`,
       testToSend,
       {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  getMaterialsInGroup(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getMaterialsInGroupURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
+  }
+
+  getTestsInGroup(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getTestsInGroupURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
+  }
+
+  getFlashcardsInGroup(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getFlashcardsInGroupURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
+  }
+
+  confirmMaterialsInGroup(groupId: number, materialId: number, points: number, ownerId: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const body = {
+      materialId: materialId,
+      points: points,
+      ownerId: ownerId
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.post(url, body, {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  confirmTestsInGroup(groupId: number, testId: number, points: number, ownerId: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const body = {
+      testId: testId,
+      points: points,
+      ownerId: ownerId
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.post(url, body, {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  confirmFlashcardsInGroup(groupId: number, flashcardsId: number, points: number, ownerId: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const body = {
+      flashcardsId: flashcardsId,
+      points: points,
+      ownerId: ownerId
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.post(url, body, {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  rejectMaterialsFromGroup(groupId: number, materialId: number, ownerId: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const body = {
+      materialId: materialId,
+      ownerId: ownerId
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.post(url, body, {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  rejectTestsFromGroup(groupId: number, testId: number, ownerId: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const body = {
+      testId: testId,
+      ownerId: ownerId
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.post(url, body, {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  rejectFlashcardsFromGroup(groupId: number, flashcardsId: number, ownerId: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const body = {
+      flashcardsId: flashcardsId,
+      ownerId: ownerId
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.post(url, body, {
         headers: this.headers,
         observe: 'response',
         responseType: 'text'

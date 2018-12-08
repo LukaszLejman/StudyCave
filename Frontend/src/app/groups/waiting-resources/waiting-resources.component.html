@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <div class="content">
+    <div>
+      <button class="btn btn-study-cave float-right mr-1" [routerLink]="['/groups/manage/', id]">Powrót</button>
+      <div style="clear: both;"></div>
+    </div>
+    <h1>Oczekujące materiały</h1>
+    <br />
+    <div>
+      <p>Wybierz typ zasobu:</p>
+      <div>
+        <button [disabled]="waitingMaterials.length > 0" class="btn btn-study-cave mr-1" (click)="getWaitingMaterials()">Materiały</button>
+        <button [disabled]="waitingFlashcards.length > 0" class="btn btn-study-cave mr-1" (click)="getWaitingFlashcards()">Fiszki</button>
+        <button [disabled]="waitingTests.length > 0" class="btn btn-study-cave mr-1" (click)="getWaitingTests()">Testy</button>
+      </div>
+    </div>
+    <br /><br />
+    <div>
+      <div>
+        Tu będzie interfejs zarządzania oczekującymi zasobami.
+        <br /><br />
+        <!--<button [disabled]="selected.length === 0" class="btn btn-study-cave mr-1" (click)="save()">Zapisz</button>-->
+      </div>
+    </div>
+  </div>
+</div>
