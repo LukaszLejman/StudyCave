@@ -213,7 +213,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       this.confirmTestSub = this.groupService.confirmTestsInGroup(this.id, resource.id, points, resource.comment).subscribe(
         success => {
           this.refreshList();
-          this.snackBar.open('Test został zatwierdzony.', null,
+          this.snackBar.open('Test został odrzucony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
         error => {
@@ -225,7 +225,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       this.confirmFlashcardsSub = this.groupService.confirmFlashcardsInGroup(this.id, resource.id, points, resource.comment).subscribe(
         success => {
           this.refreshList();
-          this.snackBar.open('Zestaw fiszek został zatwierdzony.', null,
+          this.snackBar.open('Zestaw fiszek został odrzucony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
         error => {
@@ -237,7 +237,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       this.confirmMaterialSub = this.groupService.confirmMaterialsInGroup(this.id, resource.id, points, resource.comment).subscribe(
         success => {
           this.refreshList();
-          this.snackBar.open('Materiał został zatwierdzony.', null,
+          this.snackBar.open('Materiał został odrzucony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
         error => {
