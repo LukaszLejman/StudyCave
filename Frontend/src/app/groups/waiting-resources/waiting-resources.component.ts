@@ -38,7 +38,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
   private testSubscribtion: Subscription;
   private flashcardSubscribtion: Subscription;
 
-  private gridApi;
+  private gridApi: any;
   public gridOptions: GridOptions;
   public localeText = localeText;
 
@@ -147,9 +147,11 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     if (this.selectedTypeOfResource === ResourceType.test) {
       this.getWaitingTests();
     }
+
     if (this.selectedTypeOfResource === ResourceType.flashcards) {
       this.getWaitingFlashcards();
     }
+
     if (this.selectedTypeOfResource === ResourceType.materials) {
       this.getWaitingMaterials();
     }
@@ -162,6 +164,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       this.confirmTestSub = this.groupService.confirmTestsInGroup(this.id, resource.id, resource.points,
         resource.comment).subscribe(
         success => {
+          this.refreshList();
           this.snackBar.open('Test został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -174,6 +177,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       this.confirmFlashcardsSub = this.groupService.confirmFlashcardsInGroup(this.id, resource.id, resource.points,
         resource.comment).subscribe(
         success => {
+          this.refreshList();
           this.snackBar.open('Zestaw fiszek został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -186,6 +190,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       this.confirmMaterialSub = this.groupService.confirmMaterialsInGroup(this.id, resource.id, resource.points,
         resource.comment).subscribe(
         success => {
+          this.refreshList();
           this.snackBar.open('Materiał został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -195,7 +200,6 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         }
       );
     }
-    this.refreshList();
   }
 
   reject(resource: Resource, points: number) {
@@ -204,6 +208,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     if (this.selectedTypeOfResource === ResourceType.test) {
       this.confirmTestSub = this.groupService.confirmTestsInGroup(this.id, resource.id, points, resource.comment).subscribe(
         success => {
+          this.refreshList();
           this.snackBar.open('Test został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -215,6 +220,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     } else if (this.selectedTypeOfResource === ResourceType.flashcards) {
       this.confirmFlashcardsSub = this.groupService.confirmFlashcardsInGroup(this.id, resource.id, points, resource.comment).subscribe(
         success => {
+          this.refreshList();
           this.snackBar.open('Zestaw fiszek został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -226,6 +232,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     } else if (this.selectedTypeOfResource === ResourceType.materials) {
       this.confirmMaterialSub = this.groupService.confirmMaterialsInGroup(this.id, resource.id, points, resource.comment).subscribe(
         success => {
+          this.refreshList();
           this.snackBar.open('Materiał został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -235,14 +242,12 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         }
       );
     }
-    this.refreshList();
   }
 
   onActionPreviewClick(e) {
     if (this.waitingTests.length > 0) {
       this.testSubscribtion = this.testService.getTest(e.data.id).subscribe(
         data => {
-          console.log(data);
           this.test = data;
           this.selectedResource = e.data;
           this.displayPreviewDialog = true;
@@ -284,7 +289,6 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
   onRowClicked(e) {
     if (e.event.target !== undefined) {
       const actionType = e.event.target.getAttribute('data-action-type');
-
       switch (actionType) {
         case 'preview':
           return this.onActionPreviewClick(e);
@@ -339,7 +343,6 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         }
       ];
     }
-
     params.api.sizeColumnsToFit();
   }
 
