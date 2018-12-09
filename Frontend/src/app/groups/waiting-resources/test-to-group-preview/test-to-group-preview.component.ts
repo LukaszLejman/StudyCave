@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Test } from '../../../tests/test_model';
 
 @Component({
   selector: 'app-test-to-group-preview',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestToGroupPreviewComponent implements OnInit {
 
+  @Input() public test: Test;
+
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

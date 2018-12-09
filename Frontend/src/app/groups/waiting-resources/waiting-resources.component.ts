@@ -5,6 +5,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Resource } from '../resource';
 import { ResourceType } from '../sharing-resources-in-groups/sharing-resources-in-groups';
 import { Subscription } from 'rxjs/Subscription';
+import localeText from './localeText';
+import { GridOptions } from 'ag-grid-community';
+import { TestsService } from '../../tests/tests.service';
+import { Test } from '../../tests/test_model';
+import { FlashcardsService } from '../../flashcards/flashcards.service';
 
 @Component({
   selector: 'app-waiting-resources',
@@ -20,7 +25,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
   public waitingFlashcards: Resource[] = [];
 
   public selectedTypeOfResource: ResourceType;
-  public selected: string[];
+  public selectedResource: Resource = {};
 
   private getWaitingMaterialsSub: Subscription;
   private getWaitingTestsSub: Subscription;
@@ -30,23 +35,65 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
   private confirmMaterialSub: Subscription;
   private confirmFlashcardsSub: Subscription;
 
+  private testSubscribtion: Subscription;
+  private flashcardSubscribtion: Subscription;
+
+  private gridApi;
+  public gridOptions: GridOptions;
+  public localeText = localeText;
+
+  public columnDefs = [
+    { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+    { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+    {
+      headerName: '',
+      suppressMenu: true,
+      suppressSorting: true,
+      cellRenderer: this.customCellRendererFunc
+    }
+  ];
+
+  public displayMaterials = false;
+  public displayTests = false;
+  public displayFlashcards = false;
+
+  public displayPreviewDialog = false;
+  public displayAcceptDialog = false;
+  public displayRejectDialog = false;
+
+  public test: Test;
+  public set: any;
+
   constructor(private route: ActivatedRoute,
     private groupService: GroupsService,
+    private testService: TestsService,
+    private flashcardsService: FlashcardsService,
     public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
+    this.gridOptions = {
+      rowHeight: 50,
+      headerHeight: 25,
+      getRowStyle: function (params) {
+        return {
+          cursor: 'pointer'
+        };
+      },
+    };
   }
 
   getWaitingMaterials() {
     this.selectedTypeOfResource = ResourceType.materials;
-    this.selected = [];
+    this.displayMaterials = true;
+    this.displayTests = false;
+    this.displayFlashcards = false;
     this.getWaitingMaterialsSub = this.groupService.getMaterialsInGroup(this.id).subscribe(
       success => {
         this.waitingTests = [];
         this.waitingFlashcards = [];
-        console.log('Materials to add: ', success);
-        this.waitingMaterials = success.map(this.addPropertiesToDisplayInMultiselectList);
+        console.log('Waiting materials: ', success);
+        this.waitingMaterials = success;
       },
       error => {
         this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
@@ -58,13 +105,15 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
 
   getWaitingTests() {
     this.selectedTypeOfResource = ResourceType.test;
-    this.selected = [];
+    this.displayMaterials = false;
+    this.displayTests = true;
+    this.displayFlashcards = false;
     this.getWaitingTestsSub = this.groupService.getTestsInGroup(this.id).subscribe(
       success => {
         this.waitingFlashcards = [];
         this.waitingMaterials = [];
-        console.log('Tests to add: ', success);
-        this.waitingTests = success.map(this.addPropertiesToDisplayInMultiselectList);
+        console.log('Waiting tests: ', success);
+        this.waitingTests = success;
       },
       error => {
         this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
@@ -76,13 +125,15 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
 
   getWaitingFlashcards() {
     this.selectedTypeOfResource = ResourceType.flashcards;
-    this.selected = [];
+    this.displayMaterials = false;
+    this.displayTests = false;
+    this.displayFlashcards = true;
     this.getWaitingFlashcardsSub = this.groupService.getFlashcardsInGroup(this.id).subscribe(
       success => {
         this.waitingMaterials = [];
         this.waitingTests = [];
-        console.log('Flashcards to add: ', success);
-        this.waitingFlashcards = success.map(this.addPropertiesToDisplayInMultiselectList);
+        console.log('Waiting flashcards: ', success);
+        this.waitingFlashcards = success;
       },
       error => {
         this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
@@ -92,31 +143,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     );
   }
 
-  addPropertiesToDisplayInMultiselectList(item) {
-    if (item.title) {
-      item.label = item.title;
-    } else {
-      item.label = item.name;
-    }
-    item.value = item.id;
-    return item;
-  }
-
-  /*setResources() {
-    if (this.selectedTypeOfResource === ResourceType.test) {
-      return this.waitingTests;
-    }
-    if (this.selectedTypeOfResource === ResourceType.flashcards) {
-      return this.waitingFlashcards;
-    }
-    if (this.selectedTypeOfResource === ResourceType.materials) {
-      return this.waitingMaterials;
-    }
-    return {};
-  }*/
-
   refreshList() {
-    this.selected = [];
     if (this.selectedTypeOfResource === ResourceType.test) {
       this.getWaitingTests();
     }
@@ -128,28 +155,12 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     }
   }
 
-  showResource(resource: Resource) {
-    if (this.selectedTypeOfResource === ResourceType.test) {
-      // pobierz test
-      // pokaz dialog z testem w trybie tylko do odczytu
-    } else if (this.selectedTypeOfResource === ResourceType.flashcards) {
-      // pobierz fiszki
-      // pokaz dialog z fiszkami w trybie tylko do odczytu
-    } else if (this.selectedTypeOfResource === ResourceType.materials) {
-      // pobierz materiał
-      // pokaz dialog z materiałem w trybie tylko do odczytu
-    } else {
-      this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
-        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
-    }
-  }
-
   save(resource: Resource) {
     this.id = this.route.snapshot.params.id;
 
     if (this.selectedTypeOfResource === ResourceType.test) {
       this.confirmTestSub = this.groupService.confirmTestsInGroup(this.id, resource.id, resource.points,
-        resource.ownerId, resource.comment).subscribe(
+        resource.comment).subscribe(
         success => {
           this.snackBar.open('Test został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
@@ -161,7 +172,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       );
     } else if (this.selectedTypeOfResource === ResourceType.flashcards) {
       this.confirmFlashcardsSub = this.groupService.confirmFlashcardsInGroup(this.id, resource.id, resource.points,
-        resource.ownerId, resource.comment).subscribe(
+        resource.comment).subscribe(
         success => {
           this.snackBar.open('Zestaw fiszek został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
@@ -173,7 +184,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       );
     } else if (this.selectedTypeOfResource === ResourceType.materials) {
       this.confirmMaterialSub = this.groupService.confirmMaterialsInGroup(this.id, resource.id, resource.points,
-        resource.ownerId, resource.comment).subscribe(
+        resource.comment).subscribe(
         success => {
           this.snackBar.open('Materiał został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
@@ -183,9 +194,6 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
         }
       );
-    } else {
-      this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
-        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     }
     this.refreshList();
   }
@@ -194,8 +202,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.params.id;
 
     if (this.selectedTypeOfResource === ResourceType.test) {
-      this.confirmTestSub = this.groupService.confirmTestsInGroup(this.id, resource.id, points, resource.ownerId,
-        resource.comment).subscribe(
+      this.confirmTestSub = this.groupService.confirmTestsInGroup(this.id, resource.id, points, resource.comment).subscribe(
         success => {
           this.snackBar.open('Test został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
@@ -206,8 +213,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         }
       );
     } else if (this.selectedTypeOfResource === ResourceType.flashcards) {
-      this.confirmFlashcardsSub = this.groupService.confirmFlashcardsInGroup(this.id, resource.id, points, resource.ownerId,
-        resource.comment).subscribe(
+      this.confirmFlashcardsSub = this.groupService.confirmFlashcardsInGroup(this.id, resource.id, points, resource.comment).subscribe(
         success => {
           this.snackBar.open('Zestaw fiszek został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
@@ -218,8 +224,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         }
       );
     } else if (this.selectedTypeOfResource === ResourceType.materials) {
-      this.confirmMaterialSub = this.groupService.confirmMaterialsInGroup(this.id, resource.id, points, resource.ownerId,
-        resource.comment).subscribe(
+      this.confirmMaterialSub = this.groupService.confirmMaterialsInGroup(this.id, resource.id, points, resource.comment).subscribe(
         success => {
           this.snackBar.open('Materiał został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
@@ -229,11 +234,113 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
         }
       );
-    } else {
-      this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
-        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     }
     this.refreshList();
+  }
+
+  onActionPreviewClick(e) {
+    if (this.waitingTests.length > 0) {
+      this.testSubscribtion = this.testService.getTest(e.data.id).subscribe(
+        data => {
+          console.log(data);
+          this.test = data;
+          this.selectedResource = e.data;
+          this.displayPreviewDialog = true;
+        },
+        error => {
+          this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
+      );
+    } else if (this.waitingFlashcards.length > 0) {
+      this.flashcardSubscribtion = this.flashcardsService.getSet(e.data.id).subscribe(
+        data => {
+          this.set = data;
+          this.selectedResource = e.data;
+          this.displayPreviewDialog = true;
+        },
+        error => {
+          this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+          console.log('Something went wrong :( \nError: ', error);
+        });
+    } else {
+      this.selectedResource = e.data;
+      this.displayPreviewDialog = true;
+    }
+  }
+
+  onActionAcceptClick(e) {
+    this.selectedResource = e.data;
+    this.selectedResource.points = 0;
+    this.displayAcceptDialog = true;
+  }
+
+  onActionRejectClick(e) {
+    this.selectedResource = e.data;
+    this.displayRejectDialog = true;
+  }
+
+  onRowClicked(e) {
+    if (e.event.target !== undefined) {
+      const actionType = e.event.target.getAttribute('data-action-type');
+
+      switch (actionType) {
+        case 'preview':
+          return this.onActionPreviewClick(e);
+        case 'accept':
+          return this.onActionAcceptClick(e);
+        case 'reject':
+          return this.onActionRejectClick(e);
+        default:
+          return this.onActionPreviewClick(e);
+      }
+    }
+  }
+
+  customCellRendererFunc(params) {
+    return `
+      <button type="button" data-action-type="preview" class="btn btn-study-cave btn-sm">Podgląd</button>
+      <button type="button" data-action-type="accept" class="btn btn-study-cave btn-sm">Akceptuj</button>
+      <button type="button" data-action-type="reject" class="btn btn-study-cave btn-sm">Odrzuć</button>
+    `;
+  }
+
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridApi.sizeColumnsToFit();
+  }
+
+  onGridColumnsChanged(params) {
+    params.api.sizeColumnsToFit();
+  }
+
+  onGridSizeChanged(params) {
+    if (params.clientWidth < 800) {
+      this.columnDefs = [
+        { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+        { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: true },
+        {
+          headerName: '',
+          suppressMenu: true,
+          suppressSorting: true,
+          cellRenderer: this.customCellRendererFunc
+        }
+      ];
+    } else {
+      this.columnDefs = [
+        { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+        { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+        {
+          headerName: '',
+          suppressMenu: true,
+          suppressSorting: true,
+          cellRenderer: this.customCellRendererFunc
+        }
+      ];
+    }
+
+    params.api.sizeColumnsToFit();
   }
 
   ngOnDestroy() {
@@ -259,6 +366,10 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
 
     if (this.confirmFlashcardsSub) {
       this.confirmFlashcardsSub.unsubscribe();
+    }
+
+    if (this.testSubscribtion) {
+      this.testSubscribtion.unsubscribe();
     }
   }
 

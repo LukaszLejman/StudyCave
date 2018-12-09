@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-flashcards-to-group-preview',
@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FlashcardsToGroupPreviewComponent implements OnInit {
 
-  constructor() { }
+  @Input() public set: any;
 
-  ngOnInit() {
-  }
+  constructor() {}
+
+  ngOnInit() {}
 
 }

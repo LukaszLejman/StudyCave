@@ -13,3 +13,8 @@ export class Resource {
 
     constructor() {}
 }
+
+export enum ResourceStatus {
+    accepted = 'ACCEPTED',
+    rejected = 'REJECTED'
+}

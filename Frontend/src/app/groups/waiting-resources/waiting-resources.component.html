@@ -9,18 +9,77 @@
     <div>
       <p>Wybierz typ zasobu:</p>
       <div>
-        <button [disabled]="waitingMaterials.length > 0" class="btn btn-study-cave mr-1" (click)="getWaitingMaterials()">Materiały</button>
-        <button [disabled]="waitingFlashcards.length > 0" class="btn btn-study-cave mr-1" (click)="getWaitingFlashcards()">Fiszki</button>
-        <button [disabled]="waitingTests.length > 0" class="btn btn-study-cave mr-1" (click)="getWaitingTests()">Testy</button>
+        <button [disabled]="displayMaterials" class="btn btn-study-cave mr-1" (click)="getWaitingMaterials()">Materiały</button>
+        <button [disabled]="displayFlashcards" class="btn btn-study-cave mr-1" (click)="getWaitingFlashcards()">Fiszki</button>
+        <button [disabled]="displayTests" class="btn btn-study-cave mr-1" (click)="getWaitingTests()">Testy</button>
       </div>
     </div>
     <br /><br />
     <div>
       <div>
-        Tu będzie interfejs zarządzania oczekującymi zasobami.
-        <br /><br />
-        <!--<button [disabled]="selected.length === 0" class="btn btn-study-cave mr-1" (click)="save()">Zapisz</button>-->
+        <div *ngIf="displayMaterials">
+          <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-dark" [rowData]="waitingMaterials" [columnDefs]="columnDefs"
+            [enableSorting]="true" [enableFilter]="true" (gridReady)="onGridReady($event)" [gridOptions]="gridOptions"
+            [pagination]="true" [paginationAutoPageSize]="true" (rowClicked)="onRowClicked($event)" [localeText]="localeText" 
+            (gridColumnsChanged)="onGridColumnsChanged($event)" (gridSizeChanged)="onGridSizeChanged($event)">
+          </ag-grid-angular>
+        </div>
+        <div *ngIf="displayTests">
+          <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-dark" [rowData]="waitingTests" [columnDefs]="columnDefs"
+            [enableSorting]="true" [enableFilter]="true" (gridReady)="onGridReady($event)" [gridOptions]="gridOptions"
+            [pagination]="true" [paginationAutoPageSize]="true" (rowClicked)="onRowClicked($event)" [localeText]="localeText" 
+            (gridColumnsChanged)="onGridColumnsChanged($event)" (gridSizeChanged)="onGridSizeChanged($event)">
+          </ag-grid-angular>
+        </div>
+        <div *ngIf="displayFlashcards">
+          <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-dark" [rowData]="waitingFlashcards" [columnDefs]="columnDefs"
+            [enableSorting]="true" [enableFilter]="true" (gridReady)="onGridReady($event)" [gridOptions]="gridOptions"
+            [pagination]="true" [paginationAutoPageSize]="true" (rowClicked)="onRowClicked($event)" [localeText]="localeText" 
+            (gridColumnsChanged)="onGridColumnsChanged($event)" (gridSizeChanged)="onGridSizeChanged($event)">
+          </ag-grid-angular>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<p-dialog header="Podgląd" [(visible)]="displayPreviewDialog" [responsive]="true" [resizable]="true"
+  [minWidth]="300" [minY]="40" [draggable]="true" [closable]="true" (onHide)="displayPreviewDialog = false;">
+  <div>
+    <app-material-to-group-preview *ngIf="waitingMaterials.length > 0" [id]="selectedResource.id" [title]="selectedResource.title"></app-material-to-group-preview>
+    <app-test-to-group-preview *ngIf="waitingTests.length > 0" [test]="test"></app-test-to-group-preview>
+    <app-flashcards-to-group-preview *ngIf="waitingFlashcards.length > 0" [set]="set"></app-flashcards-to-group-preview>
+  </div>
+  <br />
+  <button class="btn btn-study-cave" (click)="displayPreviewDialog = false">Zamknij</button>
+  <br /><br />
+</p-dialog>
+
+<p-dialog header="Akceptowanie" [(visible)]="displayAcceptDialog" [responsive]="true"
+  [minWidth]="300" [minY]="70" [draggable]="true" [closable]="true" (onHide)="displayAcceptDialog = false;">
+  <label>
+    <p>Przydziel punkty:</p>
+    <input type="number" class="form-control" step="1" min="0" [(ngModel)]="selectedResource.points" name="points"/>
+  </label>
+  <br />
+  <label>
+    <p>Dodaj komentarz (opcjonalnie):</p>
+    <textarea class="form-control" name="commentAccepted" [(ngModel)]="selectedResource.comment"></textarea>
+  </label>
+  <br /><br />
+  <button class="btn btn-study-cave" (click)="save(selectedResource)" >Zapisz</button>
+  <button class="btn btn-study-cave" (click)="displayAcceptDialog = false">Anuluj</button>
+  <br />
+</p-dialog>
+
+<p-dialog header="Odrzucanie" [(visible)]="displayRejectDialog" [responsive]="true"
+  [minWidth]="300" [minY]="70" [draggable]="true" [closable]="true" (onHide)="displayRejectDialog = false;">
+  <label>
+    <p>Dodaj komentarz (opcjonalnie):</p>
+    <textarea class="form-control" name="commentRejected" [(ngModel)]="selectedResource.comment"></textarea>
+  </label>
+  <br /><br />
+  <button class="btn btn-study-cave" (click)="reject(selectedResource)">Zapisz</button>
+  <button class="btn btn-study-cave" (click)="displayRejectDialog = false">Anuluj</button>
+  <br />
+</p-dialog>

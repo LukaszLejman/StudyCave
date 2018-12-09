@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 
 import { AuthenticationService } from '../authentication.service';
+import { ResourceStatus } from './resource';
 
 @Injectable()
 export class GroupsService {
@@ -20,9 +21,9 @@ export class GroupsService {
   private getTestsInGroupURL = '';
   private getFlashcardsInGroupURL = '';
 
-  private confirmMaterialsInGroupURL = '';
-  private confirmTestsInGroupURL = '';
-  private confirmFlashcardsInGroupURL = '';
+  private confirmMaterialsInGroupURL = 'groups/{groupId}/materials/{materialId}/status';
+  private confirmTestsInGroupURL = 'groups/{groupId}/tests/{testId}/status';
+  private confirmFlashcardsInGroupURL = 'groups/{groupId}/flashcard-sets/{setId}/status';
 
   constructor(private httpClient: HttpClient, private router: Router,
     private authenticationService: AuthenticationService) {
@@ -187,18 +188,17 @@ export class GroupsService {
     });
   }
 
-  confirmMaterialsInGroup(groupId: number, materialId: number, points: number, ownerId: number, comment: string): Observable<any> {
+  confirmMaterialsInGroup(groupId: number, materialId: number, points: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString()).replace('{materialId}', materialId.toString());
     const body = {
-      materialId: materialId,
       points: points,
-      ownerId: ownerId
+      status: ResourceStatus.accepted
     };
     if (comment.trim().length > 0) {
       body['comment'] = comment;
     }
-    return this.httpClient.post(url, body, {
+    return this.httpClient.put(url, body, {
         headers: this.headers,
         observe: 'response',
         responseType: 'text'
@@ -207,18 +207,17 @@ export class GroupsService {
       });
   }
 
-  confirmTestsInGroup(groupId: number, testId: number, points: number, ownerId: number, comment: string): Observable<any> {
+  confirmTestsInGroup(groupId: number, testId: number, points: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const url = this.confirmTestsInGroupURL.replace('{groupId}', groupId.toString()).replace('{testId}', testId.toString());
     const body = {
-      testId: testId,
       points: points,
-      ownerId: ownerId
+      status: ResourceStatus.accepted
     };
     if (comment.trim().length > 0) {
       body['comment'] = comment;
     }
-    return this.httpClient.post(url, body, {
+    return this.httpClient.put(url, body, {
         headers: this.headers,
         observe: 'response',
         responseType: 'text'
@@ -227,18 +226,17 @@ export class GroupsService {
       });
   }
 
-  confirmFlashcardsInGroup(groupId: number, flashcardsId: number, points: number, ownerId: number, comment: string): Observable<any> {
+  confirmFlashcardsInGroup(groupId: number, setId: number, points: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const url = this.confirmFlashcardsInGroupURL.replace('{groupId}', groupId.toString()).replace('{setId}', setId.toString());
     const body = {
-      flashcardsId: flashcardsId,
       points: points,
-      ownerId: ownerId
+      status: ResourceStatus.accepted
     };
     if (comment.trim().length > 0) {
       body['comment'] = comment;
     }
-    return this.httpClient.post(url, body, {
+    return this.httpClient.put(url, body, {
         headers: this.headers,
         observe: 'response',
         responseType: 'text'
@@ -247,17 +245,17 @@ export class GroupsService {
       });
   }
 
-  rejectMaterialsFromGroup(groupId: number, materialId: number, ownerId: number, comment: string): Observable<any> {
+  rejectMaterialsFromGroup(groupId: number, materialId: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString()).replace('{materialId}', materialId.toString());
     const body = {
-      materialId: materialId,
-      ownerId: ownerId
+      points: 0,
+      status: ResourceStatus.rejected
     };
     if (comment.trim().length > 0) {
       body['comment'] = comment;
     }
-    return this.httpClient.post(url, body, {
+    return this.httpClient.put(url, body, {
         headers: this.headers,
         observe: 'response',
         responseType: 'text'
@@ -266,17 +264,17 @@ export class GroupsService {
       });
   }
 
-  rejectTestsFromGroup(groupId: number, testId: number, ownerId: number, comment: string): Observable<any> {
+  rejectTestsFromGroup(groupId: number, testId: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const url = this.confirmTestsInGroupURL.replace('{groupId}', groupId.toString()).replace('{testId}', testId.toString());
     const body = {
-      testId: testId,
-      ownerId: ownerId
+      points: 0,
+      status: ResourceStatus.rejected
     };
     if (comment.trim().length > 0) {
       body['comment'] = comment;
     }
-    return this.httpClient.post(url, body, {
+    return this.httpClient.put(url, body, {
         headers: this.headers,
         observe: 'response',
         responseType: 'text'
@@ -285,17 +283,17 @@ export class GroupsService {
       });
   }
 
-  rejectFlashcardsFromGroup(groupId: number, flashcardsId: number, ownerId: number, comment: string): Observable<any> {
+  rejectFlashcardsFromGroup(groupId: number, setId: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString());
+    const url = this.confirmFlashcardsInGroupURL.replace('{groupId}', groupId.toString()).replace('{setId}', setId.toString());
     const body = {
-      flashcardsId: flashcardsId,
-      ownerId: ownerId
+      points: 0,
+      status: ResourceStatus.rejected
     };
     if (comment.trim().length > 0) {
       body['comment'] = comment;
     }
-    return this.httpClient.post(url, body, {
+    return this.httpClient.put(url, body, {
         headers: this.headers,
         observe: 'response',
         responseType: 'text'

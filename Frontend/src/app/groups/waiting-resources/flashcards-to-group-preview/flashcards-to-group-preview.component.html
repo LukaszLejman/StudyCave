@@ -1,3 +1,19 @@
-<p>
-  flashcards-to-group-preview works!
-</p>
+<div *ngIf="set">
+  <h2>{{ set.name }}</h2>
+  <table class="table">
+    <thead>
+      <th>
+        Lewa strona
+      </th>
+      <th>
+        Prawa strona
+      </th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let flashcard of set.flashcards; let i = index">
+        <td class="puzzle">{{flashcard.left_side}}</td>
+        <td class="puzzle-right">{{flashcard.right_side}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
