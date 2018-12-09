@@ -11,6 +11,8 @@ import { TestsService } from '../../tests/tests.service';
 import { Test } from '../../tests/test_model';
 import { FlashcardsService } from '../../flashcards/flashcards.service';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-waiting-resources',
   templateUrl: './waiting-resources.component.html',
@@ -63,6 +65,8 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
 
   public test: Test;
   public set: any;
+
+  public width = 300;
 
   constructor(private route: ActivatedRoute,
     private groupService: GroupsService,
@@ -244,7 +248,17 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     }
   }
 
+  setWidth() {
+    const width = $('body').innerWidth();
+    if (width > 1000) {
+      this.width = width - 700;
+    } else {
+      this.width = 300;
+    }
+  }
+
   onActionPreviewClick(e) {
+    this.setWidth();
     if (this.waitingTests.length > 0) {
       this.testSubscribtion = this.testService.getTest(e.data.id).subscribe(
         data => {

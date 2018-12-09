@@ -43,8 +43,8 @@
   </div>
 </div>
 
-<p-dialog header="Podgląd" [(visible)]="displayPreviewDialog" [responsive]="true" [resizable]="true"
-  [minWidth]="300" [minY]="40" [draggable]="true" [closable]="true" (onHide)="displayPreviewDialog = false;">
+<p-dialog header="Podgląd" [(visible)]="displayPreviewDialog" [responsive]="false" [resizable]="true" [focusOnShow]="false"
+  [minWidth]="300" [width]="width" [minY]="40" [draggable]="true" [closable]="true" (onHide)="displayPreviewDialog = false;">
   <div>
     <app-material-to-group-preview *ngIf="waitingMaterials.length > 0" [id]="selectedResource.id" [title]="selectedResource.title"></app-material-to-group-preview>
     <app-test-to-group-preview *ngIf="waitingTests.length > 0" [test]="test"></app-test-to-group-preview>
@@ -55,7 +55,7 @@
   <br /><br />
 </p-dialog>
 
-<p-dialog header="Akceptowanie" [(visible)]="displayAcceptDialog" [responsive]="true"
+<p-dialog header="Akceptowanie" [(visible)]="displayAcceptDialog" [responsive]="true" [focusOnShow]="false"
   [minWidth]="300" [minY]="70" [draggable]="true" [closable]="true" (onHide)="displayAcceptDialog = false;">
   <label>
     <p>Przydziel punkty:</p>
@@ -72,7 +72,7 @@
   <br />
 </p-dialog>
 
-<p-dialog header="Odrzucanie" [(visible)]="displayRejectDialog" [responsive]="true"
+<p-dialog header="Odrzucanie" [(visible)]="displayRejectDialog" [responsive]="true" [focusOnShow]="false"
   [minWidth]="300" [minY]="70" [draggable]="true" [closable]="true" (onHide)="displayRejectDialog = false;">
   <label>
     <p>Dodaj komentarz (opcjonalnie):</p>
