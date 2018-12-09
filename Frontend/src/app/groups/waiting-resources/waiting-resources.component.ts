@@ -371,6 +371,10 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     if (this.testSubscribtion) {
       this.testSubscribtion.unsubscribe();
     }
+
+    if (this.flashcardSubscribtion) {
+      this.flashcardSubscribtion.unsubscribe();
+    }
   }
 
 }
