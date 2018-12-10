@@ -110,6 +110,6 @@ public class GroupController {
 	
 	@PostMapping("/{groupId}/tests")
 	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> testIds) {
-		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+		return this.groupService.addTests(groupId, testIds);
 	}
 }
