@@ -33,6 +33,7 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
   private logged = false;
   private publicMode = true;
   private permission;
+  display = false;
 
   columnDefs = [
     { headerName: 'Nazwa', field: 'name', headerTooltip: 'Nazwa' },
@@ -47,6 +48,7 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
       cellRenderer: this.customCellRendererFunc
     }
   ];
+  setToDelete: any;
   constructor(private flashcardsService: FlashcardsService, private router: Router, public snackBar: MatSnackBar) { }
 
   customCellRendererFunc(params) {
@@ -88,8 +90,16 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
     }
   }
   public onActionRemoveClick(e) {
-    this.flashcardSubscription = this.flashcardsService.deleteSet(e.data.id);
+    this.display = true;
+    this.setToDelete = e.data.id;
   }
+
+  deleteSet() {
+    const data = this.setToDelete;
+    this.flashcardSubscription = this.flashcardsService.deleteSet(data);
+    this.display = false;
+  }
+
   changePermission(e): void {
     if (e.data.permission === 'Public') {
       this.permission = 'Private';
