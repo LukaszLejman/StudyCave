@@ -92,7 +92,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     this.displayMaterials = true;
     this.displayTests = false;
     this.displayFlashcards = false;
-    this.getWaitingMaterialsSub = this.groupService.getMaterialsInGroup(this.id).subscribe(
+    this.getWaitingMaterialsSub = this.groupService.getWaitingMaterialsInGroup(this.id).subscribe(
       success => {
         this.waitingTests = [];
         this.waitingFlashcards = [];
@@ -112,7 +112,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     this.displayMaterials = false;
     this.displayTests = true;
     this.displayFlashcards = false;
-    this.getWaitingTestsSub = this.groupService.getTestsInGroup(this.id).subscribe(
+    this.getWaitingTestsSub = this.groupService.getWaitingTestsInGroup(this.id).subscribe(
       success => {
         this.waitingFlashcards = [];
         this.waitingMaterials = [];
@@ -132,7 +132,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     this.displayMaterials = false;
     this.displayTests = false;
     this.displayFlashcards = true;
-    this.getWaitingFlashcardsSub = this.groupService.getFlashcardsInGroup(this.id).subscribe(
+    this.getWaitingFlashcardsSub = this.groupService.getWaitingFlashcardsInGroup(this.id).subscribe(
       success => {
         this.waitingMaterials = [];
         this.waitingTests = [];
@@ -165,7 +165,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.params.id;
 
     if (this.selectedTypeOfResource === ResourceType.test) {
-      this.confirmTestSub = this.groupService.confirmTestsInGroup(this.id, resource.id, resource.points,
+      this.confirmTestSub = this.groupService.acceptTestsInGroup(this.id, resource.id, resource.points,
         resource.comment).subscribe(
         success => {
           this.refreshList();
@@ -178,7 +178,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         }
       );
     } else if (this.selectedTypeOfResource === ResourceType.flashcards) {
-      this.confirmFlashcardsSub = this.groupService.confirmFlashcardsInGroup(this.id, resource.id, resource.points,
+      this.confirmFlashcardsSub = this.groupService.acceptFlashcardsInGroup(this.id, resource.id, resource.points,
         resource.comment).subscribe(
         success => {
           this.refreshList();
@@ -191,7 +191,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         }
       );
     } else if (this.selectedTypeOfResource === ResourceType.materials) {
-      this.confirmMaterialSub = this.groupService.confirmMaterialsInGroup(this.id, resource.id, resource.points,
+      this.confirmMaterialSub = this.groupService.acceptMaterialsInGroup(this.id, resource.id, resource.points,
         resource.comment).subscribe(
         success => {
           this.refreshList();
@@ -206,11 +206,11 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
     }
   }
 
-  reject(resource: Resource, points: number) {
+  reject(resource: Resource) {
     this.id = this.route.snapshot.params.id;
 
     if (this.selectedTypeOfResource === ResourceType.test) {
-      this.confirmTestSub = this.groupService.confirmTestsInGroup(this.id, resource.id, points, resource.comment).subscribe(
+      this.confirmTestSub = this.groupService.rejectTestsFromGroup(this.id, resource.id, resource.comment).subscribe(
         success => {
           this.refreshList();
           this.snackBar.open('Test został odrzucony.', null,
@@ -222,7 +222,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         }
       );
     } else if (this.selectedTypeOfResource === ResourceType.flashcards) {
-      this.confirmFlashcardsSub = this.groupService.confirmFlashcardsInGroup(this.id, resource.id, points, resource.comment).subscribe(
+      this.confirmFlashcardsSub = this.groupService.rejectFlashcardsFromGroup(this.id, resource.id, resource.comment).subscribe(
         success => {
           this.refreshList();
           this.snackBar.open('Zestaw fiszek został odrzucony.', null,
@@ -234,7 +234,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         }
       );
     } else if (this.selectedTypeOfResource === ResourceType.materials) {
-      this.confirmMaterialSub = this.groupService.confirmMaterialsInGroup(this.id, resource.id, points, resource.comment).subscribe(
+      this.confirmMaterialSub = this.groupService.rejectMaterialsFromGroup(this.id, resource.id, resource.comment).subscribe(
         success => {
           this.refreshList();
           this.snackBar.open('Materiał został odrzucony.', null,
