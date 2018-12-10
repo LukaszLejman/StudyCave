@@ -36,7 +36,7 @@ public class StudyGroup {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
 	List<StudyGroupMember> flashcardSets = new ArrayList<>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "material", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
 	List<Material> materials = new ArrayList<>();
 	
 	public StudyGroup() {
