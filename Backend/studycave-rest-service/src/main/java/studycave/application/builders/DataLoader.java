@@ -11,6 +11,7 @@ public class DataLoader implements ApplicationRunner {
 
     private UsersBuilder usersBuilder;
     private FlashcardsBuilder flashcardsBuilder;
+    private TestsBuilder testsBuilder;
 
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String databaseMode;
@@ -19,6 +20,7 @@ public class DataLoader implements ApplicationRunner {
     public DataLoader(UsersBuilder usersBuilder, FlashcardsBuilder flashcardsBuilder) {
         this.usersBuilder = usersBuilder;
         this.flashcardsBuilder = flashcardsBuilder;
+        this.testsBuilder = testsBuilder;
     }
 
 
@@ -26,6 +28,7 @@ public class DataLoader implements ApplicationRunner {
     	 if (this.databaseMode.contains("create")) {
     		 this.usersBuilder.build();
     		 this.flashcardsBuilder.build();
+    		 this.testsBuilder.build();
     		 System.out.println("All builders completed");
     	 }
     }
