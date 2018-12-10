@@ -28,59 +28,11 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   private gridApi;
   public gridOptions: GridOptions;
 
-  mockFlashcards = [
-    {
-      name: 'flash1',
-      add_date: '18-06-2011',
-      edit_date: '18-08-2011',
-      owner: 'mockOwner',
-      grade: 0
-    },
-    {
-      name: 'flash2',
-      add_date: '18-06-2011',
-      edit_date: '18-08-2011',
-      owner: 'mockOwner',
-      grade: 0
-    }
-  ];
-  mockTests = [
-    {
-      name: 'test1',
-      add_date: '18-06-2011',
-      edit_date: '18-08-2011',
-      owner: 'mockOwner',
-      grade: 0
-    },
-    {
-      name: 'test2',
-      add_date: '18-06-2011',
-      edit_date: '18-08-2011',
-      owner: 'mockOwner',
-      grade: 0
-    }
-  ];
-  mockMaterials = [
-    {
-      name: 'mat1',
-      add_date: '18-06-2011',
-      edit_date: '18-08-2011',
-      owner: 'mockOwner',
-      grade: 0
-    },
-    {
-      name: 'mat2',
-      add_date: '18-06-2011',
-      edit_date: '18-08-2011',
-      owner: 'mockOwner',
-      grade: 0
-    }
-  ];
 
   columnDefs = [
-    { headerName: 'Nazwa', field: 'name', headerTooltip: 'Nazwa' },
-    { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
-    { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
+    { headerName: 'ID', field: 'id', headerTooltip: 'ID' },
+    { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+    { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
     { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
     { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
     {
@@ -96,7 +48,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (this.group.owner === currentUser.username) {
+    if (currentUser.username === currentUser.username) {  // TODO: FIX AFTER BACKEND ADDS OWNER TO GROUPINFO
       return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" >Usuń</button>`;
     } else {
       return '';
@@ -143,7 +95,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   deleteResource() {
     setTimeout(() => {
-    // his.resourceDeleteSubscription = this.groupService.deleteResource(this.id, e.data.id).subscribe();
+    // this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, e.data.id).subscribe();
     this.display = false;
     this.gridApi.refreshCells();
     // this.redirectTo('/groups/' + this.id);
@@ -163,11 +115,11 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   onGridSizeChanged(params) {
     if (params.clientWidth < 800) {
       this.columnDefs = [
-        { headerName: 'Nazwa', field: 'name', headerTooltip: 'Nazwa' },
-        { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: true },
-        { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: true },
-        { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: true },
-        { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: true },
+        { headerName: 'ID', field: 'id', headerTooltip: 'ID' },
+        { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+        { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
+        { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+        { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
         {
           headerName: '',
           suppressMenu: true,
@@ -177,9 +129,9 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
       ];
     } else {
       this.columnDefs = [
-        { headerName: 'Nazwa', field: 'name', headerTooltip: 'Nazwa' },
-        { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
-        { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
+        { headerName: 'ID', field: 'id', headerTooltip: 'ID' },
+        { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+        { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
         { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
         { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
         {
@@ -220,25 +172,23 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   isDisplayed(resource) {
     if (resource === 'fiszek') {
       setTimeout(() => {
-        this.groupService.getResource(this.id, 'flashcards');
+        this.flashcardsSusbscritpion = this.groupService.getResource(this.id, 'flashcardsets').subscribe(data => this.data = data);
         this.dataToDisplay = resource;
-        this.data = this.mockFlashcards;
       }, 200);
 
     }
     if (resource === 'materiałów') {
       setTimeout(() => {
-        this.groupService.getResource(this.id, 'materials');
+        this.materialsSubscription = this.groupService.getResource(this.id, 'materials').subscribe(data => this.data = data);
         this.dataToDisplay = resource;
-        this.data = this.mockMaterials;
+        console.log(this.data);
       }, 200);
 
     }
     if (resource === 'testów') {
       setTimeout(() => {
-        this.groupService.getResource(this.id, 'tests');
+        this.testsSubscription = this.groupService.getResource(this.id, 'tests').subscribe(data => this.data = data);
         this.dataToDisplay = resource;
-        this.data = this.mockTests;
       }, 200);
 
     }

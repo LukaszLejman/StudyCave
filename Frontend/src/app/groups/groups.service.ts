@@ -63,7 +63,7 @@ export class GroupsService {
   }
 
   getResource(id, resource): Observable<any> {
-    const url = 'groups/' + id + '/' + resource;
+    const url = 'groups/' + id + '/content/' + resource;
     this.setHeaders();
     return this.httpClient.get(url, {headers: this.headers});
   }
