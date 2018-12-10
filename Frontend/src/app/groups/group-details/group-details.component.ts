@@ -21,6 +21,9 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   groupDetailsSubscription: Subscription;
   resourceDeleteSubscription: Subscription;
+  flashcardsSusbscritpion: Subscription;
+  materialsSubscription: Subscription;
+  testsSubscription: Subscription;
 
   private gridApi;
   public gridOptions: GridOptions;
@@ -93,7 +96,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser.username === currentUser.username) { // TODO: change if statement after backend upgrades response
+    if (this.group.owner === currentUser.username) {
       return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" >Usuń</button>`;
     } else {
       return '';
@@ -198,7 +201,16 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     if (this.groupDetailsSubscription) {
       this.groupDetailsSubscription.unsubscribe();
     }
-    localStorage.removeItem('owner');
+
+    if ( this.flashcardsSusbscritpion) {
+      this.flashcardsSusbscritpion.unsubscribe();
+    }
+    if ( this.materialsSubscription) {
+      this.materialsSubscription.unsubscribe();
+    }
+    if ( this.testsSubscription) {
+      this.testsSubscription.unsubscribe();
+    }
   }
 
   goToEditing() {
@@ -208,6 +220,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   isDisplayed(resource) {
     if (resource === 'fiszek') {
       setTimeout(() => {
+        this.groupService.getResource(this.id, 'flashcards');
         this.dataToDisplay = resource;
         this.data = this.mockFlashcards;
       }, 200);
@@ -215,6 +228,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     }
     if (resource === 'materiałów') {
       setTimeout(() => {
+        this.groupService.getResource(this.id, 'materials');
         this.dataToDisplay = resource;
         this.data = this.mockMaterials;
       }, 200);
@@ -222,6 +236,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     }
     if (resource === 'testów') {
       setTimeout(() => {
+        this.groupService.getResource(this.id, 'tests');
         this.dataToDisplay = resource;
         this.data = this.mockTests;
       }, 200);

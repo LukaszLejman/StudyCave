@@ -62,6 +62,12 @@ export class GroupsService {
     return this.httpClient.get(url, { headers: this.headers });
   }
 
+  getResource(id, resource): Observable<any> {
+    const url = 'groups/' + id + '/' + resource;
+    this.setHeaders();
+    return this.httpClient.get(url, {headers: this.headers});
+  }
+
   deleteUser(id, userId): Observable<any> {
     const url = 'groups/' + id + '/member/' + userId ;
     this.setHeaders();
