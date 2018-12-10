@@ -112,4 +112,9 @@ public class GroupController {
 	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> testIds) {
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
+	
+	@GetMapping("/{groupId}/content/{type}/unverified")
+	public ResponseEntity<?> getUnverifiedContent(@PathVariable(required = true) String groupId, @PathVariable(required = true) String type) {
+		return this.groupService.getUnverifiedContent(groupId, type);
+	}
 }

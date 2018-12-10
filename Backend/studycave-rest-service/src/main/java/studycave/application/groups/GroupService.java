@@ -200,5 +200,16 @@ public class GroupService {
 
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
-
+	public ResponseEntity<?> getUnverifiedContent(String groupId, String type){
+		switch (type){
+		case "tests":
+			return new ResponseEntity<>("Pobrano liste testów", HttpStatus.OK);
+		case "materials":
+			return new ResponseEntity<>("Pobrano liste materiałów", HttpStatus.OK);
+		case "flashcards":
+			return new ResponseEntity<>("Pobrano liste fiszek", HttpStatus.OK);
+		default:
+			return new ResponseEntity<>("Nie rozpoznano typy", HttpStatus.BAD_REQUEST);
+		}
+	}
 }
