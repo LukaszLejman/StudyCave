@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 import studycave.application.files.MaterialRepository;
+import studycave.application.groups.comments.StudyGroupCommentDto;
 import studycave.application.groups.dto.AddMaterialDto;
 import studycave.application.flashcard.Flashcard;
 import studycave.application.flashcard.SetRepository;
@@ -288,4 +289,17 @@ public class GroupService {
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
   
+	public ResponseEntity<?> getComments(String type, Long content_id) {
+		List<StudyGroupCommentDto> comments = new ArrayList<>();
+		StudyGroupCommentDto comment = new StudyGroupCommentDto();
+		comment.setId((long)777);
+		comment.setText("Hi Kuba this is your favourite backend developer");
+		comment.setUsername("Dawid");
+		comments.add(comment);
+		comment.setId((long)666);
+		comment.setText("I hate you");
+		comment.setUsername("Andrzej");
+		comments.add(comment);
+		return new ResponseEntity<List<StudyGroupCommentDto>>(comments, HttpStatus.OK);
+	}
 }
