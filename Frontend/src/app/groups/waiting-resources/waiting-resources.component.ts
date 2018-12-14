@@ -291,12 +291,14 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
 
   onActionAcceptClick(e) {
     this.selectedResource = e.data;
+    this.selectedResource.comment = '';
     this.selectedResource.points = 0;
     this.displayAcceptDialog = true;
   }
 
   onActionRejectClick(e) {
     this.selectedResource = e.data;
+    this.selectedResource.comment = '';
     this.displayRejectDialog = true;
   }
 
