@@ -112,9 +112,4 @@ public class GroupController {
 	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> testIds) {
 		return this.groupService.addTests(groupId, testIds);
 	}
-	
-	@DeleteMapping("/{group_id}/content/{type}")
-	public ResponseEntity<?> deleteContent(@PathVariable(required = true) Long group_id, @PathVariable(required = true) String type) {
-		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
-	}
 }
