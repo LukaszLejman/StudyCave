@@ -6,7 +6,7 @@
     <div class="ui-message ui-widget ui-corner-all ui-message-success" *ngIf="reditectToGroup">Dołączyłeś do grupy, przekierowanie do niej nastąpi za 3 sekundy.</div>
     <form class="join-to-group-form" #f="ngForm" (ngSubmit)="joinToGroup(f.value)" *ngIf="!reditectToGroup">
       <input type="text" name="code" class="form-control join-to-group-form-item" placeholder="Kod dostępu" ngModel required/>
-      <button type="submit" class="btn btn-green join-to-group-form-item" [disabled]="f.form.invalid">Dołącz!</button>
+      <button type="submit" class="btn btn-study-cave join-to-group-form-item" [disabled]="f.form.invalid">Dołącz!</button>
     </form>
   </div>
 </div>

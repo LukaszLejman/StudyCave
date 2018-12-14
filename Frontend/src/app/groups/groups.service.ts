@@ -12,6 +12,9 @@ export class GroupsService {
   private headers;
 
   private getGroupsURL = 'groups';
+  private getMaterialsToAddURL = 'users/materials?excludedGroupId={groupId}';
+  private getTestsToAddURL = 'users/sets?excludedGroupId={groupId}';
+  private getFlashcardsToAddURL = 'users/tests?excludedGroupId={groupId}';
 
   constructor(private httpClient: HttpClient, private router: Router,
     private authenticationService: AuthenticationService) {
@@ -63,14 +66,15 @@ export class GroupsService {
   }
 
   deleteUser(id, userId): Observable<any> {
-    const url = 'groups/' + id + '/member/' + userId ;
+    const url = 'groups/' + id + '/member/' + userId;
     this.setHeaders();
-    return this.httpClient.delete(url, {headers: this.headers });
+    return this.httpClient.delete(url, { headers: this.headers });
   }
+
   deleteGroup(id): Observable<any> {
     const url = 'groups/' + id;
     this.setHeaders();
-    return this.httpClient.delete(url, {headers: this.headers });
+    return this.httpClient.delete(url, { headers: this.headers });
   }
 
   newKeyGenerate(id): Observable<any> {
@@ -78,4 +82,71 @@ export class GroupsService {
     this.setHeaders();
     return this.httpClient.get(url, { headers: this.headers });
   }
+
+  getMaterialsToAdd(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getMaterialsToAddURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers });
+  }
+
+  getTestsToAdd(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getTestsToAddURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers });
+  }
+
+  getFlashcardsToAdd(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getFlashcardsToAddURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers });
+  }
+
+  addFlashcardsToGroup(group: number, flashcard: Array<string>): Observable<any> {
+    const testToSend = flashcard.map(item => {
+      return { setId: item };
+    });
+    this.setHeaders();
+    return this.httpClient.post(`groups/${group}/flashcard-sets`,
+      testToSend,
+      {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  addTestsToGroup(group: number, tests: Array<string>): Observable<any> {
+    const testToSend = tests.map(item => {
+      return { testId: item };
+    });
+    this.setHeaders();
+    return this.httpClient.post(`groups/${group}/tests`,
+      testToSend,
+      {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  addMaterialsToGroup(group: number, materials: Array<string>): Observable<any> {
+    const testToSend = materials.map(item => {
+      return { materialId: item };
+    });
+    this.setHeaders();
+    return this.httpClient.post(`groups/${group}/materials`,
+      testToSend,
+      {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
 }

@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse, HttpEventType } from '@angular/common/http';
 
 import { Router } from '@angular/router';
 import { MaterialsService } from '../materials.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-materials-add',
@@ -18,7 +19,7 @@ export class MaterialsAddComponent implements OnInit {
   private user: string;
   private title: string;
   private permission: Boolean = false;
-  constructor(private uploadService: MaterialsService, private router: Router) { }
+  constructor(private uploadService: MaterialsService, private router: Router, public snackBar: MatSnackBar) { }
 
 
   ngOnInit() { this.isLoggedIn(); }
@@ -44,27 +45,29 @@ export class MaterialsAddComponent implements OnInit {
     const title = this.title;
     const url = 'file/save';
     let p = 'Private';
-      if (this.permission) {
-        p = 'Public';
-      }
+    if (this.permission) {
+      p = 'Public';
+    }
     const permission = p;
     this.currentFileUpload = this.selectedFiles.item(0);
-      this.uploadService.pushFileToStorage(this.currentFileUpload, this.user, title, permission, url).subscribe(
-        event => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress.percentage = Math.round(100 * event.loaded / event.total);
-          } else if (event instanceof HttpResponse) {
-            this.currentFileUpload = undefined;
-            alert(`Plik został zaimportowany.
-            Swoje materiały możesz podejrzeć na liście materiałów.`);
-            this.router.navigate(['materials/list']);
-          }
-        },
-        error => {
-          alert('Coś poszło nie tak. Spróbuj ponownie później.');
+    this.uploadService.pushFileToStorage(this.currentFileUpload, this.user, title, permission, url).subscribe(
+      event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round(100 * event.loaded / event.total);
+        } else if (event instanceof HttpResponse) {
           this.currentFileUpload = undefined;
+          this.snackBar.open(`Plik został zaimportowany.
+          Swoje materiały możesz podejrzeć na liście materiałów.`, null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+          this.router.navigate(['materials/list']);
         }
-      );
+      },
+      error => {
+        this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        this.currentFileUpload = undefined;
+      }
+    );
     this.selectedFiles = undefined;
   }
 }

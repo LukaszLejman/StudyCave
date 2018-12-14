@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import studycave.application.files.Material;
 import studycave.application.groups.members.StudyGroupMember;
+import studycave.application.test.Test;
 
 @Entity
 public class StudyGroup {
@@ -38,6 +39,9 @@ public class StudyGroup {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
 	List<Material> materials = new ArrayList<>();
+  
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
+	List<Test> tests = new ArrayList<>();
 	
 	public StudyGroup() {
 		super();
@@ -91,6 +95,7 @@ public class StudyGroup {
 		this.flashcardSets = flashcardSets;
 	}
 
+
 	public List<Material> getMaterials() {
 		return materials;
 	}
@@ -99,6 +104,14 @@ public class StudyGroup {
 		this.materials = materials;
 	}
 	
+
+	public List<Test> getTests() {
+		return tests;
+	}
+
+	public void setTests(List<Test> tests) {
+		this.tests = tests;
+	}
 	
 	
 }

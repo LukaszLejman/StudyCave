@@ -15,14 +15,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+
 import studycave.application.files.MaterialRepository;
 import studycave.application.groups.dto.AddMaterialDto;
 import studycave.application.flashcard.Flashcard;
 import studycave.application.flashcard.SetRepository;
 import studycave.application.groups.dto.AddSetDto;
+import studycave.application.groups.dto.AddTestDto;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMember;
 import studycave.application.groups.members.StudyGroupMemberRepository;
+import studycave.application.test.AnswerChoices;
+import studycave.application.test.AnswerGaps;
+import studycave.application.test.AnswerPairs;
+import studycave.application.test.AnswerPuzzle;
+import studycave.application.test.Question;
+import studycave.application.test.QuestionChoices;
+import studycave.application.test.QuestionGaps;
+import studycave.application.test.QuestionPairs;
+import studycave.application.test.QuestionPuzzle;
+import studycave.application.test.TestRepository;
 import studycave.application.user.SimpleUserInfo;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
@@ -42,7 +54,9 @@ public class GroupService {
 	StudyGroupMemberRepository memberRepository;
 	@Autowired
 	SetRepository setRepository;
-    @PersistenceContext
+  @Autowired
+	TestRepository testRepository;
+  @PersistenceContext
 	private EntityManager entityManager;
 
 	public ResponseEntity<?> createGroup(CreateGroupDto groupDto) {
@@ -93,6 +107,8 @@ public class GroupService {
 				u.setUsername(m.getUser().getUsername());
 				users.add(u);
 			}
+			else
+			groupInfo.setOwner(m.getUser().getUsername());
 		}
 		groupInfo.setUsers(users);
 		return groupInfo;
@@ -177,7 +193,7 @@ public class GroupService {
 
 		return new ResponseEntity<>("Niepoprawny kod", HttpStatus.BAD_REQUEST);
 	}
-	
+
 	public ResponseEntity<?> addFlashcardSets(String groupId, @RequestBody List<AddSetDto> setIds) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
 		if (group == null) 	{
@@ -203,12 +219,13 @@ public class GroupService {
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
 	
+
 	public ResponseEntity<?> addMaterials(String groupId, @RequestBody List<AddMaterialDto> materialIds) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
 		if (group == null) 	{
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
-		for (AddMaterialDto m : materialIds) {
+  		for (AddMaterialDto m : materialIds) {
 				Long materialId = Long.parseLong(m.getMaterialId());
 				this.materialRepository.findById(materialId).ifPresent(material -> {
 					entityManager.detach(material);
@@ -220,5 +237,55 @@ public class GroupService {
 				});
 		}
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+  }
+  
+	public ResponseEntity<?> addTests(String groupId, @RequestBody List<AddTestDto> testIds) {
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
+		if (group == null) 	{
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		for (AddTestDto t : testIds) {
+				Long testId = Long.parseLong(t.getTestId());
+				this.testRepository.findById(testId).ifPresent(test -> {
+					List<Question> questions = test.getQuestions();
+					for (Question question : questions) {
+						if (question instanceof QuestionChoices) {
+							for (AnswerChoices answer : ((QuestionChoices) question).getAnswers()) {
+								entityManager.detach(answer);
+								answer.setId(null);
+							}
+						}
+						if (question instanceof QuestionPairs) {
+							for (AnswerPairs answer : ((QuestionPairs) question).getAnswers()) {
+								entityManager.detach(answer);
+								answer.setId(null);
+							}
+						}
+						if (question instanceof QuestionPuzzle) {
+							for (AnswerPuzzle answer : ((QuestionPuzzle) question).getAnswers()) {
+								entityManager.detach(answer);
+								answer.setId(null);
+							}
+						}
+						if (question instanceof QuestionGaps) {
+							for (AnswerGaps answer : ((QuestionGaps) question).getAnswers()) {
+								entityManager.detach(answer);
+								answer.setId(null);
+							}
+						}
+						entityManager.detach(question);
+						question.setId(null);
+					}
+					entityManager.detach(test);
+					test.setId(null);
+					test.setPermission("GROUP");
+					test.setStatus("UNVERIFIED");
+					test.setGroup(group);
+					this.testRepository.save(test);
+				});
+			}
+
+		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
+  
 }

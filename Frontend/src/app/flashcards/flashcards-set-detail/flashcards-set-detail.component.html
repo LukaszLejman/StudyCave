@@ -1,35 +1,43 @@
 <div class="wrapper">
     <div class="content">
         <div class="button-container">
-            <button class="btn btn-grey" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
-            <button class="btn btn-purple" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
-            <button *ngIf="owned" class="btn btn-green" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
-            <button *ngIf="owned" class="btn btn-red" (click)="deleteSet()">USUŃ FISZKI</button>
+            <button class="btn btn-study-cave" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
+            <button class="btn btn-study-cave" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
+            <button *ngIf="owned" class="btn btn-study-cave" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
+            <button *ngIf="owned" class="btn btn-study-cave" (click)="showPopup()">USUŃ FISZKI</button>
             <div *ngIf="user && owned">
-                    <button class="btn btn-blue" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
+                <button class="btn btn-study-cave" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
             </div>
         </div>
 
         <app-flashcards-test-type-menu [id]="id" (cancel)="handleCancelFlashcardsTestyTypeMenu($event)" *ngIf="testTypeMenu"></app-flashcards-test-type-menu>
         <br />
         <div *ngIf="set">
-                <h2>{{set.name}}</h2>
-                <table class="table">
-                    <thead>
-                        <th>
-                            Lewa strona
-                        </th>
-                        <th>
-                            Prawa strona
-                        </th>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let flashcard of set.flashcards; let i = index">
-                            <td class="puzzle">{{flashcard.left_side}}</td>
-                            <td class="puzzle-right">{{flashcard.right_side}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <h2>{{set.name}}</h2>
+            <table class="table">
+                <thead>
+                    <th>
+                        Lewa strona
+                    </th>
+                    <th>
+                        Prawa strona
+                    </th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let flashcard of set.flashcards; let i = index">
+                        <td class="puzzle">{{flashcard.left_side}}</td>
+                        <td class="puzzle-right">{{flashcard.right_side}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <p-dialog header="Potwierdź" [(visible)]="display">
+        Czy chcesz usunąć fiszkę?
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="deleteSet()" label="TAK"></button>
+            <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+        </p-footer>
+    </p-dialog>
 </div>

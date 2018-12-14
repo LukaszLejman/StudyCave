@@ -14,8 +14,8 @@
             <textarea name="description" class="form-control" ngModel required></textarea>
         </label>
         <br /><br />
-        <button #btn class="btn btn-green" type="submit">Dodaj grupę!</button>
-        <button class="btn btn-grey" routerLink="/my-groups">Powrót</button>
+        <button #btn class="btn btn-study-cave" type="submit">Dodaj grupę!</button>
+        <button class="btn btn-study-cave" routerLink="/my-groups">Powrót</button>
       </form>
     </div>
   </div>
@@ -30,5 +30,5 @@
   <p>Kod ten będzie dostępny także w sekcji "Zarządzaj grupą."</p>
   <br />
   <!-- To check later -->
-  <button class="btn btn-blue" (click)="showInfoDialog = false" [routerLink]="['/groups/manage', createdGroup.id]">Rozumiem</button>
+  <button class="btn btn-study-cave" (click)="showInfoDialog = false" [routerLink]="['/groups/manage', createdGroup.id]">Rozumiem</button>
 </p-dialog>

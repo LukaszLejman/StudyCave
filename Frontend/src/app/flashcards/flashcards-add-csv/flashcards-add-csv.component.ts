@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse, HttpEventType } from '@angular/common/http';
 import { FlashcardsService } from '../flashcards.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-flashcards-add-csv',
@@ -16,7 +17,7 @@ export class FlashcardsAddCsvComponent implements OnInit {
   private currentUser = JSON.parse(localStorage.getItem('currentUser'));
   private user: string;
   private permission: Boolean = false;
-  constructor(private uploadService: FlashcardsService, private router: Router) { }
+  constructor(private uploadService: FlashcardsService, private router: Router, public snackBar: MatSnackBar) { }
 
   ngOnInit() { this.isLoggedIn(); }
 
@@ -40,9 +41,9 @@ export class FlashcardsAddCsvComponent implements OnInit {
     this.progress.percentage = 0;
     const url = 'file/upload';
     let p = 'Private';
-      if (this.permission) {
-        p = 'Public';
-      }
+    if (this.permission) {
+      p = 'Public';
+    }
     this.currentFileUpload = this.selectedFiles.item(0);
     if (this.currentFileUpload.type === 'application/vnd.ms-excel') {
       this.uploadService.pushFileToStorage(this.currentFileUpload, this.user, p, url).subscribe(
@@ -51,20 +52,23 @@ export class FlashcardsAddCsvComponent implements OnInit {
             this.progress.percentage = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
             this.currentFileUpload = undefined;
-            alert(`Plik został zaimportowany.
+            this.snackBar.open(`Plik został zaimportowany.
             Swoje fiszki możesz podejrzeć na liście zestawów fiszek
-            i tam je edytować jeśli zajdzie taka potrzeba :)`);
+            i tam je edytować jeśli zajdzie taka potrzeba :)`, null,
+              { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
             this.router.navigate(['flashcards/sets']);
           }
         },
         error => {
-          alert('Coś poszło nie tak. Spróbuj ponownie później.');
+          this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
           this.currentFileUpload = undefined;
         }
       );
     } else {
       this.currentFileUpload = undefined;
-      alert('Wybierz plik CSV!');
+      this.snackBar.open('Wybierz plik CSV!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     }
     this.selectedFiles = undefined;
   }
