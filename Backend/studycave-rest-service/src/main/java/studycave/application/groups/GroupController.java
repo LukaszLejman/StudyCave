@@ -115,7 +115,7 @@ public class GroupController {
 	}
 
 	@GetMapping("/{groupId}/content/{type}/unverified")
-	public ResponseEntity<?> getUnverifiedContent(@PathVariable(required = true) String groupId, @PathVariable(required = true) String type) {
+	public ResponseEntity<?> getUnverifiedContent(@PathVariable(required = true) Long groupId, @PathVariable(required = true) String type) {
 		return this.groupService.getUnverifiedContent(groupId, type);
 	}
 }
