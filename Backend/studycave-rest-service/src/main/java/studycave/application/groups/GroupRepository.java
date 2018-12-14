@@ -20,7 +20,7 @@ public interface GroupRepository extends JpaRepository<StudyGroup, Long> {
 	@Query("select t from Test t where (t.permission = 'GROUP' and t.group.id = :g and t.status = 'UNVERIFIED' )")
 	List<Test> findTestByGroupKey(@Param("g") Long g);
 	
-	@Query("select t from Set t where (t.permission = 'GROUP' and t.group.id = :g and t.status = 'UNVERIFIED' )")
+	@Query("select t from Flashcardset t where (t.permission = 'GROUP' and t.group.id = :g and t.status = 'UNVERIFIED' )")
 	List<Set> findSetByGroupKey(@Param("g") Long g);
 	
 	@Query("select t from Material t where (t.permission = 'GROUP' and t.group.id = :g and t.status = 'UNVERIFIED' )")

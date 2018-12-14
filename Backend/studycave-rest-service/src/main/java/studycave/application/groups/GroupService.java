@@ -175,6 +175,7 @@ public class GroupService {
 		switch (type){
 			case "tests":
 				List<Test> tests = new ArrayList<>();
+				tests = this.groupRepository.findTestByGroupKey(group_id);
 				for (Test t : tests) {
 					content.setId(t.getId());
 					content.setOwner((userRepository.findById(t.getIdOwner()).orElse(null)).getUsername());
@@ -189,6 +190,7 @@ public class GroupService {
 					return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
 			case "materials":
 				List<Material> materials = new ArrayList<>();
+				materials = this.groupRepository.findMaterialByGroupKey(group_id);
 				for (Material m : materials ) {
 					content.setId(m.getId());
 					content.setOwner((userRepository.findById((long)m.getOwner()).orElse(null)).getUsername());
@@ -203,6 +205,7 @@ public class GroupService {
 					return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
 			case "flashcardsets":
 				List<Set> sets = new ArrayList<>();
+				sets = this.groupRepository.findSetByGroupKey(group_id);
 				for (Set s : sets) {
 					content.setId(s.getId());
 					content.setOwner((userRepository.findById((long)s.getIdOwner()).orElse(null)).getUsername());
