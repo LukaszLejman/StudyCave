@@ -1,11 +1,11 @@
 package studycave.application.groups;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class ContentDto {
 	private Long id;
 	private String title;
-	private String addDate;
+	private Date addDate;
 	private String owner;
 	private Long grade;
 	
@@ -31,12 +31,14 @@ public class ContentDto {
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
-	public String getAddDate() {
+	public Date getAddDate() {
 		return addDate;
 	}
 
-	public void setAddDate(String string) {
-		this.addDate = string;
+	public void setAddDate() {
+		java.util.Date utilDate = new java.util.Date();
+		Date sqlDate = new Date(utilDate.getTime());
+		this.addDate = sqlDate;
 	}
 
 	public Long getGrade() {

@@ -14,9 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import studycave.application.files.Material;
+import studycave.application.flashcard.Set;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMember;
 import studycave.application.groups.members.StudyGroupMemberRepository;
+import studycave.application.test.Test;
 import studycave.application.user.SimpleUserInfo;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
@@ -171,34 +174,43 @@ public class GroupService {
 		ContentDto content = new ContentDto();
 		switch (type){
 			case "tests":
-				content.setId((long) 666);
-				content.setOwner("anonim");
-				content.setAddDate("2018-12-02");
-				content.setGrade((long) 6);
-				content.setTitle("test_1");	
-				contents.add(content);
+				List<Test> tests = new ArrayList<>();
+				for (Test t : tests) {
+					content.setId(t.getId());
+					content.setOwner((userRepository.findById(t.getIdOwner()).orElse(null)).getUsername());
+					content.setAddDate();
+					content.setGrade((long) 0);
+					content.setTitle(t.getTitle());	
+					contents.add(content);
+				}
 				if(contents.isEmpty())
 					return new ResponseEntity<>("Pusta lista testów", HttpStatus.OK);
 				else
 					return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
 			case "materials":
-				content.setId((long) 666);
-				content.setOwner("anonim");
-				content.setAddDate("2018-12-02");
-				content.setGrade((long) 6);
-				content.setTitle("materiał_1");
-				contents.add(content);
+				List<Material> materials = new ArrayList<>();
+				for (Material m : materials ) {
+					content.setId(m.getId());
+					content.setOwner((userRepository.findById((long)m.getOwner()).orElse(null)).getUsername());
+					content.setAddDate();
+					content.setGrade((long) 0);
+					content.setTitle(m.getTitle());
+					contents.add(content);
+				}
 				if(contents.isEmpty())
 					return new ResponseEntity<>("Pusta lista materiałów", HttpStatus.OK);
 				else
 					return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
 			case "flashcardsets":
-				content.setId((long) 666);
-				content.setOwner("anonim");
-				content.setAddDate("2018-12-02");
-				content.setGrade((long) 6);
-				content.setTitle("fiszki_1");
-				contents.add(content);
+				List<Set> sets = new ArrayList<>();
+				for (Set s : sets) {
+					content.setId(s.getId());
+					content.setOwner((userRepository.findById((long)s.getIdOwner()).orElse(null)).getUsername());
+					content.setAddDate();
+					content.setGrade((long) 0);
+					content.setTitle(s.getName());
+					contents.add(content);
+				}
 				if(contents.isEmpty())
 					return new ResponseEntity<>("Pusta lista fiszek", HttpStatus.OK);
 				else
