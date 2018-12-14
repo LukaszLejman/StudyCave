@@ -38,6 +38,7 @@ import { GroupCreatorComponent } from './groups/group-creator/group-creator.comp
 import { JoinToGroupComponent } from './groups/join-to-group/join-to-group.component';
 import { GroupDetailsComponent } from './groups/group-details/group-details.component';
 import { ManageGroupComponent } from './groups/manage-group/manage-group.component';
+import { SharingResourcesInGroupsComponent } from './groups/sharing-resources-in-groups/sharing-resources-in-groups.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -70,7 +71,8 @@ const routes: Routes = [
   { path: 'create-group', component: GroupCreatorComponent, canActivate: [AuthGuard] },
   { path: 'join-to-group', component: JoinToGroupComponent, canActivate: [AuthGuard] },
   { path: 'groups/:id', component: GroupDetailsComponent, canActivate: [AuthGuard] },
-  { path: 'groups/manage/:id', component: ManageGroupComponent, canActivate: [AuthGuard] }
+  { path: 'groups/manage/:id', component: ManageGroupComponent, canActivate: [AuthGuard] },
+  { path: 'groups/add-resources/:id', component: SharingResourcesInGroupsComponent , canActivate: [AuthGuard] }
 ];
 
 @NgModule({

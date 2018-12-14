@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-pairs-question',
@@ -24,7 +25,7 @@ export class PairsQuestionComponent implements OnInit {
   @Output() private add: EventEmitter<Object> = new EventEmitter();
   @Output() private editing: EventEmitter<Object> = new EventEmitter();
 
-  constructor() { }
+  constructor(public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     if (this.edit) {
@@ -56,33 +57,36 @@ export class PairsQuestionComponent implements OnInit {
 
   addFieldValue(): void {
     const undefinedAttr = ((this.newAttribute['first'] === undefined) || (this.newAttribute['second'] === undefined));
-      if (undefinedAttr) {
-        alert('Żaden z elementów dopasowania nie może być pusty!');
+    if (undefinedAttr) {
+      this.snackBar.open('Żaden z elementów dopasowania nie może być pusty!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+    } else {
+      const length = ((this.newAttribute['first'].trim().length === 0) || (this.newAttribute['second'].trim().length === 0));
+      if (length) {
+        this.snackBar.open('Żaden z elementów dopasowania nie może być pusty!', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
       } else {
-        const length = ((this.newAttribute['first'].trim().length === 0) || (this.newAttribute['second'].trim().length === 0));
-        if (length) {
-          alert('Żaden z elementów dopasowania nie może być pusty!');
-        } else {
-          let exists = false;
-          for (let i = 0; i < this.answersCorrect.length; i++) {
-            if ((this.newAttribute['first'] === this.answersCorrect[i]['first']) ||
-                (this.newAttribute['second'] === this.answersCorrect[i]['second'])) {
-              exists = true;
-              alert('Elementy dopasowania nie mogą się powtarzać!');
-              break;
-            }
+        let exists = false;
+        for (let i = 0; i < this.answersCorrect.length; i++) {
+          if ((this.newAttribute['first'] === this.answersCorrect[i]['first']) ||
+            (this.newAttribute['second'] === this.answersCorrect[i]['second'])) {
+            exists = true;
+            this.snackBar.open('Elementy dopasowania nie mogą się powtarzać!', null,
+              { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+            break;
           }
-          if (!exists) {
-            this.answersCorrect.push(this.newAttribute);
-            this.newAttribute = {
-              id: null,
-              first: '',
-              second: ''
-            };
-          }
+        }
+        if (!exists) {
+          this.answersCorrect.push(this.newAttribute);
+          this.newAttribute = {
+            id: null,
+            first: '',
+            second: ''
+          };
         }
       }
     }
+  }
 
   deleteFieldValue(index): void {
     this.answersCorrect.splice(index, 1);
@@ -90,21 +94,24 @@ export class PairsQuestionComponent implements OnInit {
 
   addTable(): void {
     if ((this.question === undefined) || (this.question.trim().length === 0)) {
-      alert('Pytanie nie może być puste!');
+      this.snackBar.open('Pytanie nie może być puste!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       if (this.answersCorrect.length < 2) {
-        alert('Pytanie musi zawierać co najmniej 2 odpowiedzi!');
+        this.snackBar.open('Pytanie musi zawierać co najmniej 2 odpowiedzi!', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
       } else {
         let empty = false;
         for (let i = 0; i < this.answersCorrect.length; i++) {
           if ((this.answersCorrect[i]['first'].trim().length === 0) ||
-              (this.answersCorrect[i]['second'].trim().length === 0)) {
+            (this.answersCorrect[i]['second'].trim().length === 0)) {
             empty = true;
             break;
           }
         }
         if (empty) {
-          alert('Żadne pole dopasowania nie może być puste!');
+          this.snackBar.open('Żadne pole dopasowania nie może być puste!', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
         } else {
           let exists = false;
           for (let i = 0; i < this.answersCorrect.length; i++) {
@@ -113,7 +120,8 @@ export class PairsQuestionComponent implements OnInit {
                 if ((this.answersCorrect[i]['first'] === this.answersCorrect[j]['first']) ||
                   (this.answersCorrect[i]['second'] === this.answersCorrect[j]['second'])) {
                   exists = true;
-                  alert('Elementy dopasowania nie mogą się powtarzać!');
+                  this.snackBar.open('Elementy dopasowania nie mogą się powtarzać!', null,
+                    { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
                   break;
                 }
               }

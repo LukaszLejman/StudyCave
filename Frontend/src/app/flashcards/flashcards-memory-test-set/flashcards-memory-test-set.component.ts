@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FlashcardsService } from '../flashcards.service';
 import { Subscription } from 'rxjs/Subscription';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-flashcards-memory-test-set',
@@ -26,7 +27,7 @@ export class FlashcardsMemoryTestSetComponent implements OnInit, OnChanges, OnDe
   private good = 0;
   private clicks = 0;
 
-  constructor(private uploadService: FlashcardsService) { }
+  constructor(private uploadService: FlashcardsService, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.isChecked.emit(false);
@@ -64,7 +65,8 @@ export class FlashcardsMemoryTestSetComponent implements OnInit, OnChanges, OnDe
               this.clicks = 0;
             },
               error => {
-                alert('Coś poszło nie tak :( Spróbuj ponownie później.');
+                this.snackBar.open('Coś poszło nie tak :( Spróbuj ponownie później.', null,
+                  { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
                 this.clicks = 0;
               }
             );

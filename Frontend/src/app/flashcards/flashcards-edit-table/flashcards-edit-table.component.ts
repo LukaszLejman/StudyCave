@@ -3,13 +3,14 @@ import { FlashcardsService } from '../flashcards.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-flashcards-edit-table',
   templateUrl: './flashcards-edit-table.component.html',
   styleUrls: ['./flashcards-edit-table.component.css']
 })
-export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
+export class FlashcardsEditTableComponent implements OnInit, OnDestroy {
 
   private ident: number;
   private permission: Boolean = false;
@@ -20,7 +21,8 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
   private set: Object = {};
   private flashcardSubscribtion: Subscription;
 
-  constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private flashcardsService: FlashcardsService, private route: ActivatedRoute, private router: Router,
+    public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.ident = this.route.snapshot.params.id;
@@ -47,23 +49,25 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
   }
   addFieldValue() {
     const undefinedAttr = ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined));
-      if (undefinedAttr) {
-        alert('Nie można dodać fiszki z pustym polem!');
+    if (undefinedAttr) {
+      this.snackBar.open('Nie można dodać fiszki z pustym polem!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+    } else {
+      const length = ((this.newAttribute['left_side'].trim().length === 0) || (this.newAttribute['right_side'].trim().length === 0));
+      if (length) {
+        this.snackBar.open('Nie można dodać fiszki z pustym polem!', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
       } else {
-        const length = ((this.newAttribute['left_side'].trim().length === 0) || (this.newAttribute['right_side'].trim().length === 0));
-        if (length) {
-          alert('Nie można dodać fiszki z pustym polem!');
-        } else {
-          const insert = {
-            id: null,
-            left_side: this.newAttribute['left_side'],
-            right_side: this.newAttribute['right_side'],
-          };
-          this.fieldArray.push(insert);
-          this.newAttribute = {};
-        }
+        const insert = {
+          id: null,
+          left_side: this.newAttribute['left_side'],
+          right_side: this.newAttribute['right_side'],
+        };
+        this.fieldArray.push(insert);
+        this.newAttribute = {};
       }
     }
+  }
 
   deleteFieldValue(index) {
     this.fieldArray.splice(index, 1);
@@ -72,7 +76,8 @@ export class FlashcardsEditTableComponent implements OnInit, OnDestroy  {
   addTable(value: any) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (this.fieldArray.length === 0) {
-      alert('Zestaw fiszek nie może być pusty!');
+      this.snackBar.open('Zestaw fiszek nie może być pusty!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       let perm = 'Private';
       if (this.permission) {

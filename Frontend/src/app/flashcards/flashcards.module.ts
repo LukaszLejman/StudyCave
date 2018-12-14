@@ -25,6 +25,8 @@ import { TestResultsComponent } from './test-results/test-results.component';
 import { FilterUserPipe } from '../filter-user.pipe';
 import { FilterPipe } from '../filter.pipe';
 import { AgGridModule } from 'ag-grid-angular';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   imports: [
@@ -33,8 +35,9 @@ import { AgGridModule } from 'ag-grid-angular';
     FormsModule,
     HttpModule,
     HttpClientModule,
-    AgGridModule.withComponents([])
-
+    AgGridModule.withComponents([]),
+    DialogModule,
+    ConfirmDialogModule
   ],
   declarations: [
     TestResultsComponent,

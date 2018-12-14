@@ -1,6 +1,8 @@
+
 package studycave.application.groups;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +13,16 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
+import studycave.application.flashcard.SetRepository;
+import studycave.application.groups.dto.AddMaterialDto;
+import studycave.application.groups.dto.AddSetDto;
+import studycave.application.groups.dto.AddTestDto;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMemberRepository;
 import studycave.application.user.UserRepository;
@@ -23,6 +30,7 @@ import studycave.application.user.UserRepository;
 @RestController
 @CrossOrigin
 @RequestMapping("/groups")
+@PreAuthorize("isAuthenticated()")
 @Api
 public class GroupController {
 
@@ -72,17 +80,16 @@ public class GroupController {
 		else
 			return new ResponseEntity<>("Brak uprawnien do operacji", HttpStatus.BAD_REQUEST);
 	}
-
+	
 	@GetMapping()
-	// public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value =
-	// "Authorization",required = false) String headerStr) {
+	//public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value = "Authorization",required = false) String headerStr) {
 	public List<SimpleStudyGroupMemberDTO> getMyGroup() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
-		return this.groupService.getMyGroups(id);
-	}
-
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String currentPrincipalName = authentication.getName();
+			Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
+			return this.groupService.getMyGroups(id);
+	}	
+	
 	@PostMapping("/members")
 	public ResponseEntity<?> addmember(@RequestBody GroupJoinDto groupDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -95,6 +102,20 @@ public class GroupController {
 	public ResponseEntity<?> getContentFlashcard(@PathVariable(required = true) Long group_id, @PathVariable(required = true) String type) {
 		return this.groupService.getContent(group_id,type);
 	}
+
+	@PostMapping("/{groupId}/flashcard-sets")
+	public ResponseEntity<?> addFlashardSet(@PathVariable(required = true) String groupId, @RequestBody List<AddSetDto> setIds) {
+		return this.groupService.addFlashcardSets(groupId, setIds);
+	}
 	
+	@PostMapping("/{groupId}/materials")
+	public ResponseEntity<?> addMaterial(@PathVariable(required = true) String groupId, @RequestBody List<AddMaterialDto> materialIds) {
+
+		return this.groupService.addMaterials(groupId, materialIds);
+	}
 	
+	@PostMapping("/{groupId}/tests")
+	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> testIds) {
+		return this.groupService.addTests(groupId, testIds);
+	}
 }
