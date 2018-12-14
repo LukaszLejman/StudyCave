@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+
+import studycave.application.files.MaterialRepository;
+import studycave.application.groups.dto.AddMaterialDto;
 import studycave.application.flashcard.Flashcard;
 import studycave.application.flashcard.SetRepository;
 import studycave.application.groups.dto.AddSetDto;
@@ -46,12 +49,14 @@ public class GroupService {
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
+	MaterialRepository materialRepository;
+	@Autowired
 	StudyGroupMemberRepository memberRepository;
 	@Autowired
 	SetRepository setRepository;
-	@Autowired
+  @Autowired
 	TestRepository testRepository;
-    @PersistenceContext
+  @PersistenceContext
 	private EntityManager entityManager;
 
 	public ResponseEntity<?> createGroup(CreateGroupDto groupDto) {
@@ -214,6 +219,26 @@ public class GroupService {
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
 	
+
+	public ResponseEntity<?> addMaterials(String groupId, @RequestBody List<AddMaterialDto> materialIds) {
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
+		if (group == null) 	{
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+  		for (AddMaterialDto m : materialIds) {
+				Long materialId = Long.parseLong(m.getMaterialId());
+				this.materialRepository.findById(materialId).ifPresent(material -> {
+					entityManager.detach(material);
+					material.setId(null);
+					material.setPermission("GROUP");
+					material.setStatus("UNVERIFIED");
+					material.setGroup(group);
+					this.materialRepository.save(material);
+				});
+		}
+		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+  }
+  
 	public ResponseEntity<?> addTests(String groupId, @RequestBody List<AddTestDto> testIds) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
 		if (group == null) 	{
@@ -262,5 +287,5 @@ public class GroupService {
 
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
-
+  
 }
