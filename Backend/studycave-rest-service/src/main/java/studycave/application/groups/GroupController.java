@@ -26,7 +26,6 @@ import studycave.application.flashcard.SetRepository;
 import studycave.application.groups.dto.AddMaterialDto;
 import studycave.application.groups.dto.AddSetDto;
 import studycave.application.groups.dto.AddTestDto;
-
 import studycave.application.groups.dto.VerifyDto;
 import studycave.application.groups.dto.VerifyDto.VerifyType;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
@@ -75,7 +74,7 @@ public class GroupController {
 	public ResponseEntity deleteGroup(@PathVariable(required = true) Long group_id) {
 		return this.groupService.deleteGroup(group_id);
 	}
-	
+
 	@GetMapping("/{group_id}/generate")
 	public ResponseEntity generateCode(@PathVariable(required = true) Long group_id) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -88,15 +87,14 @@ public class GroupController {
 	}
 	
 	@GetMapping()
-	// public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value =
-	// "Authorization",required = false) String headerStr) {
+	//public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value = "Authorization",required = false) String headerStr) {
 	public List<SimpleStudyGroupMemberDTO> getMyGroup() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
-		return this.groupService.getMyGroups(id);
-	}
-
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String currentPrincipalName = authentication.getName();
+			Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
+			return this.groupService.getMyGroups(id);
+	}	
+	
 	@PostMapping("/members")
 	public ResponseEntity<?> addmember(@RequestBody GroupJoinDto groupDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -112,15 +110,16 @@ public class GroupController {
 	
 	@PostMapping("/{groupId}/materials")
 	public ResponseEntity<?> addMaterial(@PathVariable(required = true) String groupId, @RequestBody List<AddMaterialDto> materialIds) {
-		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+
+		return this.groupService.addMaterials(groupId, materialIds);
 	}
 	
 	@PostMapping("/{groupId}/tests")
 	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> testIds) {
-		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+		return this.groupService.addTests(groupId, testIds);
 	}
-	
-	@PutMapping("/{groupId}/tests/{testId}/status")
+
+		@PutMapping("/{groupId}/tests/{testId}/status")
 	public ResponseEntity<?> verifyTest(
 			@PathVariable(required = true) String groupId,
 			@PathVariable(required = true) String testId,

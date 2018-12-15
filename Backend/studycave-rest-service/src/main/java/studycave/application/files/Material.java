@@ -7,8 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import studycave.application.groups.StudyGroup;
 
 @Entity
 public class Material {
@@ -26,6 +30,11 @@ public class Material {
 	@JsonProperty("edit_date")
     private Date editDate;
     private int grade;
+    @Column(name="status")
+    private String status;
+    @ManyToOne
+    @JoinColumn(name="group_id",referencedColumnName="id")
+    private StudyGroup group;
 	
 	
 	protected Material() {
@@ -94,6 +103,22 @@ public class Material {
 
 	public void setGrade(int grade) {
 		this.grade = grade;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public StudyGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(StudyGroup group) {
+		this.group = group;
 	}
 	
 	

@@ -126,6 +126,7 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   }
 
 
+
   deleteUser(userId) {
     this.userDeleteSubscription = this.groupsService.deleteUser(this.id, userId).subscribe();
   }

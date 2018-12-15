@@ -20,6 +20,7 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   permission: string;
   owner;
   owned: Boolean = false;
+  display = false;
 
   constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService, private router: Router,
     public snackBar: MatSnackBar) { }
@@ -54,6 +55,10 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  showPopup() {
+    this.display = true;
+  }
+
   changePermission(): void {
     if (this.set.permission === 'Public') {
       this.permission = 'Private';
@@ -80,6 +85,7 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   deleteSet() {
     const data = this.id;
     this.flashcardSubscribtion = this.flashcardsService.deleteSet(data);
+    this.display = false;
   }
 
 }
