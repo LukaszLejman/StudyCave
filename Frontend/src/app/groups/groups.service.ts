@@ -14,8 +14,8 @@ export class GroupsService {
 
   private getGroupsURL = 'groups';
   private getMaterialsToAddURL = 'users/materials?excludedGroupId={groupId}';
-  private getTestsToAddURL = 'users/sets?excludedGroupId={groupId}';
-  private getFlashcardsToAddURL = 'users/tests?excludedGroupId={groupId}';
+  private getTestsToAddURL = 'users/tests?excludedGroupId={groupId}';
+  private getFlashcardsToAddURL = 'users/sets?excludedGroupId={groupId}';
 
   private getWaitingMaterialsInGroupURL = 'groups/{groupId}/content/materials/unverified';
   private getWaitingTestsInGroupURL = 'groups/{groupId}/content/tests/unverified';
