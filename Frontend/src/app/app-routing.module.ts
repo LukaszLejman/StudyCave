@@ -39,6 +39,8 @@ import { JoinToGroupComponent } from './groups/join-to-group/join-to-group.compo
 import { GroupDetailsComponent } from './groups/group-details/group-details.component';
 import { ManageGroupComponent } from './groups/manage-group/manage-group.component';
 import { SharingResourcesInGroupsComponent } from './groups/sharing-resources-in-groups/sharing-resources-in-groups.component';
+import { CommentsComponent } from './shared/comments/comments.component';
+import { SharedModule } from './shared/shared.module';
 import { WaitingResourcesComponent } from './groups/waiting-resources/waiting-resources.component';
 
 const routes: Routes = [
@@ -83,13 +85,15 @@ const routes: Routes = [
     FlashcardsModule,
     TestsModule,
     UserModule,
-    GroupsModule
+    GroupsModule,
+    SharedModule
   ],
   exports: [
     RouterModule,
     FlashcardsModule,
     TestsModule,
-    UserModule
+    UserModule,
+    SharedModule
   ]
 })
 export class AppRoutingModule { }

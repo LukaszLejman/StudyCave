@@ -14,6 +14,7 @@ import { MaterialsDetailsComponent } from './materials-details/materials-details
 import { AgGridModule } from 'ag-grid-angular';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     HttpClientModule,
     AgGridModule.withComponents([]),
     DialogModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    SharedModule
   ],
   declarations: [MaterialsMenuComponent, MaterialsListComponent, MaterialsAddComponent, MaterialsDetailsComponent],
   providers: [MaterialsService]

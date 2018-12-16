@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import studycave.application.groups.comments.SimpleStudyGroupCommentDto;
 import io.swagger.annotations.Api;
 import studycave.application.flashcard.SetRepository;
 import studycave.application.groups.dto.AddMaterialDto;
@@ -153,5 +153,22 @@ public class GroupController {
 	public ResponseEntity<?> getUnverifiedContent(@PathVariable(required = true) Long groupId,
 			@PathVariable(required = true) String type) {
 		return this.groupService.getUnverifiedContent(groupId, type);
+	}
+
+		@GetMapping("/{type}/{content_id}/comments")
+	public ResponseEntity<?> getComments(@PathVariable(required = true) String type,
+			@PathVariable(required = true) Long content_id) {
+		return this.groupService.getComments(type, content_id);
+	}
+
+	@PostMapping("/{type}/{content_id}/comments")
+	public ResponseEntity<?> addComment(@PathVariable(required = true) String type,
+			@PathVariable(required = true) Long content_id, @RequestBody SimpleStudyGroupCommentDto comment) {
+		return new ResponseEntity<>("Dodano komentarz", HttpStatus.OK);
+	}
+
+	@DeleteMapping("/comments/{comment_id}")
+	public ResponseEntity<?> deleteComment(@PathVariable(required = true) Long comment_id) {
+		return new ResponseEntity<>("Usunięto komentarz", HttpStatus.OK);
 	}
 }

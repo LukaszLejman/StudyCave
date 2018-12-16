@@ -1,0 +1,33 @@
+<div *ngIf="currentUser !== '' ">
+  <br />
+  <br />
+  <hr>
+  <hr>
+  <div>
+    <h1>KOMENTARZE</h1>
+    <button class="btn btn-study-cave" (click)="toggle()" *ngIf="!display">POKAŻ</button>
+    <button class="btn btn-study-cave" (click)="toggle()" *ngIf="display">ZWIŃ</button>
+
+  </div>
+  <div>
+    <div *ngIf="display">
+      <br />
+      <br />
+      <div>
+        Dodaj komentarz: <br />
+        <textarea name="comment" class="form-control" rows="10" [(ngModel)]="comment"></textarea>
+        <br />
+        <button class="btn btn-study-cave" (click)="submitComment()">Dodaj</button>
+      </div>
+      <div *ngFor="let comment of comments">
+        <hr>
+        <div class="comment">
+          Kto: {{comment.username}} <br /><br />
+          <button class="btn btn-study-cave" *ngIf="currentUser.username === comment.username" (click)="deleteComment(comment.id)">usuń</button>
+          Komentarz: <br />
+          {{comment.text}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

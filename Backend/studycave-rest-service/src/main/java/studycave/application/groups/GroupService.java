@@ -41,6 +41,7 @@ import studycave.application.test.TestRepository;
 import studycave.application.user.SimpleUserInfo;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
+import studycave.application.groups.comments.StudyGroupCommentDto;
 
 @Service
 public class GroupService {
@@ -412,5 +413,19 @@ public class GroupService {
 		}
 		this.materialRepository.delete(material);
 		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> getComments(String type, Long content_id) {
+		List<StudyGroupCommentDto> comments = new ArrayList<>();
+		StudyGroupCommentDto comment = new StudyGroupCommentDto();
+		comment.setId((long) 777);
+		comment.setText("Hi Kuba this is your favourite backend developer");
+		comment.setUsername("Dawid");
+		comments.add(comment);
+		comment.setId((long) 666);
+		comment.setText("I hate you");
+		comment.setUsername("Andrzej");
+		comments.add(comment);
+		return new ResponseEntity<List<StudyGroupCommentDto>>(comments, HttpStatus.OK);
 	}
 }
