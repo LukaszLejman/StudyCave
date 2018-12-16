@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 
 import { AuthenticationService } from '../authentication.service';
+import { ResourceStatus } from './resource';
 
 @Injectable()
 export class GroupsService {
@@ -13,11 +14,18 @@ export class GroupsService {
 
   private getGroupsURL = 'groups';
   private getMaterialsToAddURL = 'users/materials?excludedGroupId={groupId}';
-  private getTestsToAddURL = 'users/sets?excludedGroupId={groupId}';
-  private getFlashcardsToAddURL = 'users/tests?excludedGroupId={groupId}';
+  private getTestsToAddURL = 'users/tests?excludedGroupId={groupId}';
+  private getFlashcardsToAddURL = 'users/sets?excludedGroupId={groupId}';
 
-  constructor(private httpClient: HttpClient, private router: Router,
-    private authenticationService: AuthenticationService) {
+  private getWaitingMaterialsInGroupURL = 'groups/{groupId}/content/materials/unverified';
+  private getWaitingTestsInGroupURL = 'groups/{groupId}/content/tests/unverified';
+  private getWaitingFlashcardsInGroupURL = 'groups/{groupId}/content/flashcards/unverified';
+
+  private acceptMaterialsInGroupURL = 'groups/{groupId}/materials/{materialId}/status';
+  private acceptTestsInGroupURL = 'groups/{groupId}/tests/{testId}/status';
+  private acceptFlashcardsInGroupURL = 'groups/{groupId}/flashcard-sets/{setId}/status';
+
+  constructor(private httpClient: HttpClient, private authenticationService: AuthenticationService) {
     this.setHeaders();
   }
 
@@ -86,19 +94,25 @@ export class GroupsService {
   getMaterialsToAdd(id: number): Observable<any> {
     this.setHeaders();
     const url = this.getMaterialsToAddURL.replace('{groupId}', id.toString());
-    return this.httpClient.get(url, { headers: this.headers });
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   getTestsToAdd(id: number): Observable<any> {
     this.setHeaders();
     const url = this.getTestsToAddURL.replace('{groupId}', id.toString());
-    return this.httpClient.get(url, { headers: this.headers });
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   getFlashcardsToAdd(id: number): Observable<any> {
     this.setHeaders();
     const url = this.getFlashcardsToAddURL.replace('{groupId}', id.toString());
-    return this.httpClient.get(url, { headers: this.headers });
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   addFlashcardsToGroup(group: number, flashcard: Array<string>): Observable<any> {
@@ -141,6 +155,144 @@ export class GroupsService {
     return this.httpClient.post(`groups/${group}/materials`,
       testToSend,
       {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  getWaitingMaterialsInGroup(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getWaitingMaterialsInGroupURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
+  }
+
+  getWaitingTestsInGroup(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getWaitingTestsInGroupURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
+  }
+
+  getWaitingFlashcardsInGroup(id: number): Observable<any> {
+    this.setHeaders();
+    const url = this.getWaitingFlashcardsInGroupURL.replace('{groupId}', id.toString());
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
+  }
+
+  acceptMaterialsInGroup(groupId: number, materialId: number, points: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.acceptMaterialsInGroupURL.replace('{groupId}', groupId.toString()).replace('{materialId}', materialId.toString());
+    const body = {
+      points: points,
+      status: ResourceStatus.accepted
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.put(url, body, {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  acceptTestsInGroup(groupId: number, testId: number, points: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.acceptTestsInGroupURL.replace('{groupId}', groupId.toString()).replace('{testId}', testId.toString());
+    const body = {
+      points: points,
+      status: ResourceStatus.accepted
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.put(url, body, {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  acceptFlashcardsInGroup(groupId: number, setId: number, points: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.acceptFlashcardsInGroupURL.replace('{groupId}', groupId.toString()).replace('{setId}', setId.toString());
+    const body = {
+      points: points,
+      status: ResourceStatus.accepted
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.put(url, body, {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  rejectMaterialsFromGroup(groupId: number, materialId: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.acceptMaterialsInGroupURL.replace('{groupId}', groupId.toString()).replace('{materialId}', materialId.toString());
+    const body = {
+      points: 0,
+      status: ResourceStatus.rejected
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.put(url, body, {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  rejectTestsFromGroup(groupId: number, testId: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.acceptTestsInGroupURL.replace('{groupId}', groupId.toString()).replace('{testId}', testId.toString());
+    const body = {
+      points: 0,
+      status: ResourceStatus.rejected
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.put(url, body, {
+        headers: this.headers,
+        observe: 'response',
+        responseType: 'text'
+      }).catch((error: any) => {
+        return Observable.throw(error);
+      });
+  }
+
+  rejectFlashcardsFromGroup(groupId: number, setId: number, comment: string): Observable<any> {
+    this.setHeaders();
+    const url = this.acceptFlashcardsInGroupURL.replace('{groupId}', groupId.toString()).replace('{setId}', setId.toString());
+    const body = {
+      points: 0,
+      status: ResourceStatus.rejected
+    };
+    if (comment.trim().length > 0) {
+      body['comment'] = comment;
+    }
+    return this.httpClient.put(url, body, {
         headers: this.headers,
         observe: 'response',
         responseType: 'text'

@@ -50,7 +50,7 @@ export class PuzzleAnswer extends Answer { // 'puzzle'
 
 export class GapAnswer extends Answer { // 'gaps'
 
-    public content: string;
+    public content: string[];
     public is_gap: boolean;
 
     constructor(public id: number) {

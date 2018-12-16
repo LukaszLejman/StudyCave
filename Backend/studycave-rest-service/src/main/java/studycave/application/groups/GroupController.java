@@ -2,9 +2,7 @@ package studycave.application.groups;
 
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.annotations.Api;
 import studycave.application.flashcard.SetRepository;
 import studycave.application.groups.dto.AddMaterialDto;
@@ -148,5 +147,11 @@ public class GroupController {
 			return this.groupService.acceptSet(groupId, setId);
 		}
 		return this.groupService.rejectSet(groupId, setId);
+	}
+
+	@GetMapping("/{groupId}/content/{type}/unverified")
+	public ResponseEntity<?> getUnverifiedContent(@PathVariable(required = true) Long groupId,
+			@PathVariable(required = true) String type) {
+		return this.groupService.getUnverifiedContent(groupId, type);
 	}
 }
