@@ -80,16 +80,17 @@ public class GroupController {
 		else
 			return new ResponseEntity<>("Brak uprawnien do operacji", HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@GetMapping()
-	//public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value = "Authorization",required = false) String headerStr) {
+	// public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value =
+	// "Authorization",required = false) String headerStr) {
 	public List<SimpleStudyGroupMemberDTO> getMyGroup() {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			String currentPrincipalName = authentication.getName();
-			Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
-			return this.groupService.getMyGroups(id);
-	}	
-	
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
+		return this.groupService.getMyGroups(id);
+	}
+
 	@PostMapping("/members")
 	public ResponseEntity<?> addmember(@RequestBody GroupJoinDto groupDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -97,35 +98,46 @@ public class GroupController {
 		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
 		return this.groupService.joinToGroup(userId, groupDto.getGroupCode());
 	}
-	
+
 	@PostMapping("/{groupId}/flashcard-sets")
-	public ResponseEntity<?> addFlashardSet(@PathVariable(required = true) String groupId, @RequestBody List<AddSetDto> setIds) {
+	public ResponseEntity<?> addFlashardSet(@PathVariable(required = true) String groupId,
+			@RequestBody List<AddSetDto> setIds) {
 		return this.groupService.addFlashcardSets(groupId, setIds);
 	}
-	
+
 	@PostMapping("/{groupId}/materials")
-	public ResponseEntity<?> addMaterial(@PathVariable(required = true) String groupId, @RequestBody List<AddMaterialDto> materialIds) {
+	public ResponseEntity<?> addMaterial(@PathVariable(required = true) String groupId,
+			@RequestBody List<AddMaterialDto> materialIds) {
 
 		return this.groupService.addMaterials(groupId, materialIds);
 	}
-	
+
 	@PostMapping("/{groupId}/tests")
-	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> testIds) {
+	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId,
+			@RequestBody List<AddTestDto> testIds) {
 		return this.groupService.addTests(groupId, testIds);
 	}
-	
+
 	@GetMapping("/{type}/{content_id}/comments")
-	public ResponseEntity<?> getComments(@PathVariable(required = true) String type, @PathVariable(required = true) Long content_id) {
+	public ResponseEntity<?> getComments(@PathVariable(required = true) String type,
+			@PathVariable(required = true) Long content_id) {
 		return this.groupService.getComments(type, content_id);
 	}
-	
+
 	@PostMapping("/{type}/{content_id}/comments")
-	public ResponseEntity<?> addComment(@PathVariable(required = true) String type, @PathVariable(required = true) Long content_id, @RequestBody SimpleStudyGroupCommentDto comment) {
+	public ResponseEntity<?> addComment(@PathVariable(required = true) String type,
+			@PathVariable(required = true) Long content_id, @RequestBody SimpleStudyGroupCommentDto comment) {
 		return new ResponseEntity<>("Dodano komentarz", HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/comments/{comment_id}")
 	public ResponseEntity<?> deleteComment(@PathVariable(required = true) Long comment_id) {
 		return new ResponseEntity<>("Usunięto komentarz", HttpStatus.OK);
+	}
+
+	@GetMapping("/{groupId}/content/{type}/unverified")
+	public ResponseEntity<?> getUnverifiedContent(@PathVariable(required = true) Long groupId,
+			@PathVariable(required = true) String type) {
+		return this.groupService.getUnverifiedContent(groupId, type);
 	}
 }
