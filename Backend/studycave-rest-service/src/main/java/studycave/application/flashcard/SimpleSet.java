@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -31,6 +32,9 @@ public class SimpleSet {
     private Date editDate;
     private int grade;
     private String permission;
+    @Column(name="group_id")
+    @JsonInclude(JsonInclude.Include.NON_NULL) 
+    private Integer groupId;
     
     protected SimpleSet() {}
 
@@ -111,5 +115,12 @@ public class SimpleSet {
 	public void setPermission(String permission) {
 		this.permission = permission;
 	}
-	
+
+	public Integer getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(Integer groupId) {
+		this.groupId = groupId;
+	}
 }
