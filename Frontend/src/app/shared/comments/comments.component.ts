@@ -19,7 +19,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   what: string;
 
   commentsSubscription: Subscription;
-
+  deleteCommentSubscription: Subscription;
 
   constructor(private sharedService: SharedService, private route: ActivatedRoute) { }
 
@@ -35,7 +35,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   submitComment() {
-    
     const dataToSend = {
       username: this.currentUser.username,
       text: this.comment
@@ -44,10 +43,18 @@ export class CommentsComponent implements OnInit, OnDestroy {
     this.commentsSubscription = this.sharedService.getComments(this.id, this.what).subscribe(data => this.comments = data);
   }
 
+  deleteComment(comment) {
+    this.deleteCommentSubscription = this.sharedService.deleteComment(comment).subscribe();
+    this.commentsSubscription = this.sharedService.getComments(this.id, this.what).subscribe(data => this.comments = data);
+  }
+
 
   ngOnDestroy() {
     if (this.commentsSubscription) {
       this.commentsSubscription.unsubscribe();
+    }
+    if (this.deleteCommentSubscription) {
+      this.deleteCommentSubscription.unsubscribe();
     }
   }
 

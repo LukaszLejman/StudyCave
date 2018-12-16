@@ -23,6 +23,7 @@
         <hr>
         <div class="comment">
           Kto: {{comment.username}} <br /><br />
+          <button class="btn btn-study-cave" *ngIf="currentUser.username === comment.username" (click)="deleteComment(comment.id)">usuń</button>
           Komentarz: <br />
           {{comment.text}}
         </div>
