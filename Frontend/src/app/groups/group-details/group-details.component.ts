@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GroupsService } from '../groups.service';
 import { Group } from '../group';
 import { Subscription } from 'rxjs/Subscription';
-import { GridOptions } from 'ag-grid';
+import { GridOptions } from 'ag-grid-community/main';
 
 
 @Component({
