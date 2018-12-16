@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GroupsService } from '../groups.service';
 import { Group } from '../group';
 import { Subscription } from 'rxjs/Subscription';
-import { GridOptions } from 'ag-grid-community/main';
-
+import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 
 @Component({
   selector: 'app-group-details',
@@ -81,9 +80,26 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
       switch (actionType) {
         case 'remove':
           return this.onActionRemoveClick(e);
+        default:
+          this.goTo(e);
       }
     }
   }
+
+  goTo(event: RowDoubleClickedEvent) {
+      if (this.dataToDisplay === 'fiszek') {
+        this.router.navigate(['flashcards/sets', event.data.id]);
+
+      }
+      if (this.dataToDisplay === 'materiałów') {
+        this.router.navigate(['materials', event.data.id]);
+
+      }
+      if (this.dataToDisplay === 'testów') {
+        this.router.navigate(['tests', event.data.id]);
+      }
+    }
+
 
   redirectTo(uri) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
