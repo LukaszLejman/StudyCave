@@ -18,7 +18,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   public group: Group;
   data;
   display = false;
-
+  whatToDelete;
   groupDetailsSubscription: Subscription;
   resourceDeleteSubscription: Subscription;
   flashcardsSusbscritpion: Subscription;
@@ -48,7 +48,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser.username === currentUser.username) {  // TODO: FIX AFTER BACKEND ADDS OWNER TO GROUPINFO
+    if (this.group.owner === currentUser.username) {
       return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" >Usuń</button>`;
     } else {
       return '';
@@ -90,16 +90,39 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   }
 
   public onActionRemoveClick(e) {
+    this.whatToDelete = e.data.id;
     this.display = true;
   }
 
   deleteResource() {
-    setTimeout(() => {
-    // this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, e.data.id).subscribe();
-    this.display = false;
-    this.gridApi.refreshCells();
-    // this.redirectTo('/groups/' + this.id);
+    if (this.dataToDisplay === 'fiszek') {
+      setTimeout(() => {
+        this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, 'flashcardsets', this.whatToDelete).subscribe();
+        this.display = false;
+        this.gridApi.refreshCells();
+        // this.redirectTo('/groups/' + this.id);
       }, 200);
+
+    }
+    if (this.dataToDisplay === 'materiałów') {
+      setTimeout(() => {
+        this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, 'materials', this.whatToDelete).subscribe();
+        this.display = false;
+        this.gridApi.refreshCells();
+        // this.redirectTo('/groups/' + this.id);
+      }, 200);
+
+    }
+    if (this.dataToDisplay === 'testów') {
+      setTimeout(() => {
+        this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, 'tests', this.whatToDelete).subscribe();
+        this.display = false;
+        this.gridApi.refreshCells();
+        // this.redirectTo('/groups/' + this.id);
+
+      }, 200);
+
+    }
 
   }
 
@@ -162,6 +185,9 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     }
     if ( this.testsSubscription) {
       this.testsSubscription.unsubscribe();
+    }
+    if (this.resourceDeleteSubscription) {
+      this.resourceDeleteSubscription.unsubscribe();
     }
   }
 

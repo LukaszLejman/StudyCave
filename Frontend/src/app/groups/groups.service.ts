@@ -56,6 +56,11 @@ export class GroupsService {
       });
   }
 
+  deleteResource(id, resource, resId) {
+    this.setHeaders();
+    return this.httpClient.delete('groups/' + id + '/content/' + resource + '/' + resId);
+  }
+
   getGroupDetails(id): Observable<any> {
     const url = 'groups/' + id + '/info';
     this.setHeaders();
