@@ -198,7 +198,7 @@ public class GroupService {
 	}
 
 	public ResponseEntity<?> addFlashcardSets(String groupId, @RequestBody List<AddSetDto> setIds) {
-		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
 		if (group == null) 	{
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
@@ -224,7 +224,7 @@ public class GroupService {
 	
 
 	public ResponseEntity<?> addMaterials(String groupId, @RequestBody List<AddMaterialDto> materialIds) {
-		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
 		if (group == null) 	{
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
@@ -243,7 +243,7 @@ public class GroupService {
   }
   
 	public ResponseEntity<?> addTests(String groupId, @RequestBody List<AddTestDto> testIds) {
-		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);;
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
 		if (group == null) 	{
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
@@ -334,5 +334,83 @@ public class GroupService {
 		default:
 			return new ResponseEntity<>("Błąd w zapytaniu", HttpStatus.BAD_REQUEST);
 		}
+	}
+
+		public ResponseEntity<?> acceptTest(String groupId, String testId) {
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		Test test = this.testRepository.getOne(Long.parseLong(testId));
+		test.setPermission("GROUP");
+		test.setStatus("VERIFIED");
+		this.testRepository.save(test);
+		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> acceptSet(String groupId, String setId) {
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		Set set = this.setRepository.findById(Long.parseLong(setId)).orElse(null);
+		if (set == null) {
+			return new ResponseEntity<>("Nie znaleziono zestawu", HttpStatus.NOT_FOUND);
+		}
+		set.setPermission("GROUP");
+		set.setStatus("VERIFIED");
+		this.setRepository.save(set);
+		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> acceptMaterial(String groupId, String materialId) {
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		Material material = this.materialRepository.findById(Long.parseLong(materialId)).orElse(null);
+		if (material == null) {
+			return new ResponseEntity<>("Nie znaleziono materiału", HttpStatus.NOT_FOUND);
+		}
+		material.setPermission("GROUP");
+		material.setStatus("VERIFIED");
+		this.materialRepository.save(material);
+		return new ResponseEntity<>("Dodano", HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> rejectTest(String groupId, String testId) {
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		Test test = this.testRepository.getOne(Long.parseLong(testId));
+		this.testRepository.delete(test);
+		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> rejectSet(String groupId, String setId) {
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		Set set = this.setRepository.findById(Long.parseLong(setId)).orElse(null);
+		if (set == null) {
+			return new ResponseEntity<>("Nie znaleziono zestawu", HttpStatus.NOT_FOUND);
+		}
+		this.setRepository.delete(set);
+		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+	}
+
+	public ResponseEntity<?> rejectMaterial(String groupId, String materialId) {
+		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		Material material = this.materialRepository.findById(Long.parseLong(materialId)).orElse(null);
+		if (material == null) {
+			return new ResponseEntity<>("Nie znaleziono materiału", HttpStatus.NOT_FOUND);
+		}
+		this.materialRepository.delete(material);
+		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
 	}
 }
