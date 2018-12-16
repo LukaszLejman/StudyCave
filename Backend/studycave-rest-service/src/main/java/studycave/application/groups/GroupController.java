@@ -1,4 +1,3 @@
-
 package studycave.application.groups;
 
 import java.util.List;

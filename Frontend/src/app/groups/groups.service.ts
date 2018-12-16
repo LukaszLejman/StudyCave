@@ -67,10 +67,21 @@ export class GroupsService {
       });
   }
 
+  deleteResource(id, resource, resId) {
+    this.setHeaders();
+    return this.httpClient.delete('groups/' + id + '/content/' + resource + '/' + resId);
+  }
+
   getGroupDetails(id): Observable<any> {
     const url = 'groups/' + id + '/info';
     this.setHeaders();
     return this.httpClient.get(url, { headers: this.headers });
+  }
+
+  getResource(id, resource): Observable<any> {
+    const url = 'groups/' + id + '/content/' + resource;
+    this.setHeaders();
+    return this.httpClient.get(url, {headers: this.headers});
   }
 
   deleteUser(id, userId): Observable<any> {

@@ -13,11 +13,28 @@
             <div *ngIf="group?.owner===currentUser.username">
               <button class="btn btn-study-cave" (click)="goToEditing()">Edytuj grupę</button>
             </div> 
-            <button class="btn btn-study-cave" routerLink="/materials/list">Materiały</button>
-            <button class="btn btn-study-cave" routerLink="/flashcards/sets">Fiszki</button>
-            <button class="btn btn-study-cave" routerLink="/tests">Testy</button>
-          </div>
+            <button class="btn btn-study-cave" (click)="isDisplayed('materiałów')">Materiały</button>
+            <button class="btn btn-study-cave" (click)="isDisplayed('fiszek')">Fiszki</button>
+            <button class="btn btn-study-cave" (click)="isDisplayed('testów')">Testy</button>
+            </div>
         </div>
-        <!-- TODO: add lists for materials and test after deciding how to display it -->
+
+
+        <div *ngIf="dataToDisplay !== ''">
+       <h2> Lista {{dataToDisplay}} </h2>
+        <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-blue" [rowData]="data" [columnDefs]="columnDefs"
+        [enableSorting]="true" [enableFilter]="true" (gridReady)="onGridReady($event)" [gridOptions]="gridOptions"
+        [pagination]="true" [paginationAutoPageSize]="true" [localeText]="localeText" 
+        (gridColumnsChanged)="onGridColumnsChanged($event)" (rowClicked)="onRowClicked($event)" (gridSizeChanged)="onGridSizeChanged($event)">
+      </ag-grid-angular>
     </div>
+     </div>
+
+     <p-dialog header="Potwierdź" [(visible)]="display">
+        Czy chcesz usunąć zasób?
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="deleteResource()" label="TAK"></button>
+            <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+        </p-footer>
+      </p-dialog>
 </div>  
