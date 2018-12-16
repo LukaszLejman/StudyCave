@@ -1,3 +1,4 @@
+
 package studycave.application.groups;
 
 import java.util.List;
@@ -111,5 +112,10 @@ public class GroupController {
 	@PostMapping("/{groupId}/tests")
 	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> testIds) {
 		return this.groupService.addTests(groupId, testIds);
+	}
+
+	@GetMapping("/{groupId}/content/{type}/unverified")
+	public ResponseEntity<?> getUnverifiedContent(@PathVariable(required = true) Long groupId, @PathVariable(required = true) String type) {
+		return this.groupService.getUnverifiedContent(groupId, type);
 	}
 }

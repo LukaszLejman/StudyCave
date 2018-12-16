@@ -1,3 +1,4 @@
+
 package studycave.application.groups;
 
 import java.util.ArrayList;
@@ -15,10 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+import studycave.application.files.Material;
 import studycave.application.files.MaterialRepository;
 import studycave.application.groups.dto.AddMaterialDto;
 import studycave.application.flashcard.Flashcard;
+import studycave.application.flashcard.Set;
 import studycave.application.flashcard.SetRepository;
 import studycave.application.groups.dto.AddSetDto;
 import studycave.application.groups.dto.AddTestDto;
@@ -34,6 +36,7 @@ import studycave.application.test.QuestionChoices;
 import studycave.application.test.QuestionGaps;
 import studycave.application.test.QuestionPairs;
 import studycave.application.test.QuestionPuzzle;
+import studycave.application.test.Test;
 import studycave.application.test.TestRepository;
 import studycave.application.user.SimpleUserInfo;
 import studycave.application.user.User;
@@ -288,4 +291,48 @@ public class GroupService {
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
   
+	public ResponseEntity<?> getUnverifiedContent(Long group_id, String type){
+		List<ContentDto> contents = new ArrayList<>();
+		ContentDto content = new ContentDto();
+		switch (type){
+		case "tests":
+			List<Test> tests = new ArrayList<>();
+			tests = this.testRepository.findWaitingTestByGroupKey(group_id);
+			for (Test t : tests) {
+				content.setId(t.getId());
+				content.setOwner((userRepository.findById(t.getIdOwner()).orElse(null)).getUsername());
+				content.setAddDate();
+				content.setGrade((long) 0);
+				content.setTitle(t.getTitle());	
+				contents.add(content);
+			}
+				return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
+		case "materials":
+			List<Material> materials = new ArrayList<>();
+			materials = this.materialRepository.findWaitingMaterialByGroupKey(group_id);
+			for (Material m : materials ) {
+				content.setId(m.getId());
+				content.setOwner((userRepository.findById((long)m.getOwner()).orElse(null)).getUsername());
+				content.setAddDate();
+				content.setGrade((long) 0);
+				content.setTitle(m.getTitle());
+				contents.add(content);
+			}
+				return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
+		case "flashcards":
+			List<Set> sets = new ArrayList<>();
+			sets = this.setRepository.findWaitingSetByGroupKey(group_id);
+			for (Set s : sets) {
+				content.setId(s.getId());
+				content.setOwner((userRepository.findById((long)s.getIdOwner()).orElse(null)).getUsername());
+				content.setAddDate();
+				content.setGrade((long) 0);
+				content.setTitle(s.getName());
+				contents.add(content);
+			}
+				return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
+		default:
+			return new ResponseEntity<>("Błąd w zapytaniu", HttpStatus.BAD_REQUEST);
+		}
+	}
 }
