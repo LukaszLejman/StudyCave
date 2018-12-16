@@ -33,7 +33,11 @@ export class SharedService {
   }
 
   sendComment(id, what, data) {
-    return this.httpClient.post('groups/' + what + '/' + id + '/comments', data , {headers: this.headers});
+    return this.httpClient.post('groups/' + what + '/' + id + '/comments', data , {
+      headers: this.headers,
+      observe: 'response',
+      responseType: 'text'
+    });
   }
 
   deleteComment(comment) {
