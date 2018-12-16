@@ -14,19 +14,18 @@ export class GroupsService {
 
   private getGroupsURL = 'groups';
   private getMaterialsToAddURL = 'users/materials?excludedGroupId={groupId}';
-  private getTestsToAddURL = 'users/sets?excludedGroupId={groupId}';
-  private getFlashcardsToAddURL = 'users/tests?excludedGroupId={groupId}';
+  private getTestsToAddURL = 'users/tests?excludedGroupId={groupId}';
+  private getFlashcardsToAddURL = 'users/sets?excludedGroupId={groupId}';
 
-  private getMaterialsInGroupURL = '';
-  private getTestsInGroupURL = '';
-  private getFlashcardsInGroupURL = '';
+  private getWaitingMaterialsInGroupURL = 'groups/{groupId}/content/materials/unverified';
+  private getWaitingTestsInGroupURL = 'groups/{groupId}/content/tests/unverified';
+  private getWaitingFlashcardsInGroupURL = 'groups/{groupId}/content/flashcards/unverified';
 
-  private confirmMaterialsInGroupURL = 'groups/{groupId}/materials/{materialId}/status';
-  private confirmTestsInGroupURL = 'groups/{groupId}/tests/{testId}/status';
-  private confirmFlashcardsInGroupURL = 'groups/{groupId}/flashcard-sets/{setId}/status';
+  private acceptMaterialsInGroupURL = 'groups/{groupId}/materials/{materialId}/status';
+  private acceptTestsInGroupURL = 'groups/{groupId}/tests/{testId}/status';
+  private acceptFlashcardsInGroupURL = 'groups/{groupId}/flashcard-sets/{setId}/status';
 
-  constructor(private httpClient: HttpClient, private router: Router,
-    private authenticationService: AuthenticationService) {
+  constructor(private httpClient: HttpClient, private authenticationService: AuthenticationService) {
     this.setHeaders();
   }
 
@@ -164,33 +163,33 @@ export class GroupsService {
       });
   }
 
-  getMaterialsInGroup(id: number): Observable<any> {
+  getWaitingMaterialsInGroup(id: number): Observable<any> {
     this.setHeaders();
-    const url = this.getMaterialsInGroupURL.replace('{groupId}', id.toString());
+    const url = this.getWaitingMaterialsInGroupURL.replace('{groupId}', id.toString());
     return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
       return Observable.throw(error);
     });
   }
 
-  getTestsInGroup(id: number): Observable<any> {
+  getWaitingTestsInGroup(id: number): Observable<any> {
     this.setHeaders();
-    const url = this.getTestsInGroupURL.replace('{groupId}', id.toString());
+    const url = this.getWaitingTestsInGroupURL.replace('{groupId}', id.toString());
     return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
       return Observable.throw(error);
     });
   }
 
-  getFlashcardsInGroup(id: number): Observable<any> {
+  getWaitingFlashcardsInGroup(id: number): Observable<any> {
     this.setHeaders();
-    const url = this.getFlashcardsInGroupURL.replace('{groupId}', id.toString());
+    const url = this.getWaitingFlashcardsInGroupURL.replace('{groupId}', id.toString());
     return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
       return Observable.throw(error);
     });
   }
 
-  confirmMaterialsInGroup(groupId: number, materialId: number, points: number, comment: string): Observable<any> {
+  acceptMaterialsInGroup(groupId: number, materialId: number, points: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString()).replace('{materialId}', materialId.toString());
+    const url = this.acceptMaterialsInGroupURL.replace('{groupId}', groupId.toString()).replace('{materialId}', materialId.toString());
     const body = {
       points: points,
       status: ResourceStatus.accepted
@@ -207,9 +206,9 @@ export class GroupsService {
       });
   }
 
-  confirmTestsInGroup(groupId: number, testId: number, points: number, comment: string): Observable<any> {
+  acceptTestsInGroup(groupId: number, testId: number, points: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmTestsInGroupURL.replace('{groupId}', groupId.toString()).replace('{testId}', testId.toString());
+    const url = this.acceptTestsInGroupURL.replace('{groupId}', groupId.toString()).replace('{testId}', testId.toString());
     const body = {
       points: points,
       status: ResourceStatus.accepted
@@ -226,9 +225,9 @@ export class GroupsService {
       });
   }
 
-  confirmFlashcardsInGroup(groupId: number, setId: number, points: number, comment: string): Observable<any> {
+  acceptFlashcardsInGroup(groupId: number, setId: number, points: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmFlashcardsInGroupURL.replace('{groupId}', groupId.toString()).replace('{setId}', setId.toString());
+    const url = this.acceptFlashcardsInGroupURL.replace('{groupId}', groupId.toString()).replace('{setId}', setId.toString());
     const body = {
       points: points,
       status: ResourceStatus.accepted
@@ -247,7 +246,7 @@ export class GroupsService {
 
   rejectMaterialsFromGroup(groupId: number, materialId: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmMaterialsInGroupURL.replace('{groupId}', groupId.toString()).replace('{materialId}', materialId.toString());
+    const url = this.acceptMaterialsInGroupURL.replace('{groupId}', groupId.toString()).replace('{materialId}', materialId.toString());
     const body = {
       points: 0,
       status: ResourceStatus.rejected
@@ -266,7 +265,7 @@ export class GroupsService {
 
   rejectTestsFromGroup(groupId: number, testId: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmTestsInGroupURL.replace('{groupId}', groupId.toString()).replace('{testId}', testId.toString());
+    const url = this.acceptTestsInGroupURL.replace('{groupId}', groupId.toString()).replace('{testId}', testId.toString());
     const body = {
       points: 0,
       status: ResourceStatus.rejected
@@ -285,7 +284,7 @@ export class GroupsService {
 
   rejectFlashcardsFromGroup(groupId: number, setId: number, comment: string): Observable<any> {
     this.setHeaders();
-    const url = this.confirmFlashcardsInGroupURL.replace('{groupId}', groupId.toString()).replace('{setId}', setId.toString());
+    const url = this.acceptFlashcardsInGroupURL.replace('{groupId}', groupId.toString()).replace('{setId}', setId.toString());
     const body = {
       points: 0,
       status: ResourceStatus.rejected
