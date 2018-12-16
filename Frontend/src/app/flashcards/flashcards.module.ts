@@ -27,6 +27,7 @@ import { FilterPipe } from '../filter.pipe';
 import { AgGridModule } from 'ag-grid-angular';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -37,7 +38,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     HttpClientModule,
     AgGridModule.withComponents([]),
     DialogModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    SharedModule
+
   ],
   declarations: [
     TestResultsComponent,

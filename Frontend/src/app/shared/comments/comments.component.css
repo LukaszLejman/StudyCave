@@ -1,0 +1,45 @@
+.content{
+    width: 100%;
+    position: fixed;
+    margin-top: 100px;
+    max-width: 100%;
+    overflow: auto;
+    height: calc(100vh - 154px);
+    min-height: calc(100vh - 154px);
+    
+}
+
+.wrapper{
+    overflow: auto;
+}
+
+@media screen and (max-width: 800px) {
+    .content{
+        margin-top: 170px;
+        height: calc(100vh - 200px);
+        min-height: calc(100vh - 200px);
+    }
+}
+
+@media screen and (max-width: 352px) {
+    .content{
+        margin-top: 170px;
+        height: calc(100vh - 250px);
+        min-height: calc(100vh - 250px);
+    }
+}
+
+hr {
+    border: solid 1px;
+}
+
+input {
+    width: 80%;
+    height: 200px;
+}
+.comment{
+    border-radius: 25px;
+    border: 2px solid;
+    padding: 20px;
+    text-align: justify;
+}

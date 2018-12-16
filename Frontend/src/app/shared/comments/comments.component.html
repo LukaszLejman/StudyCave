@@ -1,0 +1,31 @@
+<div *ngIf="currentUser !== '' ">
+  <br />
+  <br />
+  <hr>
+  <hr>
+  <div>
+    <h1>KOMENTARZE</h1>
+    <button class="btn btn-study-cave" (click)="toggle()" *ngIf="!display">POKAŻ</button>
+    <button class="btn btn-study-cave" (click)="toggle()" *ngIf="display">ZWIŃ</button>
+
+  </div>
+  <div>
+    <div *ngIf="display">
+      <br />
+      <br />
+      <div>
+        Dodaj komentarz: <br />
+        <input type="text" name="comment"> <br />
+        <button class="btn btn-study-cave" (click)="submitComment()">Dodaj</button>
+      </div>
+      <div *ngFor="let comment of comments">
+        <hr>
+        <div class="comment">
+          Kto: {{comment.owner}} <br /><br />
+          Komentarz: <br />
+          {{comment.comment}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
