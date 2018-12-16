@@ -85,16 +85,17 @@ public class GroupController {
 		else
 			return new ResponseEntity<>("Brak uprawnien do operacji", HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@GetMapping()
-	//public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value = "Authorization",required = false) String headerStr) {
+	// public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value =
+	// "Authorization",required = false) String headerStr) {
 	public List<SimpleStudyGroupMemberDTO> getMyGroup() {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			String currentPrincipalName = authentication.getName();
-			Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
-			return this.groupService.getMyGroups(id);
-	}	
-	
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long id = userRepository.findByUsername(currentPrincipalName).get().getId();
+		return this.groupService.getMyGroups(id);
+	}
+
 	@PostMapping("/members")
 	public ResponseEntity<?> addmember(@RequestBody GroupJoinDto groupDto) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -102,56 +103,50 @@ public class GroupController {
 		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
 		return this.groupService.joinToGroup(userId, groupDto.getGroupCode());
 	}
-	
+
 	@PostMapping("/{groupId}/flashcard-sets")
-	public ResponseEntity<?> addFlashardSet(@PathVariable(required = true) String groupId, @RequestBody List<AddSetDto> setIds) {
+	public ResponseEntity<?> addFlashardSet(@PathVariable(required = true) String groupId,
+			@RequestBody List<AddSetDto> setIds) {
 		return this.groupService.addFlashcardSets(groupId, setIds);
 	}
-	
+
 	@PostMapping("/{groupId}/materials")
-	public ResponseEntity<?> addMaterial(@PathVariable(required = true) String groupId, @RequestBody List<AddMaterialDto> materialIds) {
+	public ResponseEntity<?> addMaterial(@PathVariable(required = true) String groupId,
+			@RequestBody List<AddMaterialDto> materialIds) {
 
 		return this.groupService.addMaterials(groupId, materialIds);
 	}
-	
+
 	@PostMapping("/{groupId}/tests")
-	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId, @RequestBody List<AddTestDto> testIds) {
+	public ResponseEntity<?> addTests(@PathVariable(required = true) String groupId,
+			@RequestBody List<AddTestDto> testIds) {
 		return this.groupService.addTests(groupId, testIds);
 	}
 
-		@PutMapping("/{groupId}/tests/{testId}/status")
-	public ResponseEntity<?> verifyTest(
-			@PathVariable(required = true) String groupId,
-			@PathVariable(required = true) String testId,
-			@Valid @RequestBody VerifyDto dto
-			) {
+	@PutMapping("/{groupId}/tests/{testId}/status")
+	public ResponseEntity<?> verifyTest(@PathVariable(required = true) String groupId,
+			@PathVariable(required = true) String testId, @Valid @RequestBody VerifyDto dto) {
 		if (dto.getStatus() == VerifyType.ACCEPTED) {
-			return new ResponseEntity<>("Dodano", HttpStatus.OK);
+			return this.groupService.acceptTest(groupId, testId);
 		}
-		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+		return this.groupService.rejectTest(groupId, testId);
 	}
-	
+
 	@PutMapping("/{groupId}/materials/{materialId}/status")
-	public ResponseEntity<?> verifyMaterial(
-			@PathVariable(required = true) String groupId,
-			@PathVariable(required = true) String materialId,
-			@Valid @RequestBody VerifyDto dto
-			) {
+	public ResponseEntity<?> verifyMaterial(@PathVariable(required = true) String groupId,
+			@PathVariable(required = true) String materialId, @Valid @RequestBody VerifyDto dto) {
 		if (dto.getStatus() == VerifyType.ACCEPTED) {
-			return new ResponseEntity<>("Dodano", HttpStatus.OK);
+			return this.groupService.acceptMaterial(groupId, materialId);
 		}
-		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+		return this.groupService.rejectMaterial(groupId, materialId);
 	}
-	
+
 	@PutMapping("/{groupId}/flashcard-sets/{setId}/status")
-	public ResponseEntity<?> verifySet(
-			@PathVariable(required = true) String groupId,
-			@PathVariable(required = true) String setId,
-			@Valid @RequestBody VerifyDto dto
-			) {
+	public ResponseEntity<?> verifySet(@PathVariable(required = true) String groupId,
+			@PathVariable(required = true) String setId, @Valid @RequestBody VerifyDto dto) {
 		if (dto.getStatus() == VerifyType.ACCEPTED) {
-			return new ResponseEntity<>("Dodano", HttpStatus.OK);
+			return this.groupService.acceptSet(groupId, setId);
 		}
-		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+		return this.groupService.rejectSet(groupId, setId);
 	}
 }
