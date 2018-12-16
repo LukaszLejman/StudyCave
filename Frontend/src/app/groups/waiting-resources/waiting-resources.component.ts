@@ -169,6 +169,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         resource.comment).subscribe(
         success => {
           this.refreshList();
+          this.displayAcceptDialog = false;
           this.snackBar.open('Test został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -182,6 +183,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         resource.comment).subscribe(
         success => {
           this.refreshList();
+          this.displayAcceptDialog = false;
           this.snackBar.open('Zestaw fiszek został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -195,6 +197,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
         resource.comment).subscribe(
         success => {
           this.refreshList();
+          this.displayAcceptDialog = false;
           this.snackBar.open('Materiał został zatwierdzony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -213,6 +216,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       this.confirmTestSub = this.groupService.rejectTestsFromGroup(this.id, resource.id, resource.comment).subscribe(
         success => {
           this.refreshList();
+          this.displayRejectDialog = false;
           this.snackBar.open('Test został odrzucony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -225,6 +229,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       this.confirmFlashcardsSub = this.groupService.rejectFlashcardsFromGroup(this.id, resource.id, resource.comment).subscribe(
         success => {
           this.refreshList();
+          this.displayRejectDialog = false;
           this.snackBar.open('Zestaw fiszek został odrzucony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
@@ -237,6 +242,7 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       this.confirmMaterialSub = this.groupService.rejectMaterialsFromGroup(this.id, resource.id, resource.comment).subscribe(
         success => {
           this.refreshList();
+          this.displayRejectDialog = false;
           this.snackBar.open('Materiał został odrzucony.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
         },
