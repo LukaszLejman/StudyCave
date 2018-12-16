@@ -10,11 +10,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
+import studycave.application.groups.StudyGroup;
 
 
 @Entity
@@ -37,10 +43,17 @@ public class Set {
     private int grade;
     @Column(name="permission")
     private String permission;
+    @Column(name="status")
+    private String status;
     
     @OneToMany(fetch = FetchType.LAZY,mappedBy="flashcardSet",cascade = CascadeType.ALL)
     @JsonManagedReference
     List<Flashcard> flashcards;
+    
+    @ManyToOne
+    @JoinColumn(name="group_id",referencedColumnName="id")
+    private StudyGroup group;
+   
 
     protected Set() {}
 
@@ -134,7 +147,20 @@ public class Set {
 	public void setPermission(String permission) {
 		this.permission = permission;
 	}
-	
-	
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public StudyGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(StudyGroup group) {
+		this.group = group;
+	}
 }

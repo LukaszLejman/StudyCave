@@ -1,5 +1,9 @@
 <div class="wrapper">
     <div class="content">
+      <div>
+        <button class="btn btn-study-cave float-right mr-1" (click)="goToAddingResource()">Dodaj zasoby do grupy</button>
+        <div style="clear: both;"></div>
+      </div>
       <h1>{{group?.name}}</h1>
       <br/>
       <h3>Opis grupy:</h3>
@@ -7,12 +11,12 @@
       <div class="buttons-container">
           <div>
             <div *ngIf="group?.owner===currentUser.username">
-              <button class="btn btn-green" (click)="goToEditing()">Edytuj grupę</button>
+              <button class="btn btn-study-cave" (click)="goToEditing()">Edytuj grupę</button>
             </div> 
-            <button class="btn btn-green" (click)="isDisplayed('materiałów')">Materiały</button>
-            <button class="btn btn-green" (click)="isDisplayed('fiszek')">Fiszki</button>
-            <button class="btn btn-green" (click)="isDisplayed('testów')">Testy</button>
-          </div>
+            <button class="btn btn-study-cave" (click)="isDisplayed('materiałów')">Materiały</button>
+            <button class="btn btn-study-cave" (click)="isDisplayed('fiszek')">Fiszki</button>
+            <button class="btn btn-study-cave" (click)="isDisplayed('testów')">Testy</button>
+            </div>
         </div>
 
 

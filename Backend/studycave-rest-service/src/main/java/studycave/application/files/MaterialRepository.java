@@ -15,4 +15,12 @@ public interface MaterialRepository extends CrudRepository<Material, Long> {
             + "(:owner is null or m.owner = :owner)")
 	List<Material> findByOptionalPermissionAndOptionalOwner(@Param("permission") String permission, 
 	        @Param("owner") Integer owner);
+    
+
+	@Query("select t from Material t where (t.permission = 'GROUP' and t.group.id = :g and t.status = 'VERIFIED' )")
+	List<Material> findMaterialByGroup(@Param("g") Long g);
+
+	@Query("select t from Material t where (t.permission = 'GROUP' and t.group.id = :g and t.status = 'UNVERIFIED' )")
+	List<Material> findWaitingMaterialByGroupKey(@Param("g") Long g);
+
 }

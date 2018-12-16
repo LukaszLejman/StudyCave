@@ -194,7 +194,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   goToEditing() {
     this.router.navigate(['groups/manage', this.id]);
   }
-
   isDisplayed(resource) {
     if (resource === 'fiszek') {
       setTimeout(() => {
@@ -219,6 +218,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
     }
   }
-
-
+  goToAddingResource() {
+    this.router.navigate(['groups/add-resources', this.id]);
+  }
 }

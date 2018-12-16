@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gaps-question',
@@ -25,7 +26,7 @@ export class GapsQuestionComponent implements OnInit {
   @Output() private add: EventEmitter<Object> = new EventEmitter();
   @Output() private editing: EventEmitter<Object> = new EventEmitter();
 
-  constructor() { }
+  constructor(public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     if (this.edit) {
@@ -78,7 +79,8 @@ export class GapsQuestionComponent implements OnInit {
 
   addToVisibleText(): void {
     if ((this.noGapText === undefined) || (this.noGapText.trim().length === 0)) {
-      alert('Tekst widoczny nie może być pusty!');
+      this.snackBar.open('Tekst widoczny nie może być pusty!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       this.answersCorrect.push({
         id: null,
@@ -92,7 +94,8 @@ export class GapsQuestionComponent implements OnInit {
 
   addToGaps(): void {
     if ((this.gapText === undefined) || (this.gapText.trim().length === 0)) {
-      alert('Tekst luki nie może być pusty!');
+      this.snackBar.open('Tekst luki nie może być pusty!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       this.answersCorrect.push({
         id: null,
@@ -150,7 +153,8 @@ export class GapsQuestionComponent implements OnInit {
 
   addTable(): void {
     if ((this.question === undefined) || (this.question.trim().length === 0)) {
-      alert('Pytanie nie może być puste!');
+      this.snackBar.open('Pytanie nie może być puste!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       let hasGap = false;
       for (let i = 0; i < this.answersCorrect.length; i++) {
@@ -160,20 +164,22 @@ export class GapsQuestionComponent implements OnInit {
         }
       }
       if (!hasGap) {
-        alert('Zadanie musi zawierać co najmniej 1 niepustą lukę!');
+        this.snackBar.open('Zadanie musi zawierać co najmniej 1 niepustą lukę!', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
       } else {
         let hasVisibleText = false;
         for (let i = 0; i < this.answersCorrect.length; i++) {
           if (!this.answersCorrect[i]['is_gap']) {
             if ((this.answersCorrect[i]['content'][0] !== '\n') &&
-                (this.answersCorrect[i]['content'][0].trim().length !== 0)) {
+              (this.answersCorrect[i]['content'][0].trim().length !== 0)) {
               hasVisibleText = true;
               break;
             }
           }
         }
         if (!hasVisibleText) {
-          alert('Zadanie musi zawierać co najmniej 1 niepusty tekst widoczny!');
+          this.snackBar.open('Zadanie musi zawierać co najmniej 1 niepusty tekst widoczny!', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
         } else {
           this.addToAnswers();
           this.content['content']['question'] = this.question;

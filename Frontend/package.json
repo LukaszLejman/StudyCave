@@ -12,7 +12,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/core": "^0.0.29",
     "@angular/animations": "^5.0.0",
     "@angular/cdk": "^5.2.5",
     "@angular/common": "^5.0.0",
@@ -25,8 +24,8 @@
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
     "@auth0/angular-jwt": "^2.0.0",
-    "ag-grid": "^17.1.1",
-    "ag-grid-angular": "^17.1.0",
+    "ag-grid-angular": "^19.1.2",
+    "ag-grid-community": "^19.1.4",
     "ajv": "^6.0.0",
     "angular2-jwt": "^0.2.3",
     "bootstrap": "^4.1.2",
@@ -36,11 +35,12 @@
     "jquery-ui": "^1.12.1",
     "popper.js": "^1.12.9",
     "primeicons": "^1.0.0",
-    "primeng": "^6.1.6",
+    "primeng": "^6.1.7",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
+    "@angular-devkit/core": "^7.1.2",
     "@angular/cli": "^1.7.4",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",

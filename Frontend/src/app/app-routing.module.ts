@@ -38,6 +38,10 @@ import { GroupCreatorComponent } from './groups/group-creator/group-creator.comp
 import { JoinToGroupComponent } from './groups/join-to-group/join-to-group.component';
 import { GroupDetailsComponent } from './groups/group-details/group-details.component';
 import { ManageGroupComponent } from './groups/manage-group/manage-group.component';
+import { SharingResourcesInGroupsComponent } from './groups/sharing-resources-in-groups/sharing-resources-in-groups.component';
+import { CommentsComponent } from './shared/comments/comments.component';
+import { SharedModule } from './shared/shared.module';
+import { WaitingResourcesComponent } from './groups/waiting-resources/waiting-resources.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -70,7 +74,9 @@ const routes: Routes = [
   { path: 'create-group', component: GroupCreatorComponent, canActivate: [AuthGuard] },
   { path: 'join-to-group', component: JoinToGroupComponent, canActivate: [AuthGuard] },
   { path: 'groups/:id', component: GroupDetailsComponent, canActivate: [AuthGuard] },
-  { path: 'groups/manage/:id', component: ManageGroupComponent, canActivate: [AuthGuard] }
+  { path: 'groups/manage/:id', component: ManageGroupComponent, canActivate: [AuthGuard] },
+  { path: 'groups/add-resources/:id', component: SharingResourcesInGroupsComponent , canActivate: [AuthGuard] },
+  { path: 'groups/waiting-resources/:id', component: WaitingResourcesComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -79,13 +85,15 @@ const routes: Routes = [
     FlashcardsModule,
     TestsModule,
     UserModule,
-    GroupsModule
+    GroupsModule,
+    SharedModule
   ],
   exports: [
     RouterModule,
     FlashcardsModule,
     TestsModule,
-    UserModule
+    UserModule,
+    SharedModule
   ]
 })
 export class AppRoutingModule { }

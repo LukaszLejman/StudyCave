@@ -6,13 +6,15 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class TestsService {
 
   // tslint:disable-next-line:max-line-length
   constructor(private httpClient: HttpClient, private router: Router,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    public snackBar: MatSnackBar) {
     this.setHeaders();
   }
 
@@ -44,25 +46,33 @@ export class TestsService {
   putData(url, body) {
     this.httpClient.put(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(
-      data => { this.sendResponse(data); },
-      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+        data => { this.sendResponse(data); },
+        error => {
+          this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
       );
   }
 
   sendData(url, body) {
     this.httpClient.post(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(
-      data => { this.sendResponse(data); },
-      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+        data => { this.sendResponse(data); },
+        error => {
+          this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
       );
   }
 
   sendResponse(data) {
     if (data.status === 200) {
-      alert('Operacja przebiegła pomyślnie!');
+      this.snackBar.open('Operacja przebiegła pomyślnie!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
       this.router.navigate(['tests']);
     } else {
-      alert('Coś poszło nie tak. Spróbuj ponownie później.');
+      this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     }
   }
 

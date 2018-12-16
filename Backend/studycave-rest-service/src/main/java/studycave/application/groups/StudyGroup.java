@@ -12,7 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import studycave.application.files.Material;
 import studycave.application.groups.members.StudyGroupMember;
+import studycave.application.test.Test;
 
 @Entity
 public class StudyGroup {
@@ -31,7 +33,16 @@ public class StudyGroup {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
 	List<StudyGroupMember> members = new ArrayList<>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
+	List<StudyGroupMember> flashcardSets = new ArrayList<>();
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
+	List<Material> materials = new ArrayList<>();
+  
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
+	List<Test> tests = new ArrayList<>();
+	
 	public StudyGroup() {
 		super();
 	}
@@ -75,4 +86,32 @@ public class StudyGroup {
 	public void setGroupKey(String groupKey) {
 		this.groupKey = groupKey;
 	}
+
+	public List<StudyGroupMember> getFlashcardSets() {
+		return flashcardSets;
+	}
+
+	public void setFlashcardSets(List<StudyGroupMember> flashcardSets) {
+		this.flashcardSets = flashcardSets;
+	}
+
+
+	public List<Material> getMaterials() {
+		return materials;
+	}
+
+	public void setMaterials(List<Material> materials) {
+		this.materials = materials;
+	}
+	
+
+	public List<Test> getTests() {
+		return tests;
+	}
+
+	public void setTests(List<Test> tests) {
+		this.tests = tests;
+	}
+	
+	
 }

@@ -1,0 +1,51 @@
+<div *ngIf="test">
+  <h2>{{ test.title }}</h2>
+  <br />
+  <div>
+    <div *ngFor="let question of test.body; let j = index">
+      <h4 *ngIf="question.type === 'true-false'">{{ j + 1 }}. Prawda/fałsz</h4>
+      <h4 *ngIf="question.type === 'single-choice'">{{ j + 1 }}. Jednokrotny wybór</h4>
+      <h4 *ngIf="question.type === 'multiple-choice'">{{ j + 1 }}. Wielokrotny wybór</h4>
+      <h4 *ngIf="question.type === 'puzzle'">{{ j + 1 }}. Rozsypanka wyrazowa</h4>
+      <h4 *ngIf="question.type === 'gaps'">{{ j + 1 }}. Uzupełnianie luk</h4>
+      <h4 *ngIf="question.type === 'pairs'">{{ j + 1 }}. Łączenie w pary</h4>
+      <h6>
+        {{ question.question }} ({{ question.points }} pkt)
+      </h6>
+      <div *ngIf="question.type === 'true-false' || question.type === 'single-choice' || question.type === 'multiple-choice'">
+        <p *ngFor="let answer of question.answers; let i = index">
+          <span>{{ i + 1 }}. </span>
+          <span *ngIf="answer.is_good">(Prawidłowa odpowiedź) </span>
+          <span *ngIf="!answer.is_good">(Nieprawidłowa odpowiedź) </span>
+          {{ answer.content }}
+        </p>
+        <br />
+      </div>
+      <div *ngIf="question.type === 'puzzle'">
+        <p>Kolejne elementy rozsypanki:</p>
+        <p *ngFor="let answer of question.answers">
+          <span *ngFor="let correct of answer.correct; let i = index">{{ correct }}<span *ngIf="i < (answer.correct.length - 1)">, </span></span>
+        </p>
+        <br />
+      </div>
+      <div *ngIf="question.type === 'gaps'">
+        <span *ngFor="let answer of question.answers">
+          <span *ngIf="answer.content[0] !== '\n'">
+            <span *ngFor="let content of answer.content; let i = index">
+              <span *ngIf="answer.is_gap"><b><i>{{ content }}</i><span *ngIf="i < (answer.content.length - 1)"> | </span></b></span>
+              <span *ngIf="!answer.is_gap">{{ content }}</span>
+            </span>
+          </span>
+          <br *ngIf="answer.content[0] === '\n'" />
+        </span>
+        <br /><br />
+      </div>
+      <div *ngIf="question.type === 'pairs'">
+        <p *ngFor="let answer of question.answers">
+          <span>{{ answer.first }}</span> &harr; <span>{{ answer.second }}</span>
+        </p>
+        <br />
+      </div>
+    </div>
+  </div>
+</div>
