@@ -35,6 +35,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   submitComment() {
+    
     const dataToSend = {
       username: this.currentUser.username,
       text: this.comment
