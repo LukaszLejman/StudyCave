@@ -97,7 +97,7 @@ public class GroupController {
 	}
 	
 	
-	@DeleteMapping("/{group_id}/content/{type}")
+	@DeleteMapping("/{group_id}/content/{type}/{content_id}")
 	public ResponseEntity<?> deleteContent(@PathVariable(required = true) Long group_id, @PathVariable(required = true) String type) {
 		if(type == "sets"  ||  type == "materials"  ||  type =="tests")
 			return new ResponseEntity<>("Usunięto", HttpStatus.OK);
