@@ -154,6 +154,7 @@ export class SharingResourcesInGroupsComponent implements OnInit, OnDestroy {
         success => {
           this.snackBar.open('Twoje testy zostały dodane do grupy.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+            this.getTestsToAdd();
         },
         error => {
           this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
@@ -165,6 +166,7 @@ export class SharingResourcesInGroupsComponent implements OnInit, OnDestroy {
         success => {
           this.snackBar.open('Twoje fiszki zostały dodane do grupy.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+            this.getFlashcardsToAdd();
         },
         error => {
           this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
@@ -176,6 +178,7 @@ export class SharingResourcesInGroupsComponent implements OnInit, OnDestroy {
         success => {
           this.snackBar.open('Twoje materiały zostały dodane do grupy.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+            this.getMaterialsToAdd();
         },
         error => {
           this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
