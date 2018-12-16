@@ -24,7 +24,8 @@ export class TestsListComponent implements OnInit, OnDestroy {
   private removeTestSubscription: ISubscription;
   private getUserTestsSubscription: ISubscription;
   private currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
+  display = false;
+  toDelete;
   columnDefs = [
     { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
     { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
@@ -122,8 +123,13 @@ export class TestsListComponent implements OnInit, OnDestroy {
     this.router.navigate(['tests/edit', e.data.id]);
   }
 
-  public onActionRemoveClick(e) {
-    this.removeTestSubscription = this.testService.removeTest(e.data.id).subscribe(
+  openPopup() {
+    this.display = true;
+  }
+
+  deleteTest() {
+    this.display = false;
+    this.removeTestSubscription = this.testService.removeTest(this.toDelete).subscribe(
       d => {
         if (this.publicMode) {
           this.getPublicTestsData();
@@ -132,6 +138,11 @@ export class TestsListComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  public onActionRemoveClick(e) {
+    this.openPopup();
+    this.toDelete = e.data.id;
   }
 
   getPDF(test: Test) {

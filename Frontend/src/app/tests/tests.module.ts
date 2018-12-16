@@ -26,6 +26,8 @@ import { PuzzleComponent } from './test-details/question-view/puzzle/puzzle.comp
 import { GapsComponent } from './test-details/question-view/gaps/gaps.component';
 import { PairsComponent } from './test-details/question-view/pairs/pairs.component';
 import { SharedModule } from '../shared/shared.module';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   imports: [
@@ -35,7 +37,9 @@ import { SharedModule } from '../shared/shared.module';
     HttpClientModule,
     RouterModule,
     AgGridModule.withComponents([]),
-    SharedModule
+    SharedModule,
+    DialogModule,
+    ConfirmDialogModule
   ],
   declarations: [
     TestMakerComponent,

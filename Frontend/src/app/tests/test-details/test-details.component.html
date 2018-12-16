@@ -6,7 +6,7 @@
         <button class="btn btn-study-cave" (click)="back()">Wróć do listy testów</button>
         <span>
           <div *ngIf="currentUser">Twój maksymalny wynik: {{prevMaxResult}}/{{maxPoints}}</div>
-          <button *ngIf="currentUser.username === test.owner && (!isStarted || isEnded)" class="btn btn-study-cave" (click)="remove()">Usuń</button>
+          <button *ngIf="currentUser.username === test.owner && (!isStarted || isEnded)" class="btn btn-study-cave" (click)="openPopup()">Usuń</button>
           <button *ngIf="currentUser.username === test.owner" class="btn btn-study-cave" (click)="edit()">Edytuj</button>
           <button class="btn btn-study-cave" (click)="get()">PDF</button>
         </span>
@@ -51,4 +51,11 @@
     </div>
     <app-comments [what]="'tests'"></app-comments>
   </div>
+  <p-dialog header="Potwierdź" [(visible)]="display">
+    Czy chcesz usunąć test?
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="deleteTest()" label="TAK"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
 </div>

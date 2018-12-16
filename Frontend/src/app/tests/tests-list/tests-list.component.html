@@ -23,4 +23,11 @@
     </ag-grid-angular>
 
   </div>
+  <p-dialog header="Potwierdź" [(visible)]="display">
+    Czy chcesz usunąć test?
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="deleteTest()" label="TAK"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
 </div>

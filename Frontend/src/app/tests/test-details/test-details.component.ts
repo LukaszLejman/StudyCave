@@ -26,8 +26,13 @@ export class TestDetailsComponent implements OnInit, OnDestroy {
   private removeTestSubscription: ISubscription;
   private getResultSubscription: ISubscription;
   private getTestWithoutAnswersSubscription: ISubscription;
+  display = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private testService: TestsService) { }
+
+  openPopup() {
+    this.display = true;
+  }
 
   handleEmitNextQuestionRequest(e) {
     this.points += e.points;
@@ -56,6 +61,10 @@ export class TestDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['tests/edit', this.id]);
   }
 
+  deleteTest() {
+    this.display = false;
+    this.remove();
+  }
   remove() {
     this.removeTestSubscription = this.testService.removeTest(this.id).subscribe(
       d => {
