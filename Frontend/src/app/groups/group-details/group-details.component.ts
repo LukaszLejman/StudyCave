@@ -47,19 +47,20 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
 
   customCellRendererFunc(params) {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (this.group.owner === currentUser.username) {
-      return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" >Usuń</button>`;
-    } else {
-      return '';
-    }
+      return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" *ngIf=group.owner ===  getCurrentUser()" >
+      Usuń
+      </button>`;
+  }
+
+  getCurrentUser() {
+    return JSON.parse(localStorage.getItem('currentUser'));
   }
 
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id)
-    .subscribe(data => { this.group = data; });
+      .subscribe(data => { this.group = data; });
 
     this.gridOptions = {
       rowHeight: 50,
@@ -177,13 +178,13 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
       this.groupDetailsSubscription.unsubscribe();
     }
 
-    if ( this.flashcardsSusbscritpion) {
+    if (this.flashcardsSusbscritpion) {
       this.flashcardsSusbscritpion.unsubscribe();
     }
-    if ( this.materialsSubscription) {
+    if (this.materialsSubscription) {
       this.materialsSubscription.unsubscribe();
     }
-    if ( this.testsSubscription) {
+    if (this.testsSubscription) {
       this.testsSubscription.unsubscribe();
     }
     if (this.resourceDeleteSubscription) {
