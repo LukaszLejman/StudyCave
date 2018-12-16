@@ -29,10 +29,10 @@ export class SharedService {
   }
 
   getComments(id, what): Observable<any> {
-    return this.httpClient.get( what + '/comments/' + id, {headers: this.headers});
+    return this.httpClient.get('groups/' + what + '/' + id + '/comments', {headers: this.headers});
   }
 
   sendComment(id, what, data) {
-    return this.httpClient.post( what + '/comments/' + id, data , {headers: this.headers});
+    return this.httpClient.post('groups/' + what + '/' + id + '/comments', data , {headers: this.headers});
   }
 }

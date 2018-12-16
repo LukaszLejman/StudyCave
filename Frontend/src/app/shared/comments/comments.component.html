@@ -15,15 +15,16 @@
       <br />
       <div>
         Dodaj komentarz: <br />
-        <input type="text" name="comment"> <br />
+        <textarea name="comment" class="form-control" rows="10" [(ngModel)]="comment"></textarea>
+        <br />
         <button class="btn btn-study-cave" (click)="submitComment()">Dodaj</button>
       </div>
       <div *ngFor="let comment of comments">
         <hr>
         <div class="comment">
-          Kto: {{comment.owner}} <br /><br />
+          Kto: {{comment.username}} <br /><br />
           Komentarz: <br />
-          {{comment.comment}}
+          {{comment.text}}
         </div>
       </div>
     </div>
