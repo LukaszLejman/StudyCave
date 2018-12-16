@@ -306,9 +306,6 @@ public class GroupService {
 				content.setTitle(t.getTitle());	
 				contents.add(content);
 			}
-			if(contents.isEmpty())
-				return new ResponseEntity<>("Pusta lista testów", HttpStatus.OK);
-			else
 				return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
 		case "materials":
 			List<Material> materials = new ArrayList<>();
@@ -321,9 +318,6 @@ public class GroupService {
 				content.setTitle(m.getTitle());
 				contents.add(content);
 			}
-			if(contents.isEmpty())
-				return new ResponseEntity<>("Pusta lista materiałów", HttpStatus.OK);
-			else
 				return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
 		case "flashcards":
 			List<Set> sets = new ArrayList<>();
@@ -336,9 +330,6 @@ public class GroupService {
 				content.setTitle(s.getName());
 				contents.add(content);
 			}
-			if(contents.isEmpty())
-				return new ResponseEntity<>("Pusta lista fiszek", HttpStatus.OK);
-			else
 				return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
 		default:
 			return new ResponseEntity<>("Błąd w zapytaniu", HttpStatus.BAD_REQUEST);
