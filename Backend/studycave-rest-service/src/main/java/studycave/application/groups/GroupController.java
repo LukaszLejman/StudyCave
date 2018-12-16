@@ -1,3 +1,4 @@
+
 package studycave.application.groups;
 
 import java.util.List;
@@ -102,6 +103,12 @@ public class GroupController {
 		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
 		return this.groupService.joinToGroup(userId, groupDto.getGroupCode());
 	}
+
+	@GetMapping("/{group_id}/content/{type}")
+	public ResponseEntity<?> getContentFlashcard(@PathVariable(required = true) Long group_id, @PathVariable(required = true) String type) {
+		return this.groupService.getContent(group_id,type);
+	}
+
 
 	@PostMapping("/{groupId}/flashcard-sets")
 	public ResponseEntity<?> addFlashardSet(@PathVariable(required = true) String groupId,

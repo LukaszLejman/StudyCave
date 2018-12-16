@@ -1,6 +1,10 @@
 package studycave.application.groups;
- import java.sql.Date;
- public class ContentDto {
+
+
+import java.sql.Date;
+
+public class ContentDto {
+
 	private Long id;
 	private String title;
 	private Date addDate;
@@ -32,16 +36,22 @@ package studycave.application.groups;
 	public Date getAddDate() {
 		return addDate;
 	}
+
  	public void setAddDate() {
+
 		java.util.Date utilDate = new java.util.Date();
 		Date sqlDate = new Date(utilDate.getTime());
 		this.addDate = sqlDate;
 	}
+
  	public Long getGrade() {
+
 		return grade;
 	}
 	public void setGrade(Long grade) {
 		this.grade = grade;
 	}
 	
- }
+
+}
+
