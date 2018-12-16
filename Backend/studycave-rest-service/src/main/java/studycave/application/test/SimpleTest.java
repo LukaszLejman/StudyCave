@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -30,6 +31,9 @@ public class SimpleTest {
     //@Column(nullable = true)
     private int grade;
     private String permission;
+    @Column(name="group_id")
+    @JsonInclude(JsonInclude.Include.NON_NULL) 
+    private Integer groupId;
     
     protected SimpleTest() {
     	
@@ -102,6 +106,12 @@ public class SimpleTest {
 	public void setGrade(int grade) {
 		this.grade = grade;
 	}
-    
-    
+
+	public Integer getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(Integer groupId) {
+		this.groupId = groupId;
+	}
 }
