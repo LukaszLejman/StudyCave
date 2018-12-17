@@ -508,4 +508,22 @@ public class GroupService {
 		this.commentRepository.deleteById(comment_id);
 		return new ResponseEntity<>("Usunięto komentarz", HttpStatus.OK);
 	}
+	
+	public ResponseEntity<?> deleteContent(Long group_id, String type, Long content_id){
+		switch (type) {
+		case "tests":
+			this.testRepository.deleteById(content_id);
+			return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+		case "materials":
+			this.materialRepository.deleteById(content_id);
+			return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+		case "sets":
+			this.materialRepository.deleteById(content_id);
+			return new ResponseEntity<>("Usunięto", HttpStatus.OK);
+		default:
+			return new ResponseEntity<>("Błąd zapytania", HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+
 }
