@@ -477,12 +477,13 @@ public class GroupService {
 	}
 
 	public ResponseEntity<?> getComments(String type, Long content_id) {
-		List<StudyGroupCommentDto> comments = new ArrayList<>();
-		StudyGroupCommentDto comment = new StudyGroupCommentDto();
+		List<StudyGroupCommentDto> comments = new ArrayList<>();	
 		for(StudyGroupComment c : this.commentRepository.findCommentsByContent(type, content_id)) {
+		StudyGroupCommentDto comment = new StudyGroupCommentDto();
 		comment.setId(c.getId());
 		comment.setText(c.getText());
 		comment.setUsername((this.userRepository.findById(c.getUserId()).orElse(null)).getUsername());
+		System.out.println(comment);
 		comments.add(comment);
 		}
 		return new ResponseEntity<List<StudyGroupCommentDto>>(comments, HttpStatus.OK);
