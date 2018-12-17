@@ -170,7 +170,12 @@ public class GroupController {
 	@PostMapping("/{type}/{content_id}/comments")
 	public ResponseEntity<?> addComment(@PathVariable(required = true) String type,
 			@PathVariable(required = true) Long content_id, @RequestBody SimpleStudyGroupCommentDto comment) {
-		return new ResponseEntity<>("Dodano komentarz", HttpStatus.OK);
+		return this.groupService.addComment(type, content_id, comment);
+	}
+	
+	@DeleteMapping("/comments/{comment_id}")
+	public ResponseEntity<?> deleteComment(@PathVariable(required = true) Long comment_id) {
+		return this.groupService.deleteComment(comment_id);
 	}
 
 	@DeleteMapping("/{group_id}/content/{type}/{content_id}")

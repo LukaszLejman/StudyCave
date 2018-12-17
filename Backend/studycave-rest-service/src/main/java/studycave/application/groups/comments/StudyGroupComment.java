@@ -32,6 +32,9 @@ public class StudyGroupComment {
 	
 	private String text;
 
+	@Column(name = "content_type")
+	private String contentType;
+	
 	public StudyGroupComment() {
 		
 	}
@@ -67,6 +70,15 @@ public class StudyGroupComment {
 	public void setText(String text) {
 		this.text = text;
 	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
    
+	
 
 }

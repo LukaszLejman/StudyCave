@@ -46,7 +46,10 @@ import studycave.application.files.Material;
 import studycave.application.flashcard.Set;
 import studycave.application.test.Test;
 import studycave.application.user.SimpleUserInfo;
+import studycave.application.groups.comments.SimpleStudyGroupCommentDto;
+import studycave.application.groups.comments.StudyGroupComment;
 import studycave.application.groups.comments.StudyGroupCommentDto;
+import studycave.application.groups.comments.StudyGroupCommentRepository;
 
 
 @Service
@@ -66,6 +69,8 @@ public class GroupService {
 	SetRepository setRepository;
   	@Autowired
 	TestRepository testRepository;
+  	@Autowired
+  	StudyGroupCommentRepository commentRepository;
   	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -480,14 +485,27 @@ public class GroupService {
 	public ResponseEntity<?> getComments(String type, Long content_id) {
 		List<StudyGroupCommentDto> comments = new ArrayList<>();
 		StudyGroupCommentDto comment = new StudyGroupCommentDto();
-		comment.setId((long) 777);
-		comment.setText("Hi Kuba this is your favourite backend developer");
-		comment.setUsername("Dawid");
+		for(StudyGroupComment c : this.commentRepository.findCommentsByContent(type, content_id)) {
+		comment.setId(c.getId());
+		comment.setText(c.getText());
+		comment.setUsername((this.userRepository.findById(c.getUserId()).orElse(null)).getUsername());
 		comments.add(comment);
-		comment.setId((long) 666);
-		comment.setText("I hate you");
-		comment.setUsername("Andrzej");
-		comments.add(comment);
+		}
 		return new ResponseEntity<List<StudyGroupCommentDto>>(comments, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> addComment(String type, Long content_id, SimpleStudyGroupCommentDto text) {
+		StudyGroupComment comment = new StudyGroupComment();
+		comment.setContentType(type);
+		comment.setContentId(content_id);
+		comment.setText(text.getText());
+		comment.setUserId((this.userRepository.findByUsername(text.getUsername()).orElse(null)).getId());
+		this.commentRepository.save(comment);
+		return new ResponseEntity<>("Dodano komentarz", HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> deleteComment(Long comment_id) {
+		this.commentRepository.deleteById(comment_id);
+		return new ResponseEntity<>("Usunięto komentarz", HttpStatus.OK);
 	}
 }
