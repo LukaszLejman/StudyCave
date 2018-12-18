@@ -74,10 +74,10 @@
                     class="mobile">{{ question.content.points }}</td>
                 <td (click)='showComponents(question.content.type, question.nr)'
                     class="mobile">{{ question.shortcut }}</td>
-                <td><button class="btn btn-study-cave" (click)="delete(question.nr)">Usuń</button></td>
+                <td><button class="btn btn-study-cave" (click)="delete(question.nr)"><i class="fas fa-trash-alt"></i> Usuń</button></td>
                 <td class="mobile">
-                  <button *ngIf="question.nr != 1" class="btn btn-study-cave" (click)="moveUp(question.nr)">Góra</button>
-                  <button *ngIf="question.nr != test.length" class="btn btn-study-cave" (click)="moveDown(question.nr)">Dół</button>
+                  <button *ngIf="question.nr != 1" class="btn btn-study-cave" (click)="moveUp(question.nr)"><i class="fas fa-angle-up"></i> Góra</button>
+                  <button *ngIf="question.nr != test.length" class="btn btn-study-cave" (click)="moveDown(question.nr)"><i class="fas fa-angle-up"></i> Dół</button>
                   <span (click)='showComponents(question.content.type, question.nr)'
                         *ngIf="(question.nr == 1) && (question.nr == test.length)" >---</span>
                 </td>
@@ -103,10 +103,10 @@
           <br />
         </div>
         <div *ngIf="(test.length != 0) && (!componentVisible)" >
-          <button class="btn btn-study-cave" (click)="save()">Dodaj test!</button>
-          <button class="btn btn-study-cave ml-2" routerLink="/tests/">Powrót</button>
+          <button class="btn btn-study-cave" (click)="save()"><i class="fas fa-angle-up"></i> Dodaj test!</button>
+          <button class="btn btn-study-cave ml-2" routerLink="/tests/"><i class="fas fa-arrow-left"></i> Powrót</button>
         </div>
-        <button *ngIf="!((test.length != 0) && (!componentVisible))" class="btn btn-study-cave" routerLink="/tests/">Powrót</button>
+        <button *ngIf="!((test.length != 0) && (!componentVisible))" class="btn btn-study-cave" routerLink="/tests/"><i class="fas fa-arrow-left"></i> Powrót</button>
       </div>
     </div>
 </div>

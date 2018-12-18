@@ -46,9 +46,9 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
 
   customCellRendererFunc(params) {
-      return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm" *ngIf=group.owner ===  getCurrentUser()" >
-      Usuń
-      </button>`;
+    return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm"
+      *ngIf=group.owner ===  getCurrentUser()" title="Usuń">
+      <i class="fas fa-trash-alt" data-action-type="remove"></i></button>`;
   }
 
   getCurrentUser() {
@@ -87,18 +87,18 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   }
 
   goTo(event: RowDoubleClickedEvent) {
-      if (this.dataToDisplay === 'fiszek') {
-        this.router.navigate(['flashcards/sets', event.data.id]);
+    if (this.dataToDisplay === 'fiszek') {
+      this.router.navigate(['flashcards/sets', event.data.id]);
 
-      }
-      if (this.dataToDisplay === 'materiałów') {
-        this.router.navigate(['materials', event.data.id]);
-
-      }
-      if (this.dataToDisplay === 'testów') {
-        this.router.navigate(['tests', event.data.id]);
-      }
     }
+    if (this.dataToDisplay === 'materiałów') {
+      this.router.navigate(['materials', event.data.id]);
+
+    }
+    if (this.dataToDisplay === 'testów') {
+      this.router.navigate(['tests', event.data.id]);
+    }
+  }
 
 
   redirectTo(uri) {

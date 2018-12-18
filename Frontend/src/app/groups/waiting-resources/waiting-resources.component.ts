@@ -326,9 +326,12 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
 
   customCellRendererFunc(params) {
     return `
-      <button type="button" data-action-type="preview" class="btn btn-study-cave btn-sm">Podgląd</button>
-      <button type="button" data-action-type="accept" class="btn btn-study-cave btn-sm">Akceptuj</button>
-      <button type="button" data-action-type="reject" class="btn btn-study-cave btn-sm">Odrzuć</button>
+      <button type="button" data-action-type="preview" class="btn btn-study-cave btn-sm" title="Podgląd">
+      <i class="far fa-eye" data-action-type="preview"></i></button>
+      <button type="button" data-action-type="accept" class="btn btn-study-cave btn-sm" title="Akceptuj">
+      <i class="fas fa-check-circle" data-action-type="accept"></i></button>
+      <button type="button" data-action-type="reject" class="btn btn-study-cave btn-sm" title="Odrzuć">
+      <i class="fas fa-times" data-action-type="reject"></i></button>
     `;
   }
 
