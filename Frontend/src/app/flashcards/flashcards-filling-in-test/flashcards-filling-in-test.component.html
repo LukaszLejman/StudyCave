@@ -53,7 +53,7 @@
     <button class="btn btn-study-cave" *ngIf="!started" (click)="start()"><i class="far fa-play-circle"></i> Rozpocznij test</button>
   </div>
   <button class="btn btn-study-cave" *ngIf="finish" routerLink="/flashcards/sets/{{ id }}"><i class="far fa-stop-circle"></i> Zakończ test</button>
-  <button class="btn btn-study-cave" *ngIf="started && !finish && !not_last"(click)="finished()"><i class="far fa-play-circle"></i> Przejdź do wyniku</button>
+  <button class="btn btn-study-cave" *ngIf="started && !finish && !not_last"(click)="finished()"><i class="fas fa-arrow-left"></i> Przejdź do wyniku</button>
   <br />
-  <button class="btn btn-study-cave" routerLink="/flashcards/sets/{{ id }}"><i class="far fa-stop-circle"></i> Wróć do zestawu</button>
+  <button class="btn btn-study-cave" routerLink="/flashcards/sets/{{ id }}"><i class="fas fa-arrow-left"></i> Wróć do zestawu</button>
 </div>

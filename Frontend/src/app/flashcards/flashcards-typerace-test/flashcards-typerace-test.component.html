@@ -38,7 +38,7 @@
       Podaj odpowiedź:<br />
       {{flashcards[index].content}}
       <input appAutofocus [(ngModel)]="answer" class="mr-2" placeholder="odpowiedź" (keyup.enter)="verifyAnswer()" >
-      <button class="btn btn-study-cave" (click)="verifyAnswer()" ><i class="fas fa-times"></i> Sprawdź</button>
+      <button class="btn btn-study-cave" (click)="verifyAnswer()" ><i class="fas fa-check-circle"></i> Sprawdź</button>
     </div>
     <div *ngIf="this.is_correct === true && !finish">ODPOWIEDŹ POPRAWNA</div>
     <div *ngIf="this.is_correct === false && !finish">ODPOWIEDŹ NIEPOPRAWNA</div>
