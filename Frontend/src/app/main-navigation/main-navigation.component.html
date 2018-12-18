@@ -6,17 +6,16 @@
     </div>
   </div>
   <div class="menu">
-    <a routerLink="/materials/list">Materiały</a>
-    <a routerLink="/tests">Testy</a>
-    <a routerLink="/my-groups">Grupy</a>
-    <a routerLink="/work-in-progress">Szukaj</a>
+    <a routerLink="/materials/list"><i class="fas fa-book-open"></i> Materiały</a>
+    <a routerLink="/tests"><i class="fas fa-pencil-ruler"></i> Testy</a>
+    <a routerLink="/my-groups"><i class="fas fa-users"></i> Grupy</a>
     <div class="log-reg-container" *ngIf="!isLogin">
-      <a routerLink="/login" class="y-background">Logowanie</a>
-      <a routerLink="/sign-up">Rejestracja</a>
+      <a routerLink="/login" class="y-background"><i class="fas fa-sign-in-alt"></i> Logowanie</a>
+      <a routerLink="/sign-up"><i class="fas fa-user-plus"></i> Rejestracja</a>
     </div>
     <div class="log-reg-container" *ngIf="isLogin">
-      <a (click)="navToProfile()">Profil</a>
-      <a (click)="logout()">Wyloguj</a>
+      <a (click)="navToProfile()"><i class="fas fa-user-circle"></i> Profil</a>
+      <a (click)="logout()"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
     </div>
 
   </div>

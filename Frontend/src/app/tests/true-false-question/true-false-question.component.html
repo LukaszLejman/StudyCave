@@ -25,9 +25,9 @@
         </label>
         <br />
         <br />
-        <button *ngIf='!edit' class="btn btn-study-cave" type="submit">Dodaj pytanie!</button>
-        <button *ngIf='edit' class="btn btn-study-cave" type="submit">Edytuj pytanie!</button>
-        <button class="btn btn-study-cave ml-2" (click)="empty()">Powrót</button>
+        <button *ngIf='!edit' class="btn btn-study-cave" type="submit"><i class="fas fa-check-circle"></i>Dodaj pytanie!</button>
+        <button *ngIf='edit' class="btn btn-study-cave" type="submit"><i class="fas fa-edit"></i> Edytuj pytanie!</button>
+        <button class="btn btn-study-cave ml-2" (click)="empty()"><i class="fas fa-arrow-left"></i> Powrót</button>
       </form>
     </div>
   </div>

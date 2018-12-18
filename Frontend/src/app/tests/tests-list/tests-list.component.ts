@@ -49,9 +49,12 @@ export class TestsListComponent implements OnInit, OnDestroy {
       return '<button type="button" data-action-type="get" class="btn btn-study-cave">PDF</button>';
     } else if (params.data['owner'] === currentUser.username) {
       return `
-        <button type="button" data-action-type="remove" class="btn btn-study-cave btn-sm">Usuń</button>
-        <button type="button" data-action-type="edit" class="btn btn-study-cave btn-sm">Edytuj</button>
-        <button type="button" data-action-type="get" class="btn btn-study-cave btn-sm">PDF</button>
+        <button type="button" data-action-type="remove" class="btn btn-study-cave btn-sm" title="Usuń">
+        <i class="fas fa-trash-alt" data-action-type="remove"></i></button>
+        <button type="button" data-action-type="edit" class="btn btn-study-cave btn-sm" title="Edytuj">
+        <i class="fas fa-edit" data-action-type="edit"></i></button>
+        <button type="button" data-action-type="get" class="btn btn-study-cave btn-sm" title="PDF">
+        <i class="fas fa-file-pdf" data-action-type="get"></i></button>
         `;
     } else {
       return '';
@@ -78,9 +81,7 @@ export class TestsListComponent implements OnInit, OnDestroy {
 
   public onRowClicked(e) {
     if (e.event.target !== undefined) {
-      const data = e.data;
       const actionType = e.event.target.getAttribute('data-action-type');
-
       switch (actionType) {
         case 'edit':
           return this.onActionEditClick(e);

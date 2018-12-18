@@ -1,17 +1,17 @@
 <div class="wrapper">
     <div class="content">
         <div>
-            <button class="btn btn-study-cave" routerLink="/materials/list/">WRÓĆ DO LISTY</button>
+            <button class="btn btn-study-cave" routerLink="/materials/list/"><i class="fas fa-check-circle"></i> WRÓĆ DO LISTY</button>
             <div>
                 MATERIAŁY: {{title}} <br />
                 WŁAŚCICIEL: {{own}} <br />
                 UPRAWNIENIA: {{perm}} <br />
             </div>
             <br />
-            <a [href]="serverURL+id"><button class="btn btn-study-cave">POBIERZ</button></a>
+            <a [href]="serverURL+id"><button class="btn btn-study-cave"><i class="fas fa-check-circle"></i> POBIERZ</button></a>
             <div *ngIf="user && owned">
-                <button class="btn btn-study-cave" (click)="openPopup()">USUŃ</button>
-                <button class="btn btn-study-cave" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
+                <button class="btn btn-study-cave" (click)="openPopup()"><i class="fas fa-trash-alt"></i> USUŃ</button>
+                <button class="btn btn-study-cave" (click)="changePermission()"><i class="fas fa-check-circle"></i> ZMIEŃ UPRAWNIENIA</button>
             </div>
         </div>
         <app-comments [what]="'materials'"></app-comments>
