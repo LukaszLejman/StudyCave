@@ -104,10 +104,14 @@ public class GroupController {
 	}
 
 	@GetMapping("/{group_id}/content/{type}")
-	public ResponseEntity<?> getContentFlashcard(@PathVariable(required = true) Long group_id, @PathVariable(required = true) String type) {
+	public ResponseEntity<?> getContent(@PathVariable(required = true) Long group_id, @PathVariable(required = true) String type) {
 		return this.groupService.getContent(group_id,type);
 	}
 
+	@DeleteMapping("/{group_id}/content/{type}/{content_id}")
+	public ResponseEntity<?> deleteContent(@PathVariable(required = true) Long group_id, @PathVariable(required = true) String type, @PathVariable(required = true) Long content_id) {
+		return this.groupService.deleteContent(group_id, type, content_id);
+	}
 
 	@PostMapping("/{groupId}/flashcard-sets")
 	public ResponseEntity<?> addFlashardSet(@PathVariable(required = true) String groupId,
@@ -178,8 +182,4 @@ public class GroupController {
 		return this.groupService.deleteComment(comment_id);
 	}
 
-	@DeleteMapping("/{group_id}/content/{type}/{content_id}")
-	public ResponseEntity<?> deleteContent(@PathVariable(required = true) Long group_id, @PathVariable(required = true) String type, @PathVariable(required = true) Long content_id) {
-		return this.groupService.deleteContent(group_id, type, content_id);
-	}
 }
