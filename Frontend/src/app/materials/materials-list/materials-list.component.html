@@ -7,14 +7,14 @@
       <br />
       <div class="buttons-container">
         <div *ngIf="logged">
-          <button class="btn btn-study-cave" (click)="toMaterialsMaker()">Dodaj materiały</button>
+          <button class="btn btn-study-cave" (click)="toMaterialsMaker()"><i class="fas fa-plus"></i> Dodaj materiały</button>
         </div>
         <div *ngIf="logged" class="btn-group btn-group-toggle" data-toggle="buttons">
           <label class="btn btn-study-cave active" (click)="ShowPublic()">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked> Publiczne
+            <input type="radio" name="options" id="option1" autocomplete="off" checked><i class="fas fa-globe"></i> Publiczne
           </label>
           <label class="btn btn-study-cave" (click)="ShowPrivate()">
-            <input type="radio" name="options" id="option2" autocomplete="off"> Prywatne
+            <input type="radio" name="options" id="option2" autocomplete="off"><i class="fas fa-user-secret"></i> Prywatne
           </label>
         </div>
       </div>

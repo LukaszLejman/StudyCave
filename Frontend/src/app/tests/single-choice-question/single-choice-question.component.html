@@ -27,7 +27,7 @@
             <div class="col-md-3">
               <b>Akcja</b>
               <br />
-              <button class="btn btn-study-cave" type="button" (click)="deleteFieldValue(i)">Usuń</button>
+              <button class="btn btn-study-cave" type="button" (click)="deleteFieldValue(i)"><i class="fas fa-trash-alt"></i> Usuń</button>
             </div>
           </div>
           <br />
@@ -43,15 +43,15 @@
             <div class="col-md-3">
               <b>Akcja</b>
               <br />
-              <button class="btn btn-study-cave" type="button" (click)="addFieldValue()">Dodaj</button>
+              <button class="btn btn-study-cave" type="button" (click)="addFieldValue()"><i class="fas fa-check-circle"></i> Dodaj</button>
             </div>
           </div>
         </div>
         <br />
         <br />
-        <button *ngIf='!edit' class="btn btn-study-cave" type="submit" (click)="addTable()">Dodaj pytanie!</button>
-        <button *ngIf='edit' class="btn btn-study-cave" type="submit" (click)="addTable()">Edytuj pytanie!</button>
-        <button class="btn btn-study-cave ml-2" (click)="empty()">Powrót</button>
+        <button *ngIf='!edit' class="btn btn-study-cave" type="submit" (click)="addTable()"><i class="fas fa-check-circle"></i> Dodaj pytanie!</button>
+        <button *ngIf='edit' class="btn btn-study-cave" type="submit" (click)="addTable()"><i class="fas fa-edit"></i> Edytuj pytanie!</button>
+        <button class="btn btn-study-cave ml-2" (click)="empty()"><i class="fas fa-arrow-left"></i> Powrót</button>
       </div>
     </div>
   </div>
