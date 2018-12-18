@@ -355,12 +355,13 @@ public class GroupService {
 
 	public ResponseEntity<?> getUnverifiedContent(Long group_id, String type){
 		List<ContentDto> contents = new ArrayList<>();
-		ContentDto content = new ContentDto();
+		
 		switch (type){
 		case "tests":
 			List<Test> tests = new ArrayList<>();
 			tests = this.testRepository.findWaitingTestByGroupKey(group_id);
 			for (Test t : tests) {
+				ContentDto content = new ContentDto();
 				content.setId(t.getId());
 				content.setOwner((userRepository.findById(t.getIdOwner()).orElse(null)).getUsername());
 				content.setAddDate();
@@ -373,6 +374,7 @@ public class GroupService {
 			List<Material> materials = new ArrayList<>();
 			materials = this.materialRepository.findWaitingMaterialByGroupKey(group_id);
 			for (Material m : materials ) {
+				ContentDto content = new ContentDto();
 				content.setId(m.getId());
 				content.setOwner((userRepository.findById((long)m.getOwner()).orElse(null)).getUsername());
 				content.setAddDate();
@@ -385,6 +387,7 @@ public class GroupService {
 			List<Set> sets = new ArrayList<>();
 			sets = this.setRepository.findWaitingSetByGroupKey(group_id);
 			for (Set s : sets) {
+				ContentDto content = new ContentDto();
 				content.setId(s.getId());
 				content.setOwner((userRepository.findById((long)s.getIdOwner()).orElse(null)).getUsername());
 				content.setAddDate();
