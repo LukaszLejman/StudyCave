@@ -36,7 +36,7 @@ public class UserController {
 			return "Email zajety";
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
-		return "Dodano uzytkonika";
+		return "Dodano uzytkownika";
 	}
 	
 	@GetMapping("/user/{username}")

@@ -86,8 +86,6 @@ public class GroupController {
 	}
 
 	@GetMapping()
-	// public List<SimpleStudyGroupMemberDTO> getMyGroup(@RequestHeader (value =
-	// "Authorization",required = false) String headerStr) {
 	public List<SimpleStudyGroupMemberDTO> getMyGroup() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
