@@ -38,6 +38,7 @@
     <br /><br />
     <div>
       <div>
+        <p *ngIf="activityHistory.length === 0">Brak historii do wyświetlenia.</p>
         <p *ngFor="let activity of activityHistory">
           <span>{{ activity.date }} </span>
           <span *ngIf="activity.from">{{ activity.from }} 
