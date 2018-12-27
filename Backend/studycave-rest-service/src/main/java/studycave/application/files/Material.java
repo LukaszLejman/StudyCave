@@ -1,18 +1,23 @@
 package studycave.application.files;
 
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import studycave.application.groups.StudyGroup;
+import studycave.application.userActivity.UserActivity;
 
 @Entity
 public class Material {
@@ -35,7 +40,8 @@ public class Material {
     @ManyToOne
     @JoinColumn(name="group_id",referencedColumnName="id")
     private StudyGroup group;
-	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "material", cascade = CascadeType.ALL)
+	private List<UserActivity> activity;
 	
 	protected Material() {
 		
@@ -120,6 +126,12 @@ public class Material {
 	public void setGroup(StudyGroup group) {
 		this.group = group;
 	}
-	
-	
+
+	public List<UserActivity> getActivity() {
+		return activity;
+	}
+
+	public void setActivity(List<UserActivity> activity) {
+		this.activity = activity;
+	}
 }
