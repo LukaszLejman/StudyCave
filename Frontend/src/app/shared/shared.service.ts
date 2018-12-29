@@ -41,6 +41,10 @@ export class SharedService {
   }
 
   deleteComment(comment) {
-    return this.httpClient.delete('groups/comments/' + comment, {headers: this.headers});
+    return this.httpClient.delete('groups/comments/' + comment, {
+      headers: this.headers,
+      observe: 'response',
+      responseType: 'text'
+    });
   }
 }
