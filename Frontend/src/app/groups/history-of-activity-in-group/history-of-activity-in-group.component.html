@@ -40,14 +40,14 @@
       <div>
         <p *ngIf="activityHistory.length === 0">Brak historii do wyświetlenia.</p>
         <p *ngFor="let activity of activityHistory">
-          <span>{{ activity.date }} </span>
+          <span>{{ activity.date }} - </span>
           <span *ngIf="activity.from">{{ activity.from }} 
             <span *ngIf="activity.type === 'acceptedResource'">
               zatwierdził dodany przez Ciebie 
-              <span *ngIf="activity.typeOfResource === 'test'">test </span>
-              <span *ngIf="activity.typeOfResource === 'material'">materiał </span>
-              <span *ngIf="activity.typeOfResource === 'flashcards'">zestaw fiszek </span>
-              <span><b>{{ activity.nameOfResource }}</b>. </span>
+              <span *ngIf="activity.resourceType === 'test'">test </span>
+              <span *ngIf="activity.resourceType === 'material'">materiał </span>
+              <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
+              <span><b>{{ activity.resourceName }}</b>. </span>
               <span *ngIf="activity.points === 0">Nie przyznał Ci za to punktów.</span>
               <span *ngIf="activity.points !== 0">Przyznał Ci za to 
                 {{ activity.points }} pkt.
@@ -55,10 +55,10 @@
             </span>
             <span *ngIf="activity.type === 'rejectedResource'">
               odrzucił dodany przez Ciebie 
-              <span *ngIf="activity.typeOfResource === 'test'">test </span>
-              <span *ngIf="activity.typeOfResource === 'material'">materiał </span>
-              <span *ngIf="activity.typeOfResource === 'flashcards'">zestaw fiszek </span>
-              <span><b>{{ activity.nameOfResource }}</b>. </span>
+              <span *ngIf="activity.resourceType === 'test'">test </span>
+              <span *ngIf="activity.resourceType === 'material'">materiał </span>
+              <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
+              <span><b>{{ activity.resourceName }}</b>. </span>
             </span>
             <span *ngIf="activity.comment">
               Otrzymałeś komentarz od lidera grupy:
@@ -68,14 +68,14 @@
           <span *ngIf="!activity.from">
             <span *ngIf="activity.type === 'solvedTest'">otrzymałeś 
               <span>{{ activity.points }} pkt</span> za test 
-              <span><b>{{ activity.nameOfResource }}</b>.</span>
+              <span><b>{{ activity.resourceName }}</b>.</span>
             </span>
             <span *ngIf="activity.type === 'addedResource'">
               dodałeś do grupy <span>{{ activity.to }} </span> 
-              <span *ngIf="activity.typeOfResource === 'test'">test </span>
-              <span *ngIf="activity.typeOfResource === 'material'">materiał </span>
-              <span *ngIf="activity.typeOfResource === 'flashcards'">zestaw fiszek </span>
-              <span><b>{{ activity.nameOfResource }}</b>. </span>
+              <span *ngIf="activity.resourceType === 'test'">test </span>
+              <span *ngIf="activity.resourceType === 'material'">materiał </span>
+              <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
+              <span><b>{{ activity.resourceName }}</b>. </span>
               Obecnie czeka na przegląd przez lidera grupy.
             </span>
           </span>

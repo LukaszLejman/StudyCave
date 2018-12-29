@@ -17,14 +17,15 @@ export interface UsersConfig {
 
 export class ActivityHistory {
 
-    public date: Date;
-    public from: string;
-    public to: string;
-    public type: string;
-    public points: number;
-    public comment: string;
-    public typeOfResource: string;
-    public nameOfResource: string;
+    public date?: Date;
+    public from?: string;
+    public to?: string;
+    public type?: string;
+    public points?: number;
+    public comment?: string;
+    public resourceType?: string;
+    public resourceName?: string;
+    public id?: number;
 
     constructor() {}
 }

@@ -25,7 +25,7 @@ export class GroupsService {
   private acceptTestsInGroupURL = 'groups/{groupId}/tests/{testId}/status';
   private acceptFlashcardsInGroupURL = 'groups/{groupId}/flashcard-sets/{setId}/status';
 
-  private getActivityHistoryURL = '';
+  private getActivityHistoryURL = 'user/activity?sort={sort}';
 
   constructor(private httpClient: HttpClient, private authenticationService: AuthenticationService) {
     this.setHeaders();
@@ -314,12 +314,12 @@ export class GroupsService {
       });
   }
 
-  getActivityHistory(id: number, sort = 'asc', dateStart: Date = null, dateEnd: Date = null): Observable<any> {
+  getActivityHistory(id: number, sort = 'asc', startDate: Date = null, endDate: Date = null): Observable<any> {
     this.setHeaders();
     let url = this.getActivityHistoryURL.replace('{groupId}', id.toString())
       .replace('{sort}', sort);
-    if (dateStart !== null) {
-      url = url + `&start=${dateStart}&end=${dateEnd}`; // to change later
+    if (startDate !== null) {
+      url = url + `&startDate=${startDate}&endDate=${endDate}`; // to change later
     }
     return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
       return Observable.throw(error);
