@@ -26,7 +26,6 @@ describe('FlashcardsFillingInTestComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FlashcardsFillingInTestComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
