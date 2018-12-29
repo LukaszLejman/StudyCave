@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GroupsService } from '../groups.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { JoinToGroupForm } from './join-to-group';
 
 @Component({
   selector: 'app-join-to-group',
