@@ -14,7 +14,7 @@ export class FlashcardsAddTableComponent implements OnInit {
   private fieldArray: Array<any> = [];
   private newAttribute: any = {};
   private currentUser;
-  private permission: Boolean = false;
+  permission: Boolean = false;
 
   constructor(private flashcardsService: FlashcardsService, public snackBar: MatSnackBar) { }
 
