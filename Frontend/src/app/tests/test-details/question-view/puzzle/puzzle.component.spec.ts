@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PuzzleComponent } from './puzzle.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsModule } from '@angular/forms';
+import { TestsService } from '../../../tests.service';
+import { AuthenticationService } from '../../../../authentication.service';
 
 describe('PuzzleComponent', () => {
   let component: PuzzleComponent;
@@ -8,7 +15,10 @@ describe('PuzzleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PuzzleComponent ]
+      declarations: [ PuzzleComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [ RouterTestingModule, HttpClientModule, MatSnackBarModule, FormsModule],
+      providers: [TestsService, AuthenticationService]
     })
     .compileComponents();
   }));
@@ -16,7 +26,6 @@ describe('PuzzleComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PuzzleComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
