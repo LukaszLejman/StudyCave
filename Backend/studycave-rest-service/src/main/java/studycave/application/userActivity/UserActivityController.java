@@ -28,8 +28,9 @@ public class UserActivityController {
 	@Autowired
 	UserRepository userRepository;
 	
-	@GetMapping("/user/activity")
+	@GetMapping("/groups/{groupId}/users/activity")
 	public ResponseEntity<?> getUserActivity(
+			@PathVariable(required = true) Long groupId,
 			@RequestParam(value = "startDate", required = false) String startDate,
 			@RequestParam(value = "endDate", required = false) String endDate,
 			@RequestParam(value = "sort", required = false) String sort

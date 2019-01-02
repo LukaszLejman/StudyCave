@@ -1,4 +1,5 @@
 package studycave.application.user;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import studycave.application.groups.members.StudyGroupMemberRepository;
+import studycave.application.test.Test;
 
 @RestController
 @CrossOrigin
@@ -27,14 +29,18 @@ public class UserController {
 	StudyGroupMemberRepository memberRepository;	
 	@Autowired 
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	ModelMapper modelMapper;
 	
 	@PostMapping("/user/register")
-	public String Register(@RequestBody User user) {
-		if(userRepository.findByUsername(user.getUsername()).orElse(null)!=null)
+	public String Register(@RequestBody UserRegisterDTO userDTO) {
+		if(userRepository.findByUsername(userDTO.getUsername()).orElse(null)!=null)
 			return "Login zajety";
-		if(userRepository.findByEmail(user.getEmail()).orElse(null)!=null)
+		if(userRepository.findByEmail(userDTO.getEmail()).orElse(null)!=null)
 			return "Email zajety";
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+		User user = modelMapper.map(userDTO, User.class);
+		
 		userRepository.save(user);
 		return "Dodano uzytkownika";
 	}
