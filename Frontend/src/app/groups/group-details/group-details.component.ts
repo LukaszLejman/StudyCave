@@ -46,20 +46,22 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
 
   customCellRendererFunc(params) {
-    return `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm"
-      *ngIf=group.owner ===  getCurrentUser()" title="Usuń">
-      <i class="fas fa-trash-alt" data-action-type="remove"></i></button>`;
-  }
-
-  getCurrentUser() {
-    return JSON.parse(localStorage.getItem('currentUser'));
+    const currentUsername = JSON.parse(localStorage.getItem('currentUser')).username;
+    const groupOwnerUsername = localStorage.getItem('groupOwnerUsername');
+    return groupOwnerUsername === currentUsername ?
+      `<button type="button" data-action-type="remove" class="btn btn-danger btn-sm"title="Usuń">
+    <i class="fas fa-trash-alt" data-action-type="remove"></i>
+    </button>` : '';
   }
 
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id)
-      .subscribe(data => { this.group = data; });
+      .subscribe(data => {
+        this.group = data;
+        localStorage.setItem('groupOwnerUsername', this.group.owner);
+      });
 
     this.gridOptions = {
       rowHeight: 50,
@@ -206,6 +208,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     if (this.resourceDeleteSubscription) {
       this.resourceDeleteSubscription.unsubscribe();
     }
+    localStorage.removeItem('groupOwnerUsername');
   }
 
   goToEditing() {
