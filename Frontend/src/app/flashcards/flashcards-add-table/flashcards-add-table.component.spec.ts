@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FlashcardsAddTableComponent } from './flashcards-add-table.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FlashcardsService } from '../flashcards.service';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AuthenticationService } from '../../authentication.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsModule } from '@angular/forms';
 
 describe('FlashcardsAddTableComponent', () => {
   let component: FlashcardsAddTableComponent;
@@ -8,7 +15,10 @@ describe('FlashcardsAddTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlashcardsAddTableComponent ]
+      declarations: [ FlashcardsAddTableComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [FlashcardsService, AuthenticationService],
+      imports: [HttpClientModule, RouterTestingModule, MatSnackBarModule, FormsModule]
     })
     .compileComponents();
   }));

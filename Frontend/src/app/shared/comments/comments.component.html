@@ -17,13 +17,13 @@
         <br />
         <button class="btn btn-study-cave" (click)="submitComment()"><i class="fas fa-plus"></i> Dodaj</button>
       </div>
-      <div *ngFor="let comment of comments">
+      <div *ngFor="let comment of comments.slice().reverse(); let i = index">
         <hr>
         <div class="comment">
           Kto: {{comment.username}} <br />
           Komentarz: <br />
           {{comment.text}}<br/>
-          <button class="btn btn-study-cave" *ngIf="currentUser.username === comment.username" (click)="deleteComment(comment.id)"
+          <button class="btn btn-study-cave" *ngIf="currentUser.username === comment.username" (click)="deleteComment(comment)"
             title="Usuń"><i class="fas fa-trash-alt"></i></button>
         </div>
       </div>

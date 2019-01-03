@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 
 import { AuthenticationService } from '../authentication.service';
 import { ResourceStatus } from './resource';
+import { JoinToGroupForm } from './join-to-group/join-to-group';
 
 @Injectable()
 export class GroupsService {
