@@ -5,82 +5,94 @@
       <div style="clear: both;"></div>
     </div>
     <h1>Twoja historia aktywności</h1>
-    <br />
-    <div>
-      <p>Filtrowanie i sortowanie:</p>
-      <div>
-        <div>
-          <label><p style="margin-bottom: 0;">Sortowanie</p>
-            <select [(ngModel)]="sort">
-              <option value="asc">od najnowszych zdarzeń</option>
-              <option value="desc">od najstarszych zdarzeń</option>
-            </select>
-          </label>
-        </div>
+    <br /><br />
+    <div class="row">
+      <div class="col-lg-4 col-12">
+        <h3>Filtrowanie i sortowanie:</h3>
         <br />
         <div>
-          <label><p>Przedział czasu</p>
-            <mat-form-field>
-              <input matInput [max]="maxDate" [matDatepicker]="picker1" placeholder="Początek" [formControl]="dateStart">
-              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-              <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput [max]="maxDate" [matDatepicker]="picker2" placeholder="Koniec" [formControl]="dateEnd">
-              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
-            </mat-form-field>
-          </label>
+          <div>
+            <label><h4>Sortowanie</h4>
+              <select [(ngModel)]="sort">
+                <option value="ASC">od najnowszych zdarzeń</option>
+                <option value="DESC">od najstarszych zdarzeń</option>
+              </select>
+            </label>
+          </div>
+          <br />
+          <div>
+            <div>
+              <h4>Zakres czasu</h4>
+              <br />
+              <span>Pokaż wszystkie aktywności</span>
+              <br /><br />
+              <button class="btn btn-study-cave" (click)="getHistory(true)">Pokaż wszystko</button>
+              <br /><br /><br />
+              <p>Pokaż aktywności z wybranego przedziału</p>
+              <mat-form-field>
+                <input matInput [max]="maxDate" [matDatepicker]="picker1" placeholder="Początek" [formControl]="dateStart">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput [max]="maxDate" [matDatepicker]="picker2" placeholder="Koniec" [formControl]="dateEnd">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+              <br />
+              <button class="btn btn-study-cave" (click)="getHistory()">Pokaż w wybranym przedziale</button>
+            </div>
+          </div>
         </div>
-        <button class="btn btn-study-cave" (click)="getHistory()">Pokaż</button>
+        <br /><br />
       </div>
-    </div>
-    <br /><br />
-    <div>
-      <div>
-        <p *ngIf="activityHistory.length === 0">Brak historii do wyświetlenia.</p>
-        <p *ngFor="let activity of activityHistory">
-          <span>{{ activity.date }} - </span>
-          <span *ngIf="activity.from">{{ activity.from }} 
-            <span *ngIf="activity.type === 'acceptedResource'">
-              zatwierdził dodany przez Ciebie 
-              <span *ngIf="activity.resourceType === 'test'">test </span>
-              <span *ngIf="activity.resourceType === 'material'">materiał </span>
-              <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
-              <span><b>{{ activity.resourceName }}</b>. </span>
-              <span *ngIf="activity.points === 0">Nie przyznał Ci za to punktów.</span>
-              <span *ngIf="activity.points !== 0">Przyznał Ci za to 
-                {{ activity.points }} pkt.
+      <div class="col-lg-8 col-12">
+        <div>
+          <p *ngIf="activityHistory.length === 0">Brak historii do wyświetlenia.</p>
+          <p *ngFor="let activity of activityHistory">
+            <span>{{ activity.date }} - </span>
+            <span *ngIf="activity.from">{{ activity.from }} 
+              <span *ngIf="activity.type === 'acceptedResource'">
+                zatwierdził dodany przez Ciebie 
+                <span *ngIf="activity.resourceType === 'test'">test </span>
+                <span *ngIf="activity.resourceType === 'material'">materiał </span>
+                <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
+                <span><b>{{ activity.resourceName }}</b>. </span>
+                <span *ngIf="activity.points === 0">Nie przyznał Ci za to punktów.</span>
+                <span *ngIf="activity.points !== 0">Przyznał Ci za to 
+                  {{ activity.points }} pkt.
+                </span>
+              </span>
+              <span *ngIf="activity.type === 'rejectedResource'">
+                odrzucił dodany przez Ciebie 
+                <span *ngIf="activity.resourceType === 'test'">test </span>
+                <span *ngIf="activity.resourceType === 'material'">materiał </span>
+                <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
+                <span><b>{{ activity.resourceName }}</b>. </span>
+              </span>
+              <span *ngIf="activity.comment">
+                Otrzymałeś komentarz od lidera grupy:
+                <br />
+                <i>{{ activity.comment }}</i>
               </span>
             </span>
-            <span *ngIf="activity.type === 'rejectedResource'">
-              odrzucił dodany przez Ciebie 
-              <span *ngIf="activity.resourceType === 'test'">test </span>
-              <span *ngIf="activity.resourceType === 'material'">materiał </span>
-              <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
-              <span><b>{{ activity.resourceName }}</b>. </span>
+            <span *ngIf="!activity.from">
+              <span *ngIf="activity.type === 'solvedTest'">otrzymałeś 
+                <span>{{ activity.points }} pkt</span> za test 
+                <span><b>{{ activity.resourceName }}</b>.</span>
+              </span>
+              <span *ngIf="activity.type === 'addedResource'">
+                dodałeś do grupy <span>{{ activity.to }} </span> 
+                <span *ngIf="activity.resourceType === 'test'">test </span>
+                <span *ngIf="activity.resourceType === 'material'">materiał </span>
+                <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
+                <span><b>{{ activity.resourceName }}</b>. </span>
+                Obecnie czeka na przegląd przez lidera grupy.
+              </span>
             </span>
-            <span *ngIf="activity.comment">
-              Otrzymałeś komentarz od lidera grupy:
-              <i>{{ activity.comment }}</i>
-            </span>
-          </span>
-          <span *ngIf="!activity.from">
-            <span *ngIf="activity.type === 'solvedTest'">otrzymałeś 
-              <span>{{ activity.points }} pkt</span> za test 
-              <span><b>{{ activity.resourceName }}</b>.</span>
-            </span>
-            <span *ngIf="activity.type === 'addedResource'">
-              dodałeś do grupy <span>{{ activity.to }} </span> 
-              <span *ngIf="activity.resourceType === 'test'">test </span>
-              <span *ngIf="activity.resourceType === 'material'">materiał </span>
-              <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
-              <span><b>{{ activity.resourceName }}</b>. </span>
-              Obecnie czeka na przegląd przez lidera grupy.
-            </span>
-          </span>
-          <span></span>
-        </p>
+            <span></span>
+          </p>
+        </div>
       </div>
     </div>
   </div>
