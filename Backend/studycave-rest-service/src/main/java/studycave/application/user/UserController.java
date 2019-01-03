@@ -1,4 +1,9 @@
 package studycave.application.user;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -82,6 +87,32 @@ public class UserController {
         throw new IllegalStateException("This method shouldn't be called. It's implemented by Spring Security filters.");
     }
 
-
+	@GetMapping("/user/badges")
+	public ResponseEntity<List<UserBadgeDTO>> getUserBadges() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		System.out.println(currentPrincipalName);
+		List<UserBadgeDTO> badges = new ArrayList<>();
+//		java.net.URL imgURL = getClass().getResource("C:/Users/Dawid/Documents/GitHub/StudyCave/Backend/studycave-rest-service/badge-icons/star.png");
+//		ImageIcon icon = new ImageIcon(imgURL,"star");
+		
+		UserBadgeDTO badge1 = new UserBadgeDTO();
+		
+		badge1.setBadgeName("Utworzyłeś konto!");
+		badge1.setUnlocked(true);
+		badges.add(badge1);
+		
+		UserBadgeDTO badge2 = new UserBadgeDTO();
+		badge2.setBadgeName("Zdobyłeś 50 punktów");
+		badge2.setUnlocked(true);
+		badges.add(badge2);
+		
+		UserBadgeDTO badge3 = new UserBadgeDTO();
+		badge3.setBadgeName("Zdobyłeś 10 000 punktów");
+		badge3.setUnlocked(false);
+		badges.add(badge3);
+		
+		return new ResponseEntity<List<UserBadgeDTO>>(badges, HttpStatus.OK);
+	}
 	
 }
