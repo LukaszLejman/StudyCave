@@ -45,6 +45,9 @@ public class User {
 	@OneToMany(mappedBy = "fromUser", cascade = CascadeType.ALL)
 	private List<UserActivity> activityFrom;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	List<UserBadge> badges = new ArrayList<>();
+	
 	
 	public User(){
 		super();
@@ -113,4 +116,13 @@ public class User {
 	public void setActivityFrom(List<UserActivity> activityFrom) {
 		this.activityFrom = activityFrom;
 	}
+
+	public List<UserBadge> getBadges() {
+		return badges;
+	}
+
+	public void setBadges(List<UserBadge> badges) {
+		this.badges = badges;
+	}
+	
 }
