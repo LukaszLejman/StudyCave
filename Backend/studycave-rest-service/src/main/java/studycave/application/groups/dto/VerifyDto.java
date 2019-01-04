@@ -14,7 +14,7 @@ public class VerifyDto {
 	@NotNull
 	VerifyType status;
 	@ApiModelProperty
-	float points;
+	int points;
 	@ApiModelProperty
 	String comment;
 
@@ -22,10 +22,10 @@ public class VerifyDto {
 		super();
 	}
 
-	public float getPoints() {
+	public int getPoints() {
 		return points;
 	}
-	public void setPoints(float points) {
+	public void setPoints(int points) {
 		this.points = points;
 	}
 	public String getComment() {

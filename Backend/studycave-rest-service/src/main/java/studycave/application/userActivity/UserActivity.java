@@ -1,4 +1,7 @@
 package studycave.application.userActivity;
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,8 +31,8 @@ public class UserActivity {
 	
 	private String comment;
 	
-	private String date;
-
+	private Timestamp date;
+	
     @ManyToOne
     @JoinColumn(name="group_id",referencedColumnName="id")
     private StudyGroup group;
@@ -86,12 +89,12 @@ public class UserActivity {
 		this.comment = comment;
 	}
 
-	public String getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setDate() {
+		this.date = new java.sql.Timestamp(new java.util.Date().getTime());
 	}
 
 	public StudyGroup getGroup() {
