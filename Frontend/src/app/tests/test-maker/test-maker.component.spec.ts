@@ -9,15 +9,19 @@ import { FormsModule } from '@angular/forms';
 import { TestsService } from '../tests.service';
 import { AuthenticationService } from '../../authentication.service';
 
+import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TrueFalseQuestionComponent } from '../true-false-question/true-false-question.component';
+
 describe('TestMakerComponent', () => {
   let component: TestMakerComponent;
   let fixture: ComponentFixture<TestMakerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TestMakerComponent ],
+      declarations: [ TestMakerComponent, TrueFalseQuestionComponent ],
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [ RouterTestingModule, HttpClientModule, MatSnackBarModule, FormsModule],
+      imports: [ RouterTestingModule, HttpClientModule, MatSnackBarModule, FormsModule, NoopAnimationsModule],
       providers: [TestsService, AuthenticationService]
     })
     .compileComponents();
@@ -32,4 +36,82 @@ describe('TestMakerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+    it('should create true-false question', async(() => {
+      fixture.whenStable().then(() => {
+        fixture.autoDetectChanges();
+        spyOn(component, 'show').and.callThrough();
+        fixture.debugElement.nativeElement.querySelector('button').click();
+        expect(component.show).toHaveBeenCalledWith('true-false');
+
+        const childDebugElement = fixture.debugElement.query(By.directive(TrueFalseQuestionComponent));
+
+        childDebugElement.context.content.content.points = 2;
+        childDebugElement.context.content.content.question = 'Test?';
+        const trueCheckbox = childDebugElement.nativeElement.querySelector('input[value=true]');
+        trueCheckbox.click();
+        expect(trueCheckbox.checked).toBeTruthy();
+
+        const values = {
+          question: 'Test?',
+          points: 2
+        };
+        childDebugElement.context.addTable(values);
+        const testMock = [
+          {
+            content: {
+              answers: [
+                {
+                  id: null,
+                  content: 'Prawda',
+                  is_good: true
+                },
+                {
+                  id: null,
+                  content: 'Fałsz',
+                  is_good: false
+                }
+              ],
+              id: null,
+              points: 2,
+              question: 'Test?',
+              type: 'true-false'
+            },
+            edit: false,
+            nr: 1,
+            shortcut: 'Test?'
+          }
+        ];
+        expect(component.test).toEqual(testMock);
+      });
+    }));
+
+    it('should count the points for the test', () => {
+      component.test = [
+        {
+          content: {
+            points: 1
+          }
+        },
+        {
+          content: {
+            points: 5
+          }
+        },
+        {
+          content: {
+            points: 2
+          }
+        },
+        {
+          content: {
+            points: 1
+          }
+        }
+      ];
+
+      component.countPoints();
+
+      expect(component.pointsAll).toEqual(9);
+    });
 });
