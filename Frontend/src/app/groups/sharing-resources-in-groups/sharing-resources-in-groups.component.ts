@@ -66,6 +66,10 @@ export class SharingResourcesInGroupsComponent implements OnInit, OnDestroy {
         this.flashcardsToAdd = [];
         console.log('Materials to add: ', success);
         this.materialsToAdd = success.map(this.addPropertiesToDisplayInMultiselectList);
+        if (this.materialsToAdd.length === 0) {
+          this.snackBar.open('Brak materiałów, które możesz dodać do grupy.', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
       },
       error => {
         this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
@@ -84,6 +88,10 @@ export class SharingResourcesInGroupsComponent implements OnInit, OnDestroy {
         this.materialsToAdd = [];
         console.log('Tests to add: ', success);
         this.testsToAdd = success.map(this.addPropertiesToDisplayInMultiselectList);
+        if (this.testsToAdd.length === 0) {
+          this.snackBar.open('Brak testów, które możesz dodać do grupy.', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
       },
       error => {
         this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
@@ -102,6 +110,10 @@ export class SharingResourcesInGroupsComponent implements OnInit, OnDestroy {
         this.testsToAdd = [];
         console.log('Flashcards to add: ', success);
         this.flashcardsToAdd = success.map(this.addPropertiesToDisplayInMultiselectList);
+        if (this.flashcardsToAdd.length === 0) {
+          this.snackBar.open('Brak fiszek, które możesz dodać do grupy.', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
       },
       error => {
         this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,

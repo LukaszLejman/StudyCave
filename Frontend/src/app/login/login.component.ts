@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
     moduleId: module.id,
     templateUrl: 'login.component.html',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private authenticationService: AuthenticationService) { }
+        private authenticationService: AuthenticationService,
+        public snackBar: MatSnackBar) { }
 
     ngOnInit() {
     }
@@ -31,15 +33,20 @@ export class LoginComponent implements OnInit {
                     // login successful
                     this.isLogin = true;
                     this.router.navigate(['home']);
-
+                    this.snackBar.open('Zalogowano pomyślnie.', null,
+                        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
                 } else {
                     // login failed
                     this.error = 'Username or password is incorrect';
                     this.loading = false;
+                    this.snackBar.open('Niepoprawne hasło lub login.', null,
+                        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
                 }
             }, error => {
-              this.loading = false;
-              this.error = error;
+                this.loading = false;
+                this.error = error;
+                this.snackBar.open('Niepoprawne hasło lub login.', null,
+                    { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
             });
     }
 }

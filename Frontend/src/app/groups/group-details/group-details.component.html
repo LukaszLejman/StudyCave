@@ -2,6 +2,7 @@
     <div class="content">
       <div>
         <button class="btn btn-study-cave float-right mr-1" (click)="goToAddingResource()"><i class="fas fa-plus"></i> Dodaj zasoby do grupy</button>
+        <button class="btn btn-study-cave float-right mr-1" (click)="goToRankings()"><i class="fas fa-trophy"></i> Rankingi</button>
         <div style="clear: both;"></div>
       </div>
       <h1>{{group?.name}}</h1>
@@ -15,7 +16,7 @@
             </div> 
             <button class="btn btn-study-cave" (click)="isDisplayed('materiałów')"><i class="fas fa-book-open"></i> Materiały</button>
             <button class="btn btn-study-cave" (click)="isDisplayed('fiszek')"><i class="fas fa-plus"></i> Fiszki</button>
-            <button class="btn btn-study-cave" (click)="isDisplayed('testów')"><i class="fas fa-pencil-ruler"></i>Testy</button>
+            <button class="btn btn-study-cave" (click)="isDisplayed('testów')"><i class="fas fa-pencil-ruler"></i> Testy</button>
             </div>
         </div>
 
