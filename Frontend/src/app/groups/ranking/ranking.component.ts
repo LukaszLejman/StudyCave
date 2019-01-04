@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Group } from '../group';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GroupsService } from '../groups.service';
 import { Subscription } from 'rxjs/Subscription';
 import { RankingType } from './ranking';
 import { GridOptions } from 'ag-grid-community/main';
+import * as picasso from 'picasso.js';
+picasso.default('canvas');
 
 @Component({
   selector: 'app-ranking',
@@ -13,6 +15,8 @@ import { GridOptions } from 'ag-grid-community/main';
 })
 export class RankingComponent implements OnInit, OnDestroy {
 
+  @ViewChild('chartContainer')
+  public elemRef: ElementRef;
   public group: Group;
   public id: number;
   public currentUser: any;
@@ -35,6 +39,41 @@ export class RankingComponent implements OnInit, OnDestroy {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id)
       .subscribe(data => { this.group = data; });
+    picasso.default.chart({
+      element: this.elemRef.nativeElement, // container must have a width and height specified
+      settings: {
+        scales: {
+          budget: { max: 5000, min: 0 },
+          sales: { max: 11000, min: 3000, invert: true }
+        },
+        components: [
+          {
+            type: 'axis',
+            scale: 'budget',
+            dock: 'bottom'
+          },
+          {
+            type: 'axis',
+            scale: 'sales',
+            dock: 'left'
+          },
+          {
+            type: 'point',
+            data: [
+              { sales: 7456, margin: 0.3, budget: 4557 },
+              { sales: 5603, margin: 0.7, budget: 2234 },
+              { sales: 8603, margin: 0.6, budget: 4121 },
+              { sales: 4562, margin: 0.4, budget: 1234 },
+              { sales: 9873, margin: 0.9, budget: 3453 },
+            ],
+            settings: {
+              x: { scale: 'budget', fn: d => d.scale(d.datum.value.budget) },
+              y: { scale: 'sales', fn: d => d.scale(d.datum.value.sales) },
+            }
+          }
+        ]
+      }
+    });
   }
 
   ngOnDestroy(): void {

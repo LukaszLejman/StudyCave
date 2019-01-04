@@ -36,6 +36,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
+    "picasso.js": "^0.18.2",
     "popper.js": "^1.12.9",
     "primeicons": "^1.0.0",
     "primeng": "^6.1.7",
