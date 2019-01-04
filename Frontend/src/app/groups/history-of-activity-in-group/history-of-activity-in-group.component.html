@@ -14,8 +14,8 @@
           <div>
             <label><h4>Sortowanie</h4>
               <select [(ngModel)]="sort">
-                <option value="ASC">od najnowszych zdarzeń</option>
-                <option value="DESC">od najstarszych zdarzeń</option>
+                <option value="DESC">od najnowszych zdarzeń</option>
+                <option value="ASC">od najstarszych zdarzeń</option>
               </select>
             </label>
           </div>
@@ -50,8 +50,8 @@
         <div>
           <p *ngIf="activityHistory.length === 0">Brak historii do wyświetlenia.</p>
           <p *ngFor="let activity of activityHistory">
-            <span>{{ activity.date }} - </span>
-            <span *ngIf="activity.from">{{ activity.from }} 
+            <span><b>{{ activity.date }}</b> - </span>
+            <span *ngIf="activity.from">lider grupy {{ activity.from }} 
               <span *ngIf="activity.type === 'acceptedResource'">
                 zatwierdził dodany przez Ciebie 
                 <span *ngIf="activity.resourceType === 'test'">test </span>
@@ -71,18 +71,18 @@
                 <span><b>{{ activity.resourceName }}</b>. </span>
               </span>
               <span *ngIf="activity.comment">
-                Otrzymałeś komentarz od lidera grupy:
+                Otrzymałeś komentarz:
                 <br />
                 <i>{{ activity.comment }}</i>
               </span>
             </span>
             <span *ngIf="!activity.from">
               <span *ngIf="activity.type === 'solvedTest'">otrzymałeś 
-                <span>{{ activity.points }} pkt</span> za test 
+                <span>{{ activity.points }} pkt</span> za rozwiązany test 
                 <span><b>{{ activity.resourceName }}</b>.</span>
               </span>
               <span *ngIf="activity.type === 'addedResource'">
-                dodałeś do grupy <span>{{ activity.to }} </span> 
+                dodałeś do grupy 
                 <span *ngIf="activity.resourceType === 'test'">test </span>
                 <span *ngIf="activity.resourceType === 'material'">materiał </span>
                 <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>

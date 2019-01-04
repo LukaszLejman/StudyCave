@@ -315,18 +315,25 @@ export class GroupsService {
       });
   }
 
-  getActivityHistory(id: number, sort = 'asc', startDate: Date = null, endDate: Date = null): Observable<any> {
+  getActivityHistory(id: number, sort = 'DESC', startDate: Date = null, endDate: Date = null): Observable<any> {
     this.setHeaders();
     let url = this.getActivityHistoryURL.replace('{groupId}', id.toString())
       .replace('{sort}', sort);
     if (startDate !== null) {
-      const startDateStr = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`;
-      const endDateStr = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
+      const startDateStr = `${startDate.getFullYear()}-${this.pad(startDate.getMonth() + 1)}-${this.pad(startDate.getDate())}`;
+      const endDateStr = `${endDate.getFullYear()}-${this.pad(endDate.getMonth() + 1)}-${this.pad(endDate.getDate())}`;
       url = url + `&startDate=${startDateStr}&endDate=${endDateStr}`;
     }
     return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
       return Observable.throw(error);
     });
+  }
+
+  private pad(number) {
+    if (number < 10) {
+      return '0' + number;
+    }
+    return number;
   }
 
 }

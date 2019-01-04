@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class HistoryOfActivityInGroupComponent implements OnInit {
 
-  public sort = 'ASC';
+  public sort = 'DESC';
   public dateStart = new FormControl(new Date());
   public dateEnd = new FormControl(new Date());
   public maxDate = new Date();
