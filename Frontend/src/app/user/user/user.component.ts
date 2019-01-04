@@ -51,6 +51,10 @@ export class UserComponent implements OnInit {
     this.router.navigate(['edit-profile']);
   }
 
+  gotoBadges() {
+    this.router.navigate(['badges']);
+  }
+
   ngOnInit() {
     this.getUserInfo();
   }
