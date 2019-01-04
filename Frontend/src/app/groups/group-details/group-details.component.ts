@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GroupsService } from '../groups.service';
 import { Group } from '../group';
 import { Subscription } from 'rxjs/Subscription';
+import localeText from './../../../assets/localeText';
 import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 
 @Component({
@@ -23,7 +24,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   flashcardsSusbscritpion: Subscription;
   materialsSubscription: Subscription;
   testsSubscription: Subscription;
-
+  localeText = localeText;
   private gridApi;
   public gridOptions: GridOptions;
 
