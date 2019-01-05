@@ -103,7 +103,7 @@
           <br />
         </div>
         <div *ngIf="(test.length != 0) && (!componentVisible)" >
-          <button class="btn btn-study-cave" (click)="save()"><i class="fas fa-angle-up"></i> Dodaj test!</button>
+          <button class="btn btn-study-cave" (click)="save()"><i class="fas fa-check-circle"></i> Dodaj test!</button>
           <button class="btn btn-study-cave ml-2" routerLink="/tests/"><i class="fas fa-arrow-left"></i> Powrót</button>
         </div>
         <button *ngIf="!((test.length != 0) && (!componentVisible))" class="btn btn-study-cave" routerLink="/tests/"><i class="fas fa-arrow-left"></i> Powrót</button>
