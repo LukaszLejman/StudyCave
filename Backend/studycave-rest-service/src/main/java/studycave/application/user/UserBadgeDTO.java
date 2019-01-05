@@ -3,7 +3,7 @@ package studycave.application.user;
 import javax.swing.ImageIcon;
 
 public class UserBadgeDTO {
-	private ImageIcon icon;
+	private String icon;
 	private String badgeName;
 	private Boolean unlocked;
 	
@@ -11,11 +11,11 @@ public class UserBadgeDTO {
 		
 	}
 
-	public ImageIcon getIcon() {
+	public String getIcon() {
 		return icon;
 	}
 
-	public void setIcon(ImageIcon icon) {
+	public void setIcon(String icon) {
 		this.icon = icon;
 	}
 

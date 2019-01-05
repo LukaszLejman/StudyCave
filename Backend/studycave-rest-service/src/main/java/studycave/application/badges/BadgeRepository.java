@@ -1,5 +1,9 @@
 package studycave.application.badges;
 
-public class BadgeRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+
+
+public interface BadgeRepository extends JpaRepository<Badge, Long> {
 
 }

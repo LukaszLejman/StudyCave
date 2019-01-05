@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import studycave.application.badges.Badge;
+import studycave.application.badges.BadgeRepository;
 import studycave.application.groups.members.StudyGroupMemberRepository;
 import studycave.application.test.Test;
 
@@ -32,6 +34,10 @@ public class UserController {
 	UserRepository userRepository;
 	@Autowired
 	StudyGroupMemberRepository memberRepository;	
+	@Autowired
+	BadgeRepository badgeRepository;
+	@Autowired
+	UserBadgeRepository userBadgeRepository;
 	@Autowired 
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
@@ -47,6 +53,14 @@ public class UserController {
 		User user = modelMapper.map(userDTO, User.class);
 		
 		userRepository.save(user);
+	// Badge for register
+		UserBadge badgeAchieved = new UserBadge();
+		Badge badge = new Badge();
+		badge = badgeRepository.findById((long)1).orElse(null);
+		badgeAchieved.setBadge(badge);
+		badgeAchieved.setUser(user);
+		userBadgeRepository.save(badgeAchieved);
+		
 		return "Dodano uzytkownika";
 	}
 	
@@ -91,28 +105,21 @@ public class UserController {
 	public ResponseEntity<List<UserBadgeDTO>> getUserBadges() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		System.out.println(currentPrincipalName);
-		List<UserBadgeDTO> badges = new ArrayList<>();
-//		java.net.URL imgURL = getClass().getResource("C:/Users/Dawid/Documents/GitHub/StudyCave/Backend/studycave-rest-service/badge-icons/star.png");
-//		ImageIcon icon = new ImageIcon(imgURL,"star");
-		
-		UserBadgeDTO badge1 = new UserBadgeDTO();
-		
-		badge1.setBadgeName("Utworzyłeś konto!");
-		badge1.setUnlocked(true);
-		badges.add(badge1);
-		
-		UserBadgeDTO badge2 = new UserBadgeDTO();
-		badge2.setBadgeName("Zdobyłeś 50 punktów");
-		badge2.setUnlocked(true);
-		badges.add(badge2);
-		
-		UserBadgeDTO badge3 = new UserBadgeDTO();
-		badge3.setBadgeName("Zdobyłeś 10 000 punktów");
-		badge3.setUnlocked(false);
-		badges.add(badge3);
-		
-		return new ResponseEntity<List<UserBadgeDTO>>(badges, HttpStatus.OK);
+		Long user_id = (userRepository.findByUsername(currentPrincipalName).orElse(null)).getId();
+		List<UserBadgeDTO> userBadges = new ArrayList<>();
+		List<Badge> badges = new ArrayList<>();
+		badges = badgeRepository.findAll();
+		for(Badge b : badges) {
+			UserBadgeDTO badge = new UserBadgeDTO();
+			badge.setBadgeName(b.getName());
+			badge.setIcon(b.getIconPath());
+			if(userBadgeRepository.findByIdAndUser(b.getId(), user_id).isEmpty())
+				badge.setUnlocked(false);
+			else
+				badge.setUnlocked(true);
+			userBadges.add(badge);
+		}
+		return new ResponseEntity<List<UserBadgeDTO>>(userBadges, HttpStatus.OK);
 	}
 	
 }
