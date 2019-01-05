@@ -72,19 +72,6 @@ public class UserController {
 		return "Edycja udana";
 	}
 	
-	@GetMapping("/leaderboard")
-	public ResponseEntity<?> getLeaderboard(){
-		List<LeaderboardDTO> leaderboard = new ArrayList<>();
-		for(int i=0; i<=15; i++) {
-			LeaderboardDTO user = new LeaderboardDTO();
-			user.setUsername(String.format("user%d", i));
-			user.setPoints(i*2+1*i);
-			leaderboard.add(user);
-		}
-		leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
-		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
-	}
-	
     @ApiOperation("Login.")
     @PostMapping("/login")
     public void fakeLogin( //show in Swagger 

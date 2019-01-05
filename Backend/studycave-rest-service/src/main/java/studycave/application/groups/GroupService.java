@@ -540,4 +540,20 @@ public class GroupService {
 		leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
 		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
 	}
+	
+	public ResponseEntity<?> getGroupTestLeaderboard(Long group_id){
+		StudyGroup group = this.groupRepository.findById(group_id).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		List<LeaderboardDTO> leaderboard = new ArrayList<>();
+		for(int i=0; i<=15; i++) {
+			LeaderboardDTO user = new LeaderboardDTO();
+			user.setUsername(String.format("user%d", i));
+			user.setPoints(i*2+1*i);
+			leaderboard.add(user);
+		}
+		leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
+		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
+	}
 }
