@@ -523,5 +523,12 @@ public class GroupService {
 		}
 		
 	}
-
+	
+	public ResponseEntity<?> getGroupLeaderboard(Long group_id){
+		StudyGroup group = this.groupRepository.findById(group_id).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }
