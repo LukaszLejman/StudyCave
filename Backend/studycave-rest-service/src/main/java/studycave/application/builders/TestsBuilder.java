@@ -142,6 +142,6 @@ public class TestsBuilder {
 			test.setQuestions(questions);
 			testRepository.save(test);
 		}
-		System.out.print("Tests inserted");
+		System.out.println("Tests inserted");
 	}
 }
