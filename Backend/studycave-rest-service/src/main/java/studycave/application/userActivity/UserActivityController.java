@@ -49,13 +49,19 @@ public class UserActivityController {
 		String currentPrincipalName = authentication.getName();
 		User user = userRepository.findByUsername(currentPrincipalName).get();
 
-		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(endDate.getTime());
-		c.set(Calendar.HOUR_OF_DAY, 23);
-		c.set(Calendar.MINUTE, 59);
-		c.set(Calendar.SECOND, 59);
-		c.set(Calendar.MILLISECOND, 0);
-		Timestamp endDateTime = new Timestamp(c.getTimeInMillis());
+		Timestamp endDateTime = null;
+		
+		if (endDate != null ) {
+			Calendar c = Calendar.getInstance();
+			c.setTimeInMillis(endDate.getTime());
+			c.set(Calendar.HOUR_OF_DAY, 23);
+			c.set(Calendar.MINUTE, 59);
+			c.set(Calendar.SECOND, 59);
+			c.set(Calendar.MILLISECOND, 0);
+			endDateTime = new Timestamp(c.getTimeInMillis());
+			
+		}
+		
 		List<UserActivity> userActivity = this.userActivityRepository
 				.findAllByToUserOrFromUserAndGroupAndTime(user.getId(), groupId, startDate, endDateTime);
 		List<UserActivityDTO> list = new ArrayList<UserActivityDTO>();
