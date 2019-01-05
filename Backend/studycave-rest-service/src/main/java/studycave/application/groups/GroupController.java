@@ -163,7 +163,7 @@ public class GroupController {
 		return this.groupService.getUnverifiedContent(groupId, type);
 	}
 
-		@GetMapping("/{type}/{content_id}/comments")
+	@GetMapping("/{type}/{content_id}/comments")
 	public ResponseEntity<?> getComments(@PathVariable(required = true) String type,
 			@PathVariable(required = true) Long content_id) {
 		return this.groupService.getComments(type, content_id);
@@ -178,6 +178,11 @@ public class GroupController {
 	@DeleteMapping("/comments/{comment_id}")
 	public ResponseEntity<?> deleteComment(@PathVariable(required = true) Long comment_id) {
 		return this.groupService.deleteComment(comment_id);
+	}
+	
+	@GetMapping("/{group_id}/leaderboard")
+	public ResponseEntity<?> getGroupLeaderboard(@PathVariable(required = true) Long group_id) {
+		return this.groupService.getGroupLeaderboard(group_id);
 	}
 
 }
