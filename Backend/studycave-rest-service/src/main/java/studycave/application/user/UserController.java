@@ -69,6 +69,11 @@ public class UserController {
 		return "Edycja udana";
 	}
 	
+	@GetMapping("/leaderboard")
+	public ResponseEntity<?> getLeaderboard(){
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
     @ApiOperation("Login.")
     @PostMapping("/login")
     public void fakeLogin( //show in Swagger 
