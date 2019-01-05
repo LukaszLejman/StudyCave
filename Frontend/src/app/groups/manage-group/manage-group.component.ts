@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Group, UsersConfig } from '../group';
 import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 import { ConfirmationService } from 'primeng/api';
+import localeText from './../../../assets/localeText';
 import { ApiInterceptor } from '../../http-interceptors/api-interceptor';
 
 @Component({
@@ -22,6 +23,7 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   groupDeleteSubscription: Subscription;
   newKeyGenerateSubscription: Subscription;
   display = false;
+  localeText = localeText;
 
   private gridApi;
   public gridOptions: GridOptions;
