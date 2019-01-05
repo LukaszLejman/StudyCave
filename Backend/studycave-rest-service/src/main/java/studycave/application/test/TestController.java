@@ -74,6 +74,8 @@ public class TestController {
                         (o1, o2) -> o1.getId().compareTo(o2.getId()));
 			}
 		}
+		test.get().setGroup(null);
+		test.get().setActivity(null);
 		return test;
 	}
 
