@@ -17,7 +17,7 @@ public class DataLoader implements ApplicationRunner {
     private String databaseMode;
     
     @Autowired
-    public DataLoader(UsersBuilder usersBuilder, FlashcardsBuilder flashcardsBuilder) {
+    public DataLoader(UsersBuilder usersBuilder, FlashcardsBuilder flashcardsBuilder, TestsBuilder testsBuilder) {
         this.usersBuilder = usersBuilder;
         this.flashcardsBuilder = flashcardsBuilder;
         this.testsBuilder = testsBuilder;
