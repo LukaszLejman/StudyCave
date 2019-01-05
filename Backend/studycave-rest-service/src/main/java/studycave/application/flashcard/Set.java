@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
 import studycave.application.groups.StudyGroup;
+import studycave.application.userActivity.UserActivity;
 
 
 @Entity
@@ -54,7 +55,9 @@ public class Set {
     @JoinColumn(name="group_id",referencedColumnName="id")
     private StudyGroup group;
    
-
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "set", cascade = CascadeType.ALL)
+	private List<UserActivity> activity;
+	
     protected Set() {}
 
 	public Set(String name, String category, int idOwner) {
@@ -162,5 +165,13 @@ public class Set {
 
 	public void setGroup(StudyGroup group) {
 		this.group = group;
+	}
+
+	public List<UserActivity> getActivity() {
+		return activity;
+	}
+
+	public void setActivity(List<UserActivity> activity) {
+		this.activity = activity;
 	}
 }

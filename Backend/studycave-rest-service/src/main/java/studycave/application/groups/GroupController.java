@@ -134,27 +134,27 @@ public class GroupController {
 	public ResponseEntity<?> verifyTest(@PathVariable(required = true) String groupId,
 			@PathVariable(required = true) String testId, @Valid @RequestBody VerifyDto dto) {
 		if (dto.getStatus() == VerifyType.ACCEPTED) {
-			return this.groupService.acceptTest(groupId, testId);
+			return this.groupService.acceptTest(groupId, testId, dto);
 		}
-		return this.groupService.rejectTest(groupId, testId);
+		return this.groupService.rejectTest(groupId, testId, dto);
 	}
 
 	@PutMapping("/{groupId}/materials/{materialId}/status")
 	public ResponseEntity<?> verifyMaterial(@PathVariable(required = true) String groupId,
 			@PathVariable(required = true) String materialId, @Valid @RequestBody VerifyDto dto) {
 		if (dto.getStatus() == VerifyType.ACCEPTED) {
-			return this.groupService.acceptMaterial(groupId, materialId);
+			return this.groupService.acceptMaterial(groupId, materialId, dto);
 		}
-		return this.groupService.rejectMaterial(groupId, materialId);
+		return this.groupService.rejectMaterial(groupId, materialId, dto);
 	}
 
 	@PutMapping("/{groupId}/flashcard-sets/{setId}/status")
 	public ResponseEntity<?> verifySet(@PathVariable(required = true) String groupId,
 			@PathVariable(required = true) String setId, @Valid @RequestBody VerifyDto dto) {
 		if (dto.getStatus() == VerifyType.ACCEPTED) {
-			return this.groupService.acceptSet(groupId, setId);
+			return this.groupService.acceptSet(groupId, setId, dto);
 		}
-		return this.groupService.rejectSet(groupId, setId);
+		return this.groupService.rejectSet(groupId, setId, dto);
 	}
 
 	@GetMapping("/{groupId}/content/{type}/unverified")
