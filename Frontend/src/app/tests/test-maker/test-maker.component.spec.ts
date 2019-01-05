@@ -12,6 +12,8 @@ import { AuthenticationService } from '../../authentication.service';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TrueFalseQuestionComponent } from '../true-false-question/true-false-question.component';
+import { SingleChoiceQuestionComponent } from '../single-choice-question/single-choice-question.component';
+import { MultipleChoiceQuestionComponent } from '../multiple-choice-question/multiple-choice-question.component';
 
 describe('TestMakerComponent', () => {
   let component: TestMakerComponent;
@@ -19,7 +21,7 @@ describe('TestMakerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TestMakerComponent, TrueFalseQuestionComponent ],
+      declarations: [ TestMakerComponent, TrueFalseQuestionComponent, SingleChoiceQuestionComponent, MultipleChoiceQuestionComponent ],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [ RouterTestingModule, HttpClientModule, MatSnackBarModule, FormsModule, NoopAnimationsModule],
       providers: [TestsService, AuthenticationService]
@@ -82,6 +84,116 @@ describe('TestMakerComponent', () => {
             shortcut: 'Test?'
           }
         ];
+        expect(component.test).toEqual(testMock);
+      });
+    }));
+
+    it('should create single-choice question', async(() => {
+      fixture.whenStable().then(() => {
+        fixture.autoDetectChanges();
+        spyOn(component, 'show').and.callThrough();
+        fixture.debugElement.nativeElement.querySelectorAll('button')[1].click();
+        expect(component.show).toHaveBeenCalledWith('single-choice');
+
+        const childDebugElement = fixture.debugElement.query(By.directive(SingleChoiceQuestionComponent));
+
+        childDebugElement.context.points = 2;
+        childDebugElement.context.question = 'Test?';
+
+        childDebugElement.context.newAttribute.content = 'a';
+        childDebugElement.context.addFieldValue();
+
+        childDebugElement.context.newAttribute.content = 'b';
+        spyOn(childDebugElement.context, 'changeCheckbox2').and.callThrough();
+        const trueCheckbox = childDebugElement.nativeElement.querySelectorAll('input[type=checkbox]')[0];
+        trueCheckbox.click();
+        expect(trueCheckbox.checked).toBeTruthy();
+        expect(childDebugElement.context.changeCheckbox2).toHaveBeenCalled();
+        childDebugElement.context.addFieldValue();
+
+        childDebugElement.context.addTable();
+
+        const testMock = [
+          {
+            content: {
+              answers: [
+                {
+                  id: null,
+                  content: 'a',
+                  is_good: false
+                },
+                {
+                  id: null,
+                  content: 'b',
+                  is_good: true
+                }
+              ],
+              id: null,
+              points: 2,
+              question: 'Test?',
+              type: 'single-choice'
+            },
+            edit: false,
+            nr: 1,
+            shortcut: 'Test?'
+          }
+        ];
+
+        expect(component.test).toEqual(testMock);
+      });
+    }));
+
+    it('should create multiple-choice question', async(() => {
+      fixture.whenStable().then(() => {
+        fixture.autoDetectChanges();
+        spyOn(component, 'show').and.callThrough();
+        fixture.debugElement.nativeElement.querySelectorAll('button')[2].click();
+        expect(component.show).toHaveBeenCalledWith('multiple-choice');
+
+        const childDebugElement = fixture.debugElement.query(By.directive(MultipleChoiceQuestionComponent));
+
+        childDebugElement.context.points = 2;
+        childDebugElement.context.question = 'Test?';
+
+        childDebugElement.context.newAttribute.content = 'a';
+        spyOn(childDebugElement.context, 'changeCheckbox2').and.callThrough();
+        const trueCheckbox1 = childDebugElement.nativeElement.querySelectorAll('input[type=checkbox]')[0];
+        trueCheckbox1.click();
+        expect(trueCheckbox1.checked).toBeTruthy();
+        expect(childDebugElement.context.changeCheckbox2).toHaveBeenCalled();
+        childDebugElement.context.addFieldValue();
+
+        childDebugElement.context.newAttribute.content = 'b';
+        childDebugElement.context.addFieldValue();
+
+        childDebugElement.context.addTable();
+
+        const testMock = [
+          {
+            content: {
+              answers: [
+                {
+                  id: null,
+                  content: 'a',
+                  is_good: true
+                },
+                {
+                  id: null,
+                  content: 'b',
+                  is_good: true
+                }
+              ],
+              id: null,
+              points: 2,
+              question: 'Test?',
+              type: 'multiple-choice'
+            },
+            edit: false,
+            nr: 1,
+            shortcut: 'Test?'
+          }
+        ];
+
         expect(component.test).toEqual(testMock);
       });
     }));

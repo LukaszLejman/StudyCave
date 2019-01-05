@@ -8,23 +8,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class SingleChoiceQuestionComponent implements OnInit {
 
-  @Input() private content: Object = {};
-  @Input() private edit: Boolean;
+  @Input()  content: Object = {};
+  @Input()  edit: Boolean;
 
-  private isChecked: Boolean = false;
-  private answers: Array<Object> = [];
-  private answersCorrect: Array<Object> = [];
-  private newAttribute: any = {
+   isChecked: Boolean = false;
+   answers: Array<Object> = [];
+   answersCorrect: Array<Object> = [];
+   newAttribute: any = {
     id: null,
     content: '',
     is_good: false
   };
-  private question: String = '';
-  private points: Number = 1;
-  private id: Number = null;
+   question: String = '';
+   points: Number = 1;
+   id: Number = null;
 
-  @Output() private add: EventEmitter<Object> = new EventEmitter();
-  @Output() private editing: EventEmitter<Object> = new EventEmitter();
+  @Output()  add: EventEmitter<Object> = new EventEmitter();
+  @Output()  editing: EventEmitter<Object> = new EventEmitter();
 
   constructor(public snackBar: MatSnackBar) { }
 
