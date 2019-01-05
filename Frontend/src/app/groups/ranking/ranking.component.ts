@@ -114,19 +114,11 @@ export class RankingComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateChart(): void {
-    const data: Data = {
-      type: 'matrix',
-      data: [['username', 'points']]
-    };
-    this.data.forEach(item => data.data.push([item.username, item.points]));
-  }
-
   showGlobalRanking(): void {
     this.typeOfRankingToDisplay = RankingType.all;
     this.rankingSubscription = this.groupService.getGlobalRanking(this.group.id).subscribe(data => {
       this.data = data;
-      this.updateChart();
+      this.showChart();
     });
   }
 
@@ -134,7 +126,7 @@ export class RankingComponent implements OnInit, OnDestroy {
     this.typeOfRankingToDisplay = RankingType.test;
     this.rankingSubscription = this.groupService.getTestsRanking(this.group.id).subscribe(data => {
       this.data = data;
-      this.updateChart();
+      this.showChart();
     });
   }
 
