@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Group } from '../group';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Data } from '@angular/router';
 import { GroupsService } from '../groups.service';
 import { Subscription } from 'rxjs/Subscription';
 import { RankingType } from './ranking';
 import { GridOptions } from 'ag-grid-community/main';
+import localeText from './../../../assets/localeText';
 import * as picasso from 'picasso.js';
 picasso.default('canvas');
 
@@ -23,13 +24,15 @@ export class RankingComponent implements OnInit, OnDestroy {
   public typeOfRankingToDisplay: RankingType = RankingType.all;
   private gridApi;
   public gridOptions: GridOptions;
-  groupDetailsSubscription: Subscription;
-  columnDefs = [
+  public groupDetailsSubscription: Subscription;
+  public rankingSubscription: Subscription;
+  public chart;
+  public localeText = localeText;
+  public columnDefs = [
     { headerName: 'Użytkownik', field: 'username', headerTooltip: 'Użytkownik' },
     { headerName: 'Punkty', field: 'points', headerTooltip: 'Punkty' },
   ];
-  data = [{ username: 'user1', points: 0 },
-  { username: 'user2', points: 1 }];
+  public data;
 
 
   constructor(private route: ActivatedRoute, private groupService: GroupsService, private router: Router) { }
@@ -38,23 +41,28 @@ export class RankingComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id)
-      .subscribe(data2 => { this.group = data2; });
-    const data = {
+      .subscribe(data2 => {
+        this.group = data2;
+        this.rankingSubscription = this.groupService.getGlobalRanking(this.group.id).subscribe(data3 => {
+          this.data = data3;
+          this.showChart();
+        });
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.groupDetailsSubscription) {
+      this.groupDetailsSubscription.unsubscribe();
+    }
+  }
+
+  showChart(): void {
+    const data: Data = {
       type: 'matrix',
-      data: [['username', 'points'],
-      ['user1', 1],
-      ['user2', 50],
-      ['user3', 10],
-      ['user4', 20],
-      ['user5', 30],
-      ['user6', 50],
-      ['usera1', 10],
-      ['usera2', 20],
-      ['usera2', 30],
-      ['ukasz', 50],
-      ['usera4', 50]]
+      data: [['username', 'points']]
     };
-    picasso.default.chart({
+    this.data.forEach(item => data.data.push([item.username, item.points]));
+    this.chart = picasso.default.chart({
       element: this.elemRef.nativeElement,
       data,
       settings: {
@@ -94,30 +102,40 @@ export class RankingComponent implements OnInit, OnDestroy {
             major: { scale: 't' },
             minor: { scale: 'y' },
             box: {
-              fill: function(d) {
+              fill: function (d) {
                 return d.datum.value === JSON.parse(localStorage.getItem('currentUser')).username ? '#cea856' : '#272324';
               },
               stroke: 'transparent'
             }
           }
         }
-      ]
+        ]
       }
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.groupDetailsSubscription) {
-      this.groupDetailsSubscription.unsubscribe();
-    }
+  updateChart(): void {
+    const data: Data = {
+      type: 'matrix',
+      data: [['username', 'points']]
+    };
+    this.data.forEach(item => data.data.push([item.username, item.points]));
   }
 
   showGlobalRanking(): void {
     this.typeOfRankingToDisplay = RankingType.all;
+    this.rankingSubscription = this.groupService.getGlobalRanking(this.group.id).subscribe(data => {
+      this.data = data;
+      this.updateChart();
+    });
   }
 
   showOnlyTestsRanking(): void {
     this.typeOfRankingToDisplay = RankingType.test;
+    this.rankingSubscription = this.groupService.getTestsRanking(this.group.id).subscribe(data => {
+      this.data = data;
+      this.updateChart();
+    });
   }
 
   onGridReady(params) {

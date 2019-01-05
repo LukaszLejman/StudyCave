@@ -82,7 +82,7 @@ export class GroupsService {
   getResource(id, resource): Observable<any> {
     const url = 'groups/' + id + '/content/' + resource;
     this.setHeaders();
-    return this.httpClient.get(url, {headers: this.headers});
+    return this.httpClient.get(url, { headers: this.headers });
   }
 
   deleteUser(id, userId): Observable<any> {
@@ -210,12 +210,12 @@ export class GroupsService {
       body['comment'] = comment;
     }
     return this.httpClient.put(url, body, {
-        headers: this.headers,
-        observe: 'response',
-        responseType: 'text'
-      }).catch((error: any) => {
-        return Observable.throw(error);
-      });
+      headers: this.headers,
+      observe: 'response',
+      responseType: 'text'
+    }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   acceptTestsInGroup(groupId: number, testId: number, points: number, comment: string): Observable<any> {
@@ -229,12 +229,12 @@ export class GroupsService {
       body['comment'] = comment;
     }
     return this.httpClient.put(url, body, {
-        headers: this.headers,
-        observe: 'response',
-        responseType: 'text'
-      }).catch((error: any) => {
-        return Observable.throw(error);
-      });
+      headers: this.headers,
+      observe: 'response',
+      responseType: 'text'
+    }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   acceptFlashcardsInGroup(groupId: number, setId: number, points: number, comment: string): Observable<any> {
@@ -248,12 +248,12 @@ export class GroupsService {
       body['comment'] = comment;
     }
     return this.httpClient.put(url, body, {
-        headers: this.headers,
-        observe: 'response',
-        responseType: 'text'
-      }).catch((error: any) => {
-        return Observable.throw(error);
-      });
+      headers: this.headers,
+      observe: 'response',
+      responseType: 'text'
+    }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   rejectMaterialsFromGroup(groupId: number, materialId: number, comment: string): Observable<any> {
@@ -267,12 +267,12 @@ export class GroupsService {
       body['comment'] = comment;
     }
     return this.httpClient.put(url, body, {
-        headers: this.headers,
-        observe: 'response',
-        responseType: 'text'
-      }).catch((error: any) => {
-        return Observable.throw(error);
-      });
+      headers: this.headers,
+      observe: 'response',
+      responseType: 'text'
+    }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   rejectTestsFromGroup(groupId: number, testId: number, comment: string): Observable<any> {
@@ -286,12 +286,12 @@ export class GroupsService {
       body['comment'] = comment;
     }
     return this.httpClient.put(url, body, {
-        headers: this.headers,
-        observe: 'response',
-        responseType: 'text'
-      }).catch((error: any) => {
-        return Observable.throw(error);
-      });
+      headers: this.headers,
+      observe: 'response',
+      responseType: 'text'
+    }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   rejectFlashcardsFromGroup(groupId: number, setId: number, comment: string): Observable<any> {
@@ -305,12 +305,26 @@ export class GroupsService {
       body['comment'] = comment;
     }
     return this.httpClient.put(url, body, {
-        headers: this.headers,
-        observe: 'response',
-        responseType: 'text'
-      }).catch((error: any) => {
-        return Observable.throw(error);
-      });
+      headers: this.headers,
+      observe: 'response',
+      responseType: 'text'
+    }).catch((error: any) => {
+      return Observable.throw(error);
+    });
+  }
+
+  getGlobalRanking(groupId: number): Observable<any> {
+    this.setHeaders();
+    return this.httpClient.get(`groups/${groupId}/leaderboard`, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
+  }
+
+  getTestsRanking(groupId: number): Observable<any> {
+    this.setHeaders();
+    return this.httpClient.get(`groups/${groupId}/testleaderboard`, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
 }
