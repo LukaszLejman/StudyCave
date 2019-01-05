@@ -1,9 +1,10 @@
 package studycave.application.userActivity;
 
 import java.sql.Date;
-import java.text.ParseException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -48,8 +49,15 @@ public class UserActivityController {
 		String currentPrincipalName = authentication.getName();
 		User user = userRepository.findByUsername(currentPrincipalName).get();
 
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(endDate.getTime());
+		c.set(Calendar.HOUR_OF_DAY, 23);
+		c.set(Calendar.MINUTE, 59);
+		c.set(Calendar.SECOND, 59);
+		c.set(Calendar.MILLISECOND, 0);
+		Timestamp endDateTime = new Timestamp(c.getTimeInMillis());
 		List<UserActivity> userActivity = this.userActivityRepository
-				.findAllByToUserOrFromUserAndGroupAndTime(user.getId(), groupId, startDate, endDate);
+				.findAllByToUserOrFromUserAndGroupAndTime(user.getId(), groupId, startDate, endDateTime);
 		List<UserActivityDTO> list = new ArrayList<UserActivityDTO>();
 
 		Collections.sort(userActivity, new Comparator<UserActivity>() {
