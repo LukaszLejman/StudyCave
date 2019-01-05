@@ -1,4 +1,7 @@
 package studycave.application.user;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,7 +74,15 @@ public class UserController {
 	
 	@GetMapping("/leaderboard")
 	public ResponseEntity<?> getLeaderboard(){
-		return new ResponseEntity<>(HttpStatus.OK);
+		List<LeaderboardDTO> leaderboard = new ArrayList<>();
+		for(int i=0; i<=15; i++) {
+			LeaderboardDTO user = new LeaderboardDTO();
+			user.setUsername(String.format("user%d", i));
+			user.setPoints(i*2+1*i);
+			leaderboard.add(user);
+		}
+		leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
+		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
 	}
 	
     @ApiOperation("Login.")
