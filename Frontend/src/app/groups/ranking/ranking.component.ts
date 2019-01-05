@@ -38,40 +38,70 @@ export class RankingComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.groupDetailsSubscription = this.groupService.getGroupDetails(this.id)
-      .subscribe(data => { this.group = data; });
+      .subscribe(data2 => { this.group = data2; });
+    const data = {
+      type: 'matrix',
+      data: [['username', 'points'],
+      ['user1', 1],
+      ['user2', 50],
+      ['user3', 10],
+      ['user4', 20],
+      ['user5', 30],
+      ['user6', 50],
+      ['usera1', 10],
+      ['usera2', 20],
+      ['usera2', 30],
+      ['ukasz', 50],
+      ['usera4', 50]]
+    };
     picasso.default.chart({
-      element: this.elemRef.nativeElement, // container must have a width and height specified
+      element: this.elemRef.nativeElement,
+      data,
       settings: {
         scales: {
-          budget: { max: 5000, min: 0 },
-          sales: { max: 11000, min: 3000, invert: true }
+          y: {
+            data: { field: 'points' },
+            invert: true,
+            include: [0]
+          },
+          c: {
+            data: { field: 'points' },
+            type: 'color'
+          },
+          t: { data: { extract: { field: 'username' } }, padding: 0.3 },
         },
-        components: [
-          {
-            type: 'axis',
-            scale: 'budget',
-            dock: 'bottom'
+        components: [{
+          type: 'axis',
+          dock: 'left',
+          scale: 'y'
+        }, {
+          type: 'axis',
+          dock: 'bottom',
+          scale: 't'
+        }, {
+          key: 'bars',
+          type: 'box',
+          data: {
+            extract: {
+              field: 'username',
+              props: {
+                start: 0,
+                end: { field: 'points' }
+              }
+            }
           },
-          {
-            type: 'axis',
-            scale: 'sales',
-            dock: 'left'
-          },
-          {
-            type: 'point',
-            data: [
-              { sales: 7456, margin: 0.3, budget: 4557 },
-              { sales: 5603, margin: 0.7, budget: 2234 },
-              { sales: 8603, margin: 0.6, budget: 4121 },
-              { sales: 4562, margin: 0.4, budget: 1234 },
-              { sales: 9873, margin: 0.9, budget: 3453 },
-            ],
-            settings: {
-              x: { scale: 'budget', fn: d => d.scale(d.datum.value.budget) },
-              y: { scale: 'sales', fn: d => d.scale(d.datum.value.sales) },
+          settings: {
+            major: { scale: 't' },
+            minor: { scale: 'y' },
+            box: {
+              fill: function(d) {
+                return d.datum.value === JSON.parse(localStorage.getItem('currentUser')).username ? '#cea856' : '#272324';
+              },
+              stroke: 'transparent'
             }
           }
-        ]
+        }
+      ]
       }
     });
   }
