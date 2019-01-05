@@ -149,6 +149,9 @@ export class RankingComponent implements OnInit, OnDestroy {
 
   onGridSizeChanged(params) {
     params.api.sizeColumnsToFit();
+    if (this.data) {
+      this.showChart();
+    }
   }
 
 }
