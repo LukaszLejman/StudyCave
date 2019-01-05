@@ -4,7 +4,7 @@ public class LeaderboardDTO {
 	private String Username;
 	private int points;
 	
-	LeaderboardDTO(){
+	public LeaderboardDTO(){
 		
 	}
 	

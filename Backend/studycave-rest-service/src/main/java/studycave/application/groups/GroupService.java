@@ -38,6 +38,7 @@ import studycave.application.test.QuestionPairs;
 import studycave.application.test.QuestionPuzzle;
 import studycave.application.test.Test;
 import studycave.application.test.TestRepository;
+import studycave.application.user.LeaderboardDTO;
 import studycave.application.user.SimpleUserInfo;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
@@ -529,6 +530,14 @@ public class GroupService {
 		if (group == null) {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		List<LeaderboardDTO> leaderboard = new ArrayList<>();
+		for(int i=0; i<=15; i++) {
+			LeaderboardDTO user = new LeaderboardDTO();
+			user.setUsername(String.format("user%d", i));
+			user.setPoints(i*2+1*i);
+			leaderboard.add(user);
+		}
+		leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
+		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
 	}
 }
