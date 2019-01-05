@@ -8,23 +8,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class GapsQuestionComponent implements OnInit {
 
-  @Input() private content: Object = {};
-  @Input() private edit: Boolean;
+  @Input()  content: Object = {};
+  @Input()  edit: Boolean;
 
-  private visibleText: Boolean = false;
-  private gap: Boolean = false;
+   visibleText: Boolean = false;
+   gap: Boolean = false;
 
-  private noGapText = '';
-  private gapText = '';
+   noGapText = '';
+   gapText = '';
 
-  private answersCorrect: Array<Object> = [];
-  private answers: Array<Object> = [];
-  private question: String = 'Uzupełnij luki w tekście:';
-  private points: Number = 1;
-  private id: Number = null;
+   answersCorrect: Array<Object> = [];
+   answers: Array<Object> = [];
+   question: String = 'Uzupełnij luki w tekście:';
+   points: Number = 1;
+   id: Number = null;
 
-  @Output() private add: EventEmitter<Object> = new EventEmitter();
-  @Output() private editing: EventEmitter<Object> = new EventEmitter();
+  @Output()  add: EventEmitter<Object> = new EventEmitter();
+  @Output()  editing: EventEmitter<Object> = new EventEmitter();
 
   constructor(public snackBar: MatSnackBar) { }
 
