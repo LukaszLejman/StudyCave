@@ -117,12 +117,5 @@ public class User {
 		this.activityFrom = activityFrom;
 	}
 
-	public List<UserBadge> getBadges() {
-		return badges;
-	}
-
-	public void setBadges(List<UserBadge> badges) {
-		this.badges = badges;
-	}
 	
 }
