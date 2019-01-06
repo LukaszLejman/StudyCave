@@ -50,15 +50,15 @@ public class Set {
     @OneToMany(fetch = FetchType.LAZY,mappedBy="flashcardSet",cascade = CascadeType.ALL)
     @JsonManagedReference
     List<Flashcard> flashcards;
-    
+
     @ManyToOne
     @JoinColumn(name="group_id",referencedColumnName="id")
     private StudyGroup group;
    
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "set", cascade = CascadeType.ALL)
-	private List<UserActivity> activity;
-	
-    protected Set() {}
+	  @OneToMany(fetch = FetchType.LAZY, mappedBy = "set", cascade = CascadeType.ALL)
+	  private List<UserActivity> activity;
+
+  public Set() {}
 
 	public Set(String name, String category, int idOwner) {
 		super();
