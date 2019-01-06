@@ -1,4 +1,3 @@
-
 package studycave.application.groups;
 
 import java.util.ArrayList;
@@ -48,7 +47,13 @@ import studycave.application.userActivity.UserActivityService;
 import studycave.application.files.Material;
 import studycave.application.flashcard.Set;
 import studycave.application.test.Test;
+import studycave.application.test.TestRepository;
+import studycave.application.test.result.TestResult;
+import studycave.application.test.result.TestResultRepository;
+import studycave.application.user.LeaderboardDTO;
 import studycave.application.user.SimpleUserInfo;
+import studycave.application.user.User;
+import studycave.application.user.UserRepository;
 import studycave.application.groups.comments.SimpleStudyGroupCommentDto;
 import studycave.application.groups.comments.StudyGroupComment;
 import studycave.application.groups.comments.StudyGroupCommentDto;
@@ -72,6 +77,8 @@ public class GroupService {
 	SetRepository setRepository;
   	@Autowired
 	TestRepository testRepository;
+    	@Autowired
+  	TestResultRepository testResultRepository;
   	@Autowired
   	StudyGroupCommentRepository commentRepository;
   	@Autowired
@@ -584,6 +591,50 @@ public class GroupService {
 			return new ResponseEntity<>("Błąd zapytania", HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+  
+  public ResponseEntity<?> getGroupLeaderboard(Long group_id){
+		StudyGroup group = this.groupRepository.findById(group_id).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		List<LeaderboardDTO> leaderboard = new ArrayList<>();
+		for(StudyGroupMember m : group.getMembers()) {
+			if(!m.getIsGroupLeader()) {
+				int score = 0;
+				LeaderboardDTO user = new LeaderboardDTO();
+				for (TestResult r : testResultRepository.findByIdOwner(m.getUser().getId())) {
+					score += r.getMaxScore();
+				}
+				user.setUsername(m.getUser().getUsername());
+				user.setPoints(score);
+				leaderboard.add(user);
+			}
+		}
+		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> getGroupTestLeaderboard(Long group_id){
+		StudyGroup group = this.groupRepository.findById(group_id).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		List<LeaderboardDTO> leaderboard = new ArrayList<>();
+		for(StudyGroupMember m : group.getMembers()) {
+			if(!m.getIsGroupLeader()) {
+				int score = 0;
+				LeaderboardDTO user = new LeaderboardDTO();
+				for (TestResult r : testResultRepository.findByIdOwner(m.getUser().getId())) {
+					score += r.getMaxScore();
+				}
+				user.setUsername(m.getUser().getUsername());
+				user.setPoints(score);
+				leaderboard.add(user);
+				}
+		}
+		// leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
+
+		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
 	}
 
 }

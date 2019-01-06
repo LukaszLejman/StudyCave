@@ -180,4 +180,13 @@ public class GroupController {
 		return this.groupService.deleteComment(comment_id);
 	}
 
+	@GetMapping("/{group_id}/leaderboard")
+	public ResponseEntity<?> getGroupLeaderboard(@PathVariable(required = true) Long group_id) {
+		return this.groupService.getGroupLeaderboard(group_id);
+	}
+	
+	@GetMapping("/{group_id}/testleaderboard")
+	public ResponseEntity<?> getGroupTestLeaderboard(@PathVariable(required = true) Long group_id) {
+		return this.groupService.getGroupTestLeaderboard(group_id);
+	}
 }

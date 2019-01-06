@@ -28,7 +28,9 @@ import { WaitingResourcesComponent } from './waiting-resources/waiting-resources
 import { TestToGroupPreviewComponent } from './waiting-resources/test-to-group-preview/test-to-group-preview.component';
 import { MaterialToGroupPreviewComponent } from './waiting-resources/material-to-group-preview/material-to-group-preview.component';
 import { FlashcardsToGroupPreviewComponent } from './waiting-resources/flashcards-to-group-preview/flashcards-to-group-preview.component';
+import { RankingComponent } from './ranking/ranking.component';
 import { HistoryOfActivityInGroupComponent } from './history-of-activity-in-group/history-of-activity-in-group.component';
+
 
 @NgModule({
   imports: [
@@ -60,7 +62,9 @@ import { HistoryOfActivityInGroupComponent } from './history-of-activity-in-grou
     TestToGroupPreviewComponent,
     MaterialToGroupPreviewComponent,
     FlashcardsToGroupPreviewComponent,
+    RankingComponent
     HistoryOfActivityInGroupComponent
+
   ],
   providers: [GroupsService, ConfirmationService]
 })
