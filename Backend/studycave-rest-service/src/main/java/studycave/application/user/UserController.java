@@ -51,6 +51,16 @@ public class UserController {
 		User user = modelMapper.map(userDTO, User.class);
 		
 		userRepository.save(user);
+		
+		// Badge for registering
+		UserBadge badgeAchieved = new UserBadge();
+		Badge badge = new Badge();
+		badge = badgeRepository.findById((long)1).orElse(null);
+		badgeAchieved.setBadge(badge);
+		badgeAchieved.setUser(user);
+		userBadgeRepository.save(badgeAchieved);
+
+		
 		return "Dodano uzytkownika";
 	}
 	
