@@ -3,9 +3,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HistoryOfActivityInGroupComponent } from './history-of-activity-in-group.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MatSnackBarModule, MatAutocompleteModule, MatFormFieldModule } from '@angular/material';
+import { MatSnackBarModule, MatAutocompleteModule,
+  MatFormFieldModule, MatInputModule, MatDatepicker, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { GroupsService } from '../groups.service';
+import { AuthenticationService } from '../../authentication.service';
 
 describe('HistoryOfActivityInGroupComponent', () => {
   let component: HistoryOfActivityInGroupComponent;
@@ -13,17 +16,18 @@ describe('HistoryOfActivityInGroupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HistoryOfActivityInGroupComponent ],
+      declarations: [HistoryOfActivityInGroupComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [ RouterTestingModule, FormsModule, HttpClientModule, MatSnackBarModule, MatFormFieldModule]
+      providers: [GroupsService, AuthenticationService],
+      imports: [RouterTestingModule, FormsModule, HttpClientModule,
+         MatSnackBarModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, MatNativeDateModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HistoryOfActivityInGroupComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
