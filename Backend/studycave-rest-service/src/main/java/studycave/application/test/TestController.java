@@ -37,6 +37,7 @@ import studycave.application.test.verify.QuestionVerifyDTO;
 import studycave.application.test.verify.ResultResponse;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
+import studycave.application.userActivity.UserActivityService;
 
 @RestController
 @CrossOrigin
@@ -60,6 +61,8 @@ public class TestController {
 	QuestionVerifier questionVerifier;
 	@Autowired
 	TestResultRepository testResultRepository;
+  	@Autowired
+  	UserActivityService userActivityService;
 
 	@GetMapping("/{id}")
 	public Optional<Test> getTest(@PathVariable(required = true) Long id) {
@@ -71,6 +74,8 @@ public class TestController {
                         (o1, o2) -> o1.getId().compareTo(o2.getId()));
 			}
 		}
+		test.get().setGroup(null);
+		test.get().setActivity(null);
 		return test;
 	}
 
@@ -137,6 +142,14 @@ public class TestController {
 	public void saveResult(@RequestBody SaveTestResultDTO resultDTO) {
 		User user = userRepository.findByUsername(resultDTO.getOwner()).get();
 		Optional<Test> test = testRepository.findById(resultDTO.getIdTest());
+		
+		List<TestResult> testResult = this.testResultRepository.findByIdOwnerAndIdTest(user.getId(), resultDTO.getIdTest());
+		
+		if (testResult.size() > 0) {
+			return;
+		}
+		
+		
 		int maxScore = 0;
 		for (Question question : test.get().getQuestions()) {
 			maxScore += question.getPoints();
@@ -147,6 +160,7 @@ public class TestController {
 		result.setMaxScore(maxScore);
 		result.setIdResult((long) 0);
 		testResultRepository.save(result);
+		userActivityService.saveActivity("solvedTest", resultDTO.getUserScore().intValue(), null, user, null, test.get().getGroup(), null, null, test.get());
 	}
 
 	@GetMapping("/results/max")

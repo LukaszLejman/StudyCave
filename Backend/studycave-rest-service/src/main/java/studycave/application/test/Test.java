@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import studycave.application.groups.StudyGroup;
+import studycave.application.userActivity.UserActivity;
 
 @Entity
 public class Test {
@@ -50,6 +51,9 @@ public class Test {
     @ManyToOne
     @JoinColumn(name="group_id",referencedColumnName="id")
     private StudyGroup group;
+    
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "test", cascade = CascadeType.ALL)
+	private List<UserActivity> activity;
     
 	public Test() {
 		super();
@@ -149,5 +153,13 @@ public class Test {
 
 	public void setGroup(StudyGroup group) {
 		this.group = group;
+	}
+
+	public List<UserActivity> getActivity() {
+		return activity;
+	}
+
+	public void setActivity(List<UserActivity> activity) {
+		this.activity = activity;
 	}
 }

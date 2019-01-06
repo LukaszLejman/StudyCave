@@ -26,6 +26,8 @@ export class GroupsService {
   private acceptTestsInGroupURL = 'groups/{groupId}/tests/{testId}/status';
   private acceptFlashcardsInGroupURL = 'groups/{groupId}/flashcard-sets/{setId}/status';
 
+  private getActivityHistoryURL = 'groups/{groupId}/users/activity?sort={sort}';
+
   constructor(private httpClient: HttpClient, private authenticationService: AuthenticationService) {
     this.setHeaders();
   }
@@ -311,6 +313,27 @@ export class GroupsService {
       }).catch((error: any) => {
         return Observable.throw(error);
       });
+  }
+
+  getActivityHistory(id: number, sort = 'DESC', startDate: Date = null, endDate: Date = null): Observable<any> {
+    this.setHeaders();
+    let url = this.getActivityHistoryURL.replace('{groupId}', id.toString())
+      .replace('{sort}', sort);
+    if (startDate !== null) {
+      const startDateStr = `${startDate.getFullYear()}-${this.pad(startDate.getMonth() + 1)}-${this.pad(startDate.getDate())}`;
+      const endDateStr = `${endDate.getFullYear()}-${this.pad(endDate.getMonth() + 1)}-${this.pad(endDate.getDate())}`;
+      url = url + `&startDate=${startDateStr}&endDate=${endDateStr}`;
+    }
+    return this.httpClient.get(url, { headers: this.headers }).catch((error: any) => {
+      return Observable.throw(error);
+    });
+  }
+
+  private pad(number) {
+    if (number < 10) {
+      return '0' + number;
+    }
+    return number;
   }
 
 }
