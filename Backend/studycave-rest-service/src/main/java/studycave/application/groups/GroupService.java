@@ -47,6 +47,7 @@ import studycave.application.user.User;
 import studycave.application.user.UserBadge;
 import studycave.application.user.UserBadgeRepository;
 import studycave.application.user.UserRepository;
+import studycave.application.userActivity.UserActivity;
 import studycave.application.userActivity.UserActivityService;
 import studycave.application.files.Material;
 import studycave.application.flashcard.Set;
@@ -634,6 +635,9 @@ public class GroupService {
 				LeaderboardDTO user = new LeaderboardDTO();
 				for (TestResult r : testResultRepository.findByIdOwner(m.getUser().getId())) {
 					score += r.getMaxScore();
+				}
+				for (UserActivity a : m.getUser().getActivityTo()) {
+					score += a.getPoints();
 				}
 				user.setUsername(m.getUser().getUsername());
 				user.setPoints(score);

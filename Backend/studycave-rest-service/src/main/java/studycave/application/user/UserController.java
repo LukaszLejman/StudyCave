@@ -52,7 +52,7 @@ public class UserController {
 		
 		userRepository.save(user);
 		
-		// Badge for registering
+	// Badge for registering
 		UserBadge badgeAchieved = new UserBadge();
 		Badge badge = new Badge();
 		badge = badgeRepository.findById((long)1).orElse(null);
