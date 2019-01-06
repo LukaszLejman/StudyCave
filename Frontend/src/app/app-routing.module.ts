@@ -43,6 +43,8 @@ import { CommentsComponent } from './shared/comments/comments.component';
 import { SharedModule } from './shared/shared.module';
 import { WaitingResourcesComponent } from './groups/waiting-resources/waiting-resources.component';
 import { RankingComponent } from './groups/ranking/ranking.component';
+import { HistoryOfActivityInGroupComponent } from './groups/history-of-activity-in-group/history-of-activity-in-group.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -79,6 +81,9 @@ const routes: Routes = [
   { path: 'groups/add-resources/:id', component: SharingResourcesInGroupsComponent , canActivate: [AuthGuard] },
   { path: 'groups/ranking/:id', component: RankingComponent , canActivate: [AuthGuard] },
   { path: 'groups/waiting-resources/:id', component: WaitingResourcesComponent, canActivate: [AuthGuard] }
+  { path: 'groups/waiting-resources/:id', component: WaitingResourcesComponent, canActivate: [AuthGuard] },
+  { path: 'groups/history/:id', component: HistoryOfActivityInGroupComponent, canActivate: [AuthGuard] }
+
 ];
 
 @NgModule({

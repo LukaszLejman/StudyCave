@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import studycave.application.groups.members.StudyGroupMember;
+import studycave.application.userActivity.UserActivity;
 
 
 @Entity
@@ -38,6 +39,13 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY,mappedBy="user",cascade = CascadeType.ALL)
     List<StudyGroupMember> groupMembers = new ArrayList<>();
     
+	@OneToMany(mappedBy = "toUser", cascade = CascadeType.ALL)
+	private List<UserActivity> activityTo;
+	
+	@OneToMany(mappedBy = "fromUser", cascade = CascadeType.ALL)
+	private List<UserActivity> activityFrom;
+	
+	
 	public User(){
 		super();
 	}
@@ -89,6 +97,20 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 
+	public List<UserActivity> getActivityTo() {
+		return activityTo;
+	}
+
+	public void setActivityTo(List<UserActivity> activityTo) {
+		this.activityTo = activityTo;
+	}
+
+	public List<UserActivity> getActivityFrom() {
+		return activityFrom;
+	}
+
+	public void setActivityFrom(List<UserActivity> activityFrom) {
+		this.activityFrom = activityFrom;
+	}
 }

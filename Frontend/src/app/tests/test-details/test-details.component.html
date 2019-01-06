@@ -1,13 +1,13 @@
 <div class="wrapper">
   <div class="content">
 
-    <div *ngIf="test !== undefined">
+    <div *ngIf="test">
       <div class="header">
         <button class="btn btn-study-cave" (click)="back()"><i class="fas fa-arrow-left"></i> Wróć do listy testów</button>
         <span>
           <div *ngIf="currentUser">Twój maksymalny wynik: {{prevMaxResult}}/{{maxPoints}}</div>
-          <button title="Usuń" *ngIf="currentUser.username === test.owner && (!isStarted || isEnded)" class="btn btn-study-cave" (click)="openPopup()"><i class="fas fa-trash-alt"></i></button>
-          <button title="Edytuj" *ngIf="currentUser.username === test.owner" class="btn btn-study-cave" (click)="edit()"><i class="fas fa-edit"></i></button>
+          <button title="Usuń" *ngIf="currentUser && currentUser.username === test.owner && (!isStarted || isEnded)" class="btn btn-study-cave" (click)="openPopup()"><i class="fas fa-trash-alt"></i></button>
+          <button title="Edytuj" *ngIf="currentUser && currentUser.username === test.owner" class="btn btn-study-cave" (click)="edit()"><i class="fas fa-edit"></i></button>
           <button title="PDF" class="btn btn-study-cave" (click)="get()"><i class="fas fa-file-pdf"></i></button>
         </span>
       </div>

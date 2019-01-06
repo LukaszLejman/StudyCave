@@ -8,10 +8,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { By } from '@angular/platform-browser';
 
 describe('FlashcardsSetDetailComponent', () => {
   let component: FlashcardsSetDetailComponent;
   let fixture: ComponentFixture<FlashcardsSetDetailComponent>;
+  let mockSet: any;
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,9 +29,36 @@ describe('FlashcardsSetDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FlashcardsSetDetailComponent);
     component = fixture.componentInstance;
+    mockSet = {
+      name: 'testName',
+      flashcards: [
+        {
+          left_side: 'testLeftSide',
+          right_side: 'testRightSide'
+        }
+      ]
+    };
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+    // testowanie DOM
+    it('should render set name', () => {
+      component.set = mockSet;
+      fixture.detectChanges();
+      const setName = document.querySelector('h2').innerHTML;
+      expect(setName).toEqual(mockSet.name);
+    });
+
+    it('should render flashcards sides', () => {
+      component.set = mockSet;
+      fixture.detectChanges();
+      const leftSide = document.querySelector('.puzzle').innerHTML;
+      expect(leftSide).toEqual('testLeftSide');
+      const rightSide = document.querySelector('.puzzle-right').innerHTML;
+      expect(rightSide).toEqual('testRightSide');
+    });
 });
