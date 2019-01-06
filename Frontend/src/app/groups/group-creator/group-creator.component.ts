@@ -13,8 +13,8 @@ import { Group } from '../group';
 })
 export class GroupCreatorComponent implements OnInit, OnDestroy {
 
-  private currentUser: string;
-  private postGroupsSubscription: ISubscription;
+  public currentUser: string;
+  public postGroupsSubscription: ISubscription;
   public createdGroup: Group = {};
   public showInfoDialog: boolean;
 

@@ -32,4 +32,12 @@ describe('JoinToGroupComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should be called spy', async(() => {
+    fixture.whenStable().then(() => {
+      fixture.autoDetectChanges();
+      const spy = spyOn(component, 'joinToGroup').and.callThrough();
+      expect(spy);
+    });
+  }));
 });

@@ -25,7 +25,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   materialsSubscription: Subscription;
   testsSubscription: Subscription;
   localeText = localeText;
-  private gridApi;
+  public gridApi;
   public gridOptions: GridOptions;
 
 
