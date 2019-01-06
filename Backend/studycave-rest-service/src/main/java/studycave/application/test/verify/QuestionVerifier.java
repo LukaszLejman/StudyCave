@@ -46,6 +46,7 @@ public class QuestionVerifier {
 	private ResultResponse gapsVerify(QuestionVerifyDTO question, Question questionCorrect) {
 		List<Result> results = new ArrayList<Result>();
 		float points = questionCorrect.getPoints();
+		float wrongAnswers = 0;
 		for (AnswerVerifyDTO element : question.getAnswers()) {
 			AnswerGapsVerifyDTO answer = (AnswerGapsVerifyDTO) element;
 			Optional<AnswerGaps> answerCorrect = ((QuestionGaps) questionCorrect).getAnswers().stream()
@@ -55,8 +56,14 @@ public class QuestionVerifier {
 				results.add(new Result(answer.getId(), true));
 			} else {
 				results.add(new Result(answer.getId(), false));
-				points = 0;
+				wrongAnswers += 1;
 			}
+		}
+		
+		if (wrongAnswers == question.getAnswers().size()) {
+			points = 0;
+		} else {
+			points = points - (points/question.getAnswers().size() * wrongAnswers);
 		}
 		return new ResultResponse(points, results);
 	}
@@ -64,7 +71,7 @@ public class QuestionVerifier {
 	private ResultResponse pairsVerify(QuestionVerifyDTO question, Question questionCorrect) {
 		List<Result> results = new ArrayList<Result>();
 		float points = questionCorrect.getPoints();
-
+		float wrongAnswers = 0;
 		for (AnswerVerifyDTO element : question.getAnswers()) {
 			AnswerPairsVerifyDTO answer = (AnswerPairsVerifyDTO) element;
 			Optional<AnswerPairs> answerCorrect = ((QuestionPairs) questionCorrect).getAnswers().stream()
@@ -78,9 +85,14 @@ public class QuestionVerifier {
 					points = 0;
 				}
 			} else {
-				points = 0;
+				wrongAnswers += 1;
 				results.add(new ResultPairs(answer.getLeft(), answer.getRight(), false));
 			}
+		}
+		if (wrongAnswers == question.getAnswers().size()) {
+			points = 0;
+		} else {
+			points = points - (points/question.getAnswers().size() * wrongAnswers);
 		}
 		return new ResultResponse(points, results);
 	}

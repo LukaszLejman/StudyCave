@@ -1,19 +1,19 @@
 package studycave.application.test.result;
 
 public class GetResultDTO {
-	private int userScore;
+	private float userScore;
 	private int maxScore;
 	
 	
-	public GetResultDTO(int userScore, int maxScore) {
+	public GetResultDTO(float userScore, int maxScore) {
 		super();
 		this.userScore = userScore;
 		this.maxScore = maxScore;
 	}
-	public int getUserScore() {
+	public float getUserScore() {
 		return userScore;
 	}
-	public void setUserScore(int userScore) {
+	public void setUserScore(float userScore) {
 		this.userScore = userScore;
 	}
 	public int getMaxScore() {
