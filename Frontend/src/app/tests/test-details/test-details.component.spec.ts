@@ -8,17 +8,19 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { TestsService } from '../tests.service';
 import { AuthenticationService } from '../../authentication.service';
+import { By } from '@angular/platform-browser';
 
 describe('TestDetailsComponent', () => {
   let component: TestDetailsComponent;
   let fixture: ComponentFixture<TestDetailsComponent>;
+  let mockTest: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TestDetailsComponent ],
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [ RouterTestingModule, HttpClientModule, MatSnackBarModule, FormsModule],
-      providers: [TestsService, AuthenticationService]
+      providers: [TestsService, AuthenticationService],
+      imports: [ RouterTestingModule, FormsModule, HttpClientModule, MatSnackBarModule]
     })
     .compileComponents();
   }));
@@ -26,10 +28,23 @@ describe('TestDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestDetailsComponent);
     component = fixture.componentInstance;
+    mockTest = {
+      title: 'Test',
+      body: [],
+      owner: 'test'
+    };
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+    it('should render test title', () => {
+      component.test = mockTest;
+      fixture.detectChanges();
+      const testName = document.querySelector('h3').innerHTML;
+      expect(testName).toEqual(mockTest.title);
+    });
 });

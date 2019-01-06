@@ -9,23 +9,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class TestMakerComponent implements OnInit {
 
-  private owner: Number = 0;
-  private title: String = '';
-  private permission: Boolean = false;
+   owner: Number = 0;
+   title: String = '';
+   permission: Boolean = false;
 
-  private test: Array<Object> = [];
-  private shown: Boolean = false;
+   test: Array<Object> = [];
+   shown: Boolean = false;
 
-  private trueFalse: Boolean = false;
-  private singleChoice: Boolean = false;
-  private multipleChoice: Boolean = false;
-  private puzzle: Boolean = false;
-  private gaps: Boolean = false;
-  private pairs: Boolean = false;
+   trueFalse: Boolean = false;
+   singleChoice: Boolean = false;
+   multipleChoice: Boolean = false;
+   puzzle: Boolean = false;
+   gaps: Boolean = false;
+   pairs: Boolean = false;
 
-  private componentVisible: Boolean = false;
-  private nr: Number = 0;
-  private pointsAll: Number = 0;
+   componentVisible: Boolean = false;
+   nr: Number = 0;
+   pointsAll: Number = 0;
 
   constructor(private testsService: TestsService, public snackBar: MatSnackBar) { }
 
