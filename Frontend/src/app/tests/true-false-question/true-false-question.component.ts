@@ -7,14 +7,14 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class TrueFalseQuestionComponent implements OnInit {
 
-  @Input() private content: Object = {};
-  @Input() private edit: Boolean;
+  @Input()  content: Object = {};
+  @Input()  edit: Boolean;
 
-  private isChecked: Boolean = false;
-  private id: Number = null;
+   isChecked: Boolean = false;
+   id: Number = null;
 
-  @Output() private add: EventEmitter<Object> = new EventEmitter();
-  @Output() private editing: EventEmitter<Object> = new EventEmitter();
+  @Output()  add: EventEmitter<Object> = new EventEmitter();
+  @Output()  editing: EventEmitter<Object> = new EventEmitter();
 
   constructor() {}
 

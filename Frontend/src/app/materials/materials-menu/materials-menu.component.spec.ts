@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MaterialsMenuComponent } from './materials-menu.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsModule } from '@angular/forms';
+import { MaterialsService } from '../materials.service';
+import { AuthenticationService } from '../../authentication.service';
 
 describe('MaterialsMenuComponent', () => {
   let component: MaterialsMenuComponent;
@@ -8,7 +15,10 @@ describe('MaterialsMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MaterialsMenuComponent ]
+      declarations: [ MaterialsMenuComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [ RouterTestingModule, HttpClientModule, MatSnackBarModule, FormsModule],
+      providers: [MaterialsService, AuthenticationService]
     })
     .compileComponents();
   }));

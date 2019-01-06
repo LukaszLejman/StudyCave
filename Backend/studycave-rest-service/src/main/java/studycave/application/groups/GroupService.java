@@ -1,4 +1,3 @@
-
 package studycave.application.groups;
 
 import java.util.ArrayList;
@@ -13,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -26,6 +27,7 @@ import studycave.application.flashcard.Set;
 import studycave.application.flashcard.SetRepository;
 import studycave.application.groups.dto.AddSetDto;
 import studycave.application.groups.dto.AddTestDto;
+import studycave.application.groups.dto.VerifyDto;
 import studycave.application.groups.members.SimpleStudyGroupMemberDTO;
 import studycave.application.groups.members.StudyGroupMember;
 import studycave.application.groups.members.StudyGroupMemberRepository;
@@ -45,11 +47,17 @@ import studycave.application.user.User;
 import studycave.application.user.UserBadge;
 import studycave.application.user.UserBadgeRepository;
 import studycave.application.user.UserRepository;
-
+import studycave.application.userActivity.UserActivityService;
 import studycave.application.files.Material;
 import studycave.application.flashcard.Set;
 import studycave.application.test.Test;
+import studycave.application.test.TestRepository;
+import studycave.application.test.result.TestResult;
+import studycave.application.test.result.TestResultRepository;
+import studycave.application.user.LeaderboardDTO;
 import studycave.application.user.SimpleUserInfo;
+import studycave.application.user.User;
+import studycave.application.user.UserRepository;
 import studycave.application.groups.comments.SimpleStudyGroupCommentDto;
 import studycave.application.groups.comments.StudyGroupComment;
 import studycave.application.groups.comments.StudyGroupCommentDto;
@@ -77,8 +85,13 @@ public class GroupService {
 	SetRepository setRepository;
   	@Autowired
 	TestRepository testRepository;
+    	@Autowired
+  	TestResultRepository testResultRepository;
   	@Autowired
   	StudyGroupCommentRepository commentRepository;
+  	@Autowired
+  	UserActivityService userActivityService;
+
   	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -240,6 +253,9 @@ public class GroupService {
 
 	public ResponseEntity<?> addFlashcardSets(String groupId, @RequestBody List<AddSetDto> setIds) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userRepository.findByUsername(authentication.getName()).get();
+
 		if (group == null) 	{
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
@@ -257,15 +273,18 @@ public class GroupService {
 					set.setStatus("UNVERIFIED");
 					set.setGroup(group);
 					this.setRepository.save(set);
+					this.userActivityService.saveActivity("addedResource", 0, null, user, null, group, null, set, null);
 				});
 			}
-
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
 	
 
 	public ResponseEntity<?> addMaterials(String groupId, @RequestBody List<AddMaterialDto> materialIds) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userRepository.findByUsername(authentication.getName()).get();
+		
 		if (group == null) 	{
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
@@ -278,6 +297,7 @@ public class GroupService {
 					material.setStatus("UNVERIFIED");
 					material.setGroup(group);
 					this.materialRepository.save(material);
+					this.userActivityService.saveActivity("addedResource", 0, null, user, null, group, material, null, null);
 				});
 		}
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
@@ -285,6 +305,9 @@ public class GroupService {
   
 	public ResponseEntity<?> addTests(String groupId, @RequestBody List<AddTestDto> testIds) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userRepository.findByUsername(authentication.getName()).get();
+		
 		if (group == null) 	{
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
@@ -326,6 +349,7 @@ public class GroupService {
 					test.setStatus("UNVERIFIED");
 					test.setGroup(group);
 					this.testRepository.save(test);
+					this.userActivityService.saveActivity("addedResource", 0, null, user, null, group, null, null, test);
 				});
 			}
 
@@ -430,7 +454,7 @@ public class GroupService {
 		}
 	}
 
-		public ResponseEntity<?> acceptTest(String groupId, String testId) {
+		public ResponseEntity<?> acceptTest(String groupId, String testId, VerifyDto dto) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
 		if (group == null) {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
@@ -439,10 +463,16 @@ public class GroupService {
 		test.setPermission("GROUP");
 		test.setStatus("VERIFIED");
 		this.testRepository.save(test);
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userRepository.findByUsername(authentication.getName()).get();
+		User toUser = new User();
+		toUser.setId(Long.valueOf(test.getIdOwner()));
+		this.userActivityService.saveActivity("acceptedResource", dto.getPoints(), dto.getComment(), toUser, user, group, null, null, test);
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> acceptSet(String groupId, String setId) {
+	public ResponseEntity<?> acceptSet(String groupId, String setId, VerifyDto dto) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
 		if (group == null) {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
@@ -454,10 +484,16 @@ public class GroupService {
 		set.setPermission("GROUP");
 		set.setStatus("VERIFIED");
 		this.setRepository.save(set);
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userRepository.findByUsername(authentication.getName()).get();
+		User toUser = new User();
+		toUser.setId(Long.valueOf(set.getIdOwner()));
+		this.userActivityService.saveActivity("acceptedResource", dto.getPoints(), dto.getComment(), toUser, user, group, null, set, null);
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> acceptMaterial(String groupId, String materialId) {
+	public ResponseEntity<?> acceptMaterial(String groupId, String materialId, VerifyDto dto) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
 		if (group == null) {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
@@ -469,20 +505,35 @@ public class GroupService {
 		material.setPermission("GROUP");
 		material.setStatus("VERIFIED");
 		this.materialRepository.save(material);
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userRepository.findByUsername(authentication.getName()).get();
+		User toUser = new User();
+		toUser.setId(Long.valueOf(material.getOwner()));
+		this.userActivityService.saveActivity("acceptedResource", dto.getPoints(), dto.getComment(), toUser, user, group, material, null, null);
 		return new ResponseEntity<>("Dodano", HttpStatus.OK);
 	}
 	
-	public ResponseEntity<?> rejectTest(String groupId, String testId) {
+	public ResponseEntity<?> rejectTest(String groupId, String testId, VerifyDto dto) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
 		if (group == null) {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
 		Test test = this.testRepository.getOne(Long.parseLong(testId));
-		this.testRepository.delete(test);
+		
+		test.setPermission("GROUP");
+		test.setStatus("REJECTED");
+		this.testRepository.save(test);
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userRepository.findByUsername(authentication.getName()).get();
+		User toUser = new User();
+		toUser.setId(Long.valueOf(test.getIdOwner()));
+		this.userActivityService.saveActivity("rejectedResource", dto.getPoints(), dto.getComment(), toUser, user, group, null, null, test);
 		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> rejectSet(String groupId, String setId) {
+	public ResponseEntity<?> rejectSet(String groupId, String setId, VerifyDto dto) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
 		if (group == null) {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
@@ -491,11 +542,20 @@ public class GroupService {
 		if (set == null) {
 			return new ResponseEntity<>("Nie znaleziono zestawu", HttpStatus.NOT_FOUND);
 		}
-		this.setRepository.delete(set);
+
+		set.setPermission("GROUP");
+		set.setStatus("REJECTED");
+		this.setRepository.save(set);
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userRepository.findByUsername(authentication.getName()).get();
+		User toUser = new User();
+		toUser.setId(Long.valueOf(set.getIdOwner()));
+		this.userActivityService.saveActivity("rejectedResource", dto.getPoints(), dto.getComment(), toUser, user, group, null, set, null);
 		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> rejectMaterial(String groupId, String materialId) {
+	public ResponseEntity<?> rejectMaterial(String groupId, String materialId, VerifyDto dto) {
 		StudyGroup group = this.groupRepository.findById(Long.parseLong(groupId)).orElse(null);
 		if (group == null) {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
@@ -504,7 +564,16 @@ public class GroupService {
 		if (material == null) {
 			return new ResponseEntity<>("Nie znaleziono materiału", HttpStatus.NOT_FOUND);
 		}
-		this.materialRepository.delete(material);
+		
+		material.setPermission("GROUP");
+		material.setStatus("REJECTED");
+		this.materialRepository.save(material);
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userRepository.findByUsername(authentication.getName()).get();
+		User toUser = new User();
+		toUser.setId(Long.valueOf(material.getOwner()));
+		this.userActivityService.saveActivity("rejectedResource", dto.getPoints(), dto.getComment(), toUser, user, group, material, null, null);
 		return new ResponseEntity<>("Usunięto", HttpStatus.OK);
 	}
 
@@ -551,6 +620,50 @@ public class GroupService {
 			return new ResponseEntity<>("Błąd zapytania", HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+  
+  public ResponseEntity<?> getGroupLeaderboard(Long group_id){
+		StudyGroup group = this.groupRepository.findById(group_id).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		List<LeaderboardDTO> leaderboard = new ArrayList<>();
+		for(StudyGroupMember m : group.getMembers()) {
+			if(!m.getIsGroupLeader()) {
+				int score = 0;
+				LeaderboardDTO user = new LeaderboardDTO();
+				for (TestResult r : testResultRepository.findByIdOwner(m.getUser().getId())) {
+					score += r.getMaxScore();
+				}
+				user.setUsername(m.getUser().getUsername());
+				user.setPoints(score);
+				leaderboard.add(user);
+			}
+		}
+		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> getGroupTestLeaderboard(Long group_id){
+		StudyGroup group = this.groupRepository.findById(group_id).orElse(null);
+		if (group == null) {
+			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
+		}
+		List<LeaderboardDTO> leaderboard = new ArrayList<>();
+		for(StudyGroupMember m : group.getMembers()) {
+			if(!m.getIsGroupLeader()) {
+				int score = 0;
+				LeaderboardDTO user = new LeaderboardDTO();
+				for (TestResult r : testResultRepository.findByIdOwner(m.getUser().getId())) {
+					score += r.getMaxScore();
+				}
+				user.setUsername(m.getUser().getUsername());
+				user.setPoints(score);
+				leaderboard.add(user);
+				}
+		}
+		// leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
+
+		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
 	}
 
 }

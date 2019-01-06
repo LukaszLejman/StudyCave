@@ -131,3 +131,11 @@ a:hover{
     color: #cea856;
     border-color: #cea856;
 }
+
+.mat-form-field-label {
+    color: #fff !important;
+}
+
+.mat-form-field-underline {
+    background-color: #fff !important;
+}

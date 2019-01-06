@@ -1,9 +1,7 @@
 package studycave.application.user;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.ImageIcon;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +32,7 @@ public class UserController {
 	UserRepository userRepository;
 	@Autowired
 	StudyGroupMemberRepository memberRepository;	
-	@Autowired
+  @Autowired
 	BadgeRepository badgeRepository;
 	@Autowired
 	UserBadgeRepository userBadgeRepository;
@@ -53,14 +51,6 @@ public class UserController {
 		User user = modelMapper.map(userDTO, User.class);
 		
 		userRepository.save(user);
-	// Badge for register
-		UserBadge badgeAchieved = new UserBadge();
-		Badge badge = new Badge();
-		badge = badgeRepository.findById((long)1).orElse(null);
-		badgeAchieved.setBadge(badge);
-		badgeAchieved.setUser(user);
-		userBadgeRepository.save(badgeAchieved);
-		
 		return "Dodano uzytkownika";
 	}
 	
@@ -100,8 +90,8 @@ public class UserController {
     		@RequestBody UserLoginDTO user){
         throw new IllegalStateException("This method shouldn't be called. It's implemented by Spring Security filters.");
     }
-
-	@GetMapping("/user/badges")
+	
+  @GetMapping("/user/badges")
 	public ResponseEntity<List<UserBadgeDTO>> getUserBadges() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
@@ -121,5 +111,6 @@ public class UserController {
 		}
 		return new ResponseEntity<List<UserBadgeDTO>>(userBadges, HttpStatus.OK);
 	}
-	
+
 }
+

@@ -1,40 +1,50 @@
 <div class="wrapper">
-    <div class="content">
-      <div>
-        <button class="btn btn-study-cave float-right mr-1" (click)="goToAddingResource()"><i class="fas fa-plus"></i> Dodaj zasoby do grupy</button>
-        <div style="clear: both;"></div>
+  <div class="content">
+    <div>
+      <button class="btn btn-study-cave float-right mr-1" (click)="goToAddingResource()"><i class="fas fa-plus"></i>
+        Dodaj zasoby do grupy</button>
+
+      <button class="btn btn-study-cave float-right mr-1" (click)="goToRankings()"><i class="fas fa-trophy"></i>
+        Rankingi</button>
+      <div style="clear: both;"></div>
+    </div>
+    <br />
+    <div>
+      <button class="btn btn-study-cave float-right mr-1" (click)="goToHistory()"><i class="fas fa-user-clock"></i> Twoja historia aktywności</button>
+      <div style="clear: both;"></div>
+    </div>
+    <h1>{{group?.name}}</h1>
+    <br />
+    <h3>Opis grupy:</h3>
+    <p>{{group?.description}}</p>
+    <div class="buttons-container">
+      <div *ngIf="group?.owner===currentUser.username">
+        <button class="btn btn-study-cave" (click)="goToEditing()"><i class="fas fa-edit"></i> Edytuj grupę</button>
       </div>
-      <h1>{{group?.name}}</h1>
-      <br/>
-      <h3>Opis grupy:</h3>
-      <p>{{group?.description}}</p>
-      <div class="buttons-container">
-          <div>
-            <div *ngIf="group?.owner===currentUser.username">
-              <button class="btn btn-study-cave" (click)="goToEditing()"><i class="fas fa-edit"></i> Edytuj grupę</button>
-            </div> 
-            <button class="btn btn-study-cave" (click)="isDisplayed('materiałów')"><i class="fas fa-book-open"></i> Materiały</button>
-            <button class="btn btn-study-cave" (click)="isDisplayed('fiszek')"><i class="fas fa-plus"></i> Fiszki</button>
-            <button class="btn btn-study-cave" (click)="isDisplayed('testów')"><i class="fas fa-pencil-ruler"></i>Testy</button>
-            </div>
-        </div>
+      <div>
+        <button class="btn btn-study-cave" (click)="isDisplayed('materiałów')"><i class="fas fa-book-open"></i>
+          Materiały</button>
+        <button class="btn btn-study-cave" (click)="isDisplayed('fiszek')"><i class="fas fa-plus"></i> Fiszki</button>
+        <button class="btn btn-study-cave" (click)="isDisplayed('testów')"><i class="fas fa-pencil-ruler"></i>Testy</button>
+      </div>
+    </div>
 
 
-        <div *ngIf="dataToDisplay !== ''">
-       <h2> Lista {{dataToDisplay}} </h2>
-        <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-dark" [rowData]="data" [columnDefs]="columnDefs"
+    <div *ngIf="dataToDisplay !== ''">
+      <h2> Lista {{dataToDisplay}} </h2>
+      <ag-grid-angular style="width: 100%; height: 475px;" class="ag-theme-dark" [rowData]="data" [columnDefs]="columnDefs"
         [enableSorting]="true" [enableFilter]="true" (gridReady)="onGridReady($event)" [gridOptions]="gridOptions"
-        [pagination]="true" [paginationAutoPageSize]="true" [localeText]="localeText" 
-        (gridColumnsChanged)="onGridColumnsChanged($event)" (rowClicked)="onRowClicked($event)" (gridSizeChanged)="onGridSizeChanged($event)">
+        [pagination]="true" [paginationAutoPageSize]="true" [localeText]="localeText" (gridColumnsChanged)="onGridColumnsChanged($event)"
+        (rowClicked)="onRowClicked($event)" (gridSizeChanged)="onGridSizeChanged($event)">
       </ag-grid-angular>
     </div>
-     </div>
+  </div>
 
-     <p-dialog header="Potwierdź" [(visible)]="display">
-        Czy chcesz usunąć zasób?
-        <p-footer>
-            <button type="button" pButton icon="pi pi-check" (click)="deleteResource()" label="TAK"></button>
-            <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
-        </p-footer>
-      </p-dialog>
-</div>  
+  <p-dialog header="Potwierdź" [(visible)]="display">
+    Czy chcesz usunąć zasób?
+    <p-footer>
+      <button type="button" pButton icon="pi pi-check" (click)="deleteResource()" label="TAK"></button>
+      <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+</div>

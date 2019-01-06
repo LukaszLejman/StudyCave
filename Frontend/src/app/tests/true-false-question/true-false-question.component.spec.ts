@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TrueFalseQuestionComponent } from './true-false-question.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsModule } from '@angular/forms';
+import { TestsService } from '../tests.service';
+import { AuthenticationService } from '../../authentication.service';
 
 describe('TrueFalseQuestionComponent', () => {
   let component: TrueFalseQuestionComponent;
@@ -8,7 +15,10 @@ describe('TrueFalseQuestionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TrueFalseQuestionComponent ]
+      declarations: [ TrueFalseQuestionComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [ RouterTestingModule, HttpClientModule, MatSnackBarModule, FormsModule],
+      providers: [TestsService, AuthenticationService]
     })
     .compileComponents();
   }));

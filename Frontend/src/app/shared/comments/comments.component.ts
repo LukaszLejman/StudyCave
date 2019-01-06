@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { SharedService } from '../shared.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']
 })
-export class CommentsComponent implements OnInit, OnChanges, OnDestroy {
+export class CommentsComponent implements OnInit, OnDestroy {
 
   id: number;
   currentUser;
@@ -21,20 +21,21 @@ export class CommentsComponent implements OnInit, OnChanges, OnDestroy {
   commentsSubscription: Subscription;
   deleteCommentSubscription: Subscription;
 
-  constructor(private sharedService: SharedService, private route: ActivatedRoute) { }
+  constructor(private sharedService: SharedService, private route: ActivatedRoute, private cd: ChangeDetectorRef) { }
 
 
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.commentsSubscription = this.sharedService.getComments(this.id, this.what).subscribe(data => this.comments = data);
+    this.getComments();
+    console.log(this.comments);
  }
 
- ngOnChanges(changes: SimpleChanges) {
-   if (changes.comments.currentValue !== changes.comments.previousValue) {
-    this.comments = changes.comments.currentValue;
-   }
-
+ getComments() {
+  this.commentsSubscription = this.sharedService.getComments(this.id, this.what).subscribe(data => {
+    this.comments = data;
+    this.cd.markForCheck();
+  });
  }
 
   toggle() {
@@ -47,12 +48,13 @@ export class CommentsComponent implements OnInit, OnChanges, OnDestroy {
       text: this.comment
     };
     this.sharedService.sendComment(this.id, this.what, dataToSend).subscribe();
-    this.commentsSubscription = this.sharedService.getComments(this.id, this.what).subscribe(data => this.comments = data);
+    setTimeout( () =>    this.getComments() , 200);
   }
 
   deleteComment(comment) {
-    this.deleteCommentSubscription = this.sharedService.deleteComment(comment).subscribe();
-    this.commentsSubscription = this.sharedService.getComments(this.id, this.what).subscribe(data => this.comments = data);
+
+    this.deleteCommentSubscription = this.sharedService.deleteComment(comment.id).subscribe();
+    setTimeout( () =>    this.getComments() , 200);
   }
 
 

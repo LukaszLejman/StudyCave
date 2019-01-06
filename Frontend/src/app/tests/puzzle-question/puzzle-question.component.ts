@@ -8,22 +8,22 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class PuzzleQuestionComponent implements OnInit {
 
-  @Input() private content: Object = {};
-  @Input() private edit: Boolean;
+  @Input()  content: Object = {};
+  @Input()  edit: Boolean;
 
-  private answers: Array<Object> = [];
-  private answersCorrect: Array<Object> = [];
-  private answersCorrect2: Array<String> = [];
-  private newAttribute: Object = {
+   answers: Array<Object> = [];
+   answersCorrect: Array<Object> = [];
+   answersCorrect2: Array<String> = [];
+   newAttribute: Object = {
     correct: ''
   };
-  private question: String = 'Ułóż elementy w prawidłowej kolejności:';
-  private points: Number = 1;
-  private id: Number = null;
-  private idAnsw: Number = null;
+   question: String = 'Ułóż elementy w prawidłowej kolejności:';
+   points: Number = 1;
+   id: Number = null;
+   idAnsw: Number = null;
 
-  @Output() private add: EventEmitter<Object> = new EventEmitter();
-  @Output() private editing: EventEmitter<Object> = new EventEmitter();
+  @Output()  add: EventEmitter<Object> = new EventEmitter();
+  @Output()  editing: EventEmitter<Object> = new EventEmitter();
 
   constructor(public snackBar: MatSnackBar) { }
 
