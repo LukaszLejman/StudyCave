@@ -44,7 +44,15 @@ export class RankingComponent implements OnInit, OnDestroy {
       .subscribe(data2 => {
         this.group = data2;
         this.rankingSubscription = this.groupService.getGlobalRanking(this.group.id).subscribe(data3 => {
-          this.data = data3;
+          this.data = data3.sort((a, b) => {
+            if (a.points > b.points) {
+              return -1;
+            } else if (a.points < b.points) {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
           this.showChart();
         });
       });
@@ -53,6 +61,9 @@ export class RankingComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.groupDetailsSubscription) {
       this.groupDetailsSubscription.unsubscribe();
+    }
+    if (this.rankingSubscription) {
+      this.rankingSubscription.unsubscribe();
     }
   }
 
@@ -117,7 +128,15 @@ export class RankingComponent implements OnInit, OnDestroy {
   showGlobalRanking(): void {
     this.typeOfRankingToDisplay = RankingType.all;
     this.rankingSubscription = this.groupService.getGlobalRanking(this.group.id).subscribe(data => {
-      this.data = data;
+      this.data = data.sort((a, b) => {
+        if (a.points > b.points) {
+          return -1;
+        } else if (a.points < b.points) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
       this.showChart();
     });
   }
@@ -125,7 +144,15 @@ export class RankingComponent implements OnInit, OnDestroy {
   showOnlyTestsRanking(): void {
     this.typeOfRankingToDisplay = RankingType.test;
     this.rankingSubscription = this.groupService.getTestsRanking(this.group.id).subscribe(data => {
-      this.data = data;
+      this.data = data.sort((a, b) => {
+        if (a.points > b.points) {
+          return -1;
+        } else if (a.points < b.points) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
       this.showChart();
     });
   }
