@@ -38,6 +38,8 @@ import studycave.application.test.QuestionPairs;
 import studycave.application.test.QuestionPuzzle;
 import studycave.application.test.Test;
 import studycave.application.test.TestRepository;
+import studycave.application.test.result.TestResult;
+import studycave.application.test.result.TestResultRepository;
 import studycave.application.user.LeaderboardDTO;
 import studycave.application.user.SimpleUserInfo;
 import studycave.application.user.User;
@@ -70,6 +72,8 @@ public class GroupService {
 	SetRepository setRepository;
   	@Autowired
 	TestRepository testRepository;
+  	@Autowired
+  	TestResultRepository testResultRepository;
   	@Autowired
   	StudyGroupCommentRepository commentRepository;
   	@PersistenceContext
@@ -531,13 +535,18 @@ public class GroupService {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
 		List<LeaderboardDTO> leaderboard = new ArrayList<>();
-		for(int i=0; i<=15; i++) {
-			LeaderboardDTO user = new LeaderboardDTO();
-			user.setUsername(String.format("user%d", i));
-			user.setPoints(i*2+1*i);
-			leaderboard.add(user);
+		for(StudyGroupMember m : group.getMembers()) {
+			if(!m.getIsGroupLeader()) {
+				int score = 0;
+				LeaderboardDTO user = new LeaderboardDTO();
+				for (TestResult r : testResultRepository.findByIdOwner(m.getUser().getId())) {
+					score += r.getMaxScore();
+				}
+				user.setUsername(m.getUser().getUsername());
+				user.setPoints(score);
+				leaderboard.add(user);
+			}
 		}
-		leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
 		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
 	}
 	
@@ -547,13 +556,20 @@ public class GroupService {
 			return new ResponseEntity<>("Nie znaleziono grupy", HttpStatus.NOT_FOUND);
 		}
 		List<LeaderboardDTO> leaderboard = new ArrayList<>();
-		for(int i=0; i<=15; i++) {
-			LeaderboardDTO user = new LeaderboardDTO();
-			user.setUsername(String.format("user%d", i));
-			user.setPoints(i*2+1*i);
-			leaderboard.add(user);
+		for(StudyGroupMember m : group.getMembers()) {
+			if(!m.getIsGroupLeader()) {
+				int score = 0;
+				LeaderboardDTO user = new LeaderboardDTO();
+				for (TestResult r : testResultRepository.findByIdOwner(m.getUser().getId())) {
+					score += r.getMaxScore();
+				}
+				user.setUsername(m.getUser().getUsername());
+				user.setPoints(score);
+				leaderboard.add(user);
+				}
 		}
-		leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
+		// leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
+
 		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
 	}
 }
