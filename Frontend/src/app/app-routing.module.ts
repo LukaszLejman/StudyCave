@@ -81,9 +81,9 @@ const routes: Routes = [
   { path: 'groups/manage/:id', component: ManageGroupComponent, canActivate: [AuthGuard] },
   { path: 'groups/add-resources/:id', component: SharingResourcesInGroupsComponent , canActivate: [AuthGuard] },
   { path: 'groups/waiting-resources/:id', component: WaitingResourcesComponent, canActivate: [AuthGuard] },
-  { path: 'badges', component: BagdesComponent, canActivate: [AuthGuard] }
+  { path: 'badges', component: BagdesComponent, canActivate: [AuthGuard] },
   { path: 'groups/ranking/:id', component: RankingComponent , canActivate: [AuthGuard] },
-  { path: 'groups/waiting-resources/:id', component: WaitingResourcesComponent, canActivate: [AuthGuard] }
+  { path: 'groups/waiting-resources/:id', component: WaitingResourcesComponent, canActivate: [AuthGuard] },
   { path: 'groups/waiting-resources/:id', component: WaitingResourcesComponent, canActivate: [AuthGuard] },
   { path: 'groups/history/:id', component: HistoryOfActivityInGroupComponent, canActivate: [AuthGuard] }
 ];
