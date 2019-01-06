@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import studycave.application.badges.Badge;
+import studycave.application.badges.BadgeRepository;
 import studycave.application.groups.members.StudyGroupMemberRepository;
 import studycave.application.test.Test;
 
@@ -30,6 +32,10 @@ public class UserController {
 	UserRepository userRepository;
 	@Autowired
 	StudyGroupMemberRepository memberRepository;	
+  @Autowired
+	BadgeRepository badgeRepository;
+	@Autowired
+	UserBadgeRepository userBadgeRepository;
 	@Autowired 
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
@@ -84,7 +90,27 @@ public class UserController {
     		@RequestBody UserLoginDTO user){
         throw new IllegalStateException("This method shouldn't be called. It's implemented by Spring Security filters.");
     }
-
-
 	
+  @GetMapping("/user/badges")
+	public ResponseEntity<List<UserBadgeDTO>> getUserBadges() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long user_id = (userRepository.findByUsername(currentPrincipalName).orElse(null)).getId();
+		List<UserBadgeDTO> userBadges = new ArrayList<>();
+		List<Badge> badges = new ArrayList<>();
+		badges = badgeRepository.findAll();
+		for(Badge b : badges) {
+			UserBadgeDTO badge = new UserBadgeDTO();
+			badge.setBadgeName(b.getName());
+			badge.setIcon(b.getIconPath());
+			if(userBadgeRepository.findByIdAndUser(b.getId(), user_id).isEmpty())
+				badge.setUnlocked(false);
+			else
+				badge.setUnlocked(true);
+			userBadges.add(badge);
+		}
+		return new ResponseEntity<List<UserBadgeDTO>>(userBadges, HttpStatus.OK);
+	}
+
 }
+

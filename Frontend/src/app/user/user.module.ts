@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { UserService } from './user.service';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { BagdesComponent } from './bagdes/bagdes.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     FormsModule,
     HttpModule
   ],
-  declarations: [RegisterComponent, UserComponent, EditUserComponent],
+  declarations: [RegisterComponent, UserComponent, EditUserComponent, BagdesComponent],
   exports: [RegisterComponent],
   providers: [UserService]
 })

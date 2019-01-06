@@ -1,0 +1,62 @@
+.centerMargin{
+    margin: 0 auto;
+}
+
+
+.wrapper{
+    width: 100%;
+    padding: 30px;
+    min-height: 100%;
+    margin-bottom: 40px;
+}
+
+.content{
+    background-color: #181616;
+    padding: 30px; 
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.locked{
+    opacity: 0.3;
+}
+
+.badges{
+    display: flex;
+    flex-flow: row wrap;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.badge-text{
+    flex-grow: 2;
+    margin: auto;
+    display: flex;
+}
+
+p {
+    margin: auto;
+    text-align: center;
+}
+
+.badge{
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    border-style: solid;
+    border-color: #cea856;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+
+.image{
+    border-style: solid;
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+}

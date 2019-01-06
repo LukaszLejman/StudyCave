@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import studycave.application.badges.Badge;
+import studycave.application.badges.BadgeRepository;
 import studycave.application.files.Material;
 import studycave.application.files.MaterialRepository;
 import studycave.application.groups.dto.AddMaterialDto;
@@ -42,6 +44,8 @@ import studycave.application.test.Test;
 import studycave.application.test.TestRepository;
 import studycave.application.user.SimpleUserInfo;
 import studycave.application.user.User;
+import studycave.application.user.UserBadge;
+import studycave.application.user.UserBadgeRepository;
 import studycave.application.user.UserRepository;
 import studycave.application.userActivity.UserActivityService;
 import studycave.application.files.Material;
@@ -73,6 +77,10 @@ public class GroupService {
 	MaterialRepository materialRepository;
 	@Autowired
 	StudyGroupMemberRepository memberRepository;
+	@Autowired
+	BadgeRepository badgeRepository;
+	@Autowired
+	UserBadgeRepository userBadgeRepository;
 	@Autowired
 	SetRepository setRepository;
   	@Autowired
@@ -116,6 +124,16 @@ public class GroupService {
 		GroupDto createdGroupDto = modelMapper.map(group, GroupDto.class);
 		createdGroupDto.setKey(group.getGroupKey());
 		createdGroupDto.setOwner(group.getMembers().get(0).getUser().getUsername());
+	// Badge for creating first group
+		if(userBadgeRepository.findByIdAndUser((long)2, owner.orElse(null).getId()).isEmpty()) {
+		UserBadge badgeAchieved = new UserBadge();
+		Badge badge = new Badge();
+		badge = badgeRepository.findById((long)2).orElse(null);
+		badgeAchieved.setBadge(badge);
+		badgeAchieved.setUser(owner.orElse(null));
+		userBadgeRepository.save(badgeAchieved);
+		}
+		
 		return new ResponseEntity<GroupDto>(createdGroupDto, HttpStatus.OK);
 	}
 
@@ -215,6 +233,17 @@ public class GroupService {
 				newMember.setUser(this.userRepository.findById(userId).orElse(null));
 				this.memberRepository.save(newMember);
 				GroupDto groupDto = modelMapper.map(group, GroupDto.class);
+				
+			// Badge for joining first group
+				if(userBadgeRepository.findByIdAndUser((long)3, userId).isEmpty()) {
+				UserBadge badgeAchieved = new UserBadge();
+				Badge badge = new Badge();
+				badge = badgeRepository.findById((long)3).orElse(null);
+				badgeAchieved.setBadge(badge);
+				badgeAchieved.setUser(userRepository.findById(userId).orElse(null));
+				userBadgeRepository.save(badgeAchieved);
+				}
+				
 				return new ResponseEntity<GroupDto>(groupDto, HttpStatus.OK);
 			}
 		}

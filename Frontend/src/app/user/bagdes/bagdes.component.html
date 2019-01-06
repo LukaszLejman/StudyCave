@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <div class="content">
+    <h1>Twoje odznaki!</h1>
+    <button type="submit" class="btn btn-study-cave" (click)="goBack()"><i class="fas fa-arrow-left"></i> Wróć do profilu</button>
+    <br /><br />
+    <div class="badges">
+    <div *ngFor="let badge of badges">
+      <span class="badge" [ngClass]="{'locked': !badge.unlocked}">
+        <img src="./assets/trophy.png" alt="image" class="image"><span class="badge-text"><p>{{badge.badgeName}}</p></span>
+      </span>
+    </div>
+    </div>
+  </div>
+</div>

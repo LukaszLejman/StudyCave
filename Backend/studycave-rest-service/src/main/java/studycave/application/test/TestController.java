@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import studycave.application.badges.Badge;
+import studycave.application.badges.BadgeRepository;
 import studycave.application.test.result.GetResultDTO;
 import studycave.application.test.result.SaveTestResultDTO;
 import studycave.application.test.result.TestResult;
@@ -36,6 +38,8 @@ import studycave.application.test.verify.QuestionVerifier;
 import studycave.application.test.verify.QuestionVerifyDTO;
 import studycave.application.test.verify.ResultResponse;
 import studycave.application.user.User;
+import studycave.application.user.UserBadge;
+import studycave.application.user.UserBadgeRepository;
 import studycave.application.user.UserRepository;
 import studycave.application.userActivity.UserActivityService;
 
@@ -55,6 +59,10 @@ public class TestController {
 	SimpleTestRepository simpleTestRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	BadgeRepository badgeRepository;
+	@Autowired
+	UserBadgeRepository userBadgeRepository;
 	@Autowired
 	ModelMapper modelMapper;
 	@Autowired
@@ -244,6 +252,17 @@ public class TestController {
 		test.setAddDate();
 		test.setEditDate();
 		test.setGrade();
+		
+	// Badge for creating first test
+		if(userBadgeRepository.findByIdAndUser((long)4, user.getId()).isEmpty()) {
+		UserBadge badgeAchieved = new UserBadge();
+		Badge badge = new Badge();
+		badge = badgeRepository.findById((long)4).orElse(null);
+		badgeAchieved.setBadge(badge);
+		badgeAchieved.setUser(user);
+		userBadgeRepository.save(badgeAchieved);
+		}
+		
 		testRepository.save(test);
 	}
 
