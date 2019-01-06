@@ -71,7 +71,14 @@ public class UserController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
 		User user =  userRepository.findByUsername(username).get();
-		if (currentPrincipalName.equals(username)) return new ResponseEntity<User>(user,HttpStatus.OK);
+		UserDTO userInfo = new UserDTO();
+		userInfo.setId(user.getId());
+		userInfo.setName(user.getName());
+		userInfo.setSurname(user.getSurname());
+		userInfo.setEmail(user.getEmail());
+		userInfo.setPassword(user.getPassword());
+		userInfo.setUsername(user.getUsername());
+		if (currentPrincipalName.equals(username)) return new ResponseEntity<UserDTO>(userInfo,HttpStatus.OK);
 		else return new ResponseEntity("Access Forbidden",HttpStatus.FORBIDDEN);
 		
 	}
