@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-puzzle-question',
@@ -7,24 +8,24 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class PuzzleQuestionComponent implements OnInit {
 
-  @Input() private content: Object = {};
-  @Input() private edit: Boolean;
+  @Input()  content: Object = {};
+  @Input()  edit: Boolean;
 
-  private answers: Array<Object> = [];
-  private answersCorrect: Array<Object> = [];
-  private answersCorrect2: Array<String> = [];
-  private newAttribute: Object = {
+   answers: Array<Object> = [];
+   answersCorrect: Array<Object> = [];
+   answersCorrect2: Array<String> = [];
+   newAttribute: Object = {
     correct: ''
   };
-  private question: String = 'Ułóż elementy w prawidłowej kolejności:';
-  private points: Number = 1;
-  private id: Number = null;
-  private idAnsw: Number = null;
+   question: String = 'Ułóż elementy w prawidłowej kolejności:';
+   points: Number = 1;
+   id: Number = null;
+   idAnsw: Number = null;
 
-  @Output() private add: EventEmitter<Object> = new EventEmitter();
-  @Output() private editing: EventEmitter<Object> = new EventEmitter();
+  @Output()  add: EventEmitter<Object> = new EventEmitter();
+  @Output()  editing: EventEmitter<Object> = new EventEmitter();
 
-  constructor() { }
+  constructor(public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     if (this.edit) {
@@ -54,29 +55,32 @@ export class PuzzleQuestionComponent implements OnInit {
 
   addFieldValue(): void {
     const undefinedAttr = (this.newAttribute['correct'] === undefined);
-      if (undefinedAttr) {
-        alert('Żaden element rozsypanki nie może być pusty!');
+    if (undefinedAttr) {
+      this.snackBar.open('Żaden element rozsypanki nie może być pusty!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+    } else {
+      const length = (this.newAttribute['correct'].trim().length === 0);
+      if (length) {
+        this.snackBar.open('Żaden element rozsypanki nie może być pusty!', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
       } else {
-        const length = (this.newAttribute['correct'].trim().length === 0);
-        if (length) {
-          alert('Żaden element rozsypanki nie może być pusty!');
-        } else {
-          const exists = false;
-          /*for (let i = 0; i < this.answersCorrect.length; i++) {
-            if (this.newAttribute['correct'] === this.answersCorrect[i]['correct']) {
-              exists = true;
-              alert('Elementy rozsypanki nie mogą się powtarzać!');
-              break;
-            }
-          }*/
-
-          if (!exists) {
-            this.answersCorrect.push(this.newAttribute);
-            this.newAttribute = {};
+        const exists = false;
+        /*for (let i = 0; i < this.answersCorrect.length; i++) {
+          if (this.newAttribute['correct'] === this.answersCorrect[i]['correct']) {
+            exists = true;
+            this.snackBar.open('Elementy rozsypanki nie mogą się powtarzać!', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+            break;
           }
+        }*/
+
+        if (!exists) {
+          this.answersCorrect.push(this.newAttribute);
+          this.newAttribute = {};
         }
       }
     }
+  }
 
   deleteFieldValue(index): void {
     this.answersCorrect.splice(index, 1);
@@ -90,10 +94,12 @@ export class PuzzleQuestionComponent implements OnInit {
 
   addTable(): void {
     if ((this.question === undefined) || (this.question.trim().length === 0)) {
-      alert('Pytanie nie może być puste!');
+      this.snackBar.open('Pytanie nie może być puste!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       if (this.answersCorrect.length < 2) {
-        alert('Rozsypanka musi zawierać co najmniej 2 elementy!');
+        this.snackBar.open('Rozsypanka musi zawierać co najmniej 2 elementy!', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
       } else {
         let empty = false;
         for (let i = 0; i < this.answersCorrect.length; i++) {
@@ -103,7 +109,8 @@ export class PuzzleQuestionComponent implements OnInit {
           }
         }
         if (empty) {
-          alert('Żaden element rozsypanki nie może być pusty!');
+          this.snackBar.open('Żaden element rozsypanki nie może być pusty!', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
         } else {
           this.addToAnswers();
           this.answers.push({

@@ -78,55 +78,57 @@ public class UploadController {
 	private String bucketName = "studycave-folder";
 	
 	List<String> files = new ArrayList<String>();
- 
-	@PostMapping("/upload")
-	public ResponseEntity<String> handleFileUpload(@RequestParam String owner,@RequestParam String permission,@RequestParam("file") MultipartFile file) {
-		String message = "";
-		try {
-			storageService.store(file);
-			files.add(file.getOriginalFilename());
-			
-			//wyczytywanie nazwy,kategorii,owner_id-----------------------------------------------------------------
-			String path = "upload-dir/" + file.getOriginalFilename();
-			CSVReader reader = new CSVReader(new FileReader(path));
-            String[] line;
-            line = reader.readNext();
-            
-            User user = userRepository.findByUsername(owner).get();
-            
-            Set uploadset = new Set(line[0],line[1],Math.toIntExact(user.getId()));
-            
-            //addDate,editDate---------------------------------------------------------------------------------------
-            uploadset.setAddDate();
-			uploadset.setEditDate();
-			
-			//Flashcards----------------------------------------------------------------------------------------------
-			List<Flashcard> uploadflashcards = new ArrayList<Flashcard>();
-			while ((line = reader.readNext()) != null){
-				Flashcard uploadflashcard = new Flashcard(line[0],line[1]);
-				uploadflashcards.add(uploadflashcard);
-			}
-			
-			reader.close();
-			storageService.deleteAll();
-			storageService.init();
-			uploadset.setFlashcards(uploadflashcards);
-			
-			uploadset.setPermission(permission);
-			
-			for (Flashcard uploadflashcard : uploadset.getFlashcards())
-				uploadflashcard.setFlashcardSet(uploadset);
-			setRepository.save(uploadset);
-			message = "You successfully uploaded " + file.getOriginalFilename() + "!";
-			return ResponseEntity.status(HttpStatus.OK).body(message);
-		} catch (Exception e) {
-			message = "FAIL to upload " + file.getOriginalFilename() + "!";
-			storageService.deleteAll();
-			storageService.init();
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
-			
-		}	
-	}
+
+
+	//----------------------------------------------------------------- WTF xD
+//	@PostMapping("/upload")
+//	public ResponseEntity<String> handleFileUpload(@RequestParam String owner,@RequestParam String permission,@RequestParam("file") MultipartFile file) {
+//		String message = "";
+//		try {
+//			storageService.store(file);
+//			files.add(file.getOriginalFilename());
+//			
+//			//wyczytywanie nazwy,kategorii,owner_id-----------------------------------------------------------------
+//			String path = "upload-dir/" + file.getOriginalFilename();
+//			CSVReader reader = new CSVReader(new FileReader(path));
+//            String[] line;
+//            line = reader.readNext();
+//            
+//            User user = userRepository.findByUsername(owner).get();
+//            
+//            Set uploadset = new Set(line[0],line[1],Math.toIntExact(user.getId()));
+//            
+//            //addDate,editDate---------------------------------------------------------------------------------------
+//            uploadset.setAddDate();
+//			uploadset.setEditDate();
+//			
+//			//Flashcards----------------------------------------------------------------------------------------------
+//			List<Flashcard> uploadflashcards = new ArrayList<Flashcard>();
+//			while ((line = reader.readNext()) != null){
+//				Flashcard uploadflashcard = new Flashcard(line[0],line[1]);
+//				uploadflashcards.add(uploadflashcard);
+//			}
+//			
+//			reader.close();
+//			storageService.deleteAll();
+//			storageService.init();
+//			uploadset.setFlashcards(uploadflashcards);
+//			
+//			uploadset.setPermission(permission);
+//			
+//			for (Flashcard uploadflashcard : uploadset.getFlashcards())
+//				uploadflashcard.setFlashcardSet(uploadset);
+//			setRepository.save(uploadset);
+//			message = "You successfully uploaded " + file.getOriginalFilename() + "!";
+//			return ResponseEntity.status(HttpStatus.OK).body(message);
+//		} catch (Exception e) {
+//			message = "FAIL to upload " + file.getOriginalFilename() + "!";
+//			storageService.deleteAll();
+//			storageService.init();
+//			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+//			
+//		}	
+//	}
 	
 	@PostMapping("/save")//----------------------------------------------- file save
 	public ResponseEntity<String> handleFileSave(@RequestParam String owner,@RequestParam String permission,@RequestParam String title,@RequestParam int grade, @RequestParam("file") MultipartFile file){
@@ -211,7 +213,7 @@ public class UploadController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deletematerial(@RequestHeader(value = "Authorization",required=false) String headerStr,@PathVariable(required = true)Long id) {
+	public ResponseEntity<String> deletematerial(@PathVariable(required = true)Long id) {
 		
 		//Authorization
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -234,8 +236,12 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<Resource> getFile(@PathVariable(required = true) Long id) {
 		Material material = materialRepository.findById(id).orElse(null);
-		ResourceLoader rl = new DefaultResourceLoader();
-		Resource file = rl.getResource("url:https://s3-eu-west-1.amazonaws.com/studycave-folder/" + material.getPath());
+//		ResourceLoader rl = new DefaultResourceLoader();
+//		Resource file = rl.getResource("url:https://s3-eu-west-1.amazonaws.com/studycave-folder/" + material.getPath());
+	
+		// ------------------------------------------------------------------------- LOCAL
+		Resource file = storageService.loadFile(material.getPath()); 
+		
 		
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}

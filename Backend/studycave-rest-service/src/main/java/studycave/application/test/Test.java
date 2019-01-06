@@ -11,10 +11,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import studycave.application.groups.StudyGroup;
+import studycave.application.userActivity.UserActivity;
 
 @Entity
 public class Test {
@@ -32,8 +37,9 @@ public class Test {
     @Column(name="edit_date")
     @JsonProperty("edit_date")
     private Date editDate;
-    
-    private String permission;
+    @Column(name="status")
+    private String status;
+	private String permission;
     //@Column(nullable = true)
     private int grade;
     
@@ -42,6 +48,13 @@ public class Test {
     @JsonManagedReference
     List<Question> questions = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name="group_id",referencedColumnName="id")
+    private StudyGroup group;
+    
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "test", cascade = CascadeType.ALL)
+	private List<UserActivity> activity;
+    
 	public Test() {
 		super();
 	}
@@ -126,5 +139,27 @@ public class Test {
 		this.questions = questions;
 	}
     
-    
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public StudyGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(StudyGroup group) {
+		this.group = group;
+	}
+
+	public List<UserActivity> getActivity() {
+		return activity;
+	}
+
+	public void setActivity(List<UserActivity> activity) {
+		this.activity = activity;
+	}
 }

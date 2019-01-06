@@ -1,0 +1,24 @@
+a.wrapper{
+    width: 100%;
+    padding: 30px;
+    min-height: 100%;
+    margin-bottom: 40px;
+}
+
+.content{
+    background-color: #181616;
+    padding: 30px; 
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ag-grid-angular{
+    margin: 10px;
+}
+
+.buttons-container > div{
+    margin: 10px;
+}

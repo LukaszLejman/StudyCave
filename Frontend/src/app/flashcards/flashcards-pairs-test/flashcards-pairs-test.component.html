@@ -45,11 +45,11 @@
   </div>
   <br />
   <div *ngIf="!finish">
-    <button class="btn btn-brown" *ngIf="!started" (click)="start()">Rozpocznij test</button>
-    <button class="btn btn-brown" *ngIf="checked && not_last" (click)="increment()">Przejdź dalej</button>
-    <button class="btn btn-brown" *ngIf="checked && !not_last" (click)="increment()">Zakończ test</button>
+    <button class="btn btn-study-cave" *ngIf="!started" (click)="start()"><i class="far fa-play-circle"></i> Rozpocznij test</button>
+    <button class="btn btn-study-cave" *ngIf="checked && not_last" (click)="increment()"><i class="far fa-play-circle"></i> Przejdź dalej</button>
+    <button class="btn btn-study-cave" *ngIf="checked && !not_last" (click)="increment()"><i class="far fa-stop-circle"></i> Zakończ test</button>
   </div>
   <br />
-  <button class="btn btn-grey" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
+  <button class="btn btn-study-cave" routerLink="/flashcards/sets/{{ id }}"><i class="fas fa-arrow-left"></i> Wróć do zestawu</button>
 </div>
 </div>

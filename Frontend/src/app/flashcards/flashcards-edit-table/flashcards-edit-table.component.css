@@ -8,8 +8,7 @@ table, th, td, tr {
 }
 
 .container {
-    border: 5px solid white;
-    background-color: #121618;
+    background-color: #181616;
     padding: 30px; 
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -32,8 +31,7 @@ table, th, td, tr {
 }
 
 .content{
-    border: 5px solid white;
-    background-color: #121618;
+    background-color: #181616;
     padding: 30px; 
     margin-top: 2rem;
     margin-bottom: 2rem;

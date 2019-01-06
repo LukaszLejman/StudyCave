@@ -11,23 +11,28 @@ import { Test2PDF } from '../test2PDF';
   styleUrls: ['./test-details.component.css']
 })
 export class TestDetailsComponent implements OnInit, OnDestroy {
-  private id: number;
-  private test;
-  private questionsCount = 0;
-  private isStarted = false;
-  private currentQuestionIndex = 0;
-  private isEnded = false;
-  private points = 0;
-  private maxPoints = 0;
-  private prevMaxResult = 0;
-  private prevAnswerResultBool;
-  private currentUser;
-  private sendResultSubscription: ISubscription;
-  private removeTestSubscription: ISubscription;
-  private getResultSubscription: ISubscription;
-  private getTestWithoutAnswersSubscription: ISubscription;
+  id: number;
+  test;
+  questionsCount = 0;
+  isStarted = false;
+  currentQuestionIndex = 0;
+  isEnded = false;
+  points = 0;
+  maxPoints = 0;
+  prevMaxResult = 0;
+  prevAnswerResultBool;
+  currentUser;
+  sendResultSubscription: ISubscription;
+  removeTestSubscription: ISubscription;
+  getResultSubscription: ISubscription;
+  getTestWithoutAnswersSubscription: ISubscription;
+  display = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private testService: TestsService) { }
+
+  openPopup() {
+    this.display = true;
+  }
 
   handleEmitNextQuestionRequest(e) {
     this.points += e.points;
@@ -56,6 +61,10 @@ export class TestDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['tests/edit', this.id]);
   }
 
+  deleteTest() {
+    this.display = false;
+    this.remove();
+  }
   remove() {
     this.removeTestSubscription = this.testService.removeTest(this.id).subscribe(
       d => {

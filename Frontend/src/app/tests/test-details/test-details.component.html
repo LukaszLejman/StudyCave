@@ -1,14 +1,14 @@
 <div class="wrapper">
   <div class="content">
 
-    <div *ngIf="test !== undefined">
+    <div *ngIf="test">
       <div class="header">
-        <button class="btn btn-grey" (click)="back()">Wróć do listy testów</button>
+        <button class="btn btn-study-cave" (click)="back()"><i class="fas fa-arrow-left"></i> Wróć do listy testów</button>
         <span>
           <div *ngIf="currentUser">Twój maksymalny wynik: {{prevMaxResult}}/{{maxPoints}}</div>
-          <button *ngIf="currentUser.username === test.owner && (!isStarted || isEnded)" class="btn btn-red" (click)="remove()">Usuń</button>
-          <button *ngIf="currentUser.username === test.owner" class="btn btn-green" (click)="edit()">Edytuj</button>
-          <button class="btn btn-purple" (click)="get()">Pobierz PDF</button>
+          <button title="Usuń" *ngIf="currentUser && currentUser.username === test.owner && (!isStarted || isEnded)" class="btn btn-study-cave" (click)="openPopup()"><i class="fas fa-trash-alt"></i></button>
+          <button title="Edytuj" *ngIf="currentUser && currentUser.username === test.owner" class="btn btn-study-cave" (click)="edit()"><i class="fas fa-edit"></i></button>
+          <button title="PDF" class="btn btn-study-cave" (click)="get()"><i class="fas fa-file-pdf"></i></button>
         </span>
       </div>
       <div>
@@ -23,7 +23,7 @@
       </div>
 
       <div *ngIf="!isStarted">
-        <button class="btn btn-brown" (click)="start()">Rozpocznij test</button>
+        <button class="btn btn-study-cave" (click)="start()"> <i class="far fa-play-circle"></i> Rozpocznij test</button>
       </div>
       <div *ngIf="isStarted && !isEnded">
 
@@ -49,6 +49,13 @@
     <div *ngIf="test === undefined">
       Błąd. Test nie istnieje lub nie masz do niego dostępu.
     </div>
-
+    <app-comments [what]="'tests'"></app-comments>
   </div>
+  <p-dialog header="Potwierdź" [(visible)]="display">
+    Czy chcesz usunąć test?
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="deleteTest()" label="TAK"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
 </div>

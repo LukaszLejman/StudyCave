@@ -1,6 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+
+import { FlashcardsModule } from './flashcards/flashcards.module';
+import { TestsModule } from './tests/tests.module';
+import { UserModule } from './user/user.module';
+import { GroupsModule } from './groups/groups.module';
+
+import { AuthGuard } from './auth-guard.service';
+
 import { FlashcardsComponent } from './flashcards/flashcards/flashcards.component';
 import { FlashcardsSetsListComponent } from './flashcards/flashcards-sets-list/flashcards-sets-list.component';
 import { FlashcardsAddComponent } from './flashcards/flashcards-add/flashcards-add.component';
@@ -14,12 +21,8 @@ import { FlashcardsFillingInTestComponent } from './flashcards/flashcards-fillin
 import { FlashcardsTyperaceTestComponent } from './flashcards/flashcards-typerace-test/flashcards-typerace-test.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './auth-guard.service';
 import { TestMakerComponent } from './tests/test-maker/test-maker.component';
 import { TestEditComponent } from './tests/test-edit/test-edit.component';
-import { FlashcardsModule } from './flashcards/flashcards.module';
-import { TestsModule } from './tests/tests.module';
-import { UserModule } from './user/user.module';
 import { RegisterComponent } from './user/register/register.component';
 import { UserComponent } from './user/user/user.component';
 import { EditUserComponent } from './user/edit-user/edit-user.component';
@@ -30,6 +33,19 @@ import { TestsListComponent } from './tests/tests-list/tests-list.component';
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
 import { TestDetailsComponent } from './tests/test-details/test-details.component';
 import { MaterialsDetailsComponent } from './materials/materials-details/materials-details.component';
+import { MyGroupsComponent } from './groups/my-groups/my-groups.component';
+import { GroupCreatorComponent } from './groups/group-creator/group-creator.component';
+import { JoinToGroupComponent } from './groups/join-to-group/join-to-group.component';
+import { GroupDetailsComponent } from './groups/group-details/group-details.component';
+import { ManageGroupComponent } from './groups/manage-group/manage-group.component';
+import { SharingResourcesInGroupsComponent } from './groups/sharing-resources-in-groups/sharing-resources-in-groups.component';
+import { CommentsComponent } from './shared/comments/comments.component';
+import { SharedModule } from './shared/shared.module';
+import { WaitingResourcesComponent } from './groups/waiting-resources/waiting-resources.component';
+import { BagdesComponent } from './user/bagdes/bagdes.component';
+import { RankingComponent } from './groups/ranking/ranking.component';
+import { HistoryOfActivityInGroupComponent } from './groups/history-of-activity-in-group/history-of-activity-in-group.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -37,41 +53,56 @@ const routes: Routes = [
   { path: 'home', component: HomePageComponent },
   { path: 'flashcards', component: FlashcardsComponent },
   { path: 'flashcards/sets', component: FlashcardsSetsListComponent },
-  { path: 'flashcards/add', component: FlashcardsAddComponent },
-  { path: 'flashcards/add/table', component: FlashcardsAddTableComponent },
-  { path: 'flashcards/add/csv', component: FlashcardsAddCsvComponent },
+  { path: 'flashcards/add', component: FlashcardsAddComponent, canActivate: [AuthGuard] },
+  { path: 'flashcards/add/table', component: FlashcardsAddTableComponent , canActivate: [AuthGuard]},
+  { path: 'flashcards/add/csv', component: FlashcardsAddCsvComponent, canActivate: [AuthGuard] },
   { path: 'flashcards/sets/:id', component: FlashcardsSetDetailComponent },
   { path: 'flashcards/test-gen/flashcards-pairs/:id', component: FlashcardsPairsTestComponent },
   { path: 'flashcards/test-gen/flashcards-memory/:id', component: FlashcardsMemoryTestComponent },
   { path: 'flashcards/test-gen/flashcards-typerace/:id', component: FlashcardsTyperaceTestComponent },
   { path: 'flashcards/test-gen/flashcards-filling-in/:id', component: FlashcardsFillingInTestComponent },
-  { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent },
+  { path: 'flashcards/sets/edit/:id', component: FlashcardsEditTableComponent, canActivate: [AuthGuard] },
   { path: 'tests', component: TestsListComponent},
   { path: 'tests/:id', component: TestDetailsComponent},
-  { path: 'tests/edit/:id', component: TestEditComponent },
-  { path: 'test-maker', component: TestMakerComponent },
+  { path: 'tests/edit/:id', component: TestEditComponent, canActivate: [AuthGuard]},
+  { path: 'test-maker', component: TestMakerComponent, canActivate: [AuthGuard] },
   { path: 'sign-up', component: RegisterComponent },
-  { path: 'profile/:id', component: UserComponent },
-  { path: 'edit-profile', component: EditUserComponent },
+  { path: 'profile/:id', component: UserComponent, canActivate: [AuthGuard] },
+  { path: 'edit-profile', component: EditUserComponent, canActivate: [AuthGuard] },
   { path: 'materials', component: MaterialsMenuComponent },
   { path: 'materials/list', component: MaterialsListComponent },
-  { path: 'materials/add-materials', component: MaterialsAddComponent },
+  { path: 'materials/add-materials', component: MaterialsAddComponent, canActivate: [AuthGuard] },
   { path: 'work-in-progress', component: WorkInProgressComponent },
-  { path: 'materials/:id', component: MaterialsDetailsComponent}
+  { path: 'materials/:id', component: MaterialsDetailsComponent},
+  { path: 'my-groups', component: MyGroupsComponent, canActivate: [AuthGuard] },
+  { path: 'create-group', component: GroupCreatorComponent, canActivate: [AuthGuard] },
+  { path: 'join-to-group', component: JoinToGroupComponent, canActivate: [AuthGuard] },
+  { path: 'groups/:id', component: GroupDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'groups/manage/:id', component: ManageGroupComponent, canActivate: [AuthGuard] },
+  { path: 'groups/add-resources/:id', component: SharingResourcesInGroupsComponent , canActivate: [AuthGuard] },
+  { path: 'groups/waiting-resources/:id', component: WaitingResourcesComponent, canActivate: [AuthGuard] },
+  { path: 'badges', component: BagdesComponent, canActivate: [AuthGuard] }
+  { path: 'groups/ranking/:id', component: RankingComponent , canActivate: [AuthGuard] },
+  { path: 'groups/waiting-resources/:id', component: WaitingResourcesComponent, canActivate: [AuthGuard] }
+  { path: 'groups/waiting-resources/:id', component: WaitingResourcesComponent, canActivate: [AuthGuard] },
+  { path: 'groups/history/:id', component: HistoryOfActivityInGroupComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'}),
     FlashcardsModule,
     TestsModule,
-    UserModule
+    UserModule,
+    GroupsModule,
+    SharedModule
   ],
   exports: [
     RouterModule,
     FlashcardsModule,
     TestsModule,
-    UserModule
+    UserModule,
+    SharedModule
   ]
 })
 export class AppRoutingModule { }

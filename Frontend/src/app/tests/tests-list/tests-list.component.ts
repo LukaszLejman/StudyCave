@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestsService } from '../tests.service';
-import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
+import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 import localeText from './localeText';
 import { ISubscription } from 'rxjs/Subscription';
 import { Test2PDF } from '../test2PDF';
@@ -24,7 +24,8 @@ export class TestsListComponent implements OnInit, OnDestroy {
   private removeTestSubscription: ISubscription;
   private getUserTestsSubscription: ISubscription;
   private currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
+  display = false;
+  toDelete;
   columnDefs = [
     { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
     { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
@@ -45,12 +46,15 @@ export class TestsListComponent implements OnInit, OnDestroy {
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) {
-      return '<button type="button" data-action-type="get" class="btn btn-primary btn-sm">Pobierz PDF</button>';
+      return '<button type="button" data-action-type="get" class="btn btn-study-cave">PDF</button>';
     } else if (params.data['owner'] === currentUser.username) {
       return `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="edit" class="btn btn-success btn-sm">Edytuj</button>
-        <button type="button" data-action-type="get" class="btn btn-primary btn-sm">Pobierz PDF</button>
+        <button type="button" data-action-type="remove" class="btn btn-study-cave btn-sm" title="Usuń">
+        <i class="fas fa-trash-alt" data-action-type="remove"></i></button>
+        <button type="button" data-action-type="edit" class="btn btn-study-cave btn-sm" title="Edytuj">
+        <i class="fas fa-edit" data-action-type="edit"></i></button>
+        <button type="button" data-action-type="get" class="btn btn-study-cave btn-sm" title="PDF">
+        <i class="fas fa-file-pdf" data-action-type="get"></i></button>
         `;
     } else {
       return '';
@@ -77,9 +81,7 @@ export class TestsListComponent implements OnInit, OnDestroy {
 
   public onRowClicked(e) {
     if (e.event.target !== undefined) {
-      const data = e.data;
       const actionType = e.event.target.getAttribute('data-action-type');
-
       switch (actionType) {
         case 'edit':
           return this.onActionEditClick(e);
@@ -122,8 +124,13 @@ export class TestsListComponent implements OnInit, OnDestroy {
     this.router.navigate(['tests/edit', e.data.id]);
   }
 
-  public onActionRemoveClick(e) {
-    this.removeTestSubscription = this.testService.removeTest(e.data.id).subscribe(
+  openPopup() {
+    this.display = true;
+  }
+
+  deleteTest() {
+    this.display = false;
+    this.removeTestSubscription = this.testService.removeTest(this.toDelete).subscribe(
       d => {
         if (this.publicMode) {
           this.getPublicTestsData();
@@ -132,6 +139,11 @@ export class TestsListComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  public onActionRemoveClick(e) {
+    this.openPopup();
+    this.toDelete = e.data.id;
   }
 
   getPDF(test: Test) {

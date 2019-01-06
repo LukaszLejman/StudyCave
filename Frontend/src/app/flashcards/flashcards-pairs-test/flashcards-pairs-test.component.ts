@@ -93,9 +93,9 @@ export class FlashcardsPairsTestComponent implements OnInit, OnDestroy {
   goodEvent(goods) {
     this.goodNow = goods;
     const filledNow = this.packages[this.package_id]['setLeft'].length;
-    this.filled += filledNow;
-    this.good += this.goodNow;
-    this.bad += filledNow - this.goodNow;
+    this.filled = filledNow;
+    this.good = this.goodNow;
+    this.bad = this.filled - this.good;
   }
 
   isChecked(check) {

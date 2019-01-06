@@ -8,12 +8,14 @@ import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class FlashcardsService {
 
   // tslint:disable-next-line:max-line-length
-  constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService ) { this.setHeaders(); }
+  constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService,
+    public snackBar: MatSnackBar) { this.setHeaders(); }
   private headers;
   owner;
 
@@ -22,16 +24,17 @@ export class FlashcardsService {
       this.headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': '' + this.authenticationService.getToken()
-        });
-      }else {
-        this.headers = new HttpHeaders({
-          'Content-Type': 'application/json'});
-        }
+      });
+    } else {
+      this.headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+    }
   }
 
   changeSetPermission(id, permission) {
-    this.httpClient.put('sets/' + id + '/permission', permission , {headers: this.headers})
-    .subscribe();
+    this.httpClient.put('sets/' + id + '/permission', permission, { headers: this.headers })
+      .subscribe();
   }
 
   add(body) {
@@ -45,18 +48,18 @@ export class FlashcardsService {
   }
 
   getSets(): Observable<any> {
-    return this.httpClient.get('sets', {headers: this.headers, params: { permission: 'Public'}});
+    return this.httpClient.get('sets', { headers: this.headers, params: { permission: 'Public' } });
   }
   getSetsOwners(): Observable<any> {
     const owner = JSON.parse(localStorage.getItem('currentUser'));
-    return this.httpClient.get('sets', {headers: this.headers, params: { owner: owner.username}});
+    return this.httpClient.get('sets', { headers: this.headers, params: { owner: owner.username } });
   }
 
   setOwner(owner) {
     if (owner === null) {
-    this.owner = ' ';
+      this.owner = ' ';
     } else {
-    this.owner = owner;
+      this.owner = owner;
     }
   }
 
@@ -67,28 +70,36 @@ export class FlashcardsService {
   sendData(url, body) {
     this.httpClient.post(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
-      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+        error => {
+          this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
       );
   }
 
   putData(url, body) {
-    this.httpClient.put(url, body, { headers: this.headers,  observe: 'response' })
+    this.httpClient.put(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
-      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+        error => {
+          this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
       );
   }
 
   sendResponse(data) {
     if (data.status === 200) {
-      alert('Operacja przebiegła pomyślnie!');
+      this.snackBar.open('Operacja przebiegła pomyślnie!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
       this.router.navigate(['flashcards/sets']);
     } else {
-      alert('Coś poszło nie tak. Spróbuj ponownie później.');
+      this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     }
   }
 
   // sending file - import flashcards from CSV
-  pushFileToStorage(file: File, user: string , permission: string, url: string): Observable<HttpEvent<{}>> {
+  pushFileToStorage(file: File, user: string, permission: string, url: string): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
     formdata.append('file', file);
     formdata.append('owner', user);
@@ -119,7 +130,10 @@ export class FlashcardsService {
   deleteSet(id) {
     return this.httpClient.delete('sets/' + id, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
-      error => { alert('Coś poszło nie tak. Spróbuj ponownie później.'); }
+        error => {
+          this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+        }
       );
   }
 
@@ -127,12 +141,12 @@ export class FlashcardsService {
   testCheck(id, body) {
     // id - id zestawu fiszek
     // ciało body = {id - idFiszki, content - wpisana odpowiedź, side - strona fiszki, którą widział użytkownik}
-    return this.httpClient.get(`sets/${id}/${body['id']}/${body['content']}/${body['side']}/test/check/`, {headers: this.headers})
+    return this.httpClient.get(`sets/${id}/${body['id']}/${body['content']}/${body['side']}/test/check/`, { headers: this.headers })
       .map((data: any) => data);
   }
 
   testMemory(id, body) {
-    return this.httpClient.get(`sets/${id}/test/memory/check?x=${body['x']}&y=${body['y']}`, {headers: this.headers})
+    return this.httpClient.get(`sets/${id}/test/memory/check?x=${body['x']}&y=${body['y']}`, { headers: this.headers })
       .map((data: any) => data);
   }
 }

@@ -14,6 +14,8 @@ export class FlashcardsTyperaceTestComponent implements OnInit, OnDestroy {
   private id: number;
   private flashcardSubscribtionMeta: Subscription;
   private flashcardSubscribtion: Subscription;
+  private flashcardSubscribtionCheck: Subscription;
+
   private name: String;
   private category: String;
   private length_test: number;
@@ -84,12 +86,15 @@ export class FlashcardsTyperaceTestComponent implements OnInit, OnDestroy {
       content: this.answer,
       side: this.flashcards[this.index]['side'],
     });
-    if (this.answer === this.flashcards[this.index]['content']) {
-        this.good = this.good + 1;
-    } else {
-        this.bad = this.bad + 1;
-    }
-
+    this.flashcardSubscribtionCheck = this.flashcardsService.testCheck(this.id, body[0])
+      .subscribe(data => {
+        this.is_correct = data.result;
+        if (this.is_correct === true) {
+          this.good = this.good + 1;
+        } else {
+          this.bad = this.bad + 1;
+        }
+      });
     if (this.index < this.length_test) {
       this.index = this.index + 1;
       this.filled = this.filled + 1;
@@ -99,6 +104,7 @@ export class FlashcardsTyperaceTestComponent implements OnInit, OnDestroy {
       this.not_last = false;
     }
   }
+
   reset() {
     this.finalhour = this.finalhour + this.hour;
     this.finalminute = this.finalminute + this.minute;
@@ -154,5 +160,8 @@ updateTime() {
   ngOnDestroy() {
     this.flashcardSubscribtionMeta.unsubscribe();
     this.flashcardSubscribtion.unsubscribe();
+    if (this.flashcardSubscribtionCheck) {
+      this.flashcardSubscribtionCheck.unsubscribe();
+    }
   }
 }

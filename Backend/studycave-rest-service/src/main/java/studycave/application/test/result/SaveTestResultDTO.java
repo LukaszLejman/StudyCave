@@ -8,7 +8,7 @@ public class SaveTestResultDTO {
 	private String owner;
 	@JsonProperty(value="id")
 	private Long idTest;
-	private Long userScore;
+	private float userScore;
 	
 	public SaveTestResultDTO() {
 		super();
@@ -26,10 +26,10 @@ public class SaveTestResultDTO {
 	public void setIdTest(Long idTest) {
 		this.idTest = idTest;
 	}
-	public Long getUserScore() {
+	public float getUserScore() {
 		return userScore;
 	}
-	public void setUserScore(Long userScore) {
+	public void setUserScore(float userScore) {
 		this.userScore = userScore;
 	}
 	

@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FlashcardsAddCsvComponent } from './flashcards-add-csv.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FlashcardsService } from '../flashcards.service';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AuthenticationService } from '../../authentication.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('FlashcardsAddCsvComponent', () => {
   let component: FlashcardsAddCsvComponent;
@@ -8,7 +14,10 @@ describe('FlashcardsAddCsvComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlashcardsAddCsvComponent ]
+      declarations: [ FlashcardsAddCsvComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [FlashcardsService, AuthenticationService],
+      imports: [HttpClientModule, RouterTestingModule, MatSnackBarModule]
     })
     .compileComponents();
   }));

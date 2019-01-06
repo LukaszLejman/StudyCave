@@ -6,6 +6,7 @@
     overflow: auto;
     height: calc(100vh - 154px);
     min-height: calc(100vh - 154px);
+    
 }
 
 .wrapper{

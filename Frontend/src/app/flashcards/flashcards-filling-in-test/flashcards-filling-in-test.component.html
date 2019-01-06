@@ -35,7 +35,7 @@
       Podaj odpowiedź:<br />
       {{flashcards[index].content}}
       <input appAutofocus [(ngModel)]="answer" class="mr-2" placeholder="odpowiedź" (keyup.enter)="verifyAnswer()" >
-      <button class="btn btn-green" (click)="verifyAnswer()">Sprawdź</button>
+      <button class="btn btn-study-cave" (click)="verifyAnswer()"><i class="fas fa-check-circle"></i> Sprawdź</button>
     </div>
     <div *ngIf="this.is_correct === true && !finish">ODPOWIEDŹ POPRAWNA</div>
     <div *ngIf="this.is_correct === false && !finish">ODPOWIEDŹ NIEPOPRAWNA</div>
@@ -50,10 +50,10 @@
     <app-test-results [result]="good" [maxPts]="length_test"></app-test-results>
   </div>
   <div *ngIf="!finish">
-    <button class="btn btn-brown" *ngIf="!started" (click)="start()">Rozpocznij test</button>
+    <button class="btn btn-study-cave" *ngIf="!started" (click)="start()"><i class="far fa-play-circle"></i> Rozpocznij test</button>
   </div>
-  <button class="btn btn-brown" *ngIf="finish" routerLink="/flashcards/sets/{{ id }}">Zakończ test</button>
-  <button class="btn btn-brown" *ngIf="started && !finish && !not_last"(click)="finished()">Przejdź do wyniku</button>
+  <button class="btn btn-study-cave" *ngIf="finish" routerLink="/flashcards/sets/{{ id }}"><i class="far fa-stop-circle"></i> Zakończ test</button>
+  <button class="btn btn-study-cave" *ngIf="started && !finish && !not_last"(click)="finished()"><i class="fas fa-arrow-left"></i> Przejdź do wyniku</button>
   <br />
-  <button class="btn btn-grey" routerLink="/flashcards/sets/{{ id }}">Wróć do zestawu</button>
+  <button class="btn btn-study-cave" routerLink="/flashcards/sets/{{ id }}"><i class="fas fa-arrow-left"></i> Wróć do zestawu</button>
 </div>

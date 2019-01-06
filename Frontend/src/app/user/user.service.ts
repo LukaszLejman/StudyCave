@@ -28,6 +28,11 @@ export class UserService {
     return this.httpClient.post('user/register', body, { headers: headers, responseType: 'text' });
   }
 
+  getBadges() {
+    this.setHeaders();
+    return this.httpClient.get('user/badges', {headers: this.headers});
+  }
+
   getUserProfile() {
     this.setHeaders();
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));

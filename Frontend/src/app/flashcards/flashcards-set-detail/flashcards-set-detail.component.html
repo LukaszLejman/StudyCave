@@ -1,12 +1,12 @@
 <div class="wrapper">
     <div class="content">
         <div class="button-container">
-            <button class="btn btn-grey" routerLink="/flashcards/sets/">WRÓĆ DO LISTY</button>
-            <button class="btn btn-purple" (click)="showTestTypeMenu()">GENERUJ TESTY</button>
-            <button *ngIf="owned" class="btn btn-green" (click)="navigateToEditMode()">EDYTUJ FISZKI</button>
-            <button *ngIf="owned" class="btn btn-red" (click)="deleteSet()">USUŃ FISZKI</button>
+            <button class="btn btn-study-cave" routerLink="/flashcards/sets/"><i class="fas fa-arrow-left"></i> WRÓĆ DO LISTY</button>
+            <button class="btn btn-study-cave" (click)="showTestTypeMenu()"><i class="fas fa-pencil-ruler"></i> GENERUJ TESTY</button>
+            <button *ngIf="owned" class="btn btn-study-cave" (click)="navigateToEditMode()"><i class="fas fa-edit"></i> EDYTUJ FISZKI</button>
+            <button *ngIf="owned" class="btn btn-study-cave" (click)="showPopup()"><i class="fas fa-trash-alt"></i> USUŃ FISZKI</button>
             <div *ngIf="user && owned">
-                    <button class="btn btn-blue" (click)="changePermission()"> ZMIEŃ UPRAWNIENIA</button>
+                <button class="btn btn-study-cave" (click)="changePermission()"><i class="fas fa-unlock"></i> ZMIEŃ UPRAWNIENIA</button>
             </div>
         </div>
 
@@ -31,5 +31,15 @@
                     </tbody>
                 </table>
             </div>
+            <app-comments [what]="'flashcardsets'"></app-comments>
+
     </div>
+
+    <p-dialog header="Potwierdź" [(visible)]="display">
+        Czy chcesz usunąć fiszkę?
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="deleteSet()" label="TAK"></button>
+            <button type="button" pButton icon="pi pi-close" (click)="display=false" label="NIE" class="ui-button-secondary"></button>
+        </p-footer>
+    </p-dialog>
 </div>

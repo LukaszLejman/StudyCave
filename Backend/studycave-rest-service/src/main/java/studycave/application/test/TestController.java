@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import studycave.application.badges.Badge;
+import studycave.application.badges.BadgeRepository;
 import studycave.application.test.result.GetResultDTO;
 import studycave.application.test.result.SaveTestResultDTO;
 import studycave.application.test.result.TestResult;
@@ -36,7 +38,10 @@ import studycave.application.test.verify.QuestionVerifier;
 import studycave.application.test.verify.QuestionVerifyDTO;
 import studycave.application.test.verify.ResultResponse;
 import studycave.application.user.User;
+import studycave.application.user.UserBadge;
+import studycave.application.user.UserBadgeRepository;
 import studycave.application.user.UserRepository;
+import studycave.application.userActivity.UserActivityService;
 
 @RestController
 @CrossOrigin
@@ -55,15 +60,31 @@ public class TestController {
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
+	BadgeRepository badgeRepository;
+	@Autowired
+	UserBadgeRepository userBadgeRepository;
+	@Autowired
 	ModelMapper modelMapper;
 	@Autowired
 	QuestionVerifier questionVerifier;
 	@Autowired
 	TestResultRepository testResultRepository;
+  	@Autowired
+  	UserActivityService userActivityService;
 
 	@GetMapping("/{id}")
 	public Optional<Test> getTest(@PathVariable(required = true) Long id) {
-		return testRepository.findById(id);
+		Optional<Test> test = testRepository.findById(id);
+		for (Question question : test.get().getQuestions()) {
+			if(question instanceof QuestionGaps) {
+				List<AnswerGaps> answers = ((QuestionGaps)question).getAnswers();
+				Collections.sort(answers, 
+                        (o1, o2) -> o1.getId().compareTo(o2.getId()));
+			}
+		}
+		test.get().setGroup(null);
+		test.get().setActivity(null);
+		return test;
 	}
 
 	@GetMapping("/{id}/solve")
@@ -129,6 +150,14 @@ public class TestController {
 	public void saveResult(@RequestBody SaveTestResultDTO resultDTO) {
 		User user = userRepository.findByUsername(resultDTO.getOwner()).get();
 		Optional<Test> test = testRepository.findById(resultDTO.getIdTest());
+		
+		List<TestResult> testResult = this.testResultRepository.findByIdOwnerAndIdTest(user.getId(), resultDTO.getIdTest());
+		
+		if (testResult.size() > 0) {
+			return;
+		}
+		
+		
 		int maxScore = 0;
 		for (Question question : test.get().getQuestions()) {
 			maxScore += question.getPoints();
@@ -139,6 +168,7 @@ public class TestController {
 		result.setMaxScore(maxScore);
 		result.setIdResult((long) 0);
 		testResultRepository.save(result);
+		userActivityService.saveActivity("solvedTest", resultDTO.getUserScore().intValue(), null, user, null, test.get().getGroup(), null, null, test.get());
 	}
 
 	@GetMapping("/results/max")
@@ -174,8 +204,7 @@ public class TestController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity deleteTest(@RequestHeader(value = "Authorization") String headerStr,
-			@PathVariable(required = true) Long id) {
+	public ResponseEntity deleteTest(@PathVariable(required = true) Long id) {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
@@ -223,6 +252,17 @@ public class TestController {
 		test.setAddDate();
 		test.setEditDate();
 		test.setGrade();
+		
+	// Badge for creating first test
+		if(userBadgeRepository.findByIdAndUser((long)4, user.getId()).isEmpty()) {
+		UserBadge badgeAchieved = new UserBadge();
+		Badge badge = new Badge();
+		badge = badgeRepository.findById((long)4).orElse(null);
+		badgeAchieved.setBadge(badge);
+		badgeAchieved.setUser(user);
+		userBadgeRepository.save(badgeAchieved);
+		}
+		
 		testRepository.save(test);
 	}
 
@@ -249,7 +289,7 @@ public class TestController {
 	}
 
 	@PutMapping
-	public ResponseEntity editTest(@RequestHeader(value = "Authorization",required=false) String headerStr,@RequestBody TestEditDTO testDTO) {
+	public ResponseEntity editTest(@RequestBody TestEditDTO testDTO) {
 
 		
 		//Authorization
@@ -347,14 +387,21 @@ public class TestController {
 						}
 					}
 				}
+				List<AnswerGaps> answers = new ArrayList<>();
 				if (oldquestion instanceof QuestionGaps && question instanceof QuestionGaps) {
+					for (AnswerGaps answer : ((QuestionGaps) question).getAnswers()) {
+						answers.add(answer);
+					}
+					Collections.reverse(answers);
+					for (AnswerGaps answer : answers) {
+						answer.setId(null);
+						answer.setQuestion(question);
+					}
+						
 					for (AnswerGaps oldanswer : ((QuestionGaps) oldquestion).getAnswers()) {
-						isina = false;
-						for (AnswerGaps answer : ((QuestionGaps) question).getAnswers())
-							if (oldanswer.getId() == answer.getId())
-								isina = true;
-						if (isina == false) {
+						if (answerRepository.findById(oldanswer.getId()) != null) {
 							deletea.add(oldanswer.getId());
+							// deleteq.add(oldquestion.getId());
 							// System.out.println("usuwam answer: "+oldanswer.getId());
 						}
 					}

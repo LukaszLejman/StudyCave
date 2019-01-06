@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TestsService } from '../tests.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-test-maker',
@@ -8,27 +9,27 @@ import { TestsService } from '../tests.service';
 })
 export class TestMakerComponent implements OnInit {
 
-  private owner: Number = 0;
-  private title: String = '';
-  private permission: Boolean = false;
+   owner: Number = 0;
+   title: String = '';
+   permission: Boolean = false;
 
-  private test: Array<Object> = [];
-  private shown: Boolean = false;
+   test: Array<Object> = [];
+   shown: Boolean = false;
 
-  private trueFalse: Boolean = false;
-  private singleChoice: Boolean = false;
-  private multipleChoice: Boolean = false;
-  private puzzle: Boolean = false;
-  private gaps: Boolean = false;
-  private pairs: Boolean = false;
+   trueFalse: Boolean = false;
+   singleChoice: Boolean = false;
+   multipleChoice: Boolean = false;
+   puzzle: Boolean = false;
+   gaps: Boolean = false;
+   pairs: Boolean = false;
 
-  private componentVisible: Boolean = false;
-  private nr: Number = 0;
-  private pointsAll: Number = 0;
+   componentVisible: Boolean = false;
+   nr: Number = 0;
+   pointsAll: Number = 0;
 
-  constructor(private testsService: TestsService) {}
+  constructor(private testsService: TestsService, public snackBar: MatSnackBar) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onAdd(question: Object): void {
     this.pointsAll = 0;
@@ -134,7 +135,8 @@ export class TestMakerComponent implements OnInit {
 
   save(): void {
     if ((this.title === undefined) || (this.title.trim().length === 0)) {
-      alert('Podaj tytuł testu.');
+      this.snackBar.open('Podaj tytuł testu.', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       let p = 'private';
       if (this.permission) {

@@ -26,7 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import studycave.application.badges.Badge;
+import studycave.application.badges.BadgeRepository;
 import studycave.application.user.User;
+import studycave.application.user.UserBadge;
+import studycave.application.user.UserBadgeRepository;
 import studycave.application.user.UserRepository;
 
 @RestController
@@ -41,6 +45,10 @@ public class SetController {
 	SetRepository setRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	BadgeRepository badgeRepository;
+	@Autowired
+	UserBadgeRepository userBadgeRepository;
 	@Autowired
 	SimpleSetRepository simpleSetRepository;
 	@Autowired
@@ -238,8 +246,7 @@ public class SetController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity deleteSet(@RequestHeader(value = "Authorization", required = false) String headerStr,
-			@PathVariable(required = true) Long id) {
+	public ResponseEntity deleteSet(@PathVariable(required = true) Long id) {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
@@ -289,6 +296,17 @@ public class SetController {
 			flashcard.setFlashcardSet(set);
 		set.setAddDate();
 		set.setEditDate();
+		
+	// Badge for creating first test
+		if(userBadgeRepository.findByIdAndUser((long)5, user.getId()).isEmpty()) {
+		UserBadge badgeAchieved = new UserBadge();
+		Badge badge = new Badge();
+		badge = badgeRepository.findById((long)5).orElse(null);
+		badgeAchieved.setBadge(badge);
+		badgeAchieved.setUser(user);
+		userBadgeRepository.save(badgeAchieved);
+		}
+		
 		setRepository.save(set);
 	}
 
@@ -298,8 +316,7 @@ public class SetController {
 	}
 
 	@PutMapping
-	public ResponseEntity putSet(@RequestHeader(value = "Authorization", required = false) String headerStr,
-			@RequestBody SetOwnerDTO setDTO) {
+	public ResponseEntity putSet(@RequestBody SetOwnerDTO setDTO) {
 
 		// Authorization
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

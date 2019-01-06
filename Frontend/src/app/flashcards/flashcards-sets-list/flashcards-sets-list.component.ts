@@ -4,8 +4,9 @@ import { Set } from '../set';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { FilterPipe } from '../../filter.pipe';
-import { GridOptions, RowDoubleClickedEvent } from 'ag-grid/main';
+import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 import localeText from './localeText';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-flashcards-sets-list',
@@ -32,6 +33,7 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
   private logged = false;
   private publicMode = true;
   private permission;
+  display = false;
 
   columnDefs = [
     { headerName: 'Nazwa', field: 'name', headerTooltip: 'Nazwa' },
@@ -46,7 +48,8 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
       cellRenderer: this.customCellRendererFunc
     }
   ];
-  constructor(private flashcardsService: FlashcardsService, private router: Router) { }
+  setToDelete: any;
+  constructor(private flashcardsService: FlashcardsService, private router: Router, public snackBar: MatSnackBar) { }
 
   customCellRendererFunc(params) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -54,8 +57,10 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
       return '';
     } else if (params.data['owner'] === currentUser.username) {
       return `
-        <button type="button" data-action-type="remove" class="btn btn-danger btn-sm">Usuń</button>
-        <button type="button" data-action-type="changePermission" class="btn btn-success btn-sm">Upraw.</button>
+        <button type="button" data-action-type="remove" class="btn btn-study-cave btn-sm" title="Usuń">
+        <i class="fas fa-trash-alt" data-action-type="remove"></i></button>
+        <button type="button" data-action-type="changePermission" class="btn btn-study-cave btn-sm" title="Uprawnienia">
+        <i class="fas fa-unlock" data-action-type="changePermission"></i></button>
         `;
     } else {
       return '';
@@ -87,8 +92,16 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
     }
   }
   public onActionRemoveClick(e) {
-    this.flashcardSubscription = this.flashcardsService.deleteSet(e.data.id);
+    this.display = true;
+    this.setToDelete = e.data.id;
   }
+
+  deleteSet() {
+    const data = this.setToDelete;
+    this.flashcardSubscription = this.flashcardsService.deleteSet(data);
+    this.display = false;
+  }
+
   changePermission(e): void {
     if (e.data.permission === 'Public') {
       this.permission = 'Private';
@@ -96,7 +109,8 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
       this.permission = 'Public';
     }
     this.flashcardsService.changeSetPermission(e.data.id, this.permission);
-    alert('Zmieniono pozwolenie na: ' + this.permission);
+    this.snackBar.open('Zmieniono pozwolenie na: ' + this.permission, null,
+      { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
   }
 
   goToSets(e) {

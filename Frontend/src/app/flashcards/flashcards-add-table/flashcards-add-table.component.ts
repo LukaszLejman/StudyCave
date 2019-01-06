@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FlashcardsService } from '../flashcards.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-flashcards-add-table',
@@ -13,9 +14,9 @@ export class FlashcardsAddTableComponent implements OnInit {
   private fieldArray: Array<any> = [];
   private newAttribute: any = {};
   private currentUser;
-  private permission: Boolean = false;
+  permission: Boolean = false;
 
-  constructor(private flashcardsService: FlashcardsService) { }
+  constructor(private flashcardsService: FlashcardsService, public snackBar: MatSnackBar) { }
 
   ngOnInit() { this.isLoggedIn(); }
 
@@ -34,11 +35,13 @@ export class FlashcardsAddTableComponent implements OnInit {
   addFieldValue() {
     const undefinedAttr = ((this.newAttribute['left_side'] === undefined) || (this.newAttribute['right_side'] === undefined));
     if (undefinedAttr) {
-      alert('Nie można dodać fiszki z pustym polem!');
+      this.snackBar.open('Nie można dodać fiszki z pustym polem!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       const length = ((this.newAttribute['left_side'].trim().length === 0) || (this.newAttribute['right_side'].trim().length === 0));
       if (length) {
-        alert('Nie można dodać fiszki z pustym polem!');
+        this.snackBar.open('Nie można dodać fiszki z pustym polem!', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
       } else {
         this.fieldArray.push(this.newAttribute);
         this.newAttribute = {};
@@ -61,7 +64,8 @@ export class FlashcardsAddTableComponent implements OnInit {
   addTable(value: any) {
     // obsługa formularza dodawania fiszek do tabeli
     if (this.fieldArray.length === 0) {
-      alert('Zestaw fiszek nie może być pusty!');
+      this.snackBar.open('Zestaw fiszek nie może być pusty!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       let p = 'Private';
       if (this.permission) {

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-single-choice-question',
@@ -7,25 +8,25 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class SingleChoiceQuestionComponent implements OnInit {
 
-  @Input() private content: Object = {};
-  @Input() private edit: Boolean;
+  @Input()  content: Object = {};
+  @Input()  edit: Boolean;
 
-  private isChecked: Boolean = false;
-  private answers: Array<Object> = [];
-  private answersCorrect: Array<Object> = [];
-  private newAttribute: any = {
+   isChecked: Boolean = false;
+   answers: Array<Object> = [];
+   answersCorrect: Array<Object> = [];
+   newAttribute: any = {
     id: null,
     content: '',
     is_good: false
   };
-  private question: String = '';
-  private points: Number = 1;
-  private id: Number = null;
+   question: String = '';
+   points: Number = 1;
+   id: Number = null;
 
-  @Output() private add: EventEmitter<Object> = new EventEmitter();
-  @Output() private editing: EventEmitter<Object> = new EventEmitter();
+  @Output()  add: EventEmitter<Object> = new EventEmitter();
+  @Output()  editing: EventEmitter<Object> = new EventEmitter();
 
-  constructor() {}
+  constructor(public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     if (this.edit) {
@@ -57,35 +58,38 @@ export class SingleChoiceQuestionComponent implements OnInit {
 
   addFieldValue(): void {
     const undefinedAttr = (this.newAttribute['content'] === undefined);
-      if (undefinedAttr) {
-        alert('Nie można dodać pustej odpowiedzi!');
+    if (undefinedAttr) {
+      this.snackBar.open('Nie można dodać pustej odpowiedzi!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+    } else {
+      const length = (this.newAttribute['content'].trim().length === 0);
+      if (length) {
+        this.snackBar.open('Nie można dodać pustej odpowiedzi!', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
       } else {
-        const length = (this.newAttribute['content'].trim().length === 0);
-        if (length) {
-          alert('Nie można dodać pustej odpowiedzi!');
-        } else {
-          this.newAttribute['is_good'] = this.isChecked;
+        this.newAttribute['is_good'] = this.isChecked;
 
-          let exists = false;
-          for (let i = 0; i < this.answersCorrect.length; i++) {
-            if (this.newAttribute['content'] === this.answersCorrect[i]['content']) {
-              exists = true;
-              alert('Odpowiedź już istnieje!');
-              break;
-            }
+        let exists = false;
+        for (let i = 0; i < this.answersCorrect.length; i++) {
+          if (this.newAttribute['content'] === this.answersCorrect[i]['content']) {
+            exists = true;
+            this.snackBar.open('Odpowiedź już istnieje!', null,
+              { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+            break;
           }
+        }
 
-          if (!exists) {
-            this.answersCorrect.push(this.newAttribute);
-            this.newAttribute = {
-              id: null,
-              content: '',
-              is_good: this.isChecked
-            };
-          }
+        if (!exists) {
+          this.answersCorrect.push(this.newAttribute);
+          this.newAttribute = {
+            id: null,
+            content: '',
+            is_good: this.isChecked
+          };
         }
       }
     }
+  }
 
   deleteFieldValue(index): void {
     this.answersCorrect.splice(index, 1);
@@ -105,10 +109,12 @@ export class SingleChoiceQuestionComponent implements OnInit {
 
   addTable(): void {
     if ((this.question === undefined) || (this.question.trim().length === 0)) {
-      alert('Pytanie nie może być puste!');
+      this.snackBar.open('Pytanie nie może być puste!', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
     } else {
       if (this.answersCorrect.length < 2) {
-        alert('Pytanie musi zawierać co najmniej 2 odpowiedzi!');
+        this.snackBar.open('Pytanie musi zawierać co najmniej 2 odpowiedzi!', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
       } else {
         let checked = false;
         for (let i = 0; i < this.answersCorrect.length; i++) {
@@ -118,7 +124,8 @@ export class SingleChoiceQuestionComponent implements OnInit {
           }
         }
         if (!checked) {
-          alert('Zaznacz prawidłową odpowiedź!');
+          this.snackBar.open('Zaznacz prawidłową odpowiedź!', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
         } else {
           let t = true;
           let times = 0;
@@ -128,7 +135,8 @@ export class SingleChoiceQuestionComponent implements OnInit {
             }
             if (times > 1) {
               t = false;
-              alert('Tylko 1 odpowiedź może być prawidłowa!');
+              this.snackBar.open('Tylko 1 odpowiedź może być prawidłowa!', null,
+                { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
               break;
             }
           }
@@ -141,7 +149,8 @@ export class SingleChoiceQuestionComponent implements OnInit {
               }
             }
             if (empty) {
-              alert('Żadna z odpowiedzi nie może być pusta!');
+              this.snackBar.open('Żadna z odpowiedzi nie może być pusta!', null,
+                { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
             } else {
               this.content['content']['question'] = this.question;
               this.content['content']['id'] = this.id;

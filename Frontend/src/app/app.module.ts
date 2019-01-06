@@ -3,23 +3,27 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-
+import { AppRoutingModule } from './app-routing.module';
 import { MaterialsModule } from './materials/materials.module';
 import { FlashcardsModule } from './flashcards/flashcards.module';
-import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './auth-guard.service';
-import { httpInterceptorProviders } from './http-interceptors/index';
-import { AppComponent } from './app.component';
 import { TestsModule } from './tests/tests.module';
+import { GroupsModule } from './groups/groups.module';
+import { UserModule } from './user/user.module';
+
+import { httpInterceptorProviders } from './http-interceptors/index';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+
+import { LoginComponent } from './login/login.component';
+import { AppComponent } from './app.component';
 import { MainNavigationComponent } from './main-navigation/main-navigation.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { AppRoutingModule } from './app-routing.module';
-import { UserModule } from './user/user.module';
-import { AuthenticationService } from './authentication.service';
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
+
+import { AuthGuard } from './auth-guard.service';
+import { AuthenticationService } from './authentication.service';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -32,15 +36,17 @@ import { WorkInProgressComponent } from './work-in-progress/work-in-progress.com
     WorkInProgressComponent
   ],
   imports: [
-    AppRoutingModule,
-    FlashcardsModule,
-    TestsModule,
     BrowserModule,
     FormsModule,
     HttpModule,
     HttpClientModule,
+    AppRoutingModule,
+    FlashcardsModule,
+    MaterialsModule,
+    TestsModule,
+    GroupsModule,
     UserModule,
-    MaterialsModule
+    SharedModule
   ],
   providers: [AuthGuard, httpInterceptorProviders, AuthenticationService, {
     provide: LocationStrategy, useClass: HashLocationStrategy
