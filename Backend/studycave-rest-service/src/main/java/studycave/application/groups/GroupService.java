@@ -360,18 +360,19 @@ public class GroupService {
 
   public ResponseEntity<?> getContent(Long group_id, String type) {
 		List<ContentDto> contents = new ArrayList<>();
-		ContentDto content = new ContentDto();
+		
 		switch (type){
 			case "tests":
+				ContentDto contentTest = new ContentDto();
 				List<Test> tests = new ArrayList<>();
 				tests = this.testRepository.findTestByGroup(group_id);
 				for (Test t : tests) {
-					content.setId(t.getId());
-					content.setOwner((userRepository.findById(t.getIdOwner()).orElse(null)).getUsername());
-					content.setAddDate();
-					content.setGrade((long) 0);
-					content.setTitle(t.getTitle());	
-					contents.add(content);
+					contentTest.setId(t.getId());
+					contentTest.setOwner((userRepository.findById(t.getIdOwner()).orElse(null)).getUsername());
+					contentTest.setAddDate();
+					contentTest.setGrade((long) 0);
+					contentTest.setTitle(t.getTitle());	
+					contents.add(contentTest);
 				}
 
 					return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
@@ -379,12 +380,13 @@ public class GroupService {
 				List<Material> materials = new ArrayList<>();
 				materials = this.materialRepository.findMaterialByGroup(group_id);
 				for (Material m : materials ) {
-					content.setId(m.getId());
-					content.setOwner((userRepository.findById((long)m.getOwner()).orElse(null)).getUsername());
-					content.setAddDate();
-					content.setGrade((long) 0);
-					content.setTitle(m.getTitle());
-					contents.add(content);
+					ContentDto contentMaterial = new ContentDto();
+					contentMaterial.setId(m.getId());
+					contentMaterial.setOwner((userRepository.findById((long)m.getOwner()).orElse(null)).getUsername());
+					contentMaterial.setAddDate();
+					contentMaterial.setGrade((long) 0);
+					contentMaterial.setTitle(m.getTitle());
+					contents.add(contentMaterial);
 				}
 
 					return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
@@ -392,12 +394,13 @@ public class GroupService {
 				List<Set> sets = new ArrayList<>();
 				sets = this.setRepository.findSetByGroup(group_id);
 				for (Set s : sets) {
-					content.setId(s.getId());
-					content.setOwner((userRepository.findById((long)s.getIdOwner()).orElse(null)).getUsername());
-					content.setAddDate();
-					content.setGrade((long) 0);
-					content.setTitle(s.getName());
-					contents.add(content);
+					ContentDto contentSet = new ContentDto();
+					contentSet.setId(s.getId());
+					contentSet.setOwner((userRepository.findById((long)s.getIdOwner()).orElse(null)).getUsername());
+					contentSet.setAddDate();
+					contentSet.setGrade((long) 0);
+					contentSet.setTitle(s.getName());
+					contents.add(contentSet);
 				}
 
 					return new ResponseEntity<List<ContentDto>>(contents, HttpStatus.OK);
@@ -633,9 +636,6 @@ public class GroupService {
 			if(!m.getIsGroupLeader()) {
 				int score = 0;
 				LeaderboardDTO user = new LeaderboardDTO();
-				for (TestResult r : testResultRepository.findByIdOwner(m.getUser().getId())) {
-					score += r.getMaxScore();
-				}
 				for (UserActivity a : m.getUser().getActivityTo()) {
 					score += a.getPoints();
 				}
