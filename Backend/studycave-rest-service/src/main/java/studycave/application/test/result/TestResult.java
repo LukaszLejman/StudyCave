@@ -17,7 +17,7 @@ public class TestResult {
 	private Long idOwner;
 	@Column(name="id_test")
 	private Long idTest;
-	private int userScore;
+	private float userScore;
 	private int maxScore;
 	
 	
@@ -46,10 +46,10 @@ public class TestResult {
 	public void setIdTest(Long idTest) {
 		this.idTest = idTest;
 	}
-	public int getUserScore() {
+	public float getUserScore() {
 		return userScore;
 	}
-	public void setUserScore(int userScore) {
+	public void setUserScore(float userScore) {
 		this.userScore = userScore;
 	}
 	public int getMaxScore() {
