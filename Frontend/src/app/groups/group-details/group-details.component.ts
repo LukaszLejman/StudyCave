@@ -246,6 +246,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   goToRankings() {
     this.router.navigate(['groups/ranking', this.id]);
+  }
 
   goToHistory() {
     this.router.navigate(['groups/history', this.id]);

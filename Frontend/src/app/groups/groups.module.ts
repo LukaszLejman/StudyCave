@@ -62,7 +62,7 @@ import { HistoryOfActivityInGroupComponent } from './history-of-activity-in-grou
     TestToGroupPreviewComponent,
     MaterialToGroupPreviewComponent,
     FlashcardsToGroupPreviewComponent,
-    RankingComponent
+    RankingComponent,
     HistoryOfActivityInGroupComponent
 
   ],
