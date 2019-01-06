@@ -16,6 +16,7 @@ export class HistoryOfActivityInGroupComponent implements OnInit {
   public dateStart = new FormControl(new Date());
   public dateEnd = new FormControl(new Date());
   public maxDate = new Date();
+  public user = null;
 
   public id = 0;
 
@@ -27,6 +28,7 @@ export class HistoryOfActivityInGroupComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
+    this.user = JSON.parse(localStorage.getItem('currentUser'))['username'];
     this.getHistory(true);
   }
 

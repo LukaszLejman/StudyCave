@@ -51,7 +51,8 @@
           <p *ngIf="activityHistory.length === 0">Brak historii do wyświetlenia.</p>
           <p *ngFor="let activity of activityHistory">
             <span><b>{{ activity.date }}</b> - </span>
-            <span *ngIf="activity.from">lider grupy {{ activity.from }} 
+            <span *ngIf="activity.from && user && activity.from !== user">
+              lider grupy {{ activity.from }} 
               <span *ngIf="activity.type === 'acceptedResource'">
                 zatwierdził dodany przez Ciebie 
                 <span *ngIf="activity.resourceType === 'test'">test </span>
@@ -72,6 +73,31 @@
               </span>
               <span *ngIf="activity.comment">
                 Otrzymałeś komentarz:
+                <br />
+                <i>{{ activity.comment }}</i>
+              </span>
+            </span>
+            <span *ngIf="activity.from && user && activity.from === user">
+              <span *ngIf="activity.type === 'acceptedResource'">
+                zatwierdziłeś
+                <span *ngIf="activity.resourceType === 'test'">test </span>
+                <span *ngIf="activity.resourceType === 'material'">materiał </span>
+                <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
+                <span><b>{{ activity.resourceName }}</b> użytkownika {{ activity.to }}. </span>
+                <span *ngIf="activity.points === 0">Nie przyznałeś mu za to punktów.</span>
+                <span *ngIf="activity.points !== 0">Przyznałeś mu za to 
+                  {{ activity.points }} pkt.
+                </span>
+              </span>
+              <span *ngIf="activity.type === 'rejectedResource'">
+                odrzuciłeś
+                <span *ngIf="activity.resourceType === 'test'">test </span>
+                <span *ngIf="activity.resourceType === 'material'">materiał </span>
+                <span *ngIf="activity.resourceType === 'flashcards'">zestaw fiszek </span>
+                <span><b>{{ activity.resourceName }}</b> użytkownika {{ activity.to }}. </span>
+              </span>
+              <span *ngIf="activity.comment">
+                Dodałeś komentarz:
                 <br />
                 <i>{{ activity.comment }}</i>
               </span>
