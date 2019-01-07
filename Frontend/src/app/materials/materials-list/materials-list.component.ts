@@ -29,6 +29,7 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
   private logged = false;
   private publicMode = true;
   private permission;
+  isGroup = false;
   // serverURL = 'http://studycave-api.eu-west-1.elasticbeanstalk.com/file/files/' ; // działa na globalu
   // serverURL = 'http://localhost:8080/file/files/' ; // działa na localhost
 
@@ -37,12 +38,13 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
     { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
     { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
     { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
-    { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
+    { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
     {
       headerName: '',
       suppressMenu: true,
       suppressSorting: true,
-      cellRenderer: this.customCellRendererFunc
+      cellRenderer: this.customCellRendererFunc,
+      hide: !this.isGroup
     }
   ];
 
@@ -80,6 +82,7 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
     };
     this.getMats();
     this.IsLogin();
+    this.refreshColumns();
   }
 
 
@@ -94,10 +97,12 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
       this.user = false;
     }
   }
+
   ShowPublic() {
     this.ShowStatus = false;
     this.getMats();
   }
+
   ShowPrivate() {
     this.ShowStatus = true;
     this.getMatsOwners();
@@ -121,6 +126,7 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
     }
 
   }
+
   public onActionRemoveClick(e) {
     this.matSubscription = this.materialsService.deleteMat(e.data.id);
 
@@ -160,6 +166,7 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
   }
 
   getMats(): void {
+    this.isGroup = false;
     this.materialsSubscription = this.materialsService.getMaterials()
       .subscribe(data => {
         this.mats = data;
@@ -168,11 +175,19 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
         } else {
           this.matsEmpty = true;
         }
+        this.refreshColumns();
       });
   }
+
   getMatsOwners(): void {
+    this.isGroup = true;
     this.materialsSubscriptionOwners = this.materialsService.getMaterialsOwners()
       .subscribe(data => {
+        data.forEach((x, i) => {
+          if (!x['group']) {
+            x['group'] = 'Brak';
+          }
+        });
         this.mats = [];
         this.mats = data;
         if (this.mats.length > 0) {
@@ -180,6 +195,7 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
         } else {
           this.matsEmpty = true;
         }
+        this.refreshColumns();
       });
   }
 
@@ -196,12 +212,13 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
         { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: true },
         { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: true },
         { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: true },
-        { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: true },
+        { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
         {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          cellRenderer: this.customCellRendererFunc
+          cellRenderer: this.customCellRendererFunc,
+          hide: !this.isGroup
         }
       ];
     } else {
@@ -211,11 +228,13 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
         { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
         { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
         { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
+        { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
         {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          cellRenderer: this.customCellRendererFunc
+          cellRenderer: this.customCellRendererFunc,
+          hide: !this.isGroup
         }
       ];
     }
@@ -237,6 +256,23 @@ export class MaterialsListComponent implements OnInit, OnDestroy {
     if (this.matSubscription) {
       this.matSubscription.unsubscribe();
     }
+  }
+
+  refreshColumns() {
+    this.columnDefs = [
+      { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+      { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
+      { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
+      { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+      { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
+      {
+        headerName: '',
+        suppressMenu: true,
+        suppressSorting: true,
+        cellRenderer: this.customCellRendererFunc,
+        hide: !this.isGroup
+      }
+    ];
   }
 
 }

@@ -34,18 +34,20 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
   private publicMode = true;
   private permission;
   display = false;
+  isGroup = false;
 
   columnDefs = [
     { headerName: 'Nazwa', field: 'name', headerTooltip: 'Nazwa' },
     { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
     { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
     { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
-    { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
+    { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
     {
       headerName: '',
       suppressMenu: true,
       suppressSorting: true,
-      cellRenderer: this.customCellRendererFunc
+      cellRenderer: this.customCellRendererFunc,
+      hide: !this.isGroup
     }
   ];
   setToDelete: any;
@@ -76,6 +78,7 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
   toFlashcardsMaker() {
     this.router.navigate(['flashcards/add']);
   }
+
   public onRowClicked(e) {
     if (e.event.target !== undefined) {
       const data = e.data;
@@ -128,11 +131,13 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
       this.searchOwner = ' ';
     }
   }
+
   ShowPublic() {
     this.sets = [];
     this.ShowStatus = false;
     this.getSets();
   }
+
   ShowPrivate() {
     this.privatesets = [];
     this.ShowStatus = true;
@@ -155,9 +160,11 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
     };
     this.getSets();
     this.IsLogin();
+    this.refreshColumns();
   }
 
   getSets(): void {
+    this.isGroup = false;
     this.flashcardSubscription = this.flashcardsService.getSets()
       .subscribe(data => {
         this.sets = data;
@@ -166,17 +173,26 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
         } else {
           this.setsEmpty = true;
         }
+        this.refreshColumns();
       });
   }
+
   getSetsOwners(): void {
+    this.isGroup = true;
     this.flashcardSubscriptionOwners = this.flashcardsService.getSetsOwners()
       .subscribe(data => {
+        data.forEach((x, i) => {
+          if (!x['group']) {
+            x['group'] = 'Brak';
+          }
+        });
         this.sets = data;
         if (this.sets.length > 0) {
           this.setsEmpty = false;
         } else {
           this.setsEmpty = true;
         }
+        this.refreshColumns();
       });
   }
 
@@ -193,12 +209,13 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
         { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: true },
         { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: true },
         { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: true },
-        { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: true },
+        { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
         {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          cellRenderer: this.customCellRendererFunc
+          cellRenderer: this.customCellRendererFunc,
+          hide: !this.isGroup
         }
       ];
     } else {
@@ -207,12 +224,13 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
         { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
         { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
         { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
-        { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
+        { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
         {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          cellRenderer: this.customCellRendererFunc
+          cellRenderer: this.customCellRendererFunc,
+          hide: !this.isGroup
         }
       ];
     }
@@ -232,5 +250,22 @@ export class FlashcardsSetsListComponent implements OnInit, OnDestroy {
     if (this.flashcardSubscriptionOwners) {
       this.flashcardSubscriptionOwners.unsubscribe();
     }
+  }
+
+  refreshColumns() {
+    this.columnDefs = [
+      { headerName: 'Nazwa', field: 'name', headerTooltip: 'Nazwa' },
+      { headerName: 'Data dodania', field: 'add_date', headerTooltip: 'Data dodania', hide: false },
+      { headerName: 'Data modyfikacji', field: 'edit_date', headerTooltip: 'Data modyfikacji', hide: false },
+      { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+      { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
+      {
+        headerName: '',
+        suppressMenu: true,
+        suppressSorting: true,
+        cellRenderer: this.customCellRendererFunc,
+        hide: !this.isGroup
+      }
+    ];
   }
 }

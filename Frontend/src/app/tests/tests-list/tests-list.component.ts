@@ -25,18 +25,21 @@ export class TestsListComponent implements OnInit, OnDestroy {
   private getUserTestsSubscription: ISubscription;
   private currentUser = JSON.parse(localStorage.getItem('currentUser'));
   display = false;
+  isGroup = false;
   toDelete;
   columnDefs = [
     { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
     { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
     { headerName: 'Data modyfikacji', field: 'editDate', headerTooltip: 'Data modyfikacji', hide: false },
     { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+    { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
     { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
     {
       headerName: '',
       suppressMenu: true,
       suppressSorting: true,
-      cellRenderer: this.customCellRendererFunc
+      cellRenderer: this.customCellRendererFunc,
+      hide: !this.isGroup
     }
   ];
 
@@ -153,18 +156,27 @@ export class TestsListComponent implements OnInit, OnDestroy {
 
   getPublicTestsData() {
     this.publicMode = true;
+    this.isGroup = false;
     this.testService.getTests().subscribe(
       d => {
         this.tests = d;
+        this.refreshColumns();
       }
     );
   }
 
   showPrivateTests() {
     this.publicMode = false;
+    this.isGroup = true;
     this.getTestsSubscription = this.getUserTestsSubscription = this.testService.getUserTests().subscribe(
       d => {
+        d.forEach((x, i) => {
+          if (!x['group']) {
+            x['group'] = 'Brak';
+          }
+        });
         this.tests = d;
+        this.refreshColumns();
         this.gridApi.sizeColumnsToFit();
       }
     );
@@ -191,12 +203,14 @@ export class TestsListComponent implements OnInit, OnDestroy {
         { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: true },
         { headerName: 'Data modyfikacji', field: 'editDate', headerTooltip: 'Data modyfikacji', hide: true },
         { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: true },
+        { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
         { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: true },
         {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          cellRenderer: this.customCellRendererFunc
+          cellRenderer: this.customCellRendererFunc,
+          hide: !this.isGroup
         }
       ];
     } else {
@@ -205,12 +219,14 @@ export class TestsListComponent implements OnInit, OnDestroy {
         { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
         { headerName: 'Data modyfikacji', field: 'editDate', headerTooltip: 'Data modyfikacji', hide: false },
         { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+        { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
         { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
         {
           headerName: '',
           suppressMenu: true,
           suppressSorting: true,
-          cellRenderer: this.customCellRendererFunc
+          cellRenderer: this.customCellRendererFunc,
+          hide: !this.isGroup
         }
       ];
     }
@@ -232,6 +248,24 @@ export class TestsListComponent implements OnInit, OnDestroy {
     if (this.getUserTestsSubscription) {
       this.getUserTestsSubscription.unsubscribe();
     }
+  }
+
+  refreshColumns() {
+    this.columnDefs = [
+      { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
+      { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
+      { headerName: 'Data modyfikacji', field: 'editDate', headerTooltip: 'Data modyfikacji', hide: false },
+      { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
+      { headerName: 'Grupa', field: 'group', headerTooltip: 'Grupa', hide: !this.isGroup },
+      { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
+      {
+        headerName: '',
+        suppressMenu: true,
+        suppressSorting: true,
+        cellRenderer: this.customCellRendererFunc,
+        hide: !this.isGroup
+      }
+    ];
   }
 
 }
