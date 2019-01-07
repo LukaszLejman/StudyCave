@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FlashcardsService } from '../flashcards.service';
 import { Subscription } from 'rxjs/Subscription';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RoutingStateService } from '../../routing-state.service';
 
 @Component({
   selector: 'app-flashcards-set-detail',
@@ -23,7 +24,7 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   display = false;
 
   constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService, private router: Router,
-    public snackBar: MatSnackBar) { }
+    private routingState: RoutingStateService, public snackBar: MatSnackBar) { }
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
     this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => { this.set = data; });
@@ -78,14 +79,19 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['flashcards/sets/edit', this.id]);
   }
 
-
   ngOnDestroy() {
     this.flashcardSubscribtion.unsubscribe();
   }
+
   deleteSet() {
     const data = this.id;
     this.flashcardSubscribtion = this.flashcardsService.deleteSet(data);
     this.display = false;
+  }
+
+  goBack() {
+    const previousUrl = this.routingState.getPreviousUrl();
+    this.router.navigate([previousUrl]);
   }
 
 }

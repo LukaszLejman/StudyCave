@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { RoutingStateService } from './routing-state.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,9 @@ import { Component, OnInit, Input } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  ngOnInit() {
+  constructor(routingState: RoutingStateService) {
+    routingState.loadRouting();
   }
+
+  ngOnInit() {}
 }

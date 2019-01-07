@@ -4,6 +4,7 @@ import { TestsService } from '../tests.service';
 import { ISubscription } from 'rxjs/Subscription';
 import { Test } from '../test_model';
 import { Test2PDF } from '../test2PDF';
+import { RoutingStateService } from '../../routing-state.service';
 
 @Component({
   selector: 'app-test-details',
@@ -28,7 +29,8 @@ export class TestDetailsComponent implements OnInit, OnDestroy {
   getTestWithoutAnswersSubscription: ISubscription;
   display = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private testService: TestsService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private testService: TestsService,
+    private routingState: RoutingStateService) { }
 
   openPopup() {
     this.display = true;
@@ -54,7 +56,8 @@ export class TestDetailsComponent implements OnInit, OnDestroy {
   }
 
   back() {
-    this.router.navigate(['tests']);
+    const previousUrl = this.routingState.getPreviousUrl();
+    this.router.navigate([previousUrl]);
   }
 
   edit() {
@@ -68,7 +71,8 @@ export class TestDetailsComponent implements OnInit, OnDestroy {
   remove() {
     this.removeTestSubscription = this.testService.removeTest(this.id).subscribe(
       d => {
-        this.router.navigate(['tests']);
+        const previousUrl = this.routingState.getPreviousUrl();
+        this.router.navigate([previousUrl]);
       }
     );
   }

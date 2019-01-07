@@ -3,7 +3,7 @@
 
     <div *ngIf="test">
       <div class="header">
-        <button class="btn btn-study-cave" (click)="back()"><i class="fas fa-arrow-left"></i> Wróć do listy testów</button>
+        <button class="btn btn-study-cave" (click)="back()"><i class="fas fa-arrow-left"></i> Powrót</button>
         <span>
           <div *ngIf="currentUser">Twój maksymalny wynik: {{prevMaxResult}}/{{maxPoints}}</div>
           <button title="Usuń" *ngIf="currentUser && currentUser.username === test.owner && (!isStarted || isEnded)" class="btn btn-study-cave" (click)="openPopup()"><i class="fas fa-trash-alt"></i></button>

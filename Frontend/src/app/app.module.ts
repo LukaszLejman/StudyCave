@@ -24,6 +24,7 @@ import { WorkInProgressComponent } from './work-in-progress/work-in-progress.com
 import { AuthGuard } from './auth-guard.service';
 import { AuthenticationService } from './authentication.service';
 import { SharedModule } from './shared/shared.module';
+import { RoutingStateService } from './routing-state.service';
 
 
 @NgModule({
@@ -48,7 +49,7 @@ import { SharedModule } from './shared/shared.module';
     UserModule,
     SharedModule
   ],
-  providers: [AuthGuard, httpInterceptorProviders, AuthenticationService, {
+  providers: [AuthGuard, httpInterceptorProviders, AuthenticationService, RoutingStateService, {
     provide: LocationStrategy, useClass: HashLocationStrategy
   }],
   bootstrap: [AppComponent]

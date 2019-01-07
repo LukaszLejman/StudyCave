@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialsService } from '../materials.service';
 import { Subscription } from 'rxjs/Subscription';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RoutingStateService } from '../../routing-state.service';
 
 @Component({
   selector: 'app-materials-details',
@@ -26,7 +27,7 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
   serverURL = 'http://studycave.eu-west-1.elasticbeanstalk.com/#/file/files/'; // działa na globalu
   // serverURL = 'http://localhost:8080/file/files/' ; // działa na localhost
   constructor(private route: ActivatedRoute, private materialsService: MaterialsService, private router: Router,
-    public snackBar: MatSnackBar) { }
+    private routingState: RoutingStateService, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
@@ -51,6 +52,7 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
       this.owned = false;
     }
   }
+
   IsLogin() {
     if (localStorage.getItem('currentUser')) {
       this.user = true;
@@ -58,6 +60,7 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
       this.user = false;
     }
   }
+
   changePermission(): void {
     if (this.perm === 'Public') {
       this.permission = 'Private';
@@ -67,8 +70,9 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
     this.materialsService.changeMatPermission(this.id, this.permission);
     this.snackBar.open('Zmieniono pozwolenie na: ' + this.permission, null,
       { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
-    this.router.navigate(['materials/list']);
+    this.goBack();
   }
+
   ngOnDestroy() {
     if (this.matSubscribtion) {
       this.matSubscribtion.unsubscribe();
@@ -83,8 +87,13 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
 
   download() {
     this.materialsService.downloadFile(this.id);
-    // this.router.navigate(['materials/list']);
+    // this.goBack();
     // console.log('download');
+  }
+
+  goBack() {
+    const previousUrl = this.routingState.getPreviousUrl();
+    this.router.navigate([previousUrl]);
   }
 
 }
