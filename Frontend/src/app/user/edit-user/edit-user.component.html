@@ -3,7 +3,7 @@
     <h4 class="text-gray mb-4 centerMargin"><i class="fas fa-edit"></i> Edytuj profil</h4>
     <div *ngIf="editStatus" class="alert alert-success">Edycja udana!</div>
     <div *ngIf="invalidEdit" class="alert alert-danger">{{errorMessage}}</div>
-    <div *ngIf="invalidPassword" class="alert alert-danger">Hasła i hasło potwierzające muszą być takie same.</div>
+    <div *ngIf="invalidPassword" class="alert alert-danger">Hasła muszą być takie same.</div>
     <form *ngIf="!editStatus" #userForm="ngForm" (ngSubmit)="edit(userForm.value)" ngNativeValidate>
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-6 centerMargin">

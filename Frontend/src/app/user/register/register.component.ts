@@ -12,11 +12,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   registerStatus = false;
   invalidRegister = false;
+  invalidPassword = false;
   errorMessage = '';
   signInSub: Subscription;
   constructor(private userService: UserService) { }
 
   onSubmit(value: any) {
+    if (value.password === value.password2) {
     this.signInSub = this.userService.register({
       email: value.email,
       username: value.login,
@@ -25,6 +27,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       surname: value.surname
     }).subscribe(
       data => {
+        this.invalidPassword = false;
         if (data === 'Login zajety') {
           this.errorMessage = 'Login zajęty. Wybierz inny.';
           this.invalidRegister = true;
@@ -42,6 +45,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
       },
       () => { }
       );
+    } else {
+      this.invalidPassword = true;
+      this.invalidRegister = true;
+    }
   }
 
   ngOnInit() {

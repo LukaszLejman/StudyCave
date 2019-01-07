@@ -2,6 +2,7 @@
   <div class="content">
     <h4 class="text-gray mb-4 centerMargin">Rejestracja</h4>
     <div *ngIf="registerStatus" class="alert alert-success">Rejestracja udana!</div>
+    <div *ngIf="invalidPassword" class="alert alert-danger">Hasła muszą być takie same.</div>
     <div *ngIf="invalidRegister" class="alert alert-danger">{{errorMessage}}</div>
     <form *ngIf="!registerStatus" #userForm="ngForm" (ngSubmit)="onSubmit(userForm.value)" ngNativeValidate>
       <div class="row">
@@ -18,6 +19,15 @@
             <div class="form-group">
               <div>
                 <input type="password" placeholder="Hasło" class="form-control input-lg" minlength="6" maxlength="16" name="password" ngModel required/>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-6 centerMargin">
+            <div class="form-group">
+              <div>
+                <input type="password" placeholder="Potwierdź hasło" class="form-control input-lg" minlength="6" maxlength="16" name="password2" ngModel
+                  required/>
               </div>
             </div>
           </div>
