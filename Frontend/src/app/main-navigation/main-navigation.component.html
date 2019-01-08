@@ -17,6 +17,6 @@
       <a (click)="navToProfile()"><i class="fas fa-user-circle"></i> Profil</a>
       <a (click)="logout()"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
     </div>
-
+      <a *ngIf="isLogin">Witaj, {{currentUser.username}}!</a>
   </div>
 </div>

@@ -8,7 +8,7 @@ import { AuthenticationService } from '../authentication.service';
   styleUrls: ['./main-navigation.component.css']
 })
 export class MainNavigationComponent implements OnInit {
-
+  currentUser;
   private isLogin: Boolean;
 
   constructor(private router: Router, private authenticationService: AuthenticationService) {
@@ -35,6 +35,7 @@ export class MainNavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.isLoggedIn();
   }
 
