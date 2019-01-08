@@ -283,6 +283,7 @@ public class SetController {
 			String username = userRepository.findById((long) set.getIdOwner()).get().getUsername();
 			SimpleSetDTO setDTO = modelMapper.map(set, SimpleSetDTO.class);
 			setDTO.setOwner(username);
+			if(set.getGroupId() != null)
 			setDTO.setGroup(groupRepository.findById((long)set.getGroupId()).orElse(null).getName());
 			setDTOs.add(setDTO);
 		}

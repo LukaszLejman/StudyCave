@@ -286,6 +286,7 @@ public class TestController {
 			String username = userRepository.findById((long) test.getIdOwner()).get().getUsername();
 			SimpleTestDTO testDTO = modelMapper.map(test, SimpleTestDTO.class);
 			testDTO.setOwner(username);
+			if(test.getGroupId() != null)
 			testDTO.setGroup(groupRepository.findById((long)test.getGroupId()).orElse(null).getName());
 			testDTOs.add(testDTO);
 			

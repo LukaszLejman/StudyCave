@@ -196,6 +196,7 @@ public class UploadController {
 			String username = userRepository.findById((long) material.getOwner()).get().getUsername();
 			MaterialGetDTO materialDTO = modelMapper.map(material, MaterialGetDTO.class);
 		    materialDTO.setOwner(username);
+		    if(material.getGroup().getId() != null )
 		    materialDTO.setGroup(groupRepository.findById((long)material.getGroup().getId()).orElse(null).getName());
 		    materialDTOs.add(materialDTO);
 		}
