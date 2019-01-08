@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../../authentication.service';
+import { RoutingStateService } from '../../routing-state.service';
 
 describe('MaterialsDetailsComponent', () => {
   let component: MaterialsDetailsComponent;
@@ -18,7 +19,7 @@ describe('MaterialsDetailsComponent', () => {
       declarations: [ MaterialsDetailsComponent ],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [ RouterTestingModule, HttpClientModule, MatSnackBarModule, FormsModule],
-      providers: [MaterialsService, AuthenticationService]
+      providers: [MaterialsService, AuthenticationService, RoutingStateService]
     })
     .compileComponents();
   }));

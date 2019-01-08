@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
+import { RoutingStateService } from '../../routing-state.service';
 
 describe('FlashcardsSetDetailComponent', () => {
   let component: FlashcardsSetDetailComponent;
@@ -20,7 +21,7 @@ describe('FlashcardsSetDetailComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ FlashcardsSetDetailComponent ],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [FlashcardsService, AuthenticationService],
+      providers: [FlashcardsService, AuthenticationService, RoutingStateService],
       imports: [ RouterTestingModule, FormsModule, HttpClientModule, MatSnackBarModule]
     })
     .compileComponents();

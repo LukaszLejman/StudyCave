@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { TestsService } from '../tests.service';
 import { AuthenticationService } from '../../authentication.service';
 import { By } from '@angular/platform-browser';
+import { RoutingStateService } from '../../routing-state.service';
 
 describe('TestDetailsComponent', () => {
   let component: TestDetailsComponent;
@@ -19,7 +20,7 @@ describe('TestDetailsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TestDetailsComponent ],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [TestsService, AuthenticationService],
+      providers: [TestsService, AuthenticationService, RoutingStateService],
       imports: [ RouterTestingModule, FormsModule, HttpClientModule, MatSnackBarModule]
     })
     .compileComponents();
