@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import studycave.application.badges.Badge;
 import studycave.application.badges.BadgeRepository;
+import studycave.application.groups.GroupRepository;
 import studycave.application.user.User;
 import studycave.application.user.UserBadge;
 import studycave.application.user.UserBadgeRepository;
@@ -51,6 +52,8 @@ public class SetController {
 	UserBadgeRepository userBadgeRepository;
 	@Autowired
 	SimpleSetRepository simpleSetRepository;
+	@Autowired
+	GroupRepository groupRepository;
 	@Autowired
 	ModelMapper modelMapper;
 
@@ -280,6 +283,7 @@ public class SetController {
 			String username = userRepository.findById((long) set.getIdOwner()).get().getUsername();
 			SimpleSetDTO setDTO = modelMapper.map(set, SimpleSetDTO.class);
 			setDTO.setOwner(username);
+			setDTO.setGroup(groupRepository.findById((long)set.getGroupId()).orElse(null).getName());
 			setDTOs.add(setDTO);
 		}
 		return new ResponseEntity<List<SimpleSetDTO>>(setDTOs, HttpStatus.OK);
