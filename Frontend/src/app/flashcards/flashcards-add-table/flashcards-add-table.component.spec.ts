@@ -35,10 +35,10 @@ describe('FlashcardsAddTableComponent', () => {
 
   // Testowanie funkcji w klasie
   it('should change permissions', () => {
-    expect(component.permission).toBe(false);
-    component.changePermission();
     expect(component.permission).toBe(true);
     component.changePermission();
     expect(component.permission).toBe(false);
+    component.changePermission();
+    expect(component.permission).toBe(true);
   });
 });
