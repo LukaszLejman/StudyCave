@@ -11,7 +11,7 @@ export class TestMakerComponent implements OnInit {
 
    owner: Number = 0;
    title: String = '';
-   permission: Boolean = false;
+   permission: Boolean = true;
 
    test: Array<Object> = [];
    shown: Boolean = false;

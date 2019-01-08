@@ -18,7 +18,7 @@ export class MaterialsAddComponent implements OnInit {
   private currentUser = JSON.parse(localStorage.getItem('currentUser'));
   private user: string;
   private title: string;
-  private permission: Boolean = false;
+  private permission: Boolean = true;
   constructor(private uploadService: MaterialsService, private router: Router, public snackBar: MatSnackBar) { }
 
 
