@@ -1,6 +1,11 @@
 <div class="wrapper">
   <div class="content">
+      <div>
+          <button class="btn btn-study-cave float-right mr-1" [routerLink]="['/groups/', id]"><i class="fas fa-arrow-left"></i> Powrót</button>
+          <div style="clear: both;"></div>
+        </div>
     <h1>{{group?.name}}</h1>
+    <h3> Ranking {{setRankingTypeTitle()}}</h3>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
       <label class="btn btn-study-cave active" (click)="showGlobalRanking()">
         <input type="radio" name="options" id="option1" autocomplete="off" checked><i class="fas fa-globe"></i> Ranking

@@ -173,4 +173,8 @@ export class RankingComponent implements OnInit, OnDestroy {
     }
   }
 
+  setRankingTypeTitle(): string {
+    return this.typeOfRankingToDisplay === RankingType.test ? 'testów' : 'ogólny';
+  }
+
 }
