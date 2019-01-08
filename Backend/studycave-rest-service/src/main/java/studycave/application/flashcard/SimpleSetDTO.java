@@ -17,6 +17,7 @@ public class SimpleSetDTO {
     private Date editDate;
     private int grade;
     private String permission;
+    private String group;
     
     public SimpleSetDTO() {}
 
@@ -96,6 +97,14 @@ public class SimpleSetDTO {
 
 	public void setPermission(String permission) {
 		this.permission = permission;
+	}
+
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
 	}
 	
 }

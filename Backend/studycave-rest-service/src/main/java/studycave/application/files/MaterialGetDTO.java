@@ -15,6 +15,8 @@ public class MaterialGetDTO {
 	@JsonProperty("edit_date")
     private Date editDate;
     private int grade;
+    private String group;
+    
 	public MaterialGetDTO() {
 		
 	}
@@ -83,6 +85,14 @@ public class MaterialGetDTO {
 
 	public void setGrade(int grade) {
 		this.grade = grade;
+	}
+
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
 	}
 	
 	

@@ -17,6 +17,7 @@ public class SimpleTestDTO {
     @ApiModelProperty(value = "Default value for note", required = true,example = "public") 
     private String permission;
     private Long grade;
+    private String group;
     
     public SimpleTestDTO(){
     	super();
@@ -84,6 +85,14 @@ public class SimpleTestDTO {
 
 	public void setGrade(Long grade) {
 		this.grade = grade;
+	}
+
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
 	}
     
 }
