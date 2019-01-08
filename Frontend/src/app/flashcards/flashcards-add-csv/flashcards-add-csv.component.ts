@@ -16,7 +16,7 @@ export class FlashcardsAddCsvComponent implements OnInit {
   private progress: { percentage: number } = { percentage: 0 };
   private currentUser = JSON.parse(localStorage.getItem('currentUser'));
   private user: string;
-  private permission: Boolean = false;
+  private permission: Boolean = true;
   constructor(private uploadService: FlashcardsService, private router: Router, public snackBar: MatSnackBar) { }
 
   ngOnInit() { this.isLoggedIn(); }
