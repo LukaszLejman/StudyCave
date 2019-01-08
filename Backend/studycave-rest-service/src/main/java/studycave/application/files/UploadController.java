@@ -49,6 +49,7 @@ import studycave.application.flashcard.Flashcard;
 import studycave.application.flashcard.FlashcardRepository;
 import studycave.application.flashcard.Set;
 import studycave.application.flashcard.SetRepository;
+import studycave.application.groups.GroupRepository;
 import studycave.application.user.User;
 import studycave.application.user.UserRepository;
 
@@ -70,6 +71,8 @@ public class UploadController {
 	MaterialRepository materialRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	GroupRepository groupRepository;
 	@Autowired
 	S3ServicesImpl amazonFolder;
 	@Autowired
@@ -193,6 +196,7 @@ public class UploadController {
 			String username = userRepository.findById((long) material.getOwner()).get().getUsername();
 			MaterialGetDTO materialDTO = modelMapper.map(material, MaterialGetDTO.class);
 		    materialDTO.setOwner(username);
+		    materialDTO.setGroup(groupRepository.findById((long)material.getGroup().getId()).orElse(null).getName());
 		    materialDTOs.add(materialDTO);
 		}
 		return new ResponseEntity<List<MaterialGetDTO>>(materialDTOs, HttpStatus.OK);
@@ -208,6 +212,7 @@ public class UploadController {
 	@GetMapping("materials/{id}/permission")
 	public ResponseEntity<String> getPermission(@PathVariable(required = true) Long id) throws IOException {
 		Material material = materialRepository.findById(id).get();
+		
 		return ResponseEntity.status(HttpStatus.OK).body(material.getPermission());
 		//return material.getPermission();
 	}
