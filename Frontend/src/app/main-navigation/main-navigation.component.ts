@@ -35,8 +35,11 @@ export class MainNavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.isLoggedIn();
+    this.authenticationService.watchStorage().subscribe((data: string) => {
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      this.isLoggedIn();
+    });
+    this.authenticationService.watchStorageChanges();
   }
 
 }

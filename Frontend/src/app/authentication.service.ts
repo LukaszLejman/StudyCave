@@ -5,14 +5,25 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class AuthenticationService {
     @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
     private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    private storageSub = new Subject<boolean>();
     public token: string;
     constructor(private http: HttpClient, public snackBar: MatSnackBar) {
     }
+
+    watchStorage(): Observable<any> {
+        return this.storageSub.asObservable();
+    }
+
+    watchStorageChanges(): void {
+        this.storageSub.next(true);
+    }
+
 
     login(username: string, password: string): Observable<boolean> {
         return this.http.post('login', { password: password, username: username }, { headers: this.headers, observe: 'response' })
@@ -25,6 +36,7 @@ export class AuthenticationService {
                     // store username and jwt token w local storage aby nie wylogowało przy zmianie stron
                     localStorage.setItem('currentUser', JSON.stringify({ username: username, authorization: token }));
                     this.getLoggedInName.emit('logged');
+                    this.storageSub.next(true);
                     this.snackBar.open('Zalogowano pomyślnie!', null,
                         { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
                     // return true jeśli ok
