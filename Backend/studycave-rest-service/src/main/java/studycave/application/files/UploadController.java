@@ -45,12 +45,16 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.opencsv.CSVReader;
 
 import io.swagger.annotations.Api;
+import studycave.application.badges.Badge;
+import studycave.application.badges.BadgeRepository;
 import studycave.application.flashcard.Flashcard;
 import studycave.application.flashcard.FlashcardRepository;
 import studycave.application.flashcard.Set;
 import studycave.application.flashcard.SetRepository;
 import studycave.application.groups.GroupRepository;
 import studycave.application.user.User;
+import studycave.application.user.UserBadge;
+import studycave.application.user.UserBadgeRepository;
 import studycave.application.user.UserRepository;
 
 @RestController
@@ -73,6 +77,10 @@ public class UploadController {
 	UserRepository userRepository;
 	@Autowired
 	GroupRepository groupRepository;
+	@Autowired
+	UserBadgeRepository userBadgeRepository;
+	@Autowired
+	BadgeRepository badgeRepository;
 	@Autowired
 	S3ServicesImpl amazonFolder;
 	@Autowired
@@ -171,6 +179,14 @@ public class UploadController {
 		materialRepository.save(material);
 		//amazonFolder.uploadFile(material.getPath(),"save-dir\\" + material.getPath());
 		msg = "You successfully uploaded " + file.getOriginalFilename() + "!";
+		if(userBadgeRepository.findByIdAndUser((long)6, user.getId()).isEmpty()) {
+			UserBadge badgeAchieved = new UserBadge();
+			Badge badge = new Badge();
+			badge = badgeRepository.findById((long)6).orElse(null);
+			badgeAchieved.setBadge(badge);
+			badgeAchieved.setUser(user);
+			userBadgeRepository.save(badgeAchieved);
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(msg);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -183,21 +199,33 @@ public class UploadController {
 	public ResponseEntity<?> getMaterials(
 			@RequestParam(value = "owner", required = false) String  owner,
             @RequestParam(value = "permission", required = false) String permission) {
+		
+		System.out.println("Owner: " + owner);
 		Optional<User> user = userRepository.findByUsername(owner);
 		Integer ownerId = user.isPresent() ? user.get().getId().intValue() : null;
 		
+		System.out.println("Owner ID: " + ownerId);
 		if (owner!=null && !user.isPresent()) return new ResponseEntity<>(new String("User not found"),HttpStatus.NOT_FOUND);
 
-		
-		ArrayList<MaterialGetDTO> materialDTOs = new ArrayList<MaterialGetDTO>();
+		System.out.println("Permission: " + permission);
+		List<MaterialGetDTO> materialDTOs = new ArrayList<>();
 		List<Material> materials = materialRepository.findByOptionalPermissionAndOptionalOwner(permission,ownerId);
 		
 		for(Material material : materials) {
+			System.out.println(material);
 			String username = userRepository.findById((long) material.getOwner()).get().getUsername();
-			MaterialGetDTO materialDTO = modelMapper.map(material, MaterialGetDTO.class);
+			System.out.println("Username: " + username);
+			MaterialGetDTO materialDTO = new MaterialGetDTO();
+			materialDTO.setAddDate(material.getAddDate());
+			materialDTO.setEditDate(material.getEditDate());
+			materialDTO.setGrade(material.getGrade());
+			materialDTO.setId(material.getId());
+			materialDTO.setTitle(material.getTitle());
+			materialDTO.setPermission(material.getPermission());
 		    materialDTO.setOwner(username);
-		    if(material.getGroup().getId() != null )
-		    materialDTO.setGroup(groupRepository.findById((long)material.getGroup().getId()).orElse(null).getName());
+		    if(material.getGroup() != null )
+		    	if(material.getGroup().getId() != null )
+		    		materialDTO.setGroup(groupRepository.findById((long)material.getGroup().getId()).orElse(null).getName());
 		    materialDTOs.add(materialDTO);
 		}
 		return new ResponseEntity<List<MaterialGetDTO>>(materialDTOs, HttpStatus.OK);
@@ -233,7 +261,7 @@ public class UploadController {
 		}
 		//
 		
-		storageService.savedelete((materialRepository.findById(id).orElse(null)).getPath());
+		// storageService.savedelete((materialRepository.findById(id).orElse(null)).getPath());
 		materialRepository.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).body("usunieto");
 	}
@@ -242,11 +270,11 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<Resource> getFile(@PathVariable(required = true) Long id) {
 		Material material = materialRepository.findById(id).orElse(null);
-//		ResourceLoader rl = new DefaultResourceLoader();
-//		Resource file = rl.getResource("url:https://s3-eu-west-1.amazonaws.com/studycave-folder/" + material.getPath());
+		ResourceLoader rl = new DefaultResourceLoader();
+		Resource file = rl.getResource("url:https://s3-eu-west-1.amazonaws.com/studycave-folder/" + material.getPath());
 	
 		// ------------------------------------------------------------------------- LOCAL
-		Resource file = storageService.loadFile(material.getPath()); 
+//		Resource file = storageService.loadFile(material.getPath()); 
 		
 		
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
