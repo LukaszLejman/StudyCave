@@ -363,10 +363,10 @@ public class GroupService {
 		
 		switch (type){
 			case "tests":
-				ContentDto contentTest = new ContentDto();
 				List<Test> tests = new ArrayList<>();
 				tests = this.testRepository.findTestByGroup(group_id);
 				for (Test t : tests) {
+					ContentDto contentTest = new ContentDto();
 					contentTest.setId(t.getId());
 					contentTest.setOwner((userRepository.findById(t.getIdOwner()).orElse(null)).getUsername());
 					contentTest.setAddDate();
