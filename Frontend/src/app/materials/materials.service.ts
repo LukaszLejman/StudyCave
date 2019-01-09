@@ -37,11 +37,13 @@ export class MaterialsService {
   }
 
   getMaterials(): Observable<any> {
+    this.setHeaders();
     return this.httpClient.get('file/materials/', { headers: this.headers, params: { permission: 'Public' } });
   }
 
   getMaterialsOwners(): Observable<any> {
     const owner = JSON.parse(localStorage.getItem('currentUser'));
+    this.setHeaders();
     return this.httpClient.get('file/materials/', { headers: this.headers, params: { owner: owner.username } });
   }
   pushFileToStorage(file: File, user: string, title: string, permission: string, url: string): Observable<HttpEvent<{}>> {
@@ -59,6 +61,7 @@ export class MaterialsService {
   }
 
   changeMatPermission(id, permission) {
+    this.setHeaders();
     this.httpClient.put('file/materials/' + id + '/permission', permission, { headers: this.headers })
       .subscribe();
   }
@@ -105,6 +108,7 @@ export class MaterialsService {
 
   }
   sendData(url, body) {
+    this.setHeaders();
     this.httpClient.post(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
         error => {
@@ -115,6 +119,7 @@ export class MaterialsService {
   }
 
   putData(url, body) {
+    this.setHeaders();
     this.httpClient.put(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
         error => {
@@ -125,6 +130,7 @@ export class MaterialsService {
   }
 
   downloadFile(id) {
+    this.setHeaders();
     return this.httpClient.get('/file/files/' + id, {
       responseType: 'blob',
       headers: this.headers

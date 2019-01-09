@@ -29,10 +29,12 @@ export class SharedService {
   }
 
   getComments(id, what): Observable<any> {
+    this.setHeaders();
     return this.httpClient.get('groups/' + what + '/' + id + '/comments', {headers: this.headers});
   }
 
   sendComment(id, what, data) {
+    this.setHeaders();
     return this.httpClient.post('groups/' + what + '/' + id + '/comments', data , {
       headers: this.headers,
       observe: 'response',
@@ -41,6 +43,7 @@ export class SharedService {
   }
 
   deleteComment(comment) {
+    this.setHeaders();
     return this.httpClient.delete('groups/comments/' + comment, {
       headers: this.headers,
       observe: 'response',

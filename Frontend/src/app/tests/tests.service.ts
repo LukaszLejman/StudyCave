@@ -44,6 +44,7 @@ export class TestsService {
   }
 
   putData(url, body) {
+    this.setHeaders();
     this.httpClient.put(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(
         data => { this.sendResponse(data); },
@@ -55,6 +56,7 @@ export class TestsService {
   }
 
   sendData(url, body) {
+    this.setHeaders();
     this.httpClient.post(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(
         data => { this.sendResponse(data); },
@@ -77,36 +79,44 @@ export class TestsService {
   }
 
   getTest(id): Observable<any> {
+    this.setHeaders();
     return this.httpClient.get('tests/' + id + '/', { headers: this.headers });
   }
 
   getTestWithoutAnswers(id): Observable<any> {
+    this.setHeaders();
     return this.httpClient.get('tests/' + id + '/solve', { headers: this.headers });
   }
 
   getUserTests(): Observable<any> {
     const user = JSON.parse(localStorage.getItem('currentUser'));
+    this.setHeaders();
     return this.httpClient.get('tests?owner=' + user.username, { headers: this.headers });
   }
 
   getTests(): Observable<any> {
+    this.setHeaders();
     return this.httpClient.get('tests?permission=public', { headers: this.headers });
   }
 
   removeTest(id): Observable<any> {
+    this.setHeaders();
     return this.httpClient.delete('tests/' + id + '/', { headers: this.headers });
   }
 
   verifyAnswer(id, body): Observable<any> {
+    this.setHeaders();
     return this.httpClient.post('tests/' + id + '/questions/verify', body, { headers: this.headers });
   }
 
   sendResult(id, points, currentUser): Observable<any> {
     const body = { id: id, owner: currentUser, userScore: points };
+    this.setHeaders();
     return this.httpClient.post('tests/results', body, { headers: this.headers });
   }
 
   getResult(id, currentUser): Observable<any> {
+    this.setHeaders();
     return this.httpClient.get('tests/results/max?id=' + id + '&username=' + currentUser, { headers: this.headers });
   }
 }

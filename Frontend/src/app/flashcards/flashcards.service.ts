@@ -33,6 +33,7 @@ export class FlashcardsService {
   }
 
   changeSetPermission(id, permission) {
+    this.setHeaders();
     this.httpClient.put('sets/' + id + '/permission', permission, { headers: this.headers })
       .subscribe();
   }
@@ -48,9 +49,11 @@ export class FlashcardsService {
   }
 
   getSets(): Observable<any> {
+    this.setHeaders();
     return this.httpClient.get('sets', { headers: this.headers, params: { permission: 'Public' } });
   }
   getSetsOwners(): Observable<any> {
+    this.setHeaders();
     const owner = JSON.parse(localStorage.getItem('currentUser'));
     return this.httpClient.get('sets', { headers: this.headers, params: { owner: owner.username } });
   }
@@ -68,6 +71,7 @@ export class FlashcardsService {
   }
 
   sendData(url, body) {
+    this.setHeaders();
     this.httpClient.post(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
         error => {
@@ -78,6 +82,7 @@ export class FlashcardsService {
   }
 
   putData(url, body) {
+    this.setHeaders();
     this.httpClient.put(url, body, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
         error => {
@@ -128,6 +133,7 @@ export class FlashcardsService {
   }
 
   deleteSet(id) {
+    this.setHeaders();
     return this.httpClient.delete('sets/' + id, { headers: this.headers, observe: 'response' })
       .subscribe(data => { this.sendResponse(data); },
         error => {
@@ -141,11 +147,13 @@ export class FlashcardsService {
   testCheck(id, body) {
     // id - id zestawu fiszek
     // ciało body = {id - idFiszki, content - wpisana odpowiedź, side - strona fiszki, którą widział użytkownik}
+    this.setHeaders();
     return this.httpClient.get(`sets/${id}/${body['id']}/${body['content']}/${body['side']}/test/check/`, { headers: this.headers })
       .map((data: any) => data);
   }
 
   testMemory(id, body) {
+    this.setHeaders();
     return this.httpClient.get(`sets/${id}/test/memory/check?x=${body['x']}&y=${body['y']}`, { headers: this.headers })
       .map((data: any) => data);
   }
