@@ -34,7 +34,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
     { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
     { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
-    { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
     {
       headerName: '',
       suppressMenu: true,
@@ -162,7 +161,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
         { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
         { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
         { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
-        { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
         {
           headerName: '',
           suppressMenu: true,
@@ -176,7 +174,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
         { headerName: 'Nazwa', field: 'title', headerTooltip: 'Nazwa' },
         { headerName: 'Data dodania', field: 'addDate', headerTooltip: 'Data dodania', hide: false },
         { headerName: 'Właściciel', field: 'owner', headerTooltip: 'Właściciel', hide: false },
-        { headerName: 'Ocena', field: 'grade', headerTooltip: 'Ocena', hide: false },
         {
           headerName: '',
           suppressMenu: true,
