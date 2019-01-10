@@ -3,11 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { Observable } from 'rxjs/Observable';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class SharedService {
 
-  constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService)
+  constructor(private httpClient: HttpClient, private router: Router, private authenticationService: AuthenticationService,
+     public snackBar: MatSnackBar)
   // tslint:disable-next-line:one-line
   {
     this.setHeaders();
@@ -39,7 +41,16 @@ export class SharedService {
       headers: this.headers,
       observe: 'response',
       responseType: 'text'
-    });
+    })
+    .subscribe(
+      response => {
+        this.snackBar.open('Dodano komentarz', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+      },
+      error => {
+      this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+  });
   }
 
   deleteComment(comment) {
@@ -48,6 +59,15 @@ export class SharedService {
       headers: this.headers,
       observe: 'response',
       responseType: 'text'
-    });
+    })
+    .subscribe(
+      response => {
+        this.snackBar.open('Usunięto komentarz', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+      },
+      error => {
+      this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+  });
   }
 }

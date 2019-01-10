@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy, ChangeDetectorRef } from '@angular
 import { SharedService } from '../shared.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-comments',
@@ -21,7 +22,11 @@ export class CommentsComponent implements OnInit, OnDestroy {
   commentsSubscription: Subscription;
   deleteCommentSubscription: Subscription;
 
-  constructor(private sharedService: SharedService, private route: ActivatedRoute, private cd: ChangeDetectorRef) { }
+  constructor(
+    private sharedService: SharedService,
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef,
+    public snackBar: MatSnackBar) { }
 
 
   ngOnInit() {
@@ -29,32 +34,37 @@ export class CommentsComponent implements OnInit, OnDestroy {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.getComments();
     console.log(this.comments);
- }
+  }
 
- getComments() {
-  this.commentsSubscription = this.sharedService.getComments(this.id, this.what).subscribe(data => {
-    this.comments = data;
-    this.cd.markForCheck();
-  });
- }
+  getComments() {
+    this.commentsSubscription = this.sharedService.getComments(this.id, this.what).subscribe(data => {
+      this.comments = data;
+      this.cd.markForCheck();
+    });
+  }
 
   toggle() {
     this.display = !this.display;
   }
 
   submitComment() {
-    const dataToSend = {
-      username: this.currentUser.username,
-      text: this.comment
-    };
-    this.sharedService.sendComment(this.id, this.what, dataToSend).subscribe();
-    setTimeout( () =>    this.getComments() , 200);
+    if (this.comment) {
+      const dataToSend = {
+        username: this.currentUser.username,
+        text: this.comment
+      };
+      this.sharedService.sendComment(this.id, this.what, dataToSend);
+      setTimeout(() => this.getComments(), 200);
+    } else {
+      this.snackBar.open('Nie można dodać pustego komentarza', null,
+        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+    }
+
   }
 
   deleteComment(comment) {
-
-    this.deleteCommentSubscription = this.sharedService.deleteComment(comment.id).subscribe();
-    setTimeout( () =>    this.getComments() , 200);
+  this.sharedService.deleteComment(comment.id);
+    setTimeout(() => this.getComments(), 200);
   }
 
 
