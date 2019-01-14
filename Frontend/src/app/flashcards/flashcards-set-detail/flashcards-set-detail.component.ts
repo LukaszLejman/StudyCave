@@ -26,6 +26,10 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private flashcardsService: FlashcardsService, private router: Router,
     private routingState: RoutingStateService, public snackBar: MatSnackBar) { }
   ngOnInit() {
+    const previousUrl = this.routingState.getPreviousUrl();
+    if (previousUrl.indexOf('test-gen') === -1) {
+      sessionStorage.setItem('previousUrl', previousUrl);
+    }
     this.id = this.route.snapshot.params.id;
     this.flashcardSubscribtion = this.flashcardsService.getSet(this.id).subscribe(data => { this.set = data; });
     this.IsLogin();
@@ -90,7 +94,8 @@ export class FlashcardsSetDetailComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    const previousUrl = this.routingState.getPreviousUrl();
+    const previousUrl = sessionStorage.getItem('previousUrl');
+    sessionStorage.removeItem('previousUrl');
     this.router.navigate([previousUrl]);
   }
 

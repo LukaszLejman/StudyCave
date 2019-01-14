@@ -5,7 +5,7 @@ public class UserActivityDTO {
 	
 	private String type;
 	
-	private int points;
+	private float points;
 	
 	private String comment;
 	
@@ -21,7 +21,7 @@ public class UserActivityDTO {
 
 	
 	
-	public UserActivityDTO(Long id, String type, int points, String comment, String date, String resourceType,
+	public UserActivityDTO(Long id, String type, float points, String comment, String date, String resourceType,
 			String resourceName, String from, String to) {
 		super();
 		this.id = id;
@@ -51,11 +51,11 @@ public class UserActivityDTO {
 		this.type = type;
 	}
 
-	public int getPoints() {
+	public float getPoints() {
 		return points;
 	}
 
-	public void setPoints(int points) {
+	public void setPoints(float points) {
 		this.points = points;
 	}
 

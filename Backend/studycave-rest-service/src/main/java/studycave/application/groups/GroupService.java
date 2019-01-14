@@ -634,7 +634,7 @@ public class GroupService {
 		List<LeaderboardDTO> leaderboard = new ArrayList<>();
 		for(StudyGroupMember m : group.getMembers()) {
 			if(!m.getIsGroupLeader()) {
-				int score = 0;
+				float score = 0;
 				LeaderboardDTO user = new LeaderboardDTO();
 				for (UserActivity a : m.getUser().getActivityTo()) {
 					score += a.getPoints();
@@ -655,10 +655,10 @@ public class GroupService {
 		List<LeaderboardDTO> leaderboard = new ArrayList<>();
 		for(StudyGroupMember m : group.getMembers()) {
 			if(!m.getIsGroupLeader()) {
-				int score = 0;
+				float score = 0;
 				LeaderboardDTO user = new LeaderboardDTO();
 				for (TestResult r : testResultRepository.findByIdOwner(m.getUser().getId())) {
-					score += r.getMaxScore();
+					score += r.getUserScore();
 				}
 				user.setUsername(m.getUser().getUsername());
 				user.setPoints(score);

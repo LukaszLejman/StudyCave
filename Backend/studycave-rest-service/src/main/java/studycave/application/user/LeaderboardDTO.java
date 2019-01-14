@@ -2,7 +2,7 @@ package studycave.application.user;
 
 public class LeaderboardDTO implements Comparable {
 	private String Username;
-	private int points;
+	private float points;
 	
 	public LeaderboardDTO(){
 		
@@ -16,11 +16,11 @@ public class LeaderboardDTO implements Comparable {
 		Username = username;
 	}
 	
-	public int getPoints() {
+	public float getPoints() {
 		return points;
 	}
 	
-	public void setPoints(int points) {
+	public void setPoints(float points) {
 		this.points = points;
 	}
 	
