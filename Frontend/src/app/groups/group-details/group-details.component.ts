@@ -247,6 +247,9 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   goToHistory() {
     this.router.navigate(['groups/history', this.id]);
+  }
 
+  goToGroupsList() {
+    this.router.navigate(['/my-groups/']);
   }
 }

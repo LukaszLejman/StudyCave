@@ -157,6 +157,10 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
     this.display = true;
   }
 
+  goToGroup() {
+    this.router.navigate(['/groups/', this.id]);
+  }
+
   showWaitingResources() {
     this.router.navigate(['/groups/waiting-resources/', this.id]);
   }

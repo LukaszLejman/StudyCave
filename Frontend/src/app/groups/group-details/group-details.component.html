@@ -18,8 +18,9 @@
     <h3>Opis grupy:</h3>
     <p>{{group?.description}}</p>
     <div class="buttons-container">
-      <div *ngIf="group?.owner===currentUser.username">
-        <button class="btn btn-study-cave" (click)="goToEditing()"><i class="fas fa-edit"></i> Edytuj grupę</button>
+      <div>
+        <button class="btn btn-study-cave" (click)="goToGroupsList()"><i class="fas fa-arrow-left"></i> Do listy grup</button>
+        <button *ngIf="group?.owner===currentUser.username" class="btn btn-study-cave" (click)="goToEditing()"><i class="fas fa-edit"></i> Edytuj grupę</button>
       </div>
       <div>
         <button class="btn btn-study-cave" (click)="isDisplayed('materiałów')"><i class="fas fa-book-open"></i>
