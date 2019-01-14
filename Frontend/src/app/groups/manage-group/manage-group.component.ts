@@ -7,6 +7,7 @@ import { GridOptions, RowDoubleClickedEvent } from 'ag-grid-community/main';
 import { ConfirmationService } from 'primeng/api';
 import localeText from './../../../assets/localeText';
 import { ApiInterceptor } from '../../http-interceptors/api-interceptor';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-manage-group',
@@ -42,7 +43,8 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
 
 
   // tslint:disable-next-line:max-line-length
-  constructor(private route: ActivatedRoute, private groupsService: GroupsService, private confirmationService: ConfirmationService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private groupsService: GroupsService,
+     private confirmationService: ConfirmationService, private router: Router, public snackBar: MatSnackBar) { }
 
   customCellRendererFunc(params) {
     return `<button type="button" data-action-type="remove" class="btn btn-study-cave btn-sm" title="Usuń">
@@ -133,12 +135,19 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
 
   deleteUser(userId) {
     this.userDeleteSubscription = this.groupsService.deleteUser(this.id, userId).subscribe();
+    this.gridApi.refreshCells();
+    this.snackBar.open('Usunięto użytkownika!', null,
+    { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
   }
   deleteGroup() {
     this.groupDeleteSubscription = this.groupsService.deleteGroup(this.id).subscribe();
+    this.snackBar.open('Usunięto grupę!', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
     this.display = false;
-    this.gridApi.refreshCells();
-    this.redirectTo('/groups/manage/' + this.id);
+    setTimeout(() => {
+      this.router.navigate(['/my-groups']);
+
+    }, 100);
   }
 
   newKeyGenerate() {
