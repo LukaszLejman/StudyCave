@@ -37,10 +37,8 @@ export class GroupCreatorComponent implements OnInit, OnDestroy {
       description: value.description,
       owner: this.currentUser
     };
-    console.log('Wysyłana grupa: ', toSend);
     this.postGroupsSubscription = this.groupsService.postGroup(toSend).subscribe(
       success => {
-        console.log('Zapisana grupa: ', success);
         this.createdGroup = success;
         this.showInfoDialog = true;
       },
@@ -48,7 +46,6 @@ export class GroupCreatorComponent implements OnInit, OnDestroy {
         this.btn.nativeElement.disabled = false;
         this.snackBar.open('Wystąpił błąd serwera. Spróbuj ponownie później.', null,
             { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
-        console.log('Something went wrong :( \nError: ', error);
       }
     );
   }

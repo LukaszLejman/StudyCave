@@ -88,7 +88,6 @@ export class MaterialsDetailsComponent implements OnInit, OnDestroy {
   download() {
     this.materialsService.downloadFile(this.id);
     // this.goBack();
-    // console.log('download');
   }
 
   goBack() {

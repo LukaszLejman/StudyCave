@@ -224,7 +224,6 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.materialsSubscription = this.groupService.getResource(this.id, 'materials').subscribe(data => this.data = data);
         this.dataToDisplay = resource;
-        console.log(this.data);
       }, 200);
 
     }

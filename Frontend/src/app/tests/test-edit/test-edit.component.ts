@@ -38,7 +38,6 @@ export class TestEditComponent implements OnInit, OnDestroy {
     this.ident = this.route.snapshot.params.id;
     this.testSubscribtion = this.testsService.getTest(this.ident).subscribe(
       data => {
-        console.log('Test otrzymany z serwera: ', data);
         this.title = data['title'];
         this.owner = data['owner'];
         if (data['permission'] === 'public') {
@@ -220,7 +219,6 @@ export class TestEditComponent implements OnInit, OnDestroy {
         });
       }
       toSend['body'] = body;
-      console.log('Test wysyłany do serwera: ', toSend);
       this.testsService.edit(toSend);
     }
   }

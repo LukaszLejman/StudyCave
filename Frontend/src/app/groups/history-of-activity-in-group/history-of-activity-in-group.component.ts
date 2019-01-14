@@ -46,7 +46,6 @@ export class HistoryOfActivityInGroupComponent implements OnInit {
       error => {
         this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
           { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
-        console.log(error);
       }
     );
   }

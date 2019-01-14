@@ -96,7 +96,6 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       success => {
         this.waitingTests = [];
         this.waitingFlashcards = [];
-        console.log('Waiting materials: ', success);
         this.waitingMaterials = success;
       },
       error => {
@@ -116,7 +115,6 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       success => {
         this.waitingFlashcards = [];
         this.waitingMaterials = [];
-        console.log('Waiting tests: ', success);
         this.waitingTests = success;
       },
       error => {
@@ -136,7 +134,6 @@ export class WaitingResourcesComponent implements OnInit, OnDestroy {
       success => {
         this.waitingMaterials = [];
         this.waitingTests = [];
-        console.log('Waiting flashcards: ', success);
         this.waitingFlashcards = success;
       },
       error => {

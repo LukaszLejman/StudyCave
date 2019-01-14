@@ -56,7 +56,6 @@ export class MyGroupsComponent implements OnInit, OnDestroy {
           }
         }
         this.groups = success;
-        console.log('Grupy użytkownika: ', success);
       },
       error => {
         console.log('Something went wrong :( \nError: ', error);

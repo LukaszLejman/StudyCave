@@ -64,7 +64,6 @@ export class SharingResourcesInGroupsComponent implements OnInit, OnDestroy {
       success => {
         this.testsToAdd = [];
         this.flashcardsToAdd = [];
-        console.log('Materials to add: ', success);
         this.materialsToAdd = success.map(this.addPropertiesToDisplayInMultiselectList);
         if (this.materialsToAdd.length === 0) {
           this.snackBar.open('Brak materiałów, które możesz dodać do grupy.', null,
@@ -86,7 +85,6 @@ export class SharingResourcesInGroupsComponent implements OnInit, OnDestroy {
       success => {
         this.flashcardsToAdd = [];
         this.materialsToAdd = [];
-        console.log('Tests to add: ', success);
         this.testsToAdd = success.map(this.addPropertiesToDisplayInMultiselectList);
         if (this.testsToAdd.length === 0) {
           this.snackBar.open('Brak testów, które możesz dodać do grupy.', null,
@@ -108,7 +106,6 @@ export class SharingResourcesInGroupsComponent implements OnInit, OnDestroy {
       success => {
         this.materialsToAdd = [];
         this.testsToAdd = [];
-        console.log('Flashcards to add: ', success);
         this.flashcardsToAdd = success.map(this.addPropertiesToDisplayInMultiselectList);
         if (this.flashcardsToAdd.length === 0) {
           this.snackBar.open('Brak fiszek, które możesz dodać do grupy.', null,

@@ -165,7 +165,6 @@ export class TestMakerComponent implements OnInit {
         });
       }
       toSend['body'] = body;
-      // console.log(toSend);
       this.testsService.add(toSend);
     }
   }
