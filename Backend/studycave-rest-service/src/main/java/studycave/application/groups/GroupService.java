@@ -657,16 +657,16 @@ public class GroupService {
 			if(!m.getIsGroupLeader()) {
 				float score = 0;
 				LeaderboardDTO user = new LeaderboardDTO();
-				for (TestResult r : testResultRepository.findByIdOwner(m.getUser().getId())) {
-					score += r.getUserScore();
+				for (UserActivity a : m.getUser().getActivityTo()) {
+					if(a.getType() == "solvedTest")
+					score += a.getPoints();
 				}
 				user.setUsername(m.getUser().getUsername());
 				user.setPoints(score);
 				leaderboard.add(user);
-				}
 		}
 		// leaderboard.sort((o1, o2) -> Integer.toString(o1.getPoints()).compareTo(Integer.toString(o2.getPoints())));
-
+		}
 		return new ResponseEntity<List<LeaderboardDTO>>(leaderboard,HttpStatus.OK);
 	}
 
