@@ -612,18 +612,32 @@ public class GroupService {
 	public ResponseEntity<?> deleteContent(Long group_id, String type, Long content_id){
 		switch (type) {
 		case "tests":
-			this.testRepository.deleteById(content_id);
+			Test test = this.testRepository.findById(content_id).orElse(null);
+			if (test == null) {
+				return new ResponseEntity<>("Nie znaleziono", HttpStatus.NOT_FOUND);
+			}
+			test.setStatus("DELETED");
+			this.testRepository.save(test);
 			return new ResponseEntity<>("Usunięto", HttpStatus.OK);
 		case "materials":
-			this.materialRepository.deleteById(content_id);
+			Material material = this.materialRepository.findById(content_id).orElse(null);
+			if (material == null) {
+				return new ResponseEntity<>("Nie znaleziono", HttpStatus.NOT_FOUND);
+			}
+			material.setStatus("DELETED");
+			this.materialRepository.save(material);
 			return new ResponseEntity<>("Usunięto", HttpStatus.OK);
 		case "sets":
-			this.materialRepository.deleteById(content_id);
+			Set set = this.setRepository.findById(content_id).orElse(null);
+			if (set == null) {
+				return new ResponseEntity<>("Nie znaleziono", HttpStatus.NOT_FOUND);
+			}
+			set.setStatus("DELETED");
+			this.setRepository.save(set);
 			return new ResponseEntity<>("Usunięto", HttpStatus.OK);
 		default:
 			return new ResponseEntity<>("Błąd zapytania", HttpStatus.BAD_REQUEST);
 		}
-		
 	}
   
   public ResponseEntity<?> getGroupLeaderboard(Long group_id){
