@@ -114,7 +114,7 @@ export class RankingComponent implements OnInit, OnDestroy {
             minor: { scale: 'y' },
             box: {
               fill: function (d) {
-                return d.datum.value === JSON.parse(localStorage.getItem('currentUser')).username ? '#cea856' : '#272324';
+                return d.datum.value === JSON.parse(localStorage.getItem('currentUser')).username ? '#cea856' : '#ffffff';
               },
               stroke: 'transparent'
             }
