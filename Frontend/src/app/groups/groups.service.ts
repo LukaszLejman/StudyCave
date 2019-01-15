@@ -72,7 +72,13 @@ export class GroupsService {
 
   deleteResource(id, resource, resId) {
     this.setHeaders();
-    return this.httpClient.delete('groups/' + id + '/content/' + resource + '/' + resId);
+    return this.httpClient.delete('groups/' + id + '/content/' + resource + '/' + resId, {
+      headers: this.headers,
+      observe: 'response',
+      responseType: 'text'
+    }).catch((error: any) => {
+      return Observable.throw(error);
+    });
   }
 
   getGroupDetails(id): Observable<any> {

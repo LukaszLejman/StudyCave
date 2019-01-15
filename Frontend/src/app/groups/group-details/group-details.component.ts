@@ -115,31 +115,33 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   deleteResource() {
     if (this.dataToDisplay === 'fiszek') {
-      setTimeout(() => {
-        this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, 'flashcardsets', this.whatToDelete).subscribe();
-        this.display = false;
-        this.gridApi.refreshCells();
-        // this.redirectTo('/groups/' + this.id);
-      }, 200);
+        this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, 'sets', this.whatToDelete).subscribe(
+          data => {
+            this.isDisplayed('fiszek');
+            this.display = false;
+            this.gridApi.refreshCells();
+          }
+        );
 
     }
     if (this.dataToDisplay === 'materiałów') {
-      setTimeout(() => {
-        this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, 'materials', this.whatToDelete).subscribe();
-        this.display = false;
-        this.gridApi.refreshCells();
-        // this.redirectTo('/groups/' + this.id);
-      }, 200);
+        this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, 'materials', this.whatToDelete).subscribe(
+          data => {
+            this.isDisplayed('materiałów');
+            this.display = false;
+            this.gridApi.refreshCells();
+          }
+        );
 
     }
     if (this.dataToDisplay === 'testów') {
-      setTimeout(() => {
-        this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, 'tests', this.whatToDelete).subscribe();
-        this.display = false;
-        this.gridApi.refreshCells();
-        // this.redirectTo('/groups/' + this.id);
-
-      }, 200);
+        this.resourceDeleteSubscription = this.groupService.deleteResource(this.id, 'tests', this.whatToDelete).subscribe(
+          data => {
+            this.isDisplayed('testów');
+            this.display = false;
+            this.gridApi.refreshCells();
+          }
+        );
 
     }
 
