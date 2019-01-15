@@ -47,7 +47,7 @@ public class UserActivityController {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		User user = userRepository.findByUsername(currentPrincipalName).get();
+		Long userId = (userRepository.findByUsername(currentPrincipalName).orElse(null)).getId();
 
 		Timestamp endDateTime = null;
 		
@@ -63,7 +63,7 @@ public class UserActivityController {
 		}
 		
 		List<UserActivity> userActivity = this.userActivityRepository
-				.findAllByToUserOrFromUserAndGroupAndTime(user.getId(), groupId, startDate, endDateTime);
+				.findAllByToUserOrFromUserAndGroupAndTime(userId, groupId, startDate, endDateTime);
 		List<UserActivityDTO> list = new ArrayList<UserActivityDTO>();
 
 		Collections.sort(userActivity, new Comparator<UserActivity>() {
