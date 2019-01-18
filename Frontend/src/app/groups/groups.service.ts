@@ -106,9 +106,20 @@ export class GroupsService {
   }
 
   newKeyGenerate(id): Observable<any> {
+    if (localStorage.getItem('currentUser')) {
+      this.headers = new HttpHeaders({
+        'Content-Type': 'text/plain',
+        'Authorization': '' + this.authenticationService.getToken()
+      });
+    } else {
+      this.headers = new HttpHeaders({
+        'Content-Type': 'text/plain'
+      });
+    }
+
     const url = 'groups/' + id + '/generate';
     this.setHeaders();
-    return this.httpClient.get(url, { headers: this.headers });
+    return this.httpClient.get(url, { headers: this.headers, responseType: 'text' });
   }
 
   getMaterialsToAdd(id: number): Observable<any> {

@@ -155,7 +155,13 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   newKeyGenerate() {
     this.newKeyGenerateSubscription = this.groupsService.newKeyGenerate(this.id).subscribe(
       success => {
-        console.log(success)
+        this.snackBar.open('Kod dostępu został zmieniony!', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+        this.group.groupKey = success;
+      },
+      error => {
+        this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
       }
     );
   }
