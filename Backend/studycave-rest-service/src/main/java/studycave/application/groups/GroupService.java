@@ -190,9 +190,10 @@ public class GroupService {
 		while (!this.groupRepository.findByGroupKey(groupKey).isEmpty()) {
 			groupKey = generator.generate(10);
 		}
-		;
+
+		group.setGroupKey(groupKey);
 		this.groupRepository.save(group);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(groupKey, HttpStatus.OK);
 	}
 
 	public List<SimpleStudyGroupMemberDTO> getMyGroups(Long id) {
