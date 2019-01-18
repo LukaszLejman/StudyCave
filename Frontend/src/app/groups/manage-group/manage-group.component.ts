@@ -44,7 +44,9 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:max-line-length
   constructor(private route: ActivatedRoute, private groupsService: GroupsService,
-     private confirmationService: ConfirmationService, private router: Router, public snackBar: MatSnackBar) { }
+     private confirmationService: ConfirmationService, private router: Router, public snackBar: MatSnackBar) {
+       this.localeText.noRowsToShow = 'Brak użytkowników do wyświetlenia';
+     }
 
   customCellRendererFunc(params) {
     return `<button type="button" data-action-type="remove" class="btn btn-study-cave btn-sm" title="Usuń">
@@ -151,7 +153,11 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
   }
 
   newKeyGenerate() {
-    this.newKeyGenerateSubscription = this.groupsService.newKeyGenerate(this.id).subscribe();
+    this.newKeyGenerateSubscription = this.groupsService.newKeyGenerate(this.id).subscribe(
+      success => {
+        console.log(success)
+      }
+    );
   }
   showDialog() {
     this.display = true;
