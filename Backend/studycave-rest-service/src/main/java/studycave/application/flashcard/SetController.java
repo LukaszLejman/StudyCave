@@ -59,11 +59,26 @@ public class SetController {
 
 	@GetMapping("/{id}")
 	public SetOwnerDTO getSet(@PathVariable(required = true) Long id) {
+		//Authorization
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+		
 		Set set = setRepository.findById(id).get();
 		User user = userRepository.findById((long) set.getIdOwner()).get();
 
 		SetOwnerDTO setDTO = modelMapper.map(set, SetOwnerDTO.class);
 		setDTO.setOwner(user.getUsername());
+		
+		if(userBadgeRepository.findByIdAndUser((long)10, userId).isEmpty()) {
+			UserBadge badgeAchieved = new UserBadge();
+			Badge badge = new Badge();
+			badge = badgeRepository.findById((long)10).orElse(null);
+			badgeAchieved.setBadge(badge);
+			badgeAchieved.setUser(userRepository.findById(userId).orElse(null));
+			userBadgeRepository.save(badgeAchieved);
+		}
+		
 		return setDTO;
 	}
 

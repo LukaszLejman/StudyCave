@@ -153,7 +153,7 @@ public class UploadController {
 		s3client.putObject(new PutObjectRequest(bucketName,currentDate.format(today) + file.getOriginalFilename() , convFile).withCannedAcl(CannedAccessControlList.PublicRead));
 		
 		String filepath = "save-dir\\" + file.getOriginalFilename();
-		
+	
 		files.add(file.getOriginalFilename());
 		Material material = new Material();
 		
@@ -172,6 +172,7 @@ public class UploadController {
 		
 		File newfile = new File(filepath);
 		String newfilepath = "save-dir\\" + currentDate.format(today) + file.getOriginalFilename();
+		newfilepath = newfilepath.replaceAll("\\s","");
 		File newfilename = new File(newfilepath);
 		newfile.renameTo(newfilename);
 		String simplepath = currentDate.format(today) + file.getOriginalFilename();
@@ -269,6 +270,11 @@ public class UploadController {
 	@GetMapping("/files/{id}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFile(@PathVariable(required = true) Long id) {
+		//Authorization
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+		
 		Material material = materialRepository.findById(id).orElse(null);
 		ResourceLoader rl = new DefaultResourceLoader();
 		Resource file = rl.getResource("url:https://s3-eu-west-1.amazonaws.com/studycave-folder/" + material.getPath());
@@ -276,7 +282,14 @@ public class UploadController {
 		// ------------------------------------------------------------------------- LOCAL
 //		Resource file = storageService.loadFile(material.getPath()); 
 		
-		
+		if(userBadgeRepository.findByIdAndUser((long)11, userId).isEmpty()) {
+			UserBadge badgeAchieved = new UserBadge();
+			Badge badge = new Badge();
+			badge = badgeRepository.findById((long)11).orElse(null);
+			badgeAchieved.setBadge(badge);
+			badgeAchieved.setUser(userRepository.findById(userId).orElse(null));
+			userBadgeRepository.save(badgeAchieved);
+		}
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
  /*

@@ -602,6 +602,14 @@ public class GroupService {
 		comment.setText(text.getText());
 		comment.setUserId((this.userRepository.findByUsername(text.getUsername()).orElse(null)).getId());
 		this.commentRepository.save(comment);
+		if(userBadgeRepository.findByIdAndUser((long)7, (this.userRepository.findByUsername(text.getUsername()).orElse(null)).getId()).isEmpty()) {
+			UserBadge badgeAchieved = new UserBadge();
+			Badge badge = new Badge();
+			badge = badgeRepository.findById((long)7).orElse(null);
+			badgeAchieved.setBadge(badge);
+			badgeAchieved.setUser(this.userRepository.findByUsername(text.getUsername()).orElse(null));
+			userBadgeRepository.save(badgeAchieved);
+		}
 		return new ResponseEntity<>("Dodano komentarz", HttpStatus.OK);
 	}
 	
@@ -655,6 +663,22 @@ public class GroupService {
 					score += a.getPoints();
 				}
 				user.setUsername(m.getUser().getUsername());
+				if(userBadgeRepository.findByIdAndUser((long)8, m.getUser().getId()).isEmpty() && score > 100) {
+					UserBadge badgeAchieved = new UserBadge();
+					Badge badge = new Badge();
+					badge = badgeRepository.findById((long)8).orElse(null);
+					badgeAchieved.setBadge(badge);
+					badgeAchieved.setUser(m.getUser());
+					userBadgeRepository.save(badgeAchieved);
+				}
+				if(userBadgeRepository.findByIdAndUser((long)12, m.getUser().getId()).isEmpty() && score > 250) {
+					UserBadge badgeAchieved = new UserBadge();
+					Badge badge = new Badge();
+					badge = badgeRepository.findById((long)12).orElse(null);
+					badgeAchieved.setBadge(badge);
+					badgeAchieved.setUser(m.getUser());
+					userBadgeRepository.save(badgeAchieved);
+				}
 				user.setPoints(score);
 				leaderboard.add(user);
 			}
