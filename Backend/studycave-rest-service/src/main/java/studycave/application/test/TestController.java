@@ -147,6 +147,16 @@ public class TestController {
 		User user = userRepository.findById(test.get().getIdOwner()).get();
 		TestOwnerDTO testDTO = modelMapper.map(test.get(), TestOwnerDTO.class);
 		testDTO.setOwner(user.getUsername());
+		
+		if(userBadgeRepository.findByIdAndUser((long)9, user.getId()).isEmpty()) {
+			UserBadge badgeAchieved = new UserBadge();
+			Badge badge = new Badge();
+			badge = badgeRepository.findById((long)9).orElse(null);
+			badgeAchieved.setBadge(badge);
+			badgeAchieved.setUser(user);
+			userBadgeRepository.save(badgeAchieved);
+		}
+		
 		return testDTO;
 	}
 
