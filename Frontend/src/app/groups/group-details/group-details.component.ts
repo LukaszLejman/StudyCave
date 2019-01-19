@@ -216,6 +216,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   }
   isDisplayed(resource) {
     if (resource === 'fiszek') {
+      this.localeText.noRowsToShow = 'Brak fiszek do wyświetlenia';
       setTimeout(() => {
         this.flashcardsSusbscritpion = this.groupService.getResource(this.id, 'flashcardsets').subscribe(data => this.data = data);
         this.dataToDisplay = resource;
@@ -223,6 +224,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
     }
     if (resource === 'materiałów') {
+      this.localeText.noRowsToShow = 'Brak materiałów do wyświetlenia';
       setTimeout(() => {
         this.materialsSubscription = this.groupService.getResource(this.id, 'materials').subscribe(data => this.data = data);
         this.dataToDisplay = resource;
@@ -230,6 +232,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
     }
     if (resource === 'testów') {
+      this.localeText.noRowsToShow = 'Brak testów do wyświetlenia';
       setTimeout(() => {
         this.testsSubscription = this.groupService.getResource(this.id, 'tests').subscribe(data => this.data = data);
         this.dataToDisplay = resource;
