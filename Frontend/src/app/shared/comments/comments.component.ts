@@ -48,13 +48,22 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   submitComment() {
-    if (this.comment) {
+    if (this.comment && this.comment.trim().length > 0) {
       const dataToSend = {
         username: this.currentUser.username,
         text: this.comment
       };
-      this.sharedService.sendComment(this.id, this.what, dataToSend);
-      setTimeout(() => this.getComments(), 200);
+      this.sharedService.sendComment(this.id, this.what, dataToSend).subscribe(
+        response => {
+          this.comment = '';
+          this.getComments();
+          this.snackBar.open('Dodano komentarz', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+        },
+        error => {
+          this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+            { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+      });
     } else {
       this.snackBar.open('Nie można dodać pustego komentarza', null,
         { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
@@ -63,8 +72,16 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   deleteComment(comment) {
-  this.sharedService.deleteComment(comment.id);
-    setTimeout(() => this.getComments(), 200);
+    this.deleteCommentSubscription = this.sharedService.deleteComment(comment.id).subscribe(
+      response => {
+        this.getComments();
+        this.snackBar.open('Usunięto komentarz', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
+      },
+      error => {
+        this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
+          { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
+      });
   }
 
 

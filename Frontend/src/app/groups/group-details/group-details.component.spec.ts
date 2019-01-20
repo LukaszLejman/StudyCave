@@ -31,7 +31,7 @@ describe('GroupDetailsComponent', () => {
       providers: [AuthenticationService,
         AuthGuard,
         { provide: GroupsService, useClass: GroupServiceMockService },
-        { provide: APP_BASE_HREF, useValue: 'groups/1' }
+        { provide: APP_BASE_HREF, useValue: 'groups/0' }
       ]
     })
       .compileComponents();
@@ -53,21 +53,21 @@ describe('GroupDetailsComponent', () => {
   it('should call mock service and display flashcards table', async(() => {
     fixture.autoDetectChanges();
     spyOn(component, 'isDisplayed').and.callThrough();
-    fixture.debugElement.nativeElement.querySelectorAll('.buttons-container .btn-study-cave')[2].click();
+    fixture.debugElement.nativeElement.querySelectorAll('.buttons-container .btn-study-cave')[3].click();
     expect(component.isDisplayed).toHaveBeenCalledWith('fiszek');
   }));
 
   it('should call mock service and display tests table', async(() => {
     fixture.autoDetectChanges();
     spyOn(component, 'isDisplayed').and.callThrough();
-    fixture.debugElement.nativeElement.querySelectorAll('.buttons-container .btn-study-cave')[3].click();
+    fixture.debugElement.nativeElement.querySelectorAll('.buttons-container .btn-study-cave')[4].click();
     expect(component.isDisplayed).toHaveBeenCalledWith('testów');
   }));
 
   it('should call mock service and display materials table', async(() => {
     fixture.autoDetectChanges();
     spyOn(component, 'isDisplayed').and.callThrough();
-    fixture.debugElement.nativeElement.querySelectorAll('.buttons-container .btn-study-cave')[1].click();
+    fixture.debugElement.nativeElement.querySelectorAll('.buttons-container .btn-study-cave')[2].click();
     expect(component.isDisplayed).toHaveBeenCalledWith('materiałów');
   }));
 

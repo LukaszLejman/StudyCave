@@ -41,16 +41,7 @@ export class SharedService {
       headers: this.headers,
       observe: 'response',
       responseType: 'text'
-    })
-    .subscribe(
-      response => {
-        this.snackBar.open('Dodano komentarz', null,
-        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
-      },
-      error => {
-      this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
-        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
-  });
+    });
   }
 
   deleteComment(comment) {
@@ -59,15 +50,6 @@ export class SharedService {
       headers: this.headers,
       observe: 'response',
       responseType: 'text'
-    })
-    .subscribe(
-      response => {
-        this.snackBar.open('Usunięto komentarz', null,
-        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-success'] });
-      },
-      error => {
-      this.snackBar.open('Coś poszło nie tak. Spróbuj ponownie później.', null,
-        { duration: 3000, verticalPosition: 'top', panelClass: ['snackbar-error'] });
-  });
+    });
   }
 }

@@ -34,7 +34,7 @@ export class MyGroupsComponent implements OnInit, OnDestroy {
 
   private getGroupsSubscription: ISubscription;
 
-  constructor(private groupsService: GroupsService, private router: Router) { }
+  constructor(private groupsService: GroupsService, public router: Router) { }
 
   ngOnInit() {
     this.gridOptions = {
