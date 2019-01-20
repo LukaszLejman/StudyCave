@@ -33,11 +33,11 @@ describe('JoinToGroupComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be called spy', async(() => {
-    fixture.whenStable().then(() => {
-      fixture.autoDetectChanges();
-      const spy = spyOn(component, 'joinToGroup').and.callThrough();
-      expect(spy);
-    });
+  it('should call join to group', async(() => {
+    fixture.autoDetectChanges();
+    spyOn(component, 'joinToGroup').and.callThrough();
+    fixture.debugElement.nativeElement.querySelector('input').value = 'XYZ';
+    fixture.debugElement.nativeElement.querySelectorAll('.btn-study-cave')[0].click();
+    expect(component.joinToGroup).toHaveBeenCalled();
   }));
 });

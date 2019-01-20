@@ -44,7 +44,7 @@ export class ManageGroupComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:max-line-length
   constructor(private route: ActivatedRoute, private groupsService: GroupsService,
-     private confirmationService: ConfirmationService, private router: Router, public snackBar: MatSnackBar) {
+     private confirmationService: ConfirmationService, public router: Router, public snackBar: MatSnackBar) {
        this.localeText.noRowsToShow = 'Brak użytkowników do wyświetlenia';
      }
 

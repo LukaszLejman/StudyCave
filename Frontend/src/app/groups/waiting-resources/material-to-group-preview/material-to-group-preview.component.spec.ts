@@ -22,4 +22,13 @@ describe('MaterialToGroupPreviewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should input set correct title', async(() => {
+    fixture.autoDetectChanges();
+    component.title = 'test1';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(fixture.debugElement.nativeElement.querySelectorAll('h2')[0].textContent).toEqual('test1');
+    });
+  }));
 });
