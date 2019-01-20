@@ -148,21 +148,12 @@ public class TestController {
 		TestOwnerDTO testDTO = modelMapper.map(test.get(), TestOwnerDTO.class);
 		testDTO.setOwner(user.getUsername());
 		
-		if(userBadgeRepository.findByIdAndUser((long)9, user.getId()).isEmpty()) {
-			UserBadge badgeAchieved = new UserBadge();
-			Badge badge = new Badge();
-			badge = badgeRepository.findById((long)9).orElse(null);
-			badgeAchieved.setBadge(badge);
-			badgeAchieved.setUser(user);
-			userBadgeRepository.save(badgeAchieved);
-		}
-		
 		return testDTO;
 	}
 
 	@PostMapping("/results")
 	public void saveResult(@RequestBody SaveTestResultDTO resultDTO) {
-		User user = userRepository.findByUsername(resultDTO.getOwner()).get();
+		User user = userRepository.findByUsername(resultDTO.getOwner()).orElse(null);
 		Optional<Test> test = testRepository.findById(resultDTO.getIdTest());
 		
 		List<TestResult> testResult = this.testResultRepository.findByIdOwnerAndIdTest(user.getId(), resultDTO.getIdTest());
@@ -182,6 +173,14 @@ public class TestController {
 		result.setMaxScore(maxScore);
 		result.setIdResult((long) 0);
 		testResultRepository.save(result);
+		if(userBadgeRepository.findByIdAndUser((long)9, user.getId()).isEmpty()) {
+			UserBadge badgeAchieved = new UserBadge();
+			Badge badge = new Badge();
+			badge = badgeRepository.findById((long)9).orElse(null);
+			badgeAchieved.setBadge(badge);
+			badgeAchieved.setUser(user);
+			userBadgeRepository.save(badgeAchieved);
+		}
 		userActivityService.saveActivity("solvedTest", resultDTO.getUserScore().intValue(), null, user, null, test.get().getGroup(), null, null, test.get());
 	}
 

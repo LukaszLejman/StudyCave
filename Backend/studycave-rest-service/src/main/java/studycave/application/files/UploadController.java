@@ -273,7 +273,7 @@ public class UploadController {
 		//Authorization
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+		Long userId = userRepository.findByUsername(currentPrincipalName).orElse(null).getId();
 		
 		Material material = materialRepository.findById(id).orElse(null);
 		ResourceLoader rl = new DefaultResourceLoader();

@@ -62,7 +62,7 @@ public class SetController {
 		//Authorization
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
-		Long userId = userRepository.findByUsername(currentPrincipalName).get().getId();
+		Long userId = userRepository.findByUsername(currentPrincipalName).orElse(null).getId();
 		
 		Set set = setRepository.findById(id).get();
 		User user = userRepository.findById((long) set.getIdOwner()).get();
